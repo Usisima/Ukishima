@@ -1,223 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Libros — Ж Matemáticas</title>
-
-  <!--
-    ══════════════════════════════════════════
-    FLUJO — pages/libros.html
-    Rutas relativas: subir un nivel con ../
-    ══════════════════════════════════════════
-  -->
-  <link rel="stylesheet" href="../css/style.css" />
-
-  <style>
-    /* ── Estilos exclusivos de Libros ─────────────────────────────
-       Si este bloque crece, muévelo a css/libros.css
-       ──────────────────────────────────────────────────────────── */
-
-    /* Spine del libro — franja lateral decorativa */
-    .book-card {
-      text-decoration: none;
-      display: block;
-      padding-left: 3.5rem;
-      position: relative;
-    }
-
-    .book-card__spine {
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 100%;
-      background: var(--accent-dim);
-      transition: background 0.3s, width 0.3s;
-    }
-
-    .book-card:hover .book-card__spine {
-      background: var(--accent);
-      width: 4px;
-    }
-
-    .book-card__label {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .book-card h3 {
-      font-size: 1rem;
-      color: var(--white);
-      margin-bottom: 0.2rem;
-    }
-
-    .book-card__author {
-      font-family: var(--font-body);
-      font-size: 0.82rem;
-      font-style: italic;
-      color: var(--dim);
-      margin-bottom: 0.6rem;
-      display: block;
-    }
-
-    .book-card p {
-      font-size: 0.86rem;
-      color: var(--silver);
-      font-style: italic;
-      margin: 0;
-    }
-
-    /* Filtros por categoría */
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--silver);
-      background: transparent;
-      border: 1px solid var(--border);
-      padding: 0.35em 0.9em;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-      border-radius: 1px;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      color: var(--black);
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    /* Lista en lugar de grid para libros */
-    .book-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliografía · Matemáticas UNAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/temarios.css">
 </head>
-
 <body>
-
-  <!-- NAV ── misma estructura que index.html -->
-  <nav class="nav">
-    <a href="../index.html" class="nav__logo" aria-label="Inicio">Ж</a>
-    <ul class="nav__links">
-      <li><a href="../index.html">Inicio</a></li>
-      <li><a href="temarios.html">Temarios</a></li>
-      <li><a href="libros.html">Libros</a></li>
-    </ul>
-  </nav>
-
-  <main class="page-wrapper">
-    <div class="container">
-
-      <!-- CABECERA DE PÁGINA ───────────────────────────────────── -->
-      <header class="page-header">
-        <span class="tag">Bibliografía</span>
-        <h1>Libros de Materias</h1>
-        <p>Referencias bibliográficas organizadas por área matemática.</p>
-      </header>
-
-      <!-- FILTROS POR CATEGORÍA ────────────────────────────────── -->
-      <!--
-        INSTRUCCIÓN: Añade un botón por cada categoría nueva.
-        El data-filter debe coincidir con el data-category de las tarjetas.
-      -->
-      <div class="filters" role="group" aria-label="Filtrar por categoría">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="analisis">Análisis</button>
-        <button class="filter-btn" data-filter="algebra">Álgebra</button>
-        <button class="filter-btn" data-filter="estadistica">Estadística</button>
-      </div>
-
-      <div class="divider">∑ bibliografía</div>
-
-      <!-- LISTA DE LIBROS ──────────────────────────────────────── -->
-      <!--
-        INSTRUCCIÓN: Duplica la estructura .card / .book-card
-        por cada libro que quieras añadir.
-        Ajusta data-category para que coincida con los filtros.
-      -->
-      <div class="book-list" id="book-list">
-
-        <div class="card book-card fade-up" data-category="analisis">
-          <div class="book-card__spine"></div>
-          <span class="book-card__label">Análisis</span>
-          <h3>Principios de Análisis Matemático</h3>
-          <span class="book-card__author">Walter Rudin</span>
-          <p>Texto canónico del análisis real. Rigor formal a partir de los fundamentos topológicos.</p>
+    <header class="header">
+        <div class="header-left">
+            <a href="../index.html" class="back-btn" title="Volver al inicio">←</a>
+            <div class="header-logo">Ж</div>
+            <div class="header-divider"></div>
+            <div class="header-text">
+                <div class="header-title">Bibliografía</div>
+                <div class="header-sub">Facultad de Ciencias · UNAM</div>
+            </div>
         </div>
-
-        <div class="card book-card fade-up" data-category="algebra">
-          <div class="book-card__spine"></div>
-          <span class="book-card__label">Álgebra</span>
-          <h3>Álgebra Lineal y sus Aplicaciones</h3>
-          <span class="book-card__author">Gilbert Strang</span>
-          <p>Enfoque intuitivo y aplicado. Esencial para ingeniería y ciencias de datos.</p>
+    </header>
+    
+    <div class="container" id="libros-root">
+        <!-- Aquí se renderizarán los libros -->
+        <div style="text-align:center; padding: 3rem; color: var(--text-dim);">
+            Cargando bibliografía...
         </div>
+    </div>
 
-        <div class="card book-card fade-up" data-category="estadistica">
-          <div class="book-card__spine"></div>
-          <span class="book-card__label">Estadística</span>
-          <h3>Probabilidad e Inferencia Estadística</h3>
-          <span class="book-card__author">Hogg, McKean & Craig</span>
-          <p>Fundamentos probabilísticos con transición gradual hacia la inferencia estadística.</p>
-        </div>
-
-        <div class="card book-card fade-up" data-category="analisis">
-          <div class="book-card__spine"></div>
-          <span class="book-card__label">Análisis</span>
-          <h3>Cálculo, Vol. I</h3>
-          <span class="book-card__author">Tom M. Apostol</span>
-          <p>Tratamiento riguroso del cálculo diferencial e integral en una variable.</p>
-        </div>
-
-      </div>
-      <!-- /book-list -->
-
-    </div><!-- /container -->
-  </main>
-
-  <!-- FOOTER ── misma estructura que index.html -->
-  <footer class="footer container">
-    <span class="footer__sig">© <span>Ukishima</span> — todos los derechos reservados</span>
-    <span class="footer__formula">e^(iπ) + 1 = 0</span>
-  </footer>
-
-  <!-- SCRIPTS ── siempre al final del <body> -->
-  <script src="../js/main.js"></script>
-  <script>
-    /* Filtro por categoría — exclusivo de esta página */
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const books      = document.querySelectorAll('.book-card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filter = btn.dataset.filter;
-        books.forEach(book => {
-          const show = filter === 'all' || book.dataset.category === filter;
-          book.style.display = show ? '' : 'none';
-        });
-      });
-    });
-  </script>
-
+    <script src="../assets/js/libros.js"></script>
 </body>
 </html>

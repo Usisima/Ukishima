@@ -1,435 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ж — Matemáticas</title>
-  <meta name="description" content="Colección de recursos matemáticos: temarios, libros y proyectos." />
-
-  <!--
-    ══════════════════════════════════════════
-    FLUJO DE CARGA — index.html
-    1. style.css  → estilos globales
-    2. (aquí puedes añadir index.css si necesitas estilos exclusivos de la home)
-    3. main.js    → al final del body
-    ══════════════════════════════════════════
-  -->
-  <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    /* ── Estilos exclusivos de la Homepage ─────────────────────────
-       Si este bloque crece, muévelo a css/index.css y enlázalo aquí.
-       ──────────────────────────────────────────────────────────── */
-
-    /* Hero ── */
-    .hero {
-      min-height: calc(100vh - var(--nav-height));
-      display: grid;
-      grid-template-rows: 1fr auto;
-      padding: 0 2rem;
-      position: relative;
-    }
-
-    .hero__center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 2rem;
-      padding: 4rem 0 2rem;
-    }
-
-    /* Símbolo gigante de fondo */
-    .hero__bg-symbol {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font-display);
-      font-size: clamp(14rem, 35vw, 28rem);
-      font-weight: 900;
-      color: transparent;
-      -webkit-text-stroke: 1px var(--border);
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-      animation: bgPulse 6s ease-in-out infinite;
-    }
-
-    @keyframes bgPulse {
-      0%, 100% { opacity: 0.5; }
-      50%       { opacity: 1; }
-    }
-
-    .hero__eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--accent);
-      position: relative; z-index: 1;
-    }
-
-    .hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(2.8rem, 8vw, 6rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      color: var(--white);
-      line-height: 1;
-      position: relative; z-index: 1;
-    }
-
-    .hero__title .accent { color: var(--accent); }
-
-    .hero__subtitle {
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      font-style: italic;
-      color: var(--silver);
-      max-width: 540px;
-      position: relative; z-index: 1;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero__formula {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--dim);
-      letter-spacing: 0.1em;
-      border: 1px solid var(--border);
-      padding: 0.5em 1.2em;
-      position: relative; z-index: 1;
-    }
-
-    .hero__scroll {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: var(--dim);
-      text-transform: uppercase;
-      padding: 1.5rem 0;
-      animation: bounce 2s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(6px); }
-    }
-
-    /* ── Sección: Proyectos ──────────────────────────────────────── */
-    .projects {
-      padding: 5rem 0;
-    }
-
-    .projects__header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .projects__title {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      color: var(--white);
-    }
-
-    .projects__count {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--dim);
-      letter-spacing: 0.15em;
-    }
-
-    /* Tarjeta de proyecto */
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 2rem;
-      text-decoration: none;
-      display: block;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--accent);
-      transition: height 0.4s ease;
-    }
-
-    .project-card:hover { border-color: var(--accent-dim); transform: translateY(-3px); }
-    .project-card:hover::before { height: 100%; }
-
-    .project-card__icon {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      color: var(--accent-dim);
-      margin-bottom: 1.2rem;
-      display: block;
-      line-height: 1;
-      transition: color 0.3s;
-    }
-
-    .project-card:hover .project-card__icon { color: var(--accent); }
-
-    .project-card__tag {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent-dim);
-      padding: 0.18em 0.6em;
-      margin-bottom: 0.8rem;
-    }
-
-    .project-card__title {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.04em;
-    }
-
-    .project-card__desc {
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      font-style: italic;
-      color: var(--silver);
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .project-card__arrow {
-      position: absolute;
-      bottom: 1.5rem; right: 1.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--dim);
-      transition: color 0.3s, transform 0.3s;
-    }
-
-    .project-card:hover .project-card__arrow {
-      color: var(--accent);
-      transform: translate(3px, -3px);
-    }
-
-    /* Tarjeta "Próximamente" */
-    .project-card--soon {
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
-    .project-card--soon::after {
-      content: 'PRÓXIMAMENTE';
-      position: absolute;
-      top: 1.2rem; right: 1.2rem;
-      font-family: var(--font-mono);
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      color: var(--dim);
-      border: 1px solid var(--muted);
-      padding: 0.2em 0.5em;
-    }
-
-    /* ── Sección: Stats ─────────────────────────────────────────── */
-    .stats {
-      padding: 4rem 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat__number {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--accent);
-      line-height: 1;
-      display: block;
-    }
-
-    .stat__label {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-top: 0.4rem;
-      display: block;
-    }
-
-    /* ── Animaciones de entrada ─────────────────────────────────── */
-    .hero__eyebrow  { animation: fadeUp 0.6s 0.1s ease both; }
-    .hero__title    { animation: fadeUp 0.6s 0.25s ease both; }
-    .hero__subtitle { animation: fadeUp 0.6s 0.4s ease both; }
-    .hero__formula  { animation: fadeUp 0.6s 0.55s ease both; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Responsive ─────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .projects__header { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemáticas · UNAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       NAV — Componente global
-       Duplicar idéntico en todas las subpáginas.
-       Ajustar hrefs a rutas relativas según ubicación del archivo.
-       ══════════════════════════════════════════════════════════════ -->
-  <nav class="nav">
-    <a href="index.html" class="nav__logo" aria-label="Inicio">Ж</a>
-    <ul class="nav__links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="pages/temarios.html">Temarios</a></li>
-      <li><a href="pages/libros.html">Libros</a></li>
-    </ul>
-  </nav>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       MAIN — Contenido de la Homepage
-       ══════════════════════════════════════════════════════════════ -->
-  <main class="page-wrapper">
-
-    <!-- HERO ────────────────────────────────────────────────────── -->
-    <section class="hero" aria-label="Bienvenida">
-
-      <div class="hero__bg-symbol" aria-hidden="true">Ж</div>
-
-      <div class="hero__center">
-        <span class="hero__eyebrow">Ukishima — Recursos Matemáticos</span>
-
-        <h1 class="hero__title">
-          El lenguaje<br />del <span class="accent">universo</span>
-        </h1>
-
-        <p class="hero__subtitle">
-          Una colección de materiales, temarios y libros organizados para
-          el estudio formal de las matemáticas.
-        </p>
-
-        <code class="hero__formula">∀ε&gt;0, ∃δ&gt;0 : |x−a|&lt;δ ⟹ |f(x)−L|&lt;ε</code>
-
-        <a href="#proyectos" class="btn">Explorar proyectos</a>
-      </div>
-
-      <div style="display:flex;justify-content:center;">
-        <span class="hero__scroll" aria-hidden="true">↓ &nbsp; scroll</span>
-      </div>
-    </section>
-
-    <!-- STATS ──────────────────────────────────────────────────── -->
-    <section class="container" aria-label="Estadísticas">
-      <div class="stats">
-        <div class="stat">
-          <span class="stat__number" data-count="0">0</span>
-          <span class="stat__label">Temarios</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number" data-count="0">0</span>
-          <span class="stat__label">Libros referenciados</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number" data-count="0">0</span>
-          <span class="stat__label">Materias cubiertas</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROYECTOS ──────────────────────────────────────────────── -->
-    <section id="proyectos" class="container projects" aria-label="Proyectos disponibles">
-
-      <div class="projects__header">
-        <h2 class="projects__title">Proyectos</h2>
-        <span class="projects__count">// 02 activos</span>
-      </div>
-
-      <div class="divider">∑</div>
-
-      <div class="grid">
-
-        <!-- Tarjeta 1 — Temarios -->
-        <a href="pages/temarios.html" class="project-card fade-up" aria-label="Ver temarios">
-          <span class="project-card__icon" aria-hidden="true">∂</span>
-          <span class="project-card__tag">Currículum</span>
-          <h3 class="project-card__title">Temarios de Materias</h3>
-          <p class="project-card__desc">
-            Estructura y contenidos de cada materia. Unidades, temas y
-            objetivos de aprendizaje organizados formalmente.
-          </p>
-          <span class="project-card__arrow" aria-hidden="true">→</span>
-        </a>
-
-        <!-- Tarjeta 2 — Libros -->
-        <a href="pages/libros.html" class="project-card fade-up" aria-label="Ver libros">
-          <span class="project-card__icon" aria-hidden="true">∫</span>
-          <span class="project-card__tag">Bibliografía</span>
-          <h3 class="project-card__title">Libros de Materias</h3>
-          <p class="project-card__desc">
-            Bibliografía de referencia por materia: libros de texto,
-            guías de estudio y lecturas complementarias.
-          </p>
-          <span class="project-card__arrow" aria-hidden="true">→</span>
-        </a>
-
-        <!-- Tarjeta 3 — Placeholder (próximamente) -->
-        <div class="project-card project-card--soon fade-up" aria-hidden="true">
-          <span class="project-card__icon">Δ</span>
-          <span class="project-card__tag">Ejercicios</span>
-          <h3 class="project-card__title">Banco de Problemas</h3>
-          <p class="project-card__desc">
-            Colección de problemas y ejercicios resueltos clasificados
-            por materia y nivel de dificultad.
-          </p>
+    <div class="home-container">
+        <!-- Logo UNAM -->
+        <div class="home-logo">
+            <div class="logo-symbol">Ж</div>
+            <div class="logo-text">
+                <h1>Matemáticas</h1>
+                <p>Facultad de Ciencias · UNAM</p>
+            </div>
         </div>
 
-      </div>
-    </section>
+        <!-- Menú de navegación -->
+        <nav class="home-menu">
+            <a href="pages/temarios.html" class="menu-card">
+                <div class="menu-icon">📚</div>
+                <div class="menu-info">
+                    <h2>Temarios</h2>
+                    <p>Plan de estudios · Progreso · Optativas</p>
+                </div>
+                <div class="menu-arrow">→</div>
+            </a>
 
-  </main>
+            <a href="pages/libros.html" class="menu-card">
+                <div class="menu-icon">📖</div>
+                <div class="menu-info">
+                    <h2>Bibliografía</h2>
+                    <p>Libros · Referencias · Complementaria</p>
+                </div>
+                <div class="menu-arrow">→</div>
+            </a>
+        </nav>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       FOOTER — Componente global
-       Duplicar idéntico en todas las subpáginas.
-       ══════════════════════════════════════════════════════════════ -->
-  <footer class="footer container">
-    <span class="footer__sig">© <span>Ukishima</span> — todos los derechos reservados</span>
-    <span class="footer__formula">lim(x→∞) 1/x = 0</span>
-  </footer>
+        <!-- Footer -->
+        <footer class="home-footer">
+            <span>Progreso global: <strong id="global-progress">0%</strong></span>
+        </footer>
+    </div>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       SCRIPTS — Siempre al final del <body>
-       ══════════════════════════════════════════════════════════════ -->
-  <script src="js/main.js"></script>
-
+    <script>
+        // Calcular progreso global simple
+        const TOTAL_CREDITOS = 352;
+        const SK_TEMA = 'mat_tema_v1';
+        
+        function loadDB(k) {
+            try { return JSON.parse(localStorage.getItem(k) || '{}'); }
+            catch { return {}; }
+        }
+        
+        function getGlobalProgress() {
+            // Cálculo básico del progreso guardado
+            const temaDB = loadDB(SK_TEMA);
+            const totalTemas = Object.keys(temaDB).length;
+            const temasCompletados = Object.values(temaDB).filter(v => v === true).length;
+            
+            if (totalTemas === 0) return 0;
+            return Math.round((temasCompletados / totalTemas) * 100);
+        }
+        
+        // Mostrar progreso
+        document.getElementById('global-progress').textContent = getGlobalProgress() + '%';
+    </script>
 </body>
 </html>
