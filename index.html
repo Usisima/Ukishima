@@ -1,66 +1,192 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matemáticas · UNAM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Inicio · UNAM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
-    <div class="home-container">
-        <div class="home-logo">
-            <div class="logo-symbol">Ж</div>
-            <div class="logo-text">
-                <h1>Matemáticas</h1>
-                <p>Facultad de Ciencias · UNAM</p>
-            </div>
-        </div>
 
-        <nav class="home-menu">
-            <!-- NOTA: Rutas directas, sin /pages/ -->
-            <a href="temarios.html" class="menu-card">
-                <div class="menu-icon">📚</div>
-                <div class="menu-info">
-                    <h2>Temarios</h2>
-                    <p>Plan de estudios · Progreso · Optativas</p>
-                </div>
-                <div class="menu-arrow">→</div>
-            </a>
-
-            <a href="libros.html" class="menu-card">
-                <div class="menu-icon">📖</div>
-                <div class="menu-info">
-                    <h2>Bibliografía</h2>
-                    <p>Libros · Referencias · Complementaria</p>
-                </div>
-                <div class="menu-arrow">→</div>
-            </a>
-        </nav>
-
-        <footer class="home-footer">
-            <span>Progreso global: <strong id="global-progress">0%</strong></span>
-        </footer>
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">Ж</div>
+    <div class="header-divider"></div>
+    <div class="header-text">
+      <div class="header-title">Matemáticas</div>
+      <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
+  </div>
+  <span class="global-badge" id="global-pct">0%</span>
+</header>
 
-    <script>
-        const TOTAL_CREDITOS = 352;
-        const SK_TEMA = 'mat_tema_v1';
-        
-        function loadDB(k) {
-            try { return JSON.parse(localStorage.getItem(k) || '{}'); }
-            catch { return {}; }
-        }
-        
-        function getGlobalProgress() {
-            const temaDB = loadDB(SK_TEMA);
-            const totalTemas = Object.keys(temaDB).length;
-            const temasCompletados = Object.values(temaDB).filter(v => v === true).length;
-            if (totalTemas === 0) return 0;
-            return Math.round((temasCompletados / totalTemas) * 100);
-        }
-        
-        document.getElementById('global-progress').textContent = getGlobalProgress() + '%';
-    </script>
+<div class="dash-container">
+
+  <!-- HERO RING -->
+  <div class="dash-hero">
+    <div class="dash-ring-wrap">
+      <svg class="dash-ring-svg" viewBox="0 0 160 160">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#a2e6db"/>
+            <stop offset="100%" stop-color="#93e8d8"/>
+          </linearGradient>
+        </defs>
+        <circle class="dash-ring-bg" cx="80" cy="80" r="70"/>
+        <circle class="dash-ring-fg" id="ring-fg" cx="80" cy="80" r="70"/>
+      </svg>
+      <div class="dash-ring-center">
+        <div class="dash-pct-num" id="ring-pct">0%</div>
+        <div class="dash-pct-label">completado</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="dash-stats-row">
+    <div class="dash-stat">
+      <div class="dash-stat-num" id="stat-materias">0</div>
+      <div class="dash-stat-label">Materias</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-num" id="stat-temas">0</div>
+      <div class="dash-stat-label">Temas ✓</div>
+    </div>
+    <div class="dash-stat">
+      <div class="dash-stat-num" id="stat-creditos">0</div>
+      <div class="dash-stat-label">Créditos</div>
+    </div>
+  </div>
+
+  <!-- CRÉDITOS BAR -->
+  <div class="dash-section-title">Créditos</div>
+  <div class="dash-credits-card">
+    <div class="dash-credits-bar-wrap">
+      <div class="dash-credits-nums">
+        <span id="credits-earned">0</span>
+        <span>/ 352</span>
+      </div>
+      <div class="dash-credits-track">
+        <div class="dash-credits-fill" id="credits-fill"></div>
+      </div>
+    </div>
+    <div class="dash-credits-icon">Ж</div>
+  </div>
+
+  <!-- SEMESTRES -->
+  <div class="dash-section-title">Semestres</div>
+  <div id="semesters-list"></div>
+
+  <!-- ACCESOS RÁPIDOS -->
+  <div class="dash-section-title">Accesos</div>
+  <div class="dash-quick-links">
+    <a href="temarios.html" class="dash-quick-card">
+      <div class="dash-quick-icon">
+        <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </div>
+      <div class="dash-quick-name">Temarios</div>
+      <div class="dash-quick-desc">Plan de estudios, subtemas y bibliografía</div>
+    </a>
+    <a href="calificaciones.html" class="dash-quick-card">
+      <div class="dash-quick-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="dash-quick-name">Calificaciones</div>
+      <div class="dash-quick-desc">Registro de calificaciones por materia</div>
+    </a>
+    <a href="mapa.html" class="dash-quick-card">
+      <div class="dash-quick-icon">
+        <svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      </div>
+      <div class="dash-quick-name">Mapa Curricular</div>
+      <div class="dash-quick-desc">Vista visual del plan de estudios</div>
+    </a>
+    <a href="libros.html" class="dash-quick-card">
+      <div class="dash-quick-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <div class="dash-quick-name">Bibliografía</div>
+      <div class="dash-quick-desc">Libros y referencias del plan</div>
+    </a>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Inicio</span>
+  </a>
+  <a href="temarios.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    <span>Temarios</span>
+  </a>
+  <a href="calificaciones.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <span>Califs</span>
+  </a>
+  <a href="mapa.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+    <span>Mapa</span>
+  </a>
+</nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/state.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const allMats = CURRICULUM.flatMap(s => s.materias);
+  const globalPct = getGlobalPct();
+  const completedMats = allMats.filter(m => isComplete(m));
+  const earnedCredits = completedMats.reduce((s, m) => s + m.creditos, 0);
+  const totalTemas = Object.keys(temaDB).length;
+  const doneTemas = Object.values(temaDB).filter(v => v === true).length;
+
+  // Ring
+  const circumference = 2 * Math.PI * 70;
+  const offset = circumference - (circumference * globalPct / 100);
+  const ring = document.getElementById('ring-fg');
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = circumference;
+  setTimeout(() => { ring.style.strokeDashoffset = offset; }, 100);
+  document.getElementById('ring-pct').textContent = globalPct + '%';
+  document.getElementById('global-pct').textContent = globalPct + '%';
+
+  // Stats
+  document.getElementById('stat-materias').textContent = completedMats.length + '/' + allMats.length;
+  document.getElementById('stat-temas').textContent = doneTemas;
+  document.getElementById('stat-creditos').textContent = earnedCredits;
+
+  // Credits bar
+  document.getElementById('credits-earned').textContent = earnedCredits;
+  setTimeout(() => {
+    document.getElementById('credits-fill').style.width = Math.round(earnedCredits / 352 * 100) + '%';
+  }, 150);
+
+  // Semester rows
+  const list = document.getElementById('semesters-list');
+  list.innerHTML = CURRICULUM.map(sem => {
+    const pct = getSemPct(sem);
+    const matCount = sem.materias.length;
+    const optCount = sem.optativas || 0;
+    const totalCr = sem.materias.reduce((s, m) => s + m.creditos, 0) + optCount * 10;
+    return `<a href="temarios.html#semester-${sem.semestre}" class="sem-row">
+      <div class="sem-row-icon">${sem.semestre}</div>
+      <div class="sem-row-info">
+        <div class="sem-row-name">${sem.titulo}</div>
+        <div class="sem-row-meta">${matCount} mat${matCount !== 1 ? 's' : ''} · ${optCount} opt · ${totalCr} cr</div>
+      </div>
+      <div class="sem-row-right">
+        <span class="sem-row-pct">${pct}%</span>
+        <div class="sem-row-bar-wrap">
+          <div class="sem-row-bar" style="width:${pct}%"></div>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+});
+</script>
 </body>
 </html>

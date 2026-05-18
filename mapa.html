@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mapa Curricular · UNAM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/mapa.css">
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">Ж</div>
+      <div class="header-divider"></div>
+      <div class="header-text">
+        <div class="header-title">Mapa Curricular</div>
+        <div class="header-sub">Facultad de Ciencias · UNAM</div>
+      </div>
+    </div>
+    <span class="global-badge" id="global-pct">0%</span>
+  </header>
+
+  <!-- ==================== LEGEND ==================== -->
+  <div class="mapa-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(94,207,190,0.5)"></div>
+      Completada
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(162,230,219,0.3)"></div>
+      En progreso
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:rgba(255,255,255,0.08)"></div>
+      Pendiente
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border:1px dashed rgba(94,207,190,0.3);background:transparent"></div>
+      Optativa
+    </div>
+  </div>
+
+  <!-- ==================== HORIZONTAL SCROLL MAP ==================== -->
+  <div class="mapa-scroll-container" id="root" role="region" aria-label="Mapa curricular por semestres">
+    <!-- Populated by mapa.js -->
+  </div>
+
+  <!-- ==================== BOTTOM SHEET MODAL ==================== -->
+  <div class="map-modal" id="map-modal" role="dialog" aria-modal="true" aria-labelledby="map-sheet-title-label">
+    <div class="map-backdrop" id="map-backdrop"></div>
+    <div class="map-sheet">
+      <div class="map-handle" aria-hidden="true"></div>
+      <div class="map-sheet-body" id="map-sheet-body">
+        <!-- Populated by mapa.js openModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BOTTOM NAV ==================== -->
+  <nav class="bottom-nav" aria-label="Navegación principal">
+
+    <a href="index.html" class="nav-item" aria-label="Inicio">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Inicio
+    </a>
+
+    <a href="temarios.html" class="nav-item" aria-label="Temarios">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="8" y1="6" x2="21" y2="6"/>
+        <line x1="8" y1="12" x2="21" y2="12"/>
+        <line x1="8" y1="18" x2="21" y2="18"/>
+        <line x1="3" y1="6" x2="3.01" y2="6"/>
+        <line x1="3" y1="12" x2="3.01" y2="12"/>
+        <line x1="3" y1="18" x2="3.01" y2="18"/>
+      </svg>
+      Temarios
+    </a>
+
+    <a href="calificaciones.html" class="nav-item" aria-label="Calificaciones">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Califs
+    </a>
+
+    <a href="mapa.html" class="nav-item active" aria-label="Mapa curricular" aria-current="page">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+        <line x1="8" y1="2" x2="8" y2="18"/>
+        <line x1="16" y1="6" x2="16" y2="22"/>
+      </svg>
+      Mapa
+    </a>
+
+  </nav>
+
+  <!-- Scripts in dependency order -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/state.js"></script>
+  <script src="assets/js/mapa.js"></script>
+
+</body>
+</html>
