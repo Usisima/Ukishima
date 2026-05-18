@@ -1,6 +1,6 @@
 // ==================== DATOS DE OPTATIVAS ====================
 const OPTATIVAS_I_II = [
-  { name: "Álgebra Geométrica", creditos: 10, icon: "../assets/images/d17.jpg" },
+  { name: "Álgebra Geométrica", creditos: 10, icon: "/assets/images/d17.jpg" },
   { name: "Ciencia, Diversidad e Inclusión", creditos: 8, icon: "../assets/images/d18.jpg" },
   { name: "Conjuntos Convexos", creditos: 10, icon: "../assets/images/d19.jpg" },
   { name: "Conjuntos y Lógica", creditos: 10, icon: "../assets/images/d20.jpg" },

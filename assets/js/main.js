@@ -1,3 +1,11 @@
+// DEBUG: Verificar que los scripts cargan
+console.log('✅ data.js cargado:', typeof CURRICULUM !== 'undefined');
+console.log('✅ state.js cargado:', typeof State !== 'undefined');
+console.log('✅ ui.js cargado:', typeof UI !== 'undefined');
+
+// Verificar rutas
+console.log('📍 Ubicación actual:', window.location.href);
+console.log('📍 Base path:', window.location.pathname);
 // ==================== INICIALIZACIÓN ====================
 async function init() {
   console.log('🚀 Iniciando aplicación...');

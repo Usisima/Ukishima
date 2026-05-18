@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="home-container">
-        <!-- Logo UNAM -->
         <div class="home-logo">
             <div class="logo-symbol">Ж</div>
             <div class="logo-text">
@@ -18,9 +17,9 @@
             </div>
         </div>
 
-        <!-- Menú de navegación -->
         <nav class="home-menu">
-            <a href="pages/temarios.html" class="menu-card">
+            <!-- NOTA: Rutas directas, sin /pages/ -->
+            <a href="temarios.html" class="menu-card">
                 <div class="menu-icon">📚</div>
                 <div class="menu-info">
                     <h2>Temarios</h2>
@@ -29,7 +28,7 @@
                 <div class="menu-arrow">→</div>
             </a>
 
-            <a href="pages/libros.html" class="menu-card">
+            <a href="libros.html" class="menu-card">
                 <div class="menu-icon">📖</div>
                 <div class="menu-info">
                     <h2>Bibliografía</h2>
@@ -39,14 +38,12 @@
             </a>
         </nav>
 
-        <!-- Footer -->
         <footer class="home-footer">
             <span>Progreso global: <strong id="global-progress">0%</strong></span>
         </footer>
     </div>
 
     <script>
-        // Calcular progreso global simple
         const TOTAL_CREDITOS = 352;
         const SK_TEMA = 'mat_tema_v1';
         
@@ -56,16 +53,13 @@
         }
         
         function getGlobalProgress() {
-            // Cálculo básico del progreso guardado
             const temaDB = loadDB(SK_TEMA);
             const totalTemas = Object.keys(temaDB).length;
             const temasCompletados = Object.values(temaDB).filter(v => v === true).length;
-            
             if (totalTemas === 0) return 0;
             return Math.round((temasCompletados / totalTemas) * 100);
         }
         
-        // Mostrar progreso
         document.getElementById('global-progress').textContent = getGlobalProgress() + '%';
     </script>
 </body>
