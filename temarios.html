@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temarios — Ж Matemáticas</title>
+
+  <!--
+    ══════════════════════════════════════════
+    FLUJO — pages/temarios.html
+    Rutas relativas: subir un nivel con ../
+    ══════════════════════════════════════════
+  -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    /* ── Estilos exclusivos de Temarios ───────────────────────────
+       Si este bloque crece, muévelo a css/temarios.css
+       ──────────────────────────────────────────────────────────── */
+
+    .temario-card { text-decoration: none; display: block; }
+
+    .temario-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .temario-card__num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+    }
+
+    .temario-card h3 {
+      font-size: 1.05rem;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+
+    .temario-card p {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--silver);
+      margin: 0 0 1.2rem;
+    }
+
+    .temario-card__units {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .unit-pill {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--silver);
+      background: var(--muted);
+      padding: 0.2em 0.6em;
+      border-radius: 2px;
+    }
+
+    /* Área de búsqueda */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.7em 1.2em;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--light);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+    }
+
+    .search-bar input::placeholder { color: var(--dim); }
+
+    .search-bar span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--dim);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV ── misma estructura que index.html, ajustar href a ../ -->
+  <nav class="nav">
+    <a href="../index.html" class="nav__logo" aria-label="Inicio">Ж</a>
+    <ul class="nav__links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="temarios.html">Temarios</a></li>
+      <li><a href="libros.html">Libros</a></li>
+    </ul>
+  </nav>
+
+  <main class="page-wrapper">
+    <div class="container">
+
+      <!-- CABECERA DE PÁGINA ───────────────────────────────────── -->
+      <header class="page-header">
+        <span class="tag">Currículum</span>
+        <h1>Temarios de Materias</h1>
+        <p>Estructura formal de cada materia: unidades, temas y objetivos de aprendizaje.</p>
+      </header>
+
+      <!-- BÚSQUEDA ─────────────────────────────────────────────── -->
+      <div class="search-bar">
+        <span>∂</span>
+        <input type="text" id="search-input" placeholder="Buscar materia…" aria-label="Buscar temario" />
+      </div>
+
+      <!-- GRID DE TEMARIOS ─────────────────────────────────────── -->
+      <!--
+        INSTRUCCIÓN: Duplica la estructura .card / .temario-card
+        por cada materia que quieras añadir.
+        Los data-name se usan para el filtrado por búsqueda.
+      -->
+      <div class="grid" id="temarios-grid">
+
+        <a href="#" class="card temario-card fade-up" data-name="cálculo diferencial">
+          <div class="temario-card__meta">
+            <span class="tag">Análisis</span>
+            <span class="temario-card__num">01</span>
+          </div>
+          <h3>Cálculo Diferencial</h3>
+          <p>Límites, continuidad, derivadas y sus aplicaciones.</p>
+          <div class="temario-card__units">
+            <span class="unit-pill">Límites</span>
+            <span class="unit-pill">Continuidad</span>
+            <span class="unit-pill">Derivación</span>
+            <span class="unit-pill">Optimización</span>
+          </div>
+        </a>
+
+        <a href="#" class="card temario-card fade-up" data-name="álgebra lineal">
+          <div class="temario-card__meta">
+            <span class="tag">Álgebra</span>
+            <span class="temario-card__num">02</span>
+          </div>
+          <h3>Álgebra Lineal</h3>
+          <p>Espacios vectoriales, transformaciones lineales y matrices.</p>
+          <div class="temario-card__units">
+            <span class="unit-pill">Vectores</span>
+            <span class="unit-pill">Matrices</span>
+            <span class="unit-pill">Determinantes</span>
+            <span class="unit-pill">Eigenvalores</span>
+          </div>
+        </a>
+
+        <a href="#" class="card temario-card fade-up" data-name="probabilidad estadística">
+          <div class="temario-card__meta">
+            <span class="tag">Estadística</span>
+            <span class="temario-card__num">03</span>
+          </div>
+          <h3>Probabilidad y Estadística</h3>
+          <p>Teoría de la probabilidad, variables aleatorias e inferencia.</p>
+          <div class="temario-card__units">
+            <span class="unit-pill">Combinatoria</span>
+            <span class="unit-pill">Distribuciones</span>
+            <span class="unit-pill">Inferencia</span>
+          </div>
+        </a>
+
+      </div>
+      <!-- /grid -->
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- FOOTER ── misma estructura que index.html -->
+  <footer class="footer container">
+    <span class="footer__sig">© <span>Ukishima</span> — todos los derechos reservados</span>
+    <span class="footer__formula">∫₀^∞ e⁻ˣ dx = 1</span>
+  </footer>
+
+  <!-- SCRIPTS ── siempre al final del <body> -->
+  <script src="../js/main.js"></script>
+  <script>
+    /* Filtro de búsqueda local — exclusivo de esta página */
+    const input = document.getElementById('search-input');
+    const cards = document.querySelectorAll('.temario-card');
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase();
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        card.style.display = name.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
