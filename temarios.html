@@ -2,18 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temarios · Matemáticas UNAM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- Rutas corregidas: sin ../ -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Matemáticas · UNAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/temarios.css">
 </head>
 <body>
     <header class="header">
         <div class="header-left">
-            <a href="index.html" class="back-btn" title="Volver al inicio">←</a>
+            <a href="index.html" class="back-btn" title="Volver al inicio" style="text-decoration:none;color:var(--ink);font-size:1.2rem;margin-right:0.5rem;">←</a>
             <div class="header-logo">Ж</div>
             <div class="header-divider"></div>
             <div class="header-text">
@@ -23,14 +20,9 @@
         </div>
         <span class="global-badge" id="global-pct">0%</span>
     </header>
-    
-    <div class="container" id="root">
-        <div style="text-align:center; padding: 3rem; color: var(--text-dim);">
-            Cargando temarios...
-        </div>
-    </div>
+    <div class="container" id="root"></div>
 
-    <!-- Rutas corregidas: sin ../ -->
+    <!-- Scripts en orden de dependencia -->
     <script src="assets/js/data.js"></script>
     <script src="assets/js/state.js"></script>
     <script src="assets/js/ui.js"></script>
