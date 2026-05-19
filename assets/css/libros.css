@@ -617,9 +617,9 @@ body {
 
 /* ── album cover square (dice) ──────────────── */
 .note-art {
-  width: 44px;
-  height: 44px;
-  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
   flex-shrink: 0;
   display: flex;
   align-items: center;
