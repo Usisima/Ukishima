@@ -22,26 +22,63 @@ const PDF = {
   cd2_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
   ga2_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
   ga2_b2: { title: "Geometría Superior — Efimov", driveId: "" },
+  cd1_b3: { title: "Cálculo Diferencial e Integral — Arizmendi et al.", driveId: "" },
+  cd1_b4: { title: "Differential and Integral Calculus — Courant", driveId: "" },
+  cd1_b5: { title: "A First Course in Calculus — Lang", driveId: "" },
+  cd2_b3: { title: "Cálculo Diferencial e Integral — Arizmendi et al.", driveId: "" },
+  cd2_b4: { title: "Differential and Integral Calculus — Courant", driveId: "" },
+  cd2_b5: { title: "A First Course in Calculus — Lang", driveId: "" },
   cd3_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
   cd3_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
+  cd3_b3: { title: "Calculus Vol. II — Apostol", driveId: "" },
+  cd3_b4: { title: "Differential and Integral Calculus Vol. II — Courant", driveId: "" },
+  cd3_b5: { title: "Introduction to Calculus and Analysis Vol. II — Courant & John", driveId: "" },
+  cd3_b6: { title: "Calculus of Several Variables — Lang", driveId: "" },
   al2_b1: { title: "Linear Algebra — Curtis", driveId: "" },
   al2_b2: { title: "Álgebra Lineal — Lang", driveId: "" },
+  al2_b3: { title: "Fundamentals of Linear Algebra — Nomizu", driveId: "" },
+  al2_b4: { title: "Álgebra Lineal — Rincón Mora", driveId: "" },
   cd4_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
   cd4_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
+  cd4_b3: { title: "Calculus Vol. II — Apostol", driveId: "" },
+  cd4_b4: { title: "Differential and Integral Calculus Vol. II — Courant", driveId: "" },
+  cd4_b5: { title: "Introduction to Calculus and Analysis Vol. II — Courant & John", driveId: "" },
+  cd4_b6: { title: "Calculus of Several Variables — Lang", driveId: "" },
+  ga1_b3: { title: "Geometría — Bracho", driveId: "" },
+  ga1_b4: { title: "Modern Analytic Geometry — Preston & Lovaglia", driveId: "" },
+  ga2_b3: { title: "Geometría — Bracho", driveId: "" },
+  ga2_b4: { title: "Modern Analytic Geometry — Preston & Lovaglia", driveId: "" },
+  al1_b3: { title: "Linear Algebra — Curtis", driveId: "" },
+  al1_b4: { title: "Linear Algebra — Lang", driveId: "" },
+  al1_b5: { title: "Fundamentals of Linear Algebra — Nomizu", driveId: "" },
+  al1_b6: { title: "Álgebra Lineal — Rincón Mora", driveId: "" },
   ed_b1:  { title: "Ordinary Differential Equations — Arnold", driveId: "" },
   ed_b2:  { title: "Differential Equations — Blanchard, Devaney & Hall", driveId: "" },
+  ed_b3:  { title: "Differential Equations and Their Applications — Braun", driveId: "" },
+  ed_b4:  { title: "Elementary Differential Equations — Derrick & Grossman", driveId: "" },
   top_b1: { title: "Topología — Munkres", driveId: "" },
   top_b2: { title: "Introducción a la Topología — Gamelin", driveId: "" },
   ana_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
   ana_b2: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
+  ana_b3: { title: "Mathematical Analysis — Apostol", driveId: "" },
+  ana_b4: { title: "Introduction to Real Analysis — Bartle & Sherbert", driveId: "" },
+  ana_b5: { title: "Postmodern Analysis — Jost", driveId: "" },
+  ana_b6: { title: "Measure and Integral — Wheeden & Zygmund", driveId: "" },
   an2_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
   an2_b2: { title: "Measure and Integral — Wheeden & Zygmund", driveId: "" },
+  an2_b3: { title: "Mathematical Analysis — Apostol", driveId: "" },
+  an2_b4: { title: "Introduction to Real Analysis — Bartle & Sherbert", driveId: "" },
+  an2_b5: { title: "Postmodern Analysis — Jost", driveId: "" },
+  an2_b6: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
   vc1_b1: { title: "Complex Analysis — Ahlfors", driveId: "" },
   vc1_b2: { title: "Complex Variables and Applications — Churchill & Brown", driveId: "" },
+  vc1_b3: { title: "Variable Compleja — Lascurain Orive", driveId: "" },
+  vc1_b4: { title: "Basic Complex Analysis — Marsden & Hoffman", driveId: "" },
   prob_b1:{ title: "Probabilidad — Pitman", driveId: "" },
   prob_b2:{ title: "Introduction to Probability — Bertsekas", driveId: "" },
   alm_b1: { title: "Topics in Algebra — Herstein", driveId: "" },
   alm_b2: { title: "A First Course in Abstract Algebra — Fraleigh", driveId: "" },
+  alm_b3: { title: "An Introduction to the Theory of Groups — Rotman", driveId: "" },
 };
 
 /* ──────────────────────────────────────────────
@@ -370,6 +407,88 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "cd1_b3",
+        title: "Cálculo Diferencial e Integral",
+        author: "Arizmendi, Carrillo, Lara & Lluis-Riera",
+        edition: "Las Prensas de Ciencias, UNAM",
+        chapters: [
+          {
+            num: 2, title: "Límites y continuidad",
+            notes: [
+              { type:"def", label:"Límite (definición $\\varepsilon$-$\\delta$)",
+                tex:"$\\lim_{x\\to a}f(x)=L$ si para todo $\\varepsilon>0$ existe $\\delta>0$ tal que $0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon$. El valor $f(a)$ no interviene en la definición." },
+              { type:"teo", label:"Álgebra de límites",
+                tex:"Si $\\lim_{x\\to a}f(x)=L$ y $\\lim_{x\\to a}g(x)=M$, entonces: $\\lim(f\\pm g)=L\\pm M$; $\\lim(fg)=LM$; $\\lim(f/g)=L/M$ si $M\\neq0$; $\\lim|f|=|L|$." },
+              { type:"def", label:"Continuidad",
+                tex:"$f$ es continua en $a$ si: (i) $f(a)$ existe, (ii) $\\lim_{x\\to a}f(x)$ existe, (iii) $\\lim_{x\\to a}f(x)=f(a)$. Equivalentemente: para todo $\\varepsilon>0$ existe $\\delta>0$ tal que $|x-a|<\\delta\\Rightarrow|f(x)-f(a)|<\\varepsilon$." },
+              { type:"teo", label:"Teorema del valor intermedio",
+                tex:"Si $f$ es continua en $[a,b]$ y $f(a)\\neq f(b)$, entonces para todo valor $k$ entre $f(a)$ y $f(b)$ existe $c\\in(a,b)$ tal que $f(c)=k$. Consecuencia: si $f(a)<0<f(b)$, existe una raíz en $(a,b)$." },
+            ]
+          },
+          {
+            num: 3, title: "Diferenciación",
+            notes: [
+              { type:"def", label:"Derivada como límite",
+                tex:"$f'(a)=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}=\\lim_{x\\to a}\\frac{f(x)-f(a)}{x-a}$. Geométricamente es la pendiente de la recta tangente a la gráfica de $f$ en $(a,f(a))$." },
+              { type:"teo", label:"Reglas de derivación",
+                tex:"$(f+g)'=f'+g'$; $(cf)'=cf'$; $(fg)'=f'g+fg'$ (Leibniz); $(f/g)'=(f'g-fg')/g^2$; $(f\\circ g)'(x)=f'(g(x))g'(x)$ (cadena)." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd1_b4",
+        title: "Differential and Integral Calculus",
+        author: "Richard Courant",
+        edition: "Vol. I, 2ª ed. Wiley-Interscience, 1937",
+        chapters: [
+          {
+            num: 2, title: "La derivada",
+            notes: [
+              { type:"def", label:"Derivada e interpretación geométrica",
+                tex:"La derivada $f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}$ representa la tasa de cambio instantánea. Courant enfatiza que la secante de pendiente $\\Delta y/\\Delta x$ converge a la tangente de pendiente $f'(x)$ al hacer $\\Delta x\\to 0$." },
+              { type:"teo", label:"Fórmula de Taylor con estimación del resto",
+                tex:"$f(x+h)=f(x)+hf'(x)+\\frac{h^2}{2!}f''(x)+\\cdots+\\frac{h^n}{n!}f^{(n)}(x)+R_n$, donde $R_n=\\frac{h^{n+1}}{(n+1)!}f^{(n+1)}(\\xi)$ para algún $\\xi$ entre $x$ y $x+h$ (forma de Lagrange del resto)." },
+            ]
+          },
+          {
+            num: 4, title: "La integral definida",
+            notes: [
+              { type:"def", label:"Integral como límite de sumas",
+                tex:"$\\displaystyle\\int_a^b f(x)\\,dx=\\lim_{n\\to\\infty}\\sum_{k=1}^n f(x_k^*)\\,\\Delta x_k$, donde la partición se refina de modo que $\\max\\Delta x_k\\to0$. Courant insiste en que la integral mide el área algebraica bajo la curva." },
+              { type:"teo", label:"Fórmula de integración por partes",
+                tex:"$\\displaystyle\\int_a^b u\\,dv=\\left[uv\\right]_a^b-\\int_a^b v\\,du$. Deriva de la regla del producto $(uv)'=u'v+uv'$, integrando ambos lados." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd1_b5",
+        title: "A First Course in Calculus",
+        author: "Serge Lang",
+        edition: "5ª ed. Springer, 1986",
+        chapters: [
+          {
+            num: 1, title: "Números reales y funciones",
+            notes: [
+              { type:"def", label:"Valor absoluto y desigualdades",
+                tex:"$|x|=x$ si $x\\geq0$, $|x|=-x$ si $x<0$. Propiedades clave: $|xy|=|x||y|$; $|x+y|\\leq|x|+|y|$ (desigualdad triangular); $|x-y|$ mide la distancia entre $x$ e $y$." },
+              { type:"def", label:"Función exponencial y logaritmo",
+                tex:"Lang define $\\ln x=\\int_1^x\\frac{1}{t}\\,dt$ para $x>0$, y luego $e^x$ como la inversa del logaritmo. Propiedades: $\\ln(xy)=\\ln x+\\ln y$; $(e^x)'=e^x$; $(\\ln x)'=1/x$." },
+            ]
+          },
+          {
+            num: 5, title: "La integral",
+            notes: [
+              { type:"teo", label:"Teorema fundamental (versión de Lang)",
+                tex:"Si $f$ es continua en $[a,b]$ y $F(x)=\\int_a^x f(t)\\,dt$, entonces $F'(x)=f(x)$. Además, si $G'=f$ en $[a,b]$, entonces $\\int_a^b f(x)\\,dx=G(b)-G(a)$." },
+              { type:"def", label:"Sustitución en integrales",
+                tex:"Si $u=g(x)$, entonces $\\int f(g(x))g'(x)\\,dx=\\int f(u)\\,du$. En la integral definida: $\\int_a^b f(g(x))g'(x)\\,dx=\\int_{g(a)}^{g(b)}f(u)\\,du$." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -457,6 +576,56 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "ga1_b3",
+        title: "Geometría",
+        author: "Javier Bracho",
+        edition: "Las Prensas de Ciencias, UNAM, 2009",
+        chapters: [
+          {
+            num: 1, title: "Geometría euclidiana básica",
+            notes: [
+              { type:"def", label:"Axiomas del plano euclídeo",
+                tex:"El plano euclídeo $\\mathbb{E}^2$ es un espacio métrico donde: (i) por dos puntos distintos pasa exactamente una recta; (ii) toda recta puede prolongarse indefinidamente; (iii) dado un centro y un radio existe un círculo. La distancia satisface los axiomas de métrica." },
+              { type:"teo", label:"Congruencia de triángulos",
+                tex:"Dos triángulos son congruentes si tienen iguales: (LAL) dos lados y el ángulo comprendido; (LLL) los tres lados; (ALA) dos ángulos y el lado comprendido. La congruencia preserva distancias y ángulos." },
+              { type:"def", label:"Isometrías del plano",
+                tex:"Una $\\textit{isometría}$ es una aplicación $f:\\mathbb{E}^2\\to\\mathbb{E}^2$ que preserva distancias: $d(f(P),f(Q))=d(P,Q)$. Las isometrías del plano son: traslaciones, rotaciones, reflexiones y giros con deslizamiento (composición de reflexión y traslación paralela)." },
+            ]
+          },
+          {
+            num: 3, title: "Cónicas",
+            notes: [
+              { type:"def", label:"Cónicas como secciones de cono",
+                tex:"Las cónicas son las curvas de intersección de un plano con un cono circular doble. Según el ángulo de corte: elipse (incluyendo círculo), parábola e hipérbola. En ecuación general: $Ax^2+Bxy+Cy^2+Dx+Ey+F=0$; el discriminante $B^2-4AC$ determina el tipo." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ga1_b4",
+        title: "Modern Analytic Geometry",
+        author: "Preston & Lovaglia",
+        edition: "Harper & Row, 1970",
+        chapters: [
+          {
+            num: 2, title: "La recta en el plano",
+            notes: [
+              { type:"def", label:"Ecuaciones de la recta",
+                tex:"Una recta en $\\mathbb{R}^2$ con pendiente $m$ y punto $(x_1,y_1)$ tiene ecuación $y-y_1=m(x-x_1)$. La forma general es $ax+by+c=0$ con $(a,b)\\neq(0,0)$. La distancia de un punto $(x_0,y_0)$ a la recta $ax+by+c=0$ es $\\frac{|ax_0+by_0+c|}{\\sqrt{a^2+b^2}}$." },
+              { type:"def", label:"Ángulo entre rectas",
+                tex:"Si dos rectas tienen pendientes $m_1$ y $m_2$, el ángulo $\\theta$ entre ellas satisface $\\tan\\theta=\\left|\\frac{m_1-m_2}{1+m_1m_2}\\right|$. Son paralelas si $m_1=m_2$; perpendiculares si $m_1m_2=-1$." },
+            ]
+          },
+          {
+            num: 5, title: "Transformaciones de coordenadas",
+            notes: [
+              { type:"def", label:"Rotación de ejes",
+                tex:"Al rotar los ejes un ángulo $\\alpha$, las nuevas coordenadas $(x',y')$ se relacionan con las originales por: $x=x'\\cos\\alpha-y'\\sin\\alpha$, $y=x'\\sin\\alpha+y'\\cos\\alpha$. Se elige $\\alpha$ para eliminar el término $xy$ en cónicas." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -519,6 +688,47 @@ const LIBRARY = [
             notes: [
               { type:"def", label:"Superficies regladas",
                 tex:"Una $\\textit{superficie reglada}$ es generada por el movimiento de una recta (la $\\textit{generatriz}$). Ejemplos: el cilindro, el cono, el paraboloide hiperbólico ($z=xy$, silla de montar). Son del tipo $F(\\mathbf{x})=0$ donde $F$ es cuadrática en las coordenadas." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ga2_b3",
+        title: "Geometría",
+        author: "Javier Bracho",
+        edition: "Las Prensas de Ciencias, UNAM, 2009",
+        chapters: [
+          {
+            num: 5, title: "Geometría proyectiva",
+            notes: [
+              { type:"def", label:"Plano proyectivo",
+                tex:"El plano proyectivo $\\mathbb{P}^2$ se obtiene de $\\mathbb{R}^3\\setminus\\{0\\}$ identificando $\\mathbf{x}\\sim\\lambda\\mathbf{x}$ para $\\lambda\\neq0$. Los puntos son clases $[x_0:x_1:x_2]$ (coordenadas homogéneas). Las rectas proyectivas son los planos del origen en $\\mathbb{R}^3$, descritos por $ax_0+bx_1+cx_2=0$." },
+              { type:"teo", label:"Dualidad proyectiva",
+                tex:"En el plano proyectivo, los roles de punto y recta son duales: por dos puntos distintos pasa exactamente una recta, y dos rectas distintas se cortan en exactamente un punto. El principio de dualidad permite obtener teoremas duales intercambiando 'punto' y 'recta'." },
+            ]
+          },
+          {
+            num: 6, title: "Cuádricas",
+            notes: [
+              { type:"def", label:"Superficies cuádricas en $\\mathbb{R}^3$",
+                tex:"Una cuádrica es el lugar de ceros de un polinomio de grado 2 en $x,y,z$: $\\mathbf{x}^T A\\mathbf{x}+\\mathbf{b}\\cdot\\mathbf{x}+c=0$. Bajo diagonalización de $A$, se clasifican en: elipsoide, hiperboloide de 1 o 2 hojas, paraboloide elíptico o hiperbólico, cono, cilindro." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ga2_b4",
+        title: "Modern Analytic Geometry",
+        author: "Preston & Lovaglia",
+        edition: "Harper & Row, 1970",
+        chapters: [
+          {
+            num: 7, title: "Geometría en el espacio",
+            notes: [
+              { type:"def", label:"Ecuación del plano en $\\mathbb{R}^3$",
+                tex:"El plano que pasa por $P_0=(x_0,y_0,z_0)$ con vector normal $\\mathbf{n}=(a,b,c)$ tiene ecuación $a(x-x_0)+b(y-y_0)+c(z-z_0)=0$, o equivalentemente $ax+by+cz=d$ con $d=ax_0+by_0+cz_0$. La distancia de un punto $Q$ al plano es $\\frac{|\\mathbf{n}\\cdot\\overrightarrow{P_0Q}|}{\\|\\mathbf{n}\\|}$." },
+              { type:"def", label:"Rectas y planos en el espacio",
+                tex:"La recta que pasa por $P_0$ con dirección $\\mathbf{d}$ se parametriza como $\\mathbf{r}(t)=P_0+t\\mathbf{d}$, $t\\in\\mathbb{R}$. Dos planos se intersecan en una recta (si no son paralelos); tres planos en un punto (sistema $3\\times3$ con solución única)." },
             ]
           },
         ]
@@ -610,6 +820,102 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "al1_b3",
+        title: "Linear Algebra",
+        author: "Morton L. Curtis",
+        edition: "Springer, 1984",
+        chapters: [
+          {
+            num: 2, title: "Transformaciones lineales y matrices",
+            notes: [
+              { type:"def", label:"Transformación lineal",
+                tex:"$T:V\\to W$ es lineal si $T(u+v)=T(u)+T(v)$ y $T(\\lambda v)=\\lambda T(v)$ para todo $u,v\\in V$, $\\lambda\\in F$. Queda determinada por su acción sobre una base: si $\\mathcal{B}=\\{e_i\\}$, basta especificar $T(e_i)\\in W$." },
+              { type:"teo", label:"Teorema rango-nulidad (Curtis)",
+                tex:"Para $T:V\\to W$ lineal con $V$ de dimensión finita: $\\dim V=\\dim\\ker T+\\dim\\operatorname{Im}T$, es decir, $n=\\text{nulidad}(T)+\\text{rango}(T)$." },
+            ]
+          },
+          {
+            num: 4, title: "Eigenvalores y eigenvectores",
+            notes: [
+              { type:"teo", label:"Independencia lineal de eigenvectores",
+                tex:"Eigenvectores correspondientes a eigenvalores distintos son linealmente independientes. En consecuencia, una matriz $n\\times n$ con $n$ eigenvalores distintos es diagonalizable." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al1_b4",
+        title: "Linear Algebra",
+        author: "Serge Lang",
+        edition: "3ª ed. Springer, 1987",
+        chapters: [
+          {
+            num: 1, title: "Vectores y espacios vectoriales",
+            notes: [
+              { type:"def", label:"Producto escalar en $\\mathbb{R}^n$",
+                tex:"$\\mathbf{x}\\cdot\\mathbf{y}=\\sum_{i=1}^n x_iy_i$. Propiedades: bilinealidad, simetría, positividad ($\\mathbf{x}\\cdot\\mathbf{x}\\geq0$, con igualdad ssi $\\mathbf{x}=0$). Norma euclídea: $\\|\\mathbf{x}\\|=\\sqrt{\\mathbf{x}\\cdot\\mathbf{x}}$. Desigualdad de Cauchy-Schwarz: $|\\mathbf{x}\\cdot\\mathbf{y}|\\leq\\|\\mathbf{x}\\|\\|\\mathbf{y}\\|$." },
+              { type:"def", label:"Independencia lineal y dimensión",
+                tex:"Los vectores $v_1,\\ldots,v_m$ son $\\textit{linealmente independientes}$ (l.i.) si $\\sum c_iv_i=0\\Rightarrow c_i=0$ para todo $i$. La $\\textit{dimensión}$ de un espacio vectorial $V$ es el número de elementos de cualquier base de $V$." },
+            ]
+          },
+          {
+            num: 6, title: "Matrices y sistemas de ecuaciones",
+            notes: [
+              { type:"teo", label:"Forma escalonada reducida (Lang)",
+                tex:"Toda matriz $A$ es equivalente por filas a una única matriz en forma escalonada reducida por filas (RREF). Las columnas pivote determinan la base del espacio columna; las variables libres parametrizan el espacio nulo." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al1_b5",
+        title: "Fundamentals of Linear Algebra",
+        author: "Katsumi Nomizu",
+        edition: "McGraw-Hill, 1966",
+        chapters: [
+          {
+            num: 3, title: "Álgebra multilineal y determinantes",
+            notes: [
+              { type:"def", label:"Formas multilineales alternadas",
+                tex:"Una forma $k$-lineal $f:V^k\\to F$ es $\\textit{alternada}$ si $f(v_1,\\ldots,v_k)=0$ siempre que $v_i=v_j$ para algún $i\\neq j$. El determinante es la única forma $n$-lineal alternada con $\\det(I)=1$." },
+              { type:"teo", label:"Expansión de Laplace",
+                tex:"$\\det A=\\sum_{j=1}^n(-1)^{i+j}a_{ij}\\det(A_{ij})$ (expansión por la fila $i$), donde $A_{ij}$ es la submatriz obtenida eliminando fila $i$ y columna $j$. La regla de Cramer: $x_j=\\det(A_j)/\\det(A)$." },
+            ]
+          },
+          {
+            num: 5, title: "Espacios con producto interior",
+            notes: [
+              { type:"def", label:"Ortogonalidad y proceso de Gram-Schmidt",
+                tex:"Dado $\\{v_1,\\ldots,v_n\\}$ l.i., se construye $\\{u_1,\\ldots,u_n\\}$ ortonormal: $u_1=v_1/\\|v_1\\|$; $w_k=v_k-\\sum_{j<k}\\langle v_k,u_j\\rangle u_j$; $u_k=w_k/\\|w_k\\|$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al1_b6",
+        title: "Álgebra Lineal",
+        author: "H. Rincón Mora",
+        edition: "Las Prensas de Ciencias, UNAM",
+        chapters: [
+          {
+            num: 2, title: "Sistemas de ecuaciones lineales",
+            notes: [
+              { type:"def", label:"Sistema compatible e incompatible",
+                tex:"Un sistema $A\\mathbf{x}=\\mathbf{b}$ es $\\textit{compatible}$ si tiene solución. Es $\\textit{compatible determinado}$ (única solución) si $\\operatorname{rango}(A)=n$; $\\textit{compatible indeterminado}$ (infinitas soluciones) si $\\operatorname{rango}(A)<n$. Teorema de Rouché-Frobenius: compatible $\\Leftrightarrow\\operatorname{rango}(A)=\\operatorname{rango}(A|\\mathbf{b})$." },
+              { type:"def", label:"Eliminación gaussiana",
+                tex:"El método de eliminación de Gauss transforma $A$ mediante operaciones elementales de fila en una matriz triangular superior. La eliminación Gauss-Jordan lleva la matriz aumentada $(A|\\mathbf{b})$ a la forma $(I|\\mathbf{x})$ o detecta incompatibilidad." },
+            ]
+          },
+          {
+            num: 5, title: "Representación matricial de transformaciones lineales",
+            notes: [
+              { type:"def", label:"Matriz de cambio de base",
+                tex:"Si $\\mathcal{B}$ y $\\mathcal{C}$ son bases de $V$, la $\\textit{matriz de cambio de base}$ $P_{\\mathcal{B}\\to\\mathcal{C}}$ cumple $[v]_{\\mathcal{C}}=P_{\\mathcal{B}\\to\\mathcal{C}}[v]_{\\mathcal{B}}$. La matriz de $T$ en $\\mathcal{C}$ se obtiene por: $[T]_{\\mathcal{C}}=P^{-1}[T]_{\\mathcal{B}}P$." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -688,6 +994,68 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "cd2_b3",
+        title: "Cálculo Diferencial e Integral",
+        author: "Arizmendi, Carrillo, Lara & Lluis-Riera",
+        edition: "Las Prensas de Ciencias, UNAM",
+        chapters: [
+          {
+            num: 5, title: "Integración",
+            notes: [
+              { type:"def", label:"Suma de Riemann",
+                tex:"Para $f$ acotada en $[a,b]$ y partición $P=\\{a=x_0<x_1<\\cdots<x_n=b\\}$: la suma de Riemann es $S(f,P,\\xi)=\\sum_{i=1}^n f(\\xi_i)(x_i-x_{i-1})$ con $\\xi_i\\in[x_{i-1},x_i]$. $f$ es Riemann integrable si el límite existe independientemente de $P$ y $\\xi_i$." },
+              { type:"teo", label:"Teorema Fundamental del Cálculo (II)",
+                tex:"Si $F$ es una antiderivada de $f$ continua en $[a,b]$, entonces $\\displaystyle\\int_a^b f(x)\\,dx=F(b)-F(a)$." },
+              { type:"def", label:"Técnicas de integración",
+                tex:"Las técnicas principales son: sustitución ($u=g(x)$), integración por partes ($\\int u\\,dv=uv-\\int v\\,du$), fracciones parciales (para racionales), y sustituciones trigonométricas (para integrandos con $\\sqrt{a^2-x^2}$, $\\sqrt{a^2+x^2}$, $\\sqrt{x^2-a^2}$)." },
+            ]
+          },
+          {
+            num: 7, title: "Sucesiones y series",
+            notes: [
+              { type:"def", label:"Convergencia de series",
+                tex:"$\\sum_{n=1}^\\infty a_n$ converge si las sumas parciales $S_n=\\sum_{k=1}^n a_k$ tienen límite finito. Criterios: razón ($\\lim|a_{n+1}/a_n|<1$), raíz ($\\limsup|a_n|^{1/n}<1$), comparación, integral." },
+              { type:"def", label:"Series de potencias y Taylor",
+                tex:"Una serie de potencias $\\sum_{n=0}^\\infty c_n(x-a)^n$ converge en un intervalo $|x-a|<R$ (radio de convergencia). La serie de Taylor de $f$ en $a$ es $\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd2_b4",
+        title: "Differential and Integral Calculus",
+        author: "Richard Courant",
+        edition: "Vol. I, 2ª ed. Wiley-Interscience, 1937",
+        chapters: [
+          {
+            num: 6, title: "Series de Taylor e interpolación",
+            notes: [
+              { type:"teo", label:"Serie de Taylor con estimación",
+                tex:"$f(x)=\\sum_{k=0}^{n}\\frac{f^{(k)}(a)}{k!}(x-a)^k+R_n(x)$, donde $R_n(x)=\\frac{(x-a)^{n+1}}{(n+1)!}f^{(n+1)}(\\xi)$ para algún $\\xi$ entre $a$ y $x$. Courant insiste en tener estimaciones cuantitativas de $|R_n|$." },
+              { type:"def", label:"Series elementales",
+                tex:"$e^x=\\sum_{n=0}^\\infty x^n/n!$; $\\sin x=\\sum_{n=0}^\\infty(-1)^nx^{2n+1}/(2n+1)!$; $\\cos x=\\sum_{n=0}^\\infty(-1)^nx^{2n}/(2n)!$; $\\ln(1+x)=\\sum_{n=1}^\\infty(-1)^{n+1}x^n/n$ para $|x|<1$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd2_b5",
+        title: "A First Course in Calculus",
+        author: "Serge Lang",
+        edition: "5ª ed. Springer, 1986",
+        chapters: [
+          {
+            num: 8, title: "Series de potencias",
+            notes: [
+              { type:"def", label:"Radio de convergencia",
+                tex:"El radio de convergencia de $\\sum c_n x^n$ es $R=1/\\limsup_{n\\to\\infty}|c_n|^{1/n}$ (fórmula de Hadamard). La serie converge absolutamente para $|x|<R$ y diverge para $|x|>R$; en $|x|=R$ hay que analizar caso a caso." },
+              { type:"teo", label:"Derivación e integración término a término",
+                tex:"Si $f(x)=\\sum_{n=0}^\\infty c_n x^n$ para $|x|<R$, entonces $f'(x)=\\sum_{n=1}^\\infty nc_n x^{n-1}$ y $\\int f(x)\\,dx=\\sum_{n=0}^\\infty\\frac{c_n}{n+1}x^{n+1}+C$, ambas con el mismo radio $R$." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -748,6 +1116,56 @@ const LIBRARY = [
                 tex:"$\\dot{\\mathbf{x}}=\\mathbf{f}(\\mathbf{x})$ (sin dependencia explícita en $t$). Los puntos de equilibrio satisfacen $\\mathbf{f}(\\mathbf{x}^*)=\\mathbf{0}$." },
               { type:"teo", label:"Clasificación de equilibrios lineales",
                 tex:"Para $\\dot{\\mathbf{x}}=A\\mathbf{x}$: nodo estable/inestable si eigenvalores reales del mismo signo; silla si eigenvalores reales de signos opuestos; espiral si eigenvalores complejos ($\\operatorname{Re}\\neq0$); centro si eigenvalores imaginarios puros." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ed_b3",
+        title: "Differential Equations and Their Applications",
+        author: "Martin Braun",
+        edition: "4ª ed. Springer, 1993",
+        chapters: [
+          {
+            num: 1, title: "Ecuaciones de primer orden",
+            notes: [
+              { type:"def", label:"Ecuación de Bernoulli",
+                tex:"$y'+P(x)y=Q(x)y^n$ con $n\\neq0,1$. La sustitución $v=y^{1-n}$ la lineariza: $v'+(1-n)P(x)v=(1-n)Q(x)$, que es lineal en $v$." },
+              { type:"def", label:"Ecuaciones exactas",
+                tex:"$M(x,y)dx+N(x,y)dy=0$ es exacta si $\\partial M/\\partial y=\\partial N/\\partial x$ en algún dominio $D$. Entonces existe $F(x,y)$ tal que $\\partial F/\\partial x=M$ y $\\partial F/\\partial y=N$; la solución general es $F(x,y)=C$." },
+            ]
+          },
+          {
+            num: 3, title: "Sistemas de EDO lineales",
+            notes: [
+              { type:"teo", label:"Solución por exponencial de matriz",
+                tex:"La solución de $\\dot{\\mathbf{x}}=A\\mathbf{x}$, $\\mathbf{x}(0)=\\mathbf{x}_0$ es $\\mathbf{x}(t)=e^{At}\\mathbf{x}_0$. Braun desarrolla $e^{At}$ en términos de los eigenvalores y eigenvectores de $A$, incluyendo el caso de eigenvalores repetidos mediante la forma de Jordan." },
+              { type:"def", label:"Aplicaciones a biología (Braun)",
+                tex:"Braun motiva las EDO con modelos: crecimiento poblacional $\\dot{N}=rN(1-N/K)$ (logístico); epidemias SIR $\\dot{S}=-\\beta SI$, $\\dot{I}=\\beta SI-\\gamma I$, $\\dot{R}=\\gamma I$; depredador-presa de Lotka-Volterra $\\dot{x}=ax-bxy$, $\\dot{y}=-cy+dxy$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ed_b4",
+        title: "Elementary Differential Equations",
+        author: "Derrick & Grossman",
+        edition: "4ª ed. Addison-Wesley, 1997",
+        chapters: [
+          {
+            num: 2, title: "Ecuaciones lineales de orden $n$",
+            notes: [
+              { type:"teo", label:"Estructura de la solución general",
+                tex:"La solución general de $L[y]=y^{(n)}+p_{n-1}y^{(n-1)}+\\cdots+p_0y=g(x)$ es $y=y_h+y_p$, donde $y_h=c_1y_1+\\cdots+c_ny_n$ (combinación de $n$ soluciones l.i. de la homogénea) y $y_p$ es cualquier solución particular." },
+              { type:"def", label:"Coeficientes indeterminados",
+                tex:"Para $g(x)=e^{\\alpha x}P_m(x)$ o $g(x)=e^{\\alpha x}(P_m\\cos\\beta x+Q_m\\sin\\beta x)$: si $\\alpha+i\\beta$ no es raíz de la ecuación característica, se propone $y_p$ de la misma forma; si es raíz de multiplicidad $s$, se multiplica por $x^s$." },
+            ]
+          },
+          {
+            num: 4, title: "La transformada de Laplace",
+            notes: [
+              { type:"def", label:"Transformada de Laplace",
+                tex:"$\\mathcal{L}\\{f\\}(s)=\\int_0^\\infty e^{-st}f(t)\\,dt$ (para $s$ suficientemente grande). Propiedades: $\\mathcal{L}\\{f'\\}=s\\mathcal{L}\\{f\\}-f(0)$; $\\mathcal{L}\\{e^{at}f\\}(s)=\\mathcal{L}\\{f\\}(s-a)$ (traslación). Útil para PVI con condiciones iniciales." },
             ]
           },
         ]
@@ -875,6 +1293,97 @@ const LIBRARY = [
                 tex:"Un espacio normado completo (toda sucesión de Cauchy converge). Ejemplos: $\\mathbb{R}^n$, $\\ell^p$, $C([a,b])$ con norma $\\sup$." },
               { type:"teo", label:"Teorema de la aplicación abierta",
                 tex:"Si $T:X\\to Y$ es lineal, continua y sobreyectiva entre espacios de Banach, entonces $T$ es una aplicación abierta." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ana_b3",
+        title: "Mathematical Analysis",
+        author: "Tom M. Apostol",
+        edition: "2ª ed. Addison-Wesley, 1974",
+        chapters: [
+          {
+            num: 3, title: "Espacios métricos y topología",
+            notes: [
+              { type:"def", label:"Isometrías y equivalencia topológica",
+                tex:"Una $\\textit{isometría}$ $f:(X,d_X)\\to(Y,d_Y)$ satisface $d_Y(f(x),f(y))=d_X(x,y)$. Un $\\textit{homeomorfismo}$ es una biyección bicontinua. Apostol estudia los invariantes topológicos: compacidad, conexidad, completud." },
+              { type:"teo", label:"Completud y el teorema de Baire",
+                tex:"En un espacio métrico completo, la intersección numerable de abiertos densos es densa (Baire). Consecuencia: un espacio de Banach no puede ser unión numerable de subespacios de dimensión finita." },
+            ]
+          },
+          {
+            num: 9, title: "Sucesiones y series de funciones",
+            notes: [
+              { type:"teo", label:"Criterio de Dini",
+                tex:"Si $\\{f_n\\}$ es monótona, $f_n\\to f$ puntualmente, $f$ continua, y $X$ compacto, entonces $f_n\\to f$ uniformemente." },
+              { type:"teo", label:"Completud de $C(X)$",
+                tex:"El espacio $C(X)$ de funciones continuas en un compacto $X$, con norma $\\|f\\|=\\sup_{x\\in X}|f(x)|$, es un espacio de Banach. La convergencia en norma es equivalente a la convergencia uniforme." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ana_b4",
+        title: "Introduction to Real Analysis",
+        author: "Bartle & Sherbert",
+        edition: "4ª ed. Wiley, 2011",
+        chapters: [
+          {
+            num: 5, title: "Continuidad y funciones acotadas",
+            notes: [
+              { type:"teo", label:"Continuidad uniforme en compactos",
+                tex:"Toda función continua en un intervalo cerrado y acotado $[a,b]$ es uniformemente continua: para todo $\\varepsilon>0$ existe $\\delta>0$ tal que $|x-y|<\\delta\\Rightarrow|f(x)-f(y)|<\\varepsilon$ (independientemente del punto $x$)." },
+              { type:"teo", label:"Teorema de Weierstrass (extremo)",
+                tex:"Si $f:[a,b]\\to\\mathbb{R}$ es continua, entonces $f$ alcanza su máximo y su mínimo: existen $c,d\\in[a,b]$ con $f(c)=\\sup f$ y $f(d)=\\inf f$." },
+            ]
+          },
+          {
+            num: 8, title: "Sucesiones de funciones",
+            notes: [
+              { type:"def", label:"Convergencia uniforme (Bartle-Sherbert)",
+                tex:"$(f_n)$ converge uniformemente a $f$ en $E$ si $\\sup_{x\\in E}|f_n(x)-f(x)|\\to0$ cuando $n\\to\\infty$. Equivale a: para todo $\\varepsilon>0$ existe $N$ tal que $n>N\\Rightarrow|f_n(x)-f(x)|<\\varepsilon$ para todo $x\\in E$ simultáneamente." },
+              { type:"teo", label:"Continuidad del límite uniforme",
+                tex:"Si $f_n\\to f$ uniformemente en $E$ y cada $f_n$ es continua en $E$, entonces $f$ es continua en $E$. Además, $\\lim_{n}\\int_a^b f_n=\\int_a^b f$ si el intervalo es compacto." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ana_b5",
+        title: "Postmodern Analysis",
+        author: "Jürgen Jost",
+        edition: "3ª ed. Springer, 2005",
+        chapters: [
+          {
+            num: 1, title: "Cálculo en espacios de Banach",
+            notes: [
+              { type:"def", label:"Diferenciabilidad en espacios de Banach",
+                tex:"$f:U\\subset X\\to Y$ es Fréchet-diferenciable en $x_0$ si existe $T\\in\\mathcal{L}(X,Y)$ tal que $\\lim_{h\\to0}\\|f(x_0+h)-f(x_0)-Th\\|_Y/\\|h\\|_X=0$. La derivada $Df(x_0)=T$ es el análogo multidimensional de la derivada." },
+            ]
+          },
+          {
+            num: 2, title: "Teoremas clásicos de análisis",
+            notes: [
+              { type:"teo", label:"Función implícita (Jost)",
+                tex:"Sea $F:U\\subset X\\times Y\\to Z$ de clase $C^1$ con $F(x_0,y_0)=0$ y $D_yF(x_0,y_0)$ invertible. Entonces localmente existe $g:V\\to Y$ de clase $C^1$ tal que $F(x,g(x))=0$. Jost prueba esto en el marco general de espacios de Banach." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ana_b6",
+        title: "Measure and Integral",
+        author: "Wheeden & Zygmund",
+        edition: "2ª ed. CRC Press, 2015",
+        chapters: [
+          {
+            num: 2, title: "Funciones de variación acotada",
+            notes: [
+              { type:"def", label:"Variación total",
+                tex:"La $\\textit{variación total}$ de $f:[a,b]\\to\\mathbb{R}$ es $V_a^b(f)=\\sup_P\\sum_{i=1}^n|f(x_i)-f(x_{i-1})|$ (sup sobre todas las particiones $P$). $f$ es de variación acotada ($f\\in BV$) si $V_a^b(f)<\\infty$. Toda $f$ monótona es BV; $f\\in BV\\Leftrightarrow f=g-h$ con $g,h$ monótonas." },
+              { type:"teo", label:"Integral de Riemann-Stieljes (Wheeden)",
+                tex:"Si $f$ es continua y $\\alpha\\in BV$, entonces $\\int_a^b f\\,d\\alpha$ existe. La integral de Lebesgue-Stieljes extiende esto a integradoras $\\alpha$ más generales, y coincide con $\\int f\\,d\\mu_\\alpha$ donde $\\mu_\\alpha$ es la medida de Borel inducida por $\\alpha$." },
             ]
           },
         ]
@@ -1011,6 +1520,32 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "alm_b3",
+        title: "An Introduction to the Theory of Groups",
+        author: "Joseph J. Rotman",
+        edition: "4ª ed. Springer, 1995",
+        chapters: [
+          {
+            num: 3, title: "El teorema de Sylow",
+            notes: [
+              { type:"teo", label:"Teoremas de Sylow",
+                tex:"Sea $G$ grupo finito con $|G|=p^m r$, $p\\nmid r$. (1) Existe un $p$-subgrupo de Sylow $P\\leq G$ con $|P|=p^m$. (2) Todos los $p$-subgrupos de Sylow son conjugados. (3) El número $n_p$ de $p$-subgrupos de Sylow satisface $n_p\\equiv1\\pmod{p}$ y $n_p\\mid r$." },
+              { type:"cor", label:"Grupos de orden pequeño",
+                tex:"Como aplicación de Sylow: todo grupo de orden $pq$ con $p<q$ primos y $p\\nmid(q-1)$ es cíclico (isomorfo a $\\mathbb{Z}_{pq}$). Todo grupo de orden $p^2$ es abeliano. Todo grupo de orden $60$ simple es isomorfo a $A_5$." },
+            ]
+          },
+          {
+            num: 5, title: "Series de composición",
+            notes: [
+              { type:"def", label:"Serie de composición y factores de composición",
+                tex:"Una $\\textit{serie de composición}$ de $G$ es $\\{1\\}=G_0\\trianglelefteq G_1\\trianglelefteq\\cdots\\trianglelefteq G_n=G$ donde cada $G_i/G_{i-1}$ es simple. Los $\\textit{factores de composición}$ son los cocientes simples." },
+              { type:"teo", label:"Teorema de Jordan-Hölder",
+                tex:"Si $G$ tiene serie de composición, entonces cualesquiera dos series de composición de $G$ tienen la misma longitud y los mismos factores de composición (salvo isomorfismo y reordenamiento)." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -1073,6 +1608,81 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "cd3_b3",
+        title: "Calculus",
+        author: "Tom M. Apostol",
+        edition: "Vol. II, 2ª ed. Wiley, 1969",
+        chapters: [
+          {
+            num: 8, title: "Diferencial de funciones de varias variables",
+            notes: [
+              { type:"def", label:"Derivada total (Apostol)",
+                tex:"$f:\\mathbb{R}^n\\to\\mathbb{R}^m$ es diferenciable en $\\mathbf{a}$ si existe $T_\\mathbf{a}\\in\\mathcal{L}(\\mathbb{R}^n,\\mathbb{R}^m)$ con $\\lim_{\\mathbf{x}\\to\\mathbf{a}}\\frac{\\|f(\\mathbf{x})-f(\\mathbf{a})-T_\\mathbf{a}(\\mathbf{x}-\\mathbf{a})\\|}{\\|\\mathbf{x}-\\mathbf{a}\\|}=0$. $T_\\mathbf{a}$ es la matriz Jacobiana $Df(\\mathbf{a})$." },
+              { type:"teo", label:"Teorema de la función inversa (Apostol)",
+                tex:"Si $f:U\\to\\mathbb{R}^n$ es de clase $C^1$ y $\\det Df(\\mathbf{a})\\neq0$, entonces existen $U_0\\ni\\mathbf{a}$ y $V_0=f(U_0)$ abiertos tales que $f:U_0\\to V_0$ es biyección bicontinua con inversa de clase $C^1$. La derivada de la inversa es $(Df^{-1})(\\mathbf{y})=[Df(f^{-1}(\\mathbf{y}))]^{-1}$." },
+            ]
+          },
+          {
+            num: 11, title: "Topología de $\\mathbb{R}^n$",
+            notes: [
+              { type:"def", label:"Conjuntos abiertos y cerrados",
+                tex:"$U\\subset\\mathbb{R}^n$ es $\\textit{abierto}$ si todo punto de $U$ tiene un entorno abierto contenido en $U$. $F$ es $\\textit{cerrado}$ si $\\mathbb{R}^n\\setminus F$ es abierto. Un conjunto acotado y cerrado en $\\mathbb{R}^n$ es compacto (Heine-Borel)." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd3_b4",
+        title: "Differential and Integral Calculus",
+        author: "Richard Courant",
+        edition: "Vol. II, 2ª ed. Wiley-Interscience, 1936",
+        chapters: [
+          {
+            num: 2, title: "Funciones de varias variables",
+            notes: [
+              { type:"def", label:"Diferenciabilidad (Courant Vol. II)",
+                tex:"Courant define la diferencial $df=\\frac{\\partial f}{\\partial x}dx+\\frac{\\partial f}{\\partial y}dy+\\cdots$ como la aproximación lineal principal del incremento $\\Delta f=f(\\mathbf{x}+\\mathbf{h})-f(\\mathbf{x})$. La notación de Leibniz $\\partial f/\\partial x_i$ es central en su presentación." },
+              { type:"teo", label:"Extremos con restricciones (Courant)",
+                tex:"Para maximizar $f(x,y)$ sujeto a $g(x,y)=0$: los puntos críticos satisfacen el sistema $f_x=\\lambda g_x$, $f_y=\\lambda g_y$, $g=0$. Courant motiva el método geométricamente: en el extremo, las curvas de nivel de $f$ y $g$ son tangentes." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd3_b5",
+        title: "Introduction to Calculus and Analysis",
+        author: "Courant & John",
+        edition: "Vol. II, Springer, 1989",
+        chapters: [
+          {
+            num: 2, title: "Funciones de varias variables e integración",
+            notes: [
+              { type:"def", label:"Diferencial e incremento",
+                tex:"$f:\\mathbb{R}^n\\to\\mathbb{R}$ tiene diferencial $df(\\mathbf{x}_0;\\mathbf{h})=\\sum_i f_{x_i}(\\mathbf{x}_0)h_i$ en $\\mathbf{x}_0$. El incremento satisface $f(\\mathbf{x}_0+\\mathbf{h})-f(\\mathbf{x}_0)=df(\\mathbf{x}_0;\\mathbf{h})+o(\\|\\mathbf{h}\\|)$ cuando $\\mathbf{h}\\to0$." },
+              { type:"teo", label:"Criterio de segundo orden para extremos",
+                tex:"Si $\\nabla f(\\mathbf{p})=0$ y la forma cuadrática $Q(\\mathbf{h})=\\sum_{i,j}f_{x_ix_j}(\\mathbf{p})h_ih_j$ es definida positiva (negativa), entonces $\\mathbf{p}$ es mínimo (máximo) local. Si $Q$ es indefinida, es punto silla." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd3_b6",
+        title: "Calculus of Several Variables",
+        author: "Serge Lang",
+        edition: "3ª ed. Springer, 1987",
+        chapters: [
+          {
+            num: 3, title: "Diferenciación",
+            notes: [
+              { type:"def", label:"Gradiente y plano tangente",
+                tex:"$\\nabla f(\\mathbf{x}_0)=(f_{x_1},\\ldots,f_{x_n})$ apunta en la dirección de máximo crecimiento de $f$. El plano tangente a la superficie $z=f(x,y)$ en $(x_0,y_0)$ es $z-f(x_0,y_0)=f_x(x_0,y_0)(x-x_0)+f_y(x_0,y_0)(y-y_0)$." },
+              { type:"teo", label:"Regla de la cadena (varias variables)",
+                tex:"Si $\\mathbf{g}:U\\subset\\mathbb{R}^m\\to\\mathbb{R}^n$ y $f:V\\subset\\mathbb{R}^n\\to\\mathbb{R}^p$, con $\\mathbf{g}(U)\\subset V$, y ambas diferenciables, entonces $D(f\\circ\\mathbf{g})(\\mathbf{x})=Df(\\mathbf{g}(\\mathbf{x}))\\cdot D\\mathbf{g}(\\mathbf{x})$ (producto de matrices Jacobianas)." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -1122,6 +1732,40 @@ const LIBRARY = [
                 tex:"$J_k(\\lambda)=\\begin{pmatrix}\\lambda&1&&0\\\\&\\lambda&\\ddots&\\\\&&\\ddots&1\\\\0&&&\\lambda\\end{pmatrix}\\in M_{k\\times k}$. La forma de Jordan de $T$ es una matriz diagonal de bloques $J_{k_i}(\\lambda_i)$." },
               { type:"teo", label:"Existencia de la forma de Jordan",
                 tex:"Sobre un cuerpo algebraicamente cerrado, todo operador $T:V\\to V$ es semejante a una forma de Jordan (única salvo reordenamiento de bloques)." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al2_b3",
+        title: "Fundamentals of Linear Algebra",
+        author: "Katsumi Nomizu",
+        edition: "McGraw-Hill, 1966",
+        chapters: [
+          {
+            num: 6, title: "Formas cuadráticas y clasificación",
+            notes: [
+              { type:"teo", label:"Ley de inercia de Sylvester (Nomizu)",
+                tex:"Toda forma cuadrática real $Q$ es equivalente (bajo cambio de base) a $x_1^2+\\cdots+x_p^2-x_{p+1}^2-\\cdots-x_r^2$. Los índices $(p,r-p,n-r)$ (positividad, negatividad, nulidad) son invariantes bajo cambio de base — la firma de $Q$." },
+              { type:"def", label:"Forma bilineal y su polarización",
+                tex:"Dada una forma cuadrática $Q(v)=B(v,v)$, la forma bilineal simétrica asociada se recupera por $B(u,v)=\\frac{1}{2}[Q(u+v)-Q(u)-Q(v)]$. Esta relación es la $\\textit{identidad de polarización}$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al2_b4",
+        title: "Álgebra Lineal",
+        author: "H. Rincón Mora",
+        edition: "Las Prensas de Ciencias, UNAM",
+        chapters: [
+          {
+            num: 6, title: "Operadores autoadjuntos y aplicaciones",
+            notes: [
+              { type:"teo", label:"Teorema espectral (Rincón)",
+                tex:"Si $T:V\\to V$ es autoadjunto en un espacio euclídeo (o unitario) de dimensión finita, existe una base ortonormal de $V$ formada por eigenvectores de $T$. En términos matriciales: toda matriz simétrica real (o hermítica) es ortogonalmente (unitariamente) diagonalizable." },
+              { type:"def", label:"Forma polar de un operador",
+                tex:"Todo operador invertible $T$ se factoriza como $T=UP$ donde $U$ es ortogonal (unitario) y $P=\\sqrt{T^*T}$ es simétrico definido positivo (descomposición polar). Esta factorización es única cuando $T$ es invertible." },
             ]
           },
         ]
@@ -1177,6 +1821,81 @@ const LIBRARY = [
                 tex:"$\\displaystyle\\iint_D f(x,y)\\,dA=\\int_\\alpha^\\beta\\int_{r_1(\\theta)}^{r_2(\\theta)}f(r\\cos\\theta,r\\sin\\theta)\\,r\\,dr\\,d\\theta$. El factor extra $r$ es el jacobiano de la transformación polar." },
               { type:"def", label:"Integral triple en coordenadas esféricas",
                 tex:"$(x,y,z)=(\\rho\\sin\\phi\\cos\\theta,\\rho\\sin\\phi\\sin\\theta,\\rho\\cos\\phi)$. $dV=\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd4_b3",
+        title: "Calculus",
+        author: "Tom M. Apostol",
+        edition: "Vol. II, 2ª ed. Wiley, 1969",
+        chapters: [
+          {
+            num: 10, title: "Integrales múltiples",
+            notes: [
+              { type:"def", label:"Integral doble sobre rectángulo (Apostol)",
+                tex:"$\\iint_R f\\,dA=\\lim_{\\|P\\|\\to0}\\sum_{i,j}f(x_{ij}^*,y_{ij}^*)\\Delta x_i\\Delta y_j$. Apostol desarrolla la teoría con rigor: establece la integrabilidad de funciones continuas y la equivalencia con integrales iteradas (Fubini) mediante las sumas de Darboux superior e inferior." },
+              { type:"teo", label:"Cambio de variables en la integral doble",
+                tex:"Si $\\mathbf{g}:S^*\\to S$ es un difeomorfismo de clase $C^1$ con jacobiano $J_\\mathbf{g}=\\det D\\mathbf{g}\\neq0$, entonces $\\iint_S f(x,y)\\,dA=\\iint_{S^*}f(\\mathbf{g}(u,v))|J_\\mathbf{g}(u,v)|\\,dA^*$." },
+            ]
+          },
+          {
+            num: 12, title: "Formas diferenciales y teoremas de Stokes",
+            notes: [
+              { type:"def", label:"Formas diferenciales",
+                tex:"Una $k$-forma diferencial en $\\mathbb{R}^n$ es una expresión $\\omega=\\sum_{i_1<\\cdots<i_k}f_{i_1\\cdots i_k}\\,dx_{i_1}\\wedge\\cdots\\wedge dx_{i_k}$. La derivada exterior: $d(f\\,dx_i)=df\\wedge dx_i=\\sum_j(\\partial f/\\partial x_j)dx_j\\wedge dx_i$." },
+              { type:"teo", label:"Teorema de Stokes general (Apostol)",
+                tex:"$\\int_{\\partial\\Omega}\\omega=\\int_\\Omega d\\omega$ unifica Green, Gauss y Stokes clásicos. Para una $(n-1)$-forma $\\omega$ en un dominio $n$-dimensional $\\Omega$ con frontera $\\partial\\Omega$ suave orientada inducidamente." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd4_b4",
+        title: "Differential and Integral Calculus",
+        author: "Richard Courant",
+        edition: "Vol. II, 2ª ed. Wiley-Interscience, 1936",
+        chapters: [
+          {
+            num: 4, title: "Integrales múltiples",
+            notes: [
+              { type:"def", label:"Integral como límite de sumas (Vol. II)",
+                tex:"$\\iiint_V f\\,dV=\\lim\\sum f(\\xi_{ijk})\\Delta x_i\\Delta y_j\\Delta z_k$. Courant hace hincapié en la interpretación física: el volumen, la masa $\\int\\rho\\,dV$, el centro de masa y los momentos de inercia." },
+              { type:"teo", label:"Fórmulas integrales de la teoría vectorial",
+                tex:"Courant unifica Green ($\\iint_D(Q_x-P_y)dA=\\oint_C P\\,dx+Q\\,dy$), Gauss ($\\oiint_{\\partial V}\\mathbf{F}\\cdot\\hat{n}\\,dS=\\iiint_V\\nabla\\cdot\\mathbf{F}\\,dV$) y Stokes ($\\iint_S(\\nabla\\times\\mathbf{F})\\cdot\\hat{n}\\,dS=\\oint_{\\partial S}\\mathbf{F}\\cdot d\\mathbf{r}$) como casos de un único principio." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd4_b5",
+        title: "Introduction to Calculus and Analysis",
+        author: "Courant & John",
+        edition: "Vol. II, Springer, 1989",
+        chapters: [
+          {
+            num: 5, title: "Integración en el espacio",
+            notes: [
+              { type:"teo", label:"Teorema de la divergencia (Courant-John)",
+                tex:"Para un campo $\\mathbf{F}=(P,Q,R)$ de clase $C^1$ en un dominio sólido acotado $V$ con frontera $\\partial V$ suave: $\\displaystyle\\oiint_{\\partial V}(P\\cos\\alpha+Q\\cos\\beta+R\\cos\\gamma)\\,dS=\\iiint_V\\left(\\frac{\\partial P}{\\partial x}+\\frac{\\partial Q}{\\partial y}+\\frac{\\partial R}{\\partial z}\\right)dV$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd4_b6",
+        title: "Calculus of Several Variables",
+        author: "Serge Lang",
+        edition: "3ª ed. Springer, 1987",
+        chapters: [
+          {
+            num: 6, title: "Integrales múltiples",
+            notes: [
+              { type:"def", label:"Integración iterada (Lang)",
+                tex:"Lang presenta la integral múltiple partiendo directamente de integrales iteradas, usando el teorema de Fubini como definición operacional y reservando la teoría abstracta de medida para cursos posteriores." },
+              { type:"teo", label:"Teoremas integrales (Lang)",
+                tex:"Lang cubre Green, Stokes y Gauss con especial atención a las hipótesis geométricas y la orientación. Introduce formas diferenciales brevemente para unificar los tres teoremas bajo $\\int_{\\partial M}\\omega=\\int_M d\\omega$." },
             ]
           },
         ]
@@ -1247,6 +1966,54 @@ const LIBRARY = [
           },
         ]
       },
+      {
+        id: "vc1_b3",
+        title: "Variable Compleja",
+        author: "Antonio Lascurain Orive",
+        edition: "Las Prensas de Ciencias, UNAM, 2003",
+        chapters: [
+          {
+            num: 2, title: "Funciones analíticas",
+            notes: [
+              { type:"def", label:"Función analítica (Lascurain)",
+                tex:"$f$ es analítica en un abierto $U$ si es complejo-diferenciable en todo punto de $U$. Lascurain destaca que analítica implica infinitamente diferenciable y representable por series de potencias, a diferencia del caso real donde $C^\\infty$ no implica analiticidad." },
+              { type:"teo", label:"Principio del módulo máximo",
+                tex:"Si $f$ es analítica y no constante en un dominio $D$, entonces $|f|$ no alcanza su máximo en ningún punto interior de $D$. En particular, $\\max_{\\bar{D}}|f|=\\max_{\\partial D}|f|$." },
+            ]
+          },
+          {
+            num: 4, title: "Series de Laurent y residuos",
+            notes: [
+              { type:"def", label:"Singularidades esenciales (Lascurain)",
+                tex:"Por el teorema de Casorati-Weierstrass: si $a$ es singularidad esencial de $f$, entonces para todo $w\\in\\mathbb{C}$ y todo $\\varepsilon,\\delta>0$, existe $z$ con $0<|z-a|<\\delta$ y $|f(z)-w|<\\varepsilon$. Es decir, $f$ se acerca arbitrariamente a cualquier valor complejo cerca de $a$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "vc1_b4",
+        title: "Basic Complex Analysis",
+        author: "Marsden & Hoffman",
+        edition: "3ª ed. Freeman, 1999",
+        chapters: [
+          {
+            num: 2, title: "Diferenciación y funciones analíticas",
+            notes: [
+              { type:"def", label:"Mapeos conformes",
+                tex:"Una función analítica $f$ con $f'(z_0)\\neq0$ es un $\\textit{mapeo conforme}$ en $z_0$: preserva ángulos y orientación. Marsden y Hoffman estudian $w=e^z$, $w=z^n$, $w=1/z$ (inversión), $w=(z-i)/(z+i)$ (disco de Poincaré) como ejemplos paradigmáticos." },
+            ]
+          },
+          {
+            num: 5, title: "Aplicaciones de la teoría de residuos",
+            notes: [
+              { type:"def", label:"Cálculo de integrales reales (Marsden-Hoffman)",
+                tex:"Tipos estándar evaluables por residuos: (i) $\\int_0^{2\\pi}R(\\cos\\theta,\\sin\\theta)\\,d\\theta$; (ii) $\\int_{-\\infty}^{+\\infty}f(x)\\,dx$ con $f$ meromorfa; (iii) $\\int_{-\\infty}^{+\\infty}f(x)e^{iax}\\,dx$ (lema de Jordan). En cada caso se escoge el semiciclo adecuado en el plano complejo." },
+              { type:"teo", label:"Teorema del argumento",
+                tex:"Si $f$ es meromorfa en $\\bar{D}$ sin ceros ni polos en $\\partial D$, entonces $\\frac{1}{2\\pi i}\\oint_{\\partial D}\\frac{f'(z)}{f(z)}\\,dz=N-P$, donde $N$ es el número de ceros y $P$ el de polos de $f$ en $D$ (contados con multiplicidad)." },
+            ]
+          },
+        ]
+      },
     ]
   },
 
@@ -1298,6 +2065,74 @@ const LIBRARY = [
                 tex:"$L^2(E)=\\{f\\text{ medible}:\\int_E|f|^2\\,d\\mu<\\infty\\}$ con producto interior $\\langle f,g\\rangle=\\int_E f\\bar{g}\\,d\\mu$. Es un espacio de Hilbert separable." },
               { type:"teo", label:"Convergencia en $L^2$ de series de Fourier",
                 tex:"Si $f\\in L^2([-\\pi,\\pi])$ y $\\hat{f}(n)=\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi f(t)e^{-int}\\,dt$, entonces $\\displaystyle\\sum_{n=-\\infty}^\\infty|\\hat{f}(n)|^2=\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi|f(t)|^2\\,dt$ (identidad de Parseval) y $f=\\sum_{n}\\hat{f}(n)e^{int}$ en norma $L^2$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "an2_b3",
+        title: "Mathematical Analysis",
+        author: "Tom M. Apostol",
+        edition: "2ª ed. Addison-Wesley, 1974",
+        chapters: [
+          {
+            num: 10, title: "La integral de Lebesgue",
+            notes: [
+              { type:"def", label:"Función medible (Apostol)",
+                tex:"$f:E\\to\\mathbb{R}$ es $\\textit{medible}$ si $f^{-1}((a,+\\infty))=\\{x\\in E:f(x)>a\\}$ es medible para todo $a\\in\\mathbb{R}$. Las funciones continuas y monótonas son medibles; el límite puntual de funciones medibles es medible." },
+              { type:"teo", label:"Convergencia monótona (Apostol)",
+                tex:"Si $0\\leq f_1\\leq f_2\\leq\\cdots$ son medibles y $f_n\\nearrow f$ puntualmente, entonces $\\lim_{n\\to\\infty}\\int f_n\\,dm=\\int f\\,dm$ (incluso si $\\int f=+\\infty$). Este resultado es la base de los demás teoremas de convergencia." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "an2_b4",
+        title: "Introduction to Real Analysis",
+        author: "Bartle & Sherbert",
+        edition: "4ª ed. Wiley, 2011",
+        chapters: [
+          {
+            num: 10, title: "La integral de Lebesgue",
+            notes: [
+              { type:"def", label:"Medida de Lebesgue (Bartle-Sherbert)",
+                tex:"Bartle y Sherbert introducen la medida de Lebesgue en $\\mathbb{R}$ partiendo de la longitud de intervalos y construyendo la medida exterior, luego la $\\sigma$-álgebra de conjuntos medibles. Destacan que la clase de funciones Lebesgue integrables es estrictamente mayor que la de Riemann integrables." },
+              { type:"teo", label:"Convergencia dominada (Bartle-Sherbert)",
+                tex:"Si $f_n\\to f$ puntualmente c.t.p., $|f_n(x)|\\leq g(x)$ c.t.p. con $g$ Lebesgue integrable, entonces $f$ es integrable y $\\lim_n\\int f_n=\\int f$. El requisito $|f_n|\\leq g$ (dominación) es esencial: sin él el teorema falla." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "an2_b5",
+        title: "Postmodern Analysis",
+        author: "Jürgen Jost",
+        edition: "3ª ed. Springer, 2005",
+        chapters: [
+          {
+            num: 3, title: "La integral de Lebesgue y espacios $L^p$",
+            notes: [
+              { type:"teo", label:"Completud de $L^p$ (Jost)",
+                tex:"Para $1\\leq p<\\infty$, el espacio $L^p(E)$ con norma $\\|f\\|_p=(\\int_E|f|^p)^{1/p}$ es un espacio de Banach (Riesz-Fischer). La prueba usa el criterio de series absolutamente convergentes: si $\\sum\\|f_n\\|_p<\\infty$, entonces $\\sum f_n$ converge en $L^p$." },
+              { type:"def", label:"Dualidad de espacios $L^p$",
+                tex:"Para $1<p<\\infty$ con $1/p+1/q=1$: el dual topológico $(L^p)^*\\cong L^q$ mediante el isomorfismo isométrico $g\\mapsto(f\\mapsto\\int fg)$. El caso $p=2$: $L^2$ es su propio dual (espacio de Hilbert). El caso $p=1$: $(L^1)^*=L^\\infty$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "an2_b6",
+        title: "Elementos de la Teoría de Funciones y del Análisis Funcional",
+        author: "Kolmogorov & Fomin",
+        edition: "Mir, 1975",
+        chapters: [
+          {
+            num: 4, title: "La integral de Lebesgue",
+            notes: [
+              { type:"def", label:"Integración (Kolmogorov-Fomin)",
+                tex:"Kolmogorov y Fomin definen la integral de Lebesgue mediante funciones escalonadas (escalariforme) y paso al límite. Destacan la equivalencia con la definición por sumas de Darboux y la superioridad frente a Riemann: la clase de funciones integrables es cerrada bajo límites puntales dominados." },
+              { type:"teo", label:"Espacios funcionales (Kolmogorov-Fomin)",
+                tex:"El libro introduce $L^1$, $L^2$ y $L^p$ como casos particulares de espacios normados completos. Para $L^2$: el teorema de Riesz-Fischer garantiza la existencia de límites en norma, y la base de Fourier $\\{e^{int}/\\sqrt{2\\pi}\\}$ es ortonormal completa en $L^2([-\\pi,\\pi])$." },
             ]
           },
         ]
