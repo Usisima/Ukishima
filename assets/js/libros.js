@@ -164,62 +164,75 @@ const R = {
     const pdfBtnClass = hasPdf ? '' : 'disabled';
     const pdfBtnTitle = hasPdf ? 'Leer PDF' : 'PDF no disponible';
 
+    const chaptersHtml = (b.chapters || []).map((ch, ci) => {
+      const key = `${b.id}_ch${ci}`;
+      const notesHtml = ch.notes.map((note, ni) => {
+        const nkey = `${key}_n${ni}`;
+        const nfaved = isFavNote(nkey) ? 'faved' : '';
+        const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
+        return `
+        <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
+          <div class="note-tag">
+            <span class="note-tag-type">${esc(NOTE_LABELS[note.type] || note.type)}</span>
+            <button class="note-fav-btn ${nfaved}"
+              onclick="A.toggleFavNote('${esc(nkey)}',this)"
+              aria-label="Guardar nota">
+              ${nfavIcon}
+            </button>
+          </div>
+          <div class="note-label">${esc(note.label)}</div>
+          <div class="note-tex" data-tex="${esc(note.tex)}">${esc(note.tex)}</div>
+        </div>`;
+      }).join('');
+
+      return `
+      <div class="chapter-item" data-ch-key="${esc(key)}">
+        <div class="chapter-head">
+          <span class="chapter-num">Ch.${ch.num}</span>
+          <span class="chapter-title">${esc(ch.title)}</span>
+          <span class="chapter-meta">${ch.notes.length} nota${ch.notes.length !== 1 ? 's' : ''}</span>
+        </div>
+        <div class="chapter-body" id="chbody-${esc(key)}">
+          ${notesHtml}
+        </div>
+      </div>`;
+    }).join('');
+
     const main = document.getElementById('lib-main');
     main.innerHTML = `
       <div class="book-detail">
-        <div class="detail-hero">
-          <div class="detail-cover">
-            ${coverDiv(color, b.title)}
+
+        <div class="book-hero-banner">
+          <div class="hero-bg" style="background:${color}"></div>
+          <div class="hero-bands" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
           </div>
-          <div class="detail-info">
-            <div class="detail-subject">${esc(subject)}</div>
-            <div class="detail-title">${esc(b.title)}</div>
-            <div class="detail-author">${esc(b.author)}</div>
-            <div class="detail-edition">${esc(b.edition || '')}</div>
-            <button class="btn-pdf ${pdfBtnClass}" onclick="Reader.open('${esc(b.id)}')" ${hasPdf ? '' : 'disabled'}>
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              ${esc(pdfBtnTitle)}
-            </button>
+          <div class="hero-watermark" aria-hidden="true">${esc(subject)}</div>
+          <div class="hero-row">
+            <div class="hero-cover">
+              ${coverDiv(color, b.title)}
+            </div>
+            <div class="hero-info">
+              <div class="hero-subject-label">${esc(subject)}</div>
+              <div class="hero-title">${esc(b.title)}</div>
+              <div class="hero-author">${esc(b.author)}</div>
+              <div class="hero-edition">${esc(b.edition || '')}</div>
+              <button class="btn-pdf ${pdfBtnClass}" onclick="Reader.open('${esc(b.id)}')" ${hasPdf ? '' : 'disabled'}>
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                ${esc(pdfBtnTitle)}
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="chapters-label">Contenido — ${b.chapters.length} capítulo${b.chapters.length !== 1 ? 's' : ''}</div>
+        <div class="book-chapters-wrap">
+          <div class="chapters-label">Contenido — ${b.chapters.length} capítulo${b.chapters.length !== 1 ? 's' : ''}</div>
+          ${chaptersHtml}
+        </div>
 
-        ${(b.chapters || []).map((ch, ci) => {
-          const key = `${b.id}_ch${ci}`;
-          return `
-          <div class="chapter-item" data-ch-key="${esc(key)}">
-            <div class="chapter-head">
-              <span class="chapter-num">Ch.${ch.num}</span>
-              <span class="chapter-title">${esc(ch.title)}</span>
-              <span class="chapter-meta">${ch.notes.length} nota${ch.notes.length !== 1 ? 's' : ''}</span>
-            </div>
-            <div class="chapter-body" id="chbody-${esc(key)}">
-              ${ch.notes.map((note, ni) => {
-                const nkey = `${key}_n${ni}`;
-                const nfaved = isFavNote(nkey) ? 'faved' : '';
-                const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
-                return `
-                <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
-                  <div class="note-tag">
-                    <span class="note-tag-type">${esc(NOTE_LABELS[note.type] || note.type)}</span>
-                    <button class="note-fav-btn ${nfaved}"
-                      onclick="A.toggleFavNote('${esc(nkey)}',this)"
-                      aria-label="Guardar nota">
-                      ${nfavIcon}
-                    </button>
-                  </div>
-                  <div class="note-label">${esc(note.label)}</div>
-                  <div class="note-tex" data-tex="${esc(note.tex)}">${esc(note.tex)}</div>
-                </div>`;
-              }).join('')}
-            </div>
-          </div>`;
-        }).join('')}
       </div>
     `;
 
-    /* Render all math immediately (chapters always expanded) */
     renderKatex(main);
   },
 

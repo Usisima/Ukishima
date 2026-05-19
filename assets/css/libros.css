@@ -365,65 +365,138 @@ body {
   margin: 0 auto;
 }
 
-.detail-hero {
+/* ── EDITORIAL HERO BANNER ───────────────────── */
+.book-hero-banner {
+  position: relative;
+  overflow: hidden;
+  min-height: 192px;
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.2rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem 1.2rem 1.3rem;
+  margin: -1.2rem -1.2rem 1.25rem;
+  border-radius: 0 0 18px 18px;
 }
 
-.detail-cover {
-  width: 88px;
-  height: 124px;
-  border-radius: var(--r2);
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Vertical diffuse light columns */
+.hero-bands {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  pointer-events: none;
+}
+.hero-bands span {
+  flex: 1;
+  background: linear-gradient(180deg, rgba(255,255,255,0.038) 0%, transparent 68%);
+  border-right: 1px solid rgba(255,255,255,0.016);
+}
+.hero-bands span:last-child { border-right: none; }
+
+/* Large translucent watermark subject name */
+.hero-watermark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-52%);
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 10vw, 5rem);
+  font-weight: 900;
+  color: rgba(255,255,255,0.085);
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.hero-row {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Small rounded square book cover — top left */
+.hero-cover {
+  width: 76px;
+  height: 106px;
+  border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--border2);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.52), 0 2px 8px rgba(0,0,0,0.28);
+}
+.hero-cover > div { width: 100%; height: 100%; }
+
+.hero-info {
+  flex: 1;
+  min-width: 0;
+  padding-top: 3px;
 }
 
-.detail-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.detail-cover-bg {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  padding: 0.5rem;
-}
-
-.detail-info { flex: 1; min-width: 0; }
-
-.detail-subject {
+.hero-subject-label {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: 7.5px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--gold);
-  margin-bottom: 0.35rem;
-  opacity: 0.75;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 0.38rem;
 }
 
-.detail-title {
+/* Main serif title — high contrast, semibold */
+.hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1.25;
-  margin-bottom: 0.3rem;
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.96);
+  line-height: 1.2;
+  margin-bottom: 0.28rem;
+  letter-spacing: -0.01em;
 }
 
-.detail-author {
-  font-size: 0.82rem;
-  color: var(--ink2);
-  margin-bottom: 0.5rem;
+/* Subtitle — reduced opacity */
+.hero-author {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.12rem;
 }
 
-.detail-edition {
+.hero-edition {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: var(--ink3);
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.04em;
+  font-size: 7.5px;
+  color: rgba(255,255,255,0.28);
+  margin-bottom: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+/* PDF button overrides inside the dark hero */
+.book-hero-banner .btn-pdf {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.82);
+}
+.book-hero-banner .btn-pdf:hover {
+  background: rgba(255,255,255,0.17);
+  border-color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.95);
+}
+.book-hero-banner .btn-pdf.disabled { opacity: 0.2; }
+
+/* Chapters content below the hero */
+.book-chapters-wrap {
+  padding-bottom: 0.5rem;
 }
 
 /* ── PDF BUTTON ──────────────────────────────── */
@@ -539,29 +612,48 @@ body {
   margin-bottom: 0.35rem;
 }
 
-/* ── pill: color only, no label ────────────── */
+/* ── pill: text label with color accent ─────── */
 .note-tag-type {
-  display: inline-block;
-  width: 26px;
-  height: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
   border-radius: 99px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(232,245,242,0.12);
+  background: rgba(232,245,242,0.05);
+  color: var(--ink3);
+  white-space: nowrap;
   flex-shrink: 0;
-  font-size: 0;
-  overflow: hidden;
-  background: rgba(232, 245, 242, 0.12);
-  border: none;
-  align-self: center;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  line-height: 1;
 }
 
-.note-tag-type::before { display: none; }
+/* Colored dot prefix for instant visual identification */
+.note-tag-type::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
 
-/* ── per-type pill colors ───────────────────── */
-.note-item[data-type="def"] .note-tag-type { background: var(--c-def); }
-.note-item[data-type="teo"] .note-tag-type { background: var(--c-teo); }
-.note-item[data-type="cor"] .note-tag-type { background: var(--c-cor); }
-.note-item[data-type="dem"] .note-tag-type { background: var(--c-dem); }
-.note-item[data-type="eje"] .note-tag-type { background: var(--c-eje); }
-.note-item[data-type="obs"] .note-tag-type { background: var(--c-obs); }
+/* ── per-type pill: translucent bg + colored text + border ── */
+.note-item[data-type="def"] .note-tag-type { background: rgba(123,185,239,0.10); color: #8ec4f0; border-color: rgba(123,185,239,0.28); }
+.note-item[data-type="teo"] .note-tag-type { background: rgba(94,207,190,0.09);  color: #5ecfbe; border-color: rgba(94,207,190,0.30);  }
+.note-item[data-type="cor"] .note-tag-type { background: rgba(181,168,240,0.09); color: #c5bafd; border-color: rgba(181,168,240,0.28); }
+.note-item[data-type="dem"] .note-tag-type { background: rgba(232,194,106,0.09); color: #e8c26a; border-color: rgba(232,194,106,0.28); }
+.note-item[data-type="eje"] .note-tag-type { background: rgba(240,144,144,0.09); color: #f09090; border-color: rgba(240,144,144,0.28); }
+.note-item[data-type="obs"] .note-tag-type { background: rgba(148,180,168,0.09); color: #94b4a8; border-color: rgba(148,180,168,0.28); }
 
 .note-label {
   font-family: 'Playfair Display', serif;
