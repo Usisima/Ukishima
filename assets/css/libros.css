@@ -539,66 +539,29 @@ body {
   margin-bottom: 0.35rem;
 }
 
-/* ── pill ──────────────────────────────────── */
+/* ── pill: color only, no label ────────────── */
 .note-tag-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 99px;
-  font-family: 'DM Mono', monospace;
-  font-size: 7.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: rgba(232, 245, 242, 0.04);
-  border: 1px solid rgba(232, 245, 242, 0.1);
-  color: var(--ink3);
-}
-
-/* colored dot inside pill */
-.note-tag-type::before {
-  content: '';
   display: inline-block;
-  width: 5px;
+  width: 26px;
   height: 5px;
-  border-radius: 50%;
-  background: currentColor;
+  border-radius: 99px;
   flex-shrink: 0;
-  opacity: 0.85;
+  font-size: 0;
+  overflow: hidden;
+  background: rgba(232, 245, 242, 0.12);
+  border: none;
+  align-self: center;
 }
 
-/* ── per-type pill accent ───────────────────── */
-.note-item[data-type="def"] .note-tag-type {
-  color: var(--c-def);
-  background: rgba(123, 185, 239, 0.1);
-  border-color: rgba(123, 185, 239, 0.22);
-}
-.note-item[data-type="teo"] .note-tag-type {
-  color: var(--c-teo);
-  background: rgba(94, 207, 190, 0.1);
-  border-color: rgba(94, 207, 190, 0.25);
-}
-.note-item[data-type="cor"] .note-tag-type {
-  color: var(--c-cor);
-  background: rgba(181, 168, 240, 0.1);
-  border-color: rgba(181, 168, 240, 0.22);
-}
-.note-item[data-type="dem"] .note-tag-type {
-  color: var(--c-dem);
-  background: rgba(232, 194, 106, 0.09);
-  border-color: rgba(232, 194, 106, 0.2);
-}
-.note-item[data-type="eje"] .note-tag-type {
-  color: var(--c-eje);
-  background: rgba(240, 144, 144, 0.09);
-  border-color: rgba(240, 144, 144, 0.2);
-}
-.note-item[data-type="obs"] .note-tag-type {
-  color: var(--c-obs);
-  background: rgba(148, 180, 168, 0.08);
-  border-color: rgba(148, 180, 168, 0.18);
-}
+.note-tag-type::before { display: none; }
+
+/* ── per-type pill colors ───────────────────── */
+.note-item[data-type="def"] .note-tag-type { background: var(--c-def); }
+.note-item[data-type="teo"] .note-tag-type { background: var(--c-teo); }
+.note-item[data-type="cor"] .note-tag-type { background: var(--c-cor); }
+.note-item[data-type="dem"] .note-tag-type { background: var(--c-dem); }
+.note-item[data-type="eje"] .note-tag-type { background: var(--c-eje); }
+.note-item[data-type="obs"] .note-tag-type { background: var(--c-obs); }
 
 .note-label {
   font-family: 'Playfair Display', serif;
