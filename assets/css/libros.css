@@ -81,7 +81,7 @@ body {
 
 .header-logo {
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 900;
   color: var(--ink);
   line-height: 1;
@@ -101,7 +101,7 @@ body {
 
 .header-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
+  font-size: 0.92rem;
   font-weight: 900;
   color: var(--ink);
   letter-spacing: -0.01em;
@@ -983,7 +983,7 @@ body {
 
 /* ── RESPONSIVE ──────────────────────────────── */
 @media (max-width: 380px) {
-  .header-title { font-size: 1rem; }
+  .header-title { font-size: 0.82rem; }
   .book-card { width: 96px; }
   .book-cover { width: 96px; height: 136px; }
 }
