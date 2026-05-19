@@ -40,6 +40,12 @@ body {
   padding-bottom: 4rem;
   position: relative;
   overflow-x: hidden;
+  animation: pageFadeIn 0.18s ease both;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ==================== HEADER ==================== */
