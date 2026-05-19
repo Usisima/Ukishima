@@ -366,3 +366,66 @@ body {
   min-width: 32px;
   text-align: right;
 }
+
+/* ==================== BOOKS BANNER ==================== */
+.dash-books-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 1.6rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dash-books-banner:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.dash-books-icon {
+  width: 42px;
+  height: 42px;
+  background: rgba(212, 175, 55, 0.12);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dash-books-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--gold);
+}
+
+.dash-books-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-books-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink1);
+  margin-bottom: 2px;
+}
+
+.dash-books-desc {
+  font-size: 0.75rem;
+  color: var(--ink3);
+  letter-spacing: 0.02em;
+}
+
+.dash-books-arrow {
+  width: 18px;
+  height: 18px;
+  stroke: var(--ink3);
+  flex-shrink: 0;
+}
