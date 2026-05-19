@@ -455,4 +455,15 @@ const Nav = {
       if (overlay.style.display !== 'none') Reader.close();
     }
   });
+
+  /* sync sticky tops to real header height */
+  function fixStickyTops() {
+    const hdrH  = document.getElementById('lib-header').offsetHeight;
+    const tabsEl = document.querySelector('.lib-tabs-bar');
+    tabsEl.style.top = hdrH + 'px';
+    const tabsH = tabsEl.offsetHeight;
+    document.getElementById('lib-search-bar').style.top = (hdrH + tabsH) + 'px';
+  }
+  fixStickyTops();
+  window.addEventListener('resize', fixStickyTops);
 })();

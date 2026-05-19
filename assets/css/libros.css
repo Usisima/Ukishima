@@ -124,7 +124,7 @@ body {
 /* ── TABS BAR (below header) ─────────────────── */
 .lib-tabs-bar {
   position: sticky;
-  top: 56px;
+  top: 0; /* overridden by JS to actual header height */
   z-index: 195;
   padding: 0.5rem 1.2rem;
   background: rgba(0, 0, 0, 0.78);
@@ -178,7 +178,7 @@ body {
   background: rgba(0, 0, 0, 0.92);
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 100px;
+  top: 0; /* overridden by JS to header + tabs height */
   z-index: 190;
 }
 
