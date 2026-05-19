@@ -16,9 +16,12 @@ const PDF = {
   cd1_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
   ga1_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
   ga1_b2: { title: "Geometría Superior — Efimov", driveId: "" },
-  al1_b1: { title: "Álgebra Lineal — Lay", driveId: "" },
-  al1_b2: { title: "Álgebra Lineal — Grossman", driveId: "" },
-  cd2_b1: { title: "Cálculo Multivariable — Stewart", driveId: "" },
+  al1_b1: { title: "Álgebra Lineal — Hoffman & Kunze", driveId: "" },
+  al1_b2: { title: "Álgebra Lineal — Friedberg, Insel & Spence", driveId: "" },
+  cd2_b1: { title: "Cálculo Infinitesimal — Spivak", driveId: "" },
+  cd2_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
+  ga2_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
+  ga2_b2: { title: "Geometría Superior — Efimov", driveId: "" },
   cd3_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
   ed_b1:  { title: "Ecuaciones Diferenciales — Simmons", driveId: "" },
   ed_b2:  { title: "EDO — Blanchard, Devaney & Hall", driveId: "" },
@@ -449,47 +452,125 @@ const LIBRARY = [
   },
 
   {
+    subject: "Geometría Analítica II",
+    matId: "geom_anal_2",
+    color: "linear-gradient(135deg,#1a0e26,#301845)",
+    books: [
+      {
+        id: "ga2_b1",
+        title: "Geometría Analítica: Una Introducción a la Geometría",
+        author: "Ana Irene Ramírez Galarza",
+        edition: "Las Prensas de Ciencias, UNAM, 1998",
+        chapters: [
+          {
+            num: 6, title: "Superficies cuádricas",
+            notes: [
+              { type:"def", label:"Cuádrica",
+                tex:"Una $\\textit{superficie cuádrica}$ es el conjunto de puntos $(x,y,z)\\in\\mathbb{R}^3$ que satisfacen una ecuación algebraica de grado 2. En forma canónica: elipsoide $\\frac{x^2}{a^2}+\\frac{y^2}{b^2}+\\frac{z^2}{c^2}=1$, hiperboloides de una hoja ($-\\frac{z^2}{c^2}$) o dos hojas ($+\\frac{z^2}{c^2}-\\frac{x^2}{a^2}-\\frac{y^2}{b^2}=1$), paraboloides." },
+              { type:"def", label:"Superficies de revolución",
+                tex:"La superficie generada al rotar la curva $y=f(z)$ alrededor del eje $z$ tiene ecuación $\\sqrt{x^2+y^2}=f(z)$, es decir, $x^2+y^2=[f(z)]^2$. Cuádricas de revolución incluyen esferas, conos circulares y paraboloides circulares." },
+              { type:"def", label:"Plano tangente a una cuádrica",
+                tex:"El plano tangente a $F(x,y,z)=0$ en el punto $(x_0,y_0,z_0)$ tiene ecuación $F_x(P_0)(x-x_0)+F_y(P_0)(y-y_0)+F_z(P_0)(z-z_0)=0$, donde $(F_x,F_y,F_z)=\\nabla F$ es el vector normal." },
+            ]
+          },
+          {
+            num: 7, title: "Transformaciones",
+            notes: [
+              { type:"def", label:"Transformación lineal en ℝⁿ",
+                tex:"$T:\\mathbb{R}^n\\to\\mathbb{R}^n$ es lineal si preserva suma y producto escalar. Su $\\textit{matriz}$ respecto a la base estándar tiene columnas $T(e_i)$. Ejemplos: rotaciones, reflexiones, proyecciones y homotecias." },
+              { type:"def", label:"Transformación rígida",
+                tex:"Una $\\textit{isometría}$ o transformación rígida es una función $f:\\mathbb{R}^n\\to\\mathbb{R}^n$ que preserva distancias: $d(f(P),f(Q))=d(P,Q)$. Toda isometría de $\\mathbb{R}^n$ es de la forma $f(\\mathbf{x})=A\\mathbf{x}+\\mathbf{b}$ con $A$ ortogonal." },
+              { type:"teo", label:"Diagonalización de cónicas y cuádricas",
+                tex:"Toda forma cuadrática real $\\mathbf{x}^T A\\mathbf{x}$ (con $A$ simétrica) puede diagonalizarse por una rotación ortogonal $A=Q\\Lambda Q^T$. Esto permite eliminar los términos mixtos de la ecuación de una cónica o cuádrica." },
+              { type:"def", label:"Transformaciones afines",
+                tex:"Una $\\textit{transformación afín}$ es $f(\\mathbf{x})=A\\mathbf{x}+\\mathbf{b}$ con $A$ invertible. Mapea rectas en rectas, preserva razones en segmentos paralelos y paralelismo, pero no necesariamente ángulos ni distancias." },
+            ]
+          },
+          {
+            num: 8, title: "Geometría esférica y transformaciones de Möbius",
+            notes: [
+              { type:"def", label:"Geodésicas en la esfera",
+                tex:"En la esfera $S^2\\subset\\mathbb{R}^3$, las $\\textit{geodésicas}$ son los arcos de círculos máximos (intersecciones de $S^2$ con planos que pasan por el centro). Dos geodésicas siempre se intersectan — no hay paralelas en geometría esférica." },
+              { type:"def", label:"Transformación de Möbius",
+                tex:"Una $\\textit{transformación de Möbius}$ es $f(z)=\\dfrac{az+b}{cz+d}$ con $a,b,c,d\\in\\mathbb{C}$, $ad-bc\\neq0$. Mapea el plano complejo extendido $\\hat{\\mathbb{C}}=\\mathbb{C}\\cup\\{\\infty\\}$ en sí mismo, preservando círculos y rectas (generalizados) y ángulos." },
+              { type:"obs", label:"Introducción a la geometría hiperbólica",
+                tex:"El semiplano superior $\\mathbb{H}=\\{z\\in\\mathbb{C}\\mid\\text{Im}(z)>0\\}$ con la métrica $ds^2=\\frac{dx^2+dy^2}{y^2}$ es un modelo de la geometría hiperbólica de Poincaré. Las geodésicas son semicircunferencias y semirrectas verticales ortogonales al eje real." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ga2_b2",
+        title: "Geometría Superior",
+        author: "N. Efimov",
+        edition: "MIR, 1984",
+        chapters: [
+          {
+            num: 3, title: "Superficies en el espacio",
+            notes: [
+              { type:"def", label:"Superficies regladas",
+                tex:"Una $\\textit{superficie reglada}$ es generada por el movimiento de una recta (la $\\textit{generatriz}$). Ejemplos: el cilindro, el cono, el paraboloide hiperbólico ($z=xy$, silla de montar). Son del tipo $F(\\mathbf{x})=0$ donde $F$ es cuadrática en las coordenadas." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
     subject: "Álgebra Lineal I",
     matId: "alg_lin_1",
     color: "linear-gradient(135deg,#0a1a0e,#133322)",
     books: [
       {
         id: "al1_b1",
-        title: "Álgebra Lineal y sus Aplicaciones",
-        author: "David C. Lay",
-        edition: "5ª ed. Pearson",
+        title: "Álgebra Lineal",
+        author: "Hoffman & Kunze",
+        edition: "Prentice Hall, 1973",
         chapters: [
           {
-            num: 1, title: "Ecuaciones Lineales",
+            num: 1, title: "Espacios vectoriales",
             notes: [
-              { type:"def", label:"Sistema lineal",
-                tex:"Un sistema de $m$ ecuaciones con $n$ incógnitas: $a_{ij}x_j=b_i$. En forma matricial $A\\mathbf{x}=\\mathbf{b}$ con $A\\in\\mathbb{R}^{m\\times n}$." },
-              { type:"teo", label:"Existencia y unicidad",
-                tex:"El sistema $A\\mathbf{x}=\\mathbf{b}$ es consistente $\\Leftrightarrow$ $\\mathbf{b}\\in\\text{Col}(A)$. Si es consistente, la solución es única $\\Leftrightarrow$ $A\\mathbf{x}=\\mathbf{0}$ sólo tiene la solución trivial." },
-              { type:"def", label:"Forma escalonada reducida",
-                tex:"Una matriz está en RREF si: los pivotes son 1, cada pivote es el único no-cero en su columna, y las filas cero están al fondo." },
+              { type:"def", label:"Campo y espacio vectorial",
+                tex:"Un $\\textit{campo}$ $F$ es un conjunto con operaciones de suma y producto que satisfacen los axiomas de campo (ej. $\\mathbb{R}$, $\\mathbb{C}$, $\\mathbb{Q}$). Un $\\textit{espacio vectorial}$ sobre $F$ es un conjunto $V$ con suma de vectores y producto escalar por $F$ satisfaciendo los 8 axiomas." },
+              { type:"def", label:"Subespacio, suma directa",
+                tex:"$W\\subseteq V$ es $\\textit{subespacio}$ si es cerrado bajo suma y producto escalar. La $\\textit{suma directa}$ $V=W_1\\oplus W_2$ significa $V=W_1+W_2$ y $W_1\\cap W_2=\\{\\mathbf{0}\\}$; todo $v\\in V$ se escribe únicamente como $w_1+w_2$." },
+              { type:"teo", label:"Base y dimensión",
+                tex:"Un subconjunto $\\mathcal{B}\\subset V$ es $\\textit{base}$ si es linealmente independiente y generador. Toda base de $V$ tiene el mismo número de elementos, la $\\textit{dimensión}$ $\\dim V$. Toda $V$ de dimensión finita sobre $F$ es isomorfa a $F^n$." },
             ]
           },
           {
-            num: 2, title: "Transformaciones Lineales",
+            num: 2, title: "Matrices y sistemas lineales",
+            notes: [
+              { type:"def", label:"Matrices y operaciones",
+                tex:"El espacio $M_{m\\times n}(F)$ de matrices $m\\times n$ sobre $F$ tiene dimensión $mn$. La $\\textit{multiplicación}$ $AB$ (con $A\\in M_{m\\times k}$, $B\\in M_{k\\times n}$) da $AB\\in M_{m\\times n}$. Las $\\textit{matrices elementales}$ codifican las operaciones de fila." },
+              { type:"teo", label:"Existencia y unicidad de soluciones",
+                tex:"El sistema $A\\mathbf{x}=\\mathbf{b}$ tiene solución $\\Leftrightarrow\\text{rango}(A)=\\text{rango}([A|\\mathbf{b}])$. Si es compatible, la solución es única $\\Leftrightarrow\\text{rango}(A)=n$ (número de incógnitas). El conjunto solución del sistema homogéneo es un subespacio de $F^n$." },
+            ]
+          },
+          {
+            num: 3, title: "Transformaciones lineales",
             notes: [
               { type:"def", label:"Transformación lineal",
-                tex:"$T:V\\to W$ es lineal si $T(\\mathbf{u}+\\mathbf{v})=T\\mathbf{u}+T\\mathbf{v}$ y $T(c\\mathbf{u})=cT\\mathbf{u}$ para todo $\\mathbf{u},\\mathbf{v}\\in V$, $c\\in\\mathbb{R}$." },
-              { type:"teo", label:"Representación matricial",
-                tex:"Toda transformación lineal $T:\\mathbb{R}^n\\to\\mathbb{R}^m$ tiene una única matriz $A\\in\\mathbb{R}^{m\\times n}$ tal que $T(\\mathbf{x})=A\\mathbf{x}$. Las columnas de $A$ son $T(\\mathbf{e}_i)$." },
-              { type:"def", label:"Núcleo e imagen",
-                tex:"$\\ker T=\\{\\mathbf{x}\\in V\\mid T\\mathbf{x}=\\mathbf{0}\\}$, $\\text{Im}\\,T=\\{T\\mathbf{x}\\mid\\mathbf{x}\\in V\\}$. Se tiene $\\dim\\ker T+\\dim\\text{Im}\\,T=\\dim V$ (Teorema de la dimensión)." },
+                tex:"$T:V\\to W$ es $\\textit{lineal}$ si $T(\\alpha u+\\beta v)=\\alpha T(u)+\\beta T(v)$ para todo $\\alpha,\\beta\\in F$ y $u,v\\in V$. El conjunto $\\mathcal{L}(V,W)$ de todas las transformaciones lineales de $V$ en $W$ es un espacio vectorial con $\\dim\\mathcal{L}(V,W)=\\dim V\\cdot\\dim W$." },
+              { type:"teo", label:"Teorema rango-nulidad",
+                tex:"Si $T:V\\to W$ es lineal y $\\dim V<\\infty$, entonces $\\dim\\ker T+\\dim\\text{Im}\\,T=\\dim V$. En particular, $T$ es inyectiva $\\Leftrightarrow\\ker T=\\{0\\}\\Leftrightarrow\\dim\\ker T=0$.",
+                dem:"Sea $\\{v_1,\\ldots,v_k\\}$ base de $\\ker T$ y complétese a base $\\{v_1,\\ldots,v_k,u_1,\\ldots,u_r\\}$ de $V$. Se verifica que $\\{T(u_1),\\ldots,T(u_r)\\}$ es base de $\\text{Im}\\,T$ (los $T(u_j)$ son l.i. y generan $\\text{Im}\\,T$). Luego $\\dim V=k+r=\\dim\\ker T+\\dim\\text{Im}\\,T$. $\\blacksquare$" },
+              { type:"def", label:"Isomorfismo y espacio dual",
+                tex:"$T:V\\to W$ es $\\textit{isomorfismo}$ si es lineal y biyectiva. Si $\\dim V=\\dim W<\\infty$, basta que sea inyectiva o sobreyectiva. El $\\textit{espacio dual}$ $V^*=\\mathcal{L}(V,F)$ tiene la misma dimensión que $V$; la $\\textit{base dual}$ $\\{\\varphi_1,\\ldots,\\varphi_n\\}$ satisface $\\varphi_i(v_j)=\\delta_{ij}$." },
             ]
           },
           {
-            num: 5, title: "Valores y Vectores Propios",
+            num: 4, title: "Producto escalar y determinantes",
             notes: [
-              { type:"def", label:"Valor propio",
-                tex:"$\\lambda$ es valor propio de $A$ si $A\\mathbf{v}=\\lambda\\mathbf{v}$ para algún $\\mathbf{v}\\neq\\mathbf{0}$. Se calcula resolviendo $\\det(A-\\lambda I)=0$." },
-              { type:"teo", label:"Diagonalización",
-                tex:"$A\\in\\mathbb{R}^{n\\times n}$ es diagonalizable $\\Leftrightarrow$ tiene $n$ vectores propios linealmente independientes. Entonces $A=PDP^{-1}$ con $D=\\mathrm{diag}(\\lambda_1,\\ldots,\\lambda_n)$." },
-              { type:"teo", label:"Teorema espectral",
-                tex:"Toda matriz simétrica $A=A^T$ es diagonalizable por una matriz ortogonal: $A=Q\\Lambda Q^T$ con $Q^TQ=I$." },
+              { type:"def", label:"Producto escalar",
+                tex:"Un $\\textit{producto escalar}$ en $V$ sobre $F$ es una forma bilineal $\\langle\\cdot,\\cdot\\rangle:V\\times V\\to F$ simétrica (o hermitiana si $F=\\mathbb{C}$) y definida positiva: $\\langle v,v\\rangle\\ge0$, $=0\\Leftrightarrow v=0$." },
+              { type:"teo", label:"Gram-Schmidt",
+                tex:"Dado un subconjunto linealmente independiente $\\{v_1,\\ldots,v_n\\}$, el $\\textit{proceso de Gram-Schmidt}$ produce una base ortonormal $\\{e_1,\\ldots,e_n\\}$ del mismo subespacio: $e_k=v_k-\\sum_{j<k}\\langle v_k,e_j\\rangle e_j$ (normalizado)." },
+              { type:"def", label:"Determinante",
+                tex:"El $\\textit{determinante}$ es la única función $\\det:M_{n\\times n}(F)\\to F$ multilineal, alternante en las filas y con $\\det(I)=1$. Propiedades: $\\det(AB)=\\det A\\det B$, $\\det(A^T)=\\det A$, $A$ invertible $\\Leftrightarrow\\det A\\neq0$." },
+              { type:"teo", label:"Teorema espectral (transformaciones simétricas)",
+                tex:"Si $T:V\\to V$ es autoadjunta ($T=T^*$, es decir $\\langle Tu,v\\rangle=\\langle u,Tv\\rangle$) sobre un espacio con producto escalar real de dimensión finita, entonces $V$ tiene una base ortonormal de vectores propios de $T$, todos con valores propios reales." },
             ]
           },
         ]
@@ -497,16 +578,25 @@ const LIBRARY = [
       {
         id: "al1_b2",
         title: "Álgebra Lineal",
-        author: "Stanley I. Grossman",
-        edition: "7ª ed. McGraw-Hill",
+        author: "Friedberg, Insel & Spence",
+        edition: "Publicaciones Cultural, 1982",
         chapters: [
           {
-            num: 3, title: "El Determinante",
+            num: 1, title: "Espacios vectoriales y subespacios",
             notes: [
-              { type:"def", label:"Determinante (cofactores)",
-                tex:"$\\det A=\\displaystyle\\sum_{j=1}^n a_{1j}C_{1j}$ donde $C_{ij}=(-1)^{i+j}M_{ij}$ y $M_{ij}$ es el menor $(i,j)$." },
-              { type:"teo", label:"Regla de Cramer",
-                tex:"Si $\\det A\\neq0$, la solución única de $A\\mathbf{x}=\\mathbf{b}$ es $x_i=\\dfrac{\\det A_i}{\\det A}$, donde $A_i$ surge de reemplazar la columna $i$ de $A$ por $\\mathbf{b}$." },
+              { type:"def", label:"Combinación lineal y generadores",
+                tex:"Un vector $v$ es $\\textit{combinación lineal}$ de $S=\\{v_1,\\ldots,v_n\\}$ si $v=\\sum a_i v_i$ con $a_i\\in F$. El $\\textit{subespacio generado}$ por $S$ es $\\text{span}(S)=\\{\\sum a_iv_i\\mid a_i\\in F\\}$, el menor subespacio que contiene a $S$." },
+              { type:"teo", label:"Caracterización de bases",
+                tex:"$\\mathcal{B}$ es base de $V\\Leftrightarrow$ todo vector de $V$ se escribe de forma única como combinación lineal de $\\mathcal{B}$. Todo conjunto l.i. se puede extender a una base; todo conjunto generador contiene una base." },
+            ]
+          },
+          {
+            num: 6, title: "Formas canónicas",
+            notes: [
+              { type:"def", label:"Valores y vectores propios",
+                tex:"$\\lambda\\in F$ es $\\textit{valor propio}$ de $T:V\\to V$ si existe $v\\neq0$ con $T(v)=\\lambda v$; $v$ es el $\\textit{vector propio}$. Los valores propios son raíces del $\\textit{polinomio característico}$ $p_T(\\lambda)=\\det(T-\\lambda I)$." },
+              { type:"teo", label:"Diagonalización",
+                tex:"$T:V\\to V$ es diagonalizable $\\Leftrightarrow$ $p_T$ se factoriza en factores lineales sobre $F$ y para cada valor propio $\\lambda_i$, la multiplicidad geométrica $\\dim\\ker(T-\\lambda_i I)$ coincide con la multiplicidad algebraica." },
             ]
           },
         ]
@@ -521,32 +611,70 @@ const LIBRARY = [
     books: [
       {
         id: "cd2_b1",
-        title: "Cálculo Multivariable",
-        author: "James Stewart",
-        edition: "8ª ed. Cengage",
+        title: "Cálculo Infinitesimal",
+        author: "Michael Spivak",
+        edition: "2ª ed. Reverté, 1998",
         chapters: [
           {
-            num: 11, title: "Sucesiones y Series",
+            num: 13, title: "Integral definida",
             notes: [
-              { type:"def", label:"Convergencia de series",
-                tex:"La serie $\\displaystyle\\sum_{n=1}^\\infty a_n$ converge a $S$ si $\\displaystyle\\lim_{N\\to\\infty}S_N=S$ donde $S_N=\\sum_{n=1}^N a_n$." },
-              { type:"teo", label:"Criterio de la razón",
-                tex:"Si $\\displaystyle\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|=L$: la serie converge absolutamente si $L<1$, diverge si $L>1$, e indeterminado si $L=1$." },
-              { type:"def", label:"Serie de potencias",
-                tex:"$\\displaystyle\\sum_{n=0}^\\infty c_n(x-a)^n$. Converge en un intervalo $(a-R,a+R)$ donde $R=\\dfrac{1}{\\limsup|c_n|^{1/n}}$ es el radio de convergencia." },
-              { type:"teo", label:"Serie de Taylor",
-                tex:"Si $f$ es infinitamente diferenciable en $a$: $f(x)=\\displaystyle\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n$. Con resto $R_n(x)=\\frac{f^{(n+1)}(\\xi)}{(n+1)!}(x-a)^{n+1}$." },
+              { type:"def", label:"Sumas de Riemann e integral",
+                tex:"Una $\\textit{partición}$ de $[a,b]$ es $P=\\{a=x_0<x_1<\\cdots<x_n=b\\}$. Las sumas $U(f,P)=\\sum M_i\\Delta x_i$ e $L(f,P)=\\sum m_i\\Delta x_i$ son superior e inferior. $f$ es $\\textit{integrable Riemann}$ si $\\inf U(f,P)=\\sup L(f,P)=:\\int_a^b f$." },
+              { type:"teo", label:"Criterio de integrabilidad",
+                tex:"$f$ es integrable en $[a,b]\\Leftrightarrow\\forall\\varepsilon>0,\\,\\exists P:\\,U(f,P)-L(f,P)<\\varepsilon$. Toda función continua en $[a,b]$ es integrable." },
+              { type:"teo", label:"Teorema del valor medio para integrales",
+                tex:"Si $f$ es continua en $[a,b]$, existe $c\\in(a,b)$ tal que $\\displaystyle\\int_a^b f(x)\\,dx=f(c)(b-a)$." },
             ]
           },
           {
-            num: 14, title: "Derivadas Parciales",
+            num: 14, title: "Teorema Fundamental del Cálculo",
             notes: [
-              { type:"def", label:"Derivada parcial",
-                tex:"$\\dfrac{\\partial f}{\\partial x}(a,b)=\\displaystyle\\lim_{h\\to0}\\frac{f(a+h,b)-f(a,b)}{h}$. Se interpreta como la tasa de cambio de $f$ fijando $y=b$." },
-              { type:"teo", label:"Teorema de Clairaut",
-                tex:"Si $f_{xy}$ y $f_{yx}$ son continuas en un abierto que contiene a $(a,b)$, entonces $f_{xy}(a,b)=f_{yx}(a,b)$." },
-              { type:"teo", label:"Multiplicadores de Lagrange",
-                tex:"Para extremizar $f(x,y)$ sujeto a $g(x,y)=k$: en los puntos extremales $\\nabla f=\\lambda\\nabla g$, es decir, $f_x=\\lambda g_x$ y $f_y=\\lambda g_y$." },
+              { type:"teo", label:"TFC — Parte I",
+                tex:"Si $f$ es integrable en $[a,b]$ y $g(x)=\\displaystyle\\int_a^x f(t)\\,dt$, entonces $g$ es continua en $[a,b]$. Si además $f$ es continua en $x_0\\in(a,b)$, entonces $g'(x_0)=f(x_0)$.",
+                dem:"Sea $h>0$ pequeño. $g(x_0+h)-g(x_0)=\\int_{x_0}^{x_0+h}f(t)\\,dt$. Por el TVM para integrales, esto es $f(c_h)\\cdot h$ para algún $c_h\\in(x_0,x_0+h)$. Como $f$ es continua en $x_0$, $f(c_h)\\to f(x_0)$ cuando $h\\to0$. Así $g'(x_0)=\\lim_{h\\to0}\\frac{g(x_0+h)-g(x_0)}{h}=f(x_0)$. $\\blacksquare$" },
+              { type:"teo", label:"TFC — Parte II",
+                tex:"Si $f$ es continua en $[a,b]$ y $F$ es antiderivada de $f$ (es decir $F'=f$), entonces $\\displaystyle\\int_a^b f(x)\\,dx=F(b)-F(a)$." },
+              { type:"def", label:"Integrales impropias",
+                tex:"$\\displaystyle\\int_a^\\infty f(x)\\,dx=\\lim_{b\\to\\infty}\\int_a^b f(x)\\,dx$ (si el límite existe). Criterio de comparación: si $0\\le f\\le g$ y $\\int g$ converge, entonces $\\int f$ converge." },
+            ]
+          },
+          {
+            num: 15, title: "Funciones elementales y técnicas de integración",
+            notes: [
+              { type:"def", label:"Logaritmo natural vía integral",
+                tex:"$\\ln x=\\displaystyle\\int_1^x\\frac{dt}{t}$ para $x>0$. Esta definición muestra directamente $\\ln(xy)=\\ln x+\\ln y$ y $\\frac{d}{dx}\\ln x=\\frac{1}{x}$. La función exponencial $e^x$ es la inversa de $\\ln x$." },
+              { type:"teo", label:"Integración por partes",
+                tex:"$\\displaystyle\\int_a^b u\\,dv=\\big[uv\\big]_a^b-\\int_a^b v\\,du$. Sigue de la regla del producto $(uv)'=u'v+uv'$ integrada." },
+              { type:"teo", label:"Fracciones parciales",
+                tex:"Toda función racional $P(x)/Q(x)$ (con $\\deg P<\\deg Q$ y $Q$ factorizado) se descompone en fracciones simples. Factores lineales $(x-a)^k$ dan términos $\\frac{A_j}{(x-a)^j}$; factores cuadráticos irreducibles $(x^2+px+q)^k$ dan $\\frac{B_jx+C_j}{(x^2+px+q)^j}$." },
+            ]
+          },
+          {
+            num: 23, title: "Series",
+            notes: [
+              { type:"def", label:"Series numéricas",
+                tex:"La serie $\\sum_{n=1}^\\infty a_n$ converge a $S$ si la sucesión de sumas parciales $S_N=\\sum_{n=1}^N a_n$ converge a $S$. Condición necesaria: $a_n\\to0$; no es suficiente (contraej.: serie armónica $\\sum 1/n$ diverge)." },
+              { type:"teo", label:"Criterios de convergencia",
+                tex:"$\\textbf{Razón}$: si $\\lim|a_{n+1}/a_n|=L<1$, converge absolutamente; $L>1$, diverge. $\\textbf{Integral}$: $\\sum f(n)$ y $\\int_1^\\infty f$ tienen el mismo comportamiento para $f$ positiva y decreciente. $\\textbf{Leibniz}$: una serie alternante $\\sum(-1)^na_n$ con $a_n\\searrow0$ converge." },
+              { type:"def", label:"Series de potencias",
+                tex:"$\\sum_{n=0}^\\infty c_n(x-a)^n$ converge en $(a-R,a+R)$ con radio $R=1/\\limsup|c_n|^{1/n}$ (fórmula de Cauchy-Hadamard). En el interior, la serie define una función infinitamente diferenciable con $f^{(k)}(a)=k!\\,c_k$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd2_b2",
+        title: "Cálculo con Geometría Analítica",
+        author: "Thomas & Finney",
+        edition: "9ª ed. Addison-Wesley, 1987",
+        chapters: [
+          {
+            num: 6, title: "Aplicaciones de la integral",
+            notes: [
+              { type:"def", label:"Área entre curvas",
+                tex:"El área entre $f(x)$ y $g(x)$ con $f\\ge g$ en $[a,b]$ es $A=\\displaystyle\\int_a^b[f(x)-g(x)]\\,dx$. En coordenadas polares: $A=\\frac{1}{2}\\displaystyle\\int_\\alpha^\\beta[r(\\theta)]^2\\,d\\theta$." },
+              { type:"def", label:"Volumen de sólido de revolución",
+                tex:"$\\textbf{Discos}$: $V=\\pi\\displaystyle\\int_a^b[f(x)]^2\\,dx$ (rotación alrededor del eje $x$). $\\textbf{Cascarones}$: $V=2\\pi\\displaystyle\\int_a^b x f(x)\\,dx$. Longitud de arco: $L=\\displaystyle\\int_a^b\\sqrt{1+[f'(x)]^2}\\,dx$." },
             ]
           },
         ]

@@ -635,40 +635,125 @@ const CURRICULUM = [
         name: "Cálculo Diferencial e Integral II",
         clave: "0092",
         creditos: 18,
+        horas: 144,
         icon: "assets/images/d5.jpg",
         temario: [
-          { num: "1", name: "Sucesiones y series", horas: 16, subtemas: ["Series numéricas: convergencia y divergencia", "Series de términos positivos: criterio de comparación, de la integral, de la razón y de la raíz", "Series alternadas y convergencia absoluta", "Series de potencias: radio e intervalo de convergencia"] },
-          { num: "2", name: "Series de Taylor y Mac Laurin", horas: 12, subtemas: ["Fórmula de Taylor con resto", "Series de Taylor de funciones elementales", "Aplicaciones: cálculo de límites y aproximaciones"] },
-          { num: "3", name: "Funciones de varias variables", horas: 18, subtemas: ["Espacio R^n: distancia y topología básica", "Límites y continuidad de funciones vectoriales", "Derivadas parciales", "Diferenciabilidad y plano tangente", "Regla de la cadena para varias variables"] },
-          { num: "4", name: "Optimización diferencial", horas: 14, subtemas: ["Gradiente y derivada direccional", "Máximos y mínimos de funciones de varias variables", "Criterio de la segunda derivada (Hessiana)", "Multiplicadores de Lagrange"] },
-          { num: "5", name: "Integrales múltiples", horas: 20, subtemas: ["Integral doble sobre rectángulos y regiones generales", "Integral de Riemann en R^n", "Teorema de Fubini", "Cambio de variable en integrales dobles y triples: coordenadas polares, cilíndricas y esféricas", "Aplicaciones: volumen, masa, centros de masa"] }
+          { num: "1", name: "Integral definida", horas: 28, subtemas: [
+            "Ejemplos que conducen al concepto de integral definida (área bajo una curva, trabajo).",
+            "Sumas superiores e inferiores (o sumas de Riemann).",
+            "Definición y ejemplos de la integral definida de una función continua.",
+            "Propiedades básicas de la integral definida.",
+            "Teorema del valor medio para la integral.",
+            "Ejemplos de funciones integrables con un número finito o infinito de puntos de discontinuidad.",
+            "La función de Riemann."
+          ]},
+          { num: "2", name: "Teorema Fundamental del Cálculo", horas: 19, subtemas: [
+            "La integral como función del límite superior (integral indefinida).",
+            "Propiedades de la integral indefinida.",
+            "Demostración de los teoremas fundamentales del cálculo.",
+            "Integración directa.",
+            "Integrales impropias.",
+            "Criterios de convergencia de las integrales impropias."
+          ]},
+          { num: "3", name: "Las funciones logaritmo y exponencial", horas: 19, subtemas: [
+            "Definición de la función logaritmo a través de la integral.",
+            "Propiedades de las funciones logarítmicas.",
+            "La función exponencial como inversa de la función logaritmo.",
+            "Propiedades de las funciones exponenciales.",
+            "Derivación logarítmica.",
+            "Funciones que sólo pueden expresarse en términos de una integral: Funciones elípticas."
+          ]},
+          { num: "4", name: "Las funciones trigonométricas a través de la integral (Opcional)", horas: 7, subtemas: [
+            "Definición de π por medio de una integral.",
+            "Propiedades de las funciones trigonométricas.",
+            "Funciones trigonométricas inversas."
+          ]},
+          { num: "5", name: "Métodos de integración y aplicaciones de la integral definida", horas: 28, subtemas: [
+            "Métodos de sustitución o cambio de variable.",
+            "Integración por partes.",
+            "Teorema del valor medio para integrales.",
+            "Polinomios de Taylor y forma de Cauchy del residuo.",
+            "Fracciones parciales; método de coeficientes indeterminados para la integración de funciones racionales.",
+            "Métodos numéricos de integración."
+          ]},
+          { num: "6", name: "Aplicaciones", horas: 19, subtemas: [
+            "Cálculo de áreas de regiones planas.",
+            "Área en coordenadas polares.",
+            "Longitud de una curva y distancia recorrida por una partícula.",
+            "Volumen y área de sólidos de revolución.",
+            "Trabajo, densidad y masa.",
+            "Cálculo de momentos.",
+            "Problemas de decaimiento radioactivo, ley de Malthus, oscilación de un resorte, ecuación logística."
+          ]},
+          { num: "7", name: "Series", horas: 24, subtemas: [
+            "Definición y ejemplos de sucesiones y series convergentes y no convergentes.",
+            "Criterios de convergencia para sucesiones y para series con términos positivos.",
+            "Series alternantes y convergencia absoluta de una serie.",
+            "Criterio de Leibniz.",
+            "Reordenamiento de los términos de una serie.",
+            "Ejemplos elementales de series de potencias.",
+            "Ejemplos de series de Fourier."
+          ]}
         ],
         bibBasicas: [
-          { name: "Apostol, T.M. — Calculus, Vol. II. Wiley, 1969.", caps: ["Series", "Funciones de varias variables", "Integrales múltiples"] },
-          { name: "Marsden, J.E.; Tromba, A. — Vector Calculus. W.H. Freeman, 2011.", caps: ["Diferenciación en varias variables", "Optimización", "Integrales múltiples"] }
+          { name: "Arizmendi, H.; Carrillo, H.; Lara, M. — Cálculo. Primer Curso. Addison Wesley Iberoamericana, 1987.", caps: ["Integral definida", "TFC", "Log y exponencial", "Métodos de integración", "Aplicaciones", "Series"] },
+          { name: "Courant, R.; John, F. — Introducción al Cálculo y al Análisis. Limusa, 1996.", caps: ["Integral definida", "Técnicas de integración", "Series"] },
+          { name: "Lang, S. — Cálculo I. Fondo Educativo Interamericano, 1990.", caps: ["Integral", "Aplicaciones", "Series"] },
+          { name: "Spivak, M. — Cálculo Infinitesimal (2ª ed). Reverté, 1998.", caps: ["Integral definida", "TFC", "Series"] },
+          { name: "Thomas, G.B.; Finney, R.L. — Cálculo con Geometría Analítica (9ª ed). Addison-Wesley, 1987.", caps: ["Integral definida", "Técnicas de integración", "Aplicaciones de la integral", "Series"] }
         ],
-        bibComp: ["Rudin, W. — Principles of Mathematical Analysis. McGraw-Hill, 1976.", "Fleming, W. — Functions of Several Variables. Springer, 1977."],
-        subsecuentes: ["Cálculo Diferencial e Integral III", "Análisis Matemático I"]
+        bibComp: [
+          "Apostol, T.M. — Calculus, Volumen I. Ed. Reverté S.A., 2001.",
+          "Banach, S. — Cálculo Diferencial e Integral. UTEHA, 1991.",
+          "Kuratowski, K. — Introducción al Cálculo. Limusa-Wiley, 1970."
+        ],
+        subsecuentes: ["Cálculo Diferencial e Integral III", "Probabilidad I"]
       },
       {
         id: "geo_analitica_2",
         name: "Geometría Analítica II",
         clave: "0245",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d6.jpg",
         temario: [
-          { num: "1", name: "Vectores en R² y R³", horas: 12, subtemas: ["Vectores: adición, producto por escalar", "Producto punto y producto cruz", "Proyección y ángulo entre vectores", "Aplicaciones geométricas"] },
-          { num: "2", name: "Rectas y planos en R³", horas: 12, subtemas: ["Ecuación vectorial y paramétrica de la recta", "Ecuaciones de planos en el espacio", "Posiciones relativas de rectas y planos", "Distancias: de punto a recta, punto a plano"] },
-          { num: "3", name: "Superficies cuádricas", horas: 14, subtemas: ["Clasificación de cuádricas: elipsoides, hiperboloides de una y dos hojas, paraboloides elíptico e hiperbólico, cono", "Ecuación en forma canónica", "Trazas e intersecciones con planos"] },
-          { num: "4", name: "Coordenadas cilíndricas y esféricas", horas: 8, subtemas: ["Coordenadas cilíndricas y su relación con cartesianas", "Coordenadas esféricas", "Representación de superficies en coordenadas curvilíneas"] },
-          { num: "5", name: "Curvas y superficies parametrizadas", horas: 10, subtemas: ["Curvas parametrizadas en R³", "Superficies parametrizadas", "Plano tangente y normal a curvas y superficies"] }
+          { num: "1", name: "Superficies cuádricas", horas: 20, subtemas: [
+            "Cilindros. Cilindros sobre cónicas.",
+            "Superficies de revolución. Superficies de revolución generadas por cónicas.",
+            "La ecuación de 2° grado sin términos mixtos.",
+            "Simetrías y extensión de superficies cuádricas.",
+            "Cuádricas con ejes paralelos a los coordenados.",
+            "Superficies regladas.",
+            "Plano tangente a una cuádrica."
+          ]},
+          { num: "2", name: "Transformaciones", horas: 35, subtemas: [
+            "Definición y ejemplos de transformaciones lineales en ℝ² y en ℝ³. Proyecciones, homotecias.",
+            "La matriz de una transformación lineal respecto a una base. Subespacios invariantes.",
+            "Definición y ejemplos de transformaciones rígidas en ℝ² y en ℝ³. Subgrupos. Descomposición de una transformación rígida como una lineal seguida de una traslación.",
+            "Eliminación de los términos mixtos de la ecuación general de 2° grado en 3 variables por una rotación adecuada.",
+            "Transformaciones afines. Perspectiva."
+          ]},
+          { num: "3", name: "La geometría de la esfera", horas: 10, subtemas: [
+            "Geodésicas.",
+            "Un poco de trigonometría esférica."
+          ]},
+          { num: "4", name: "Transformaciones de Möbius", horas: 15, subtemas: [
+            "Interpretación geométrica de la suma y el producto de números complejos.",
+            "El plano complejo extendido. Transformaciones de Möbius. Principales propiedades.",
+            "Introducción a la geometría hiperbólica."
+          ]}
         ],
         bibBasicas: [
-          { name: "Lehmann, C.H. — Geometría Analítica. Limusa, 2005.", caps: ["Vectores", "Rectas y planos en el espacio", "Superficies cuádricas"] },
-          { name: "Anton, H.; Rorres, C. — Elementary Linear Algebra. Wiley, 2010.", caps: ["Vectores en R^n", "Producto interior y producto vectorial"] }
+          { name: "Bracho, J. — Geometría Analítica. Notas. Facultad de Ciencias, UNAM.", caps: ["Superficies cuádricas", "Transformaciones", "Esfera", "Möbius"] },
+          { name: "Efimov, N. — Geometría Superior. MIR, 1984.", caps: ["Superficies cuádricas", "Transformaciones en el espacio", "Geometría esférica"] },
+          { name: "Preston, G.C.; Lovaglia, A.R. — Modern Analytic Geometry. Harper & Row, 1971.", caps: ["Cuádricas", "Transformaciones lineales y rígidas"] },
+          { name: "Ramírez-Galarza, A. — Geometría Analítica: Una Introducción a la Geometría. Las Prensas de Ciencias, UNAM, 1998.", caps: ["Superficies cuádricas", "Transformaciones", "Möbius e hiperbólica"] }
         ],
-        bibComp: ["Marsden, J.E.; Tromba, A. — Vector Calculus. W.H. Freeman, 2011.", "Pogorelov, A.V. — Analytic Geometry. MIR Publishers, 1980."],
-        subsecuentes: ["Cálculo Diferencial e Integral III", "Álgebra Lineal I", "Geometría Diferencial I"]
+        bibComp: [
+          "Eves, H. — Estudio de las Geometrías. UTEHA, 1969.",
+          "Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. Vínculos Matemáticos No. 150, Facultad de Ciencias, UNAM, 2000."
+        ],
+        subsecuentes: ["Álgebra Lineal I", "Cálculo Diferencial e Integral III", "Taller de Modelación III"]
       }
     ]
   },
@@ -682,20 +767,74 @@ const CURRICULUM = [
         name: "Álgebra Lineal I",
         clave: "0005",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d7.jpg",
         temario: [
-          { num: "1", name: "Espacios vectoriales", horas: 16, subtemas: ["Definición y axiomas de espacio vectorial", "Subespacios vectoriales", "Combinaciones lineales y generadores", "Dependencia e independencia lineal", "Base y dimensión"] },
-          { num: "2", name: "Transformaciones lineales", horas: 16, subtemas: ["Definición y ejemplos", "Núcleo e imagen", "Teorema de la dimensión (rango-nulidad)", "Composición e inversibilidad", "Isomorfismos de espacios vectoriales"] },
-          { num: "3", name: "Matrices y sistemas de ecuaciones lineales", horas: 16, subtemas: ["Operaciones con matrices", "Eliminación gaussiana y forma escalonada reducida", "Solución de sistemas de ecuaciones lineales", "Rango de una matriz", "Matrices invertibles y sus propiedades"] },
-          { num: "4", name: "Determinantes", horas: 10, subtemas: ["Definición por cofactores", "Propiedades de los determinantes", "Expansión de Laplace", "Regla de Cramer y fórmula de la inversa"] },
-          { num: "5", name: "Valores y vectores propios", horas: 14, subtemas: ["Polinomio característico", "Cálculo de valores y vectores propios", "Matrices diagonalizables", "Teorema de Cayley-Hamilton"] }
+          { num: "1", name: "Espacios vectoriales", horas: 15, subtemas: [
+            "Campos.",
+            "Espacios vectoriales.",
+            "Subespacios vectoriales.",
+            "Dependencia lineal.",
+            "Bases y dimensión.",
+            "Sumas directas."
+          ]},
+          { num: "2", name: "Matrices", horas: 10, subtemas: [
+            "El espacio de las matrices.",
+            "Multiplicación de matrices. Matrices elementales. Matriz inversa.",
+            "Sistemas de ecuaciones lineales."
+          ]},
+          { num: "3", name: "Transformaciones lineales", horas: 12, subtemas: [
+            "El espacio de las transformaciones lineales.",
+            "Núcleo e imagen de una transformación lineal.",
+            "Composición de transformaciones lineales.",
+            "La transformación inversa.",
+            "Espacios isomorfos."
+          ]},
+          { num: "4", name: "Transformaciones lineales y matrices", horas: 12, subtemas: [
+            "La transformación lineal asociada a una matriz.",
+            "La matriz asociada a una transformación lineal.",
+            "Isomorfismos entre el espacio de matrices y el de transformaciones lineales.",
+            "Cambios de base."
+          ]},
+          { num: "5", name: "Producto escalar", horas: 17, subtemas: [
+            "Productos escalares y hermitianos.",
+            "Ortogonalidad.",
+            "Productos positivos, normas y ángulos.",
+            "Coeficientes de Fourier.",
+            "Bases ortogonales (caso positivo).",
+            "Complemento ortogonal de un subespacio. Aplicación a los sistemas de ecuaciones.",
+            "Bases ortogonales (caso general).",
+            "Espacio dual."
+          ]},
+          { num: "6", name: "Determinantes", horas: 10, subtemas: [
+            "Unicidad del determinante.",
+            "Determinante de un producto.",
+            "Invertibilidad de matrices y determinantes.",
+            "Determinante de un operador lineal."
+          ]},
+          { num: "7", name: "Transformaciones simétricas", horas: 4, subtemas: [
+            "Definición y propiedades elementales de valores y vectores propios.",
+            "Polinomio característico.",
+            "Existencia de valores propios reales de transformaciones simétricas.",
+            "Teorema espectral para transformaciones simétricas.",
+            "Ejemplos."
+          ]}
         ],
         bibBasicas: [
-          { name: "Strang, G. — Linear Algebra and Its Applications. Cengage, 2006.", caps: ["Espacios vectoriales", "Transformaciones lineales", "Matrices", "Determinantes", "Valores propios"] },
-          { name: "Axler, S. — Linear Algebra Done Right. Springer, 2015.", caps: ["Espacios vectoriales", "Transformaciones lineales", "Diagonalización"] }
+          { name: "Curtis, C.W. — Linear Algebra. Springer, 1984.", caps: ["Espacios vectoriales", "Transformaciones lineales", "Producto escalar", "Determinantes"] },
+          { name: "Friedberg, S.H.; Insel, A.J.; Spence, L.E. — Álgebra Lineal. Publicaciones Cultural, 1982.", caps: ["Espacios vectoriales", "Matrices", "Transformaciones lineales", "Determinantes", "Producto interior"] },
+          { name: "Hoffman, K.; Kunze, R. — Álgebra Lineal. Prentice Hall, 1973.", caps: ["Espacios vectoriales", "Transformaciones lineales", "Determinantes", "Producto escalar"] },
+          { name: "Lang, S. — Álgebra Lineal. STE, 1986.", caps: ["Espacios vectoriales", "Matrices", "Determinantes", "Producto escalar"] },
+          { name: "Nomizu, K. — Fundamentals of Linear Algebra. McGraw-Hill, 1966.", caps: ["Espacios vectoriales", "Transformaciones lineales", "Producto interior"] },
+          { name: "Rincón, H.A. — Álgebra Lineal. Las Prensas de Ciencias, UNAM, 2002.", caps: ["Espacios vectoriales", "Transformaciones lineales y matrices", "Producto escalar", "Determinantes", "Valores propios"] }
         ],
-        bibComp: ["Hoffman, K.; Kunze, R. — Linear Algebra. Prentice Hall, 1971.", "Shilov, G.E. — Linear Algebra. Dover, 1977."],
-        subsecuentes: ["Álgebra Lineal II", "Álgebra Moderna I", "Análisis Matemático I"]
+        bibComp: [
+          "Birkhoff, G.; MacLane, S. — A Survey of Modern Algebra. Macmillan, 1977.",
+          "Jacobson, N. — Lectures in Abstract Algebra, Vol. II. Van Nostrand, 1951.",
+          "Lluis, E. — Álgebra Lineal, Álgebra Multilineal y K-Teoría Algebraica Clásica. Addison-Wesley Iberoamericana, 1990.",
+          "Nickerson, H.K.; Spencer, D.C.; Steenrod, N.E. — Advanced Calculus. Van Nostrand, 1959."
+        ],
+        subsecuentes: ["Cálculo Diferencial e Integral IV", "Ecuaciones Diferenciales I", "Investigación de Operaciones", "Probabilidad II", "Análisis Numérico", "Taller de Modelación III"]
       },
       {
         id: "calculo_3",
