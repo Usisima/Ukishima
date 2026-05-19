@@ -612,48 +612,29 @@ body {
   margin-bottom: 0.35rem;
 }
 
-/* ── pill: text label with color accent ─────── */
+/* ── pill: color swatch only, no label ──────── */
 .note-tag-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2px 9px;
-  border-radius: 99px;
-  font-family: 'DM Mono', monospace;
-  font-size: 8.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid rgba(232,245,242,0.12);
-  background: rgba(232,245,242,0.05);
-  color: var(--ink3);
-  white-space: nowrap;
-  flex-shrink: 0;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  line-height: 1;
-}
-
-/* Colored dot prefix for instant visual identification */
-.note-tag-type::before {
-  content: '';
   display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.75;
+  width: 28px;
+  height: 7px;
+  border-radius: 99px;
   flex-shrink: 0;
+  font-size: 0;
+  overflow: hidden;
+  border: none;
+  align-self: center;
+  background: rgba(232,245,242,0.1);
 }
 
-/* ── per-type pill: translucent bg + colored text + border ── */
-.note-item[data-type="def"] .note-tag-type { background: rgba(123,185,239,0.10); color: #8ec4f0; border-color: rgba(123,185,239,0.28); }
-.note-item[data-type="teo"] .note-tag-type { background: rgba(94,207,190,0.09);  color: #5ecfbe; border-color: rgba(94,207,190,0.30);  }
-.note-item[data-type="cor"] .note-tag-type { background: rgba(181,168,240,0.09); color: #c5bafd; border-color: rgba(181,168,240,0.28); }
-.note-item[data-type="dem"] .note-tag-type { background: rgba(232,194,106,0.09); color: #e8c26a; border-color: rgba(232,194,106,0.28); }
-.note-item[data-type="eje"] .note-tag-type { background: rgba(240,144,144,0.09); color: #f09090; border-color: rgba(240,144,144,0.28); }
-.note-item[data-type="obs"] .note-tag-type { background: rgba(148,180,168,0.09); color: #94b4a8; border-color: rgba(148,180,168,0.28); }
+.note-tag-type::before { display: none; }
+
+/* ── per-type pill colors ───────────────────── */
+.note-item[data-type="def"] .note-tag-type { background: rgba(123,185,239,0.55); }
+.note-item[data-type="teo"] .note-tag-type { background: rgba(94,207,190,0.55);  }
+.note-item[data-type="cor"] .note-tag-type { background: rgba(181,168,240,0.55); }
+.note-item[data-type="dem"] .note-tag-type { background: rgba(232,194,106,0.55); }
+.note-item[data-type="eje"] .note-tag-type { background: rgba(240,144,144,0.55); }
+.note-item[data-type="obs"] .note-tag-type { background: rgba(148,180,168,0.55); }
 
 .note-label {
   font-family: 'Playfair Display', serif;
