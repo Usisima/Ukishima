@@ -29,22 +29,7 @@ const NOTE_LABELS = {
   dem: 'Demostración', eje: 'Ejemplo', obs: 'Observación',
 };
 
-/* ── DADO ALEATORIO (álbum cover) ────────────── */
-const _PIPS = {
-  1: [[12,12]],
-  2: [[7.5,7.5],[16.5,16.5]],
-  3: [[7.5,7.5],[12,12],[16.5,16.5]],
-  4: [[7.5,7.5],[16.5,7.5],[7.5,16.5],[16.5,16.5]],
-  5: [[7.5,7.5],[16.5,7.5],[12,12],[7.5,16.5],[16.5,16.5]],
-  6: [[7.5,7],[16.5,7],[7.5,12],[16.5,12],[7.5,17],[16.5,17]],
-};
-function randomDie() {
-  const n = Math.ceil(Math.random() * 6);
-  const dots = _PIPS[n].map(([cx,cy]) =>
-    `<circle cx="${cx}" cy="${cy}" r="1.9" fill="rgba(255,255,255,0.85)"/>`
-  ).join('');
-  return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="22" height="22">${dots}</svg>`;
-}
+const DISC_TOTAL = 52; // d1.jpg … d52.jpg
 
 /* ── HELPERS ──────────────────────────────────── */
 function isFavBook(id) { return S.favBooks.has(id); }
@@ -181,16 +166,19 @@ const R = {
     const pdfBtnClass = hasPdf ? '' : 'disabled';
     const pdfBtnTitle = hasPdf ? 'Leer PDF' : 'PDF no disponible';
 
+    let discIdx = 0;
     const chaptersHtml = (b.chapters || []).map((ch, ci) => {
       const key = `${b.id}_ch${ci}`;
       const notesHtml = ch.notes.map((note, ni) => {
         const nkey = `${key}_n${ni}`;
         const nfaved = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
+        const imgN = (discIdx % DISC_TOTAL) + 1;
+        discIdx++;
         return `
         <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
           <div class="note-header">
-            <div class="note-art" aria-hidden="true">${randomDie()}</div>
+            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt=""></div>
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
               <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}</div>
