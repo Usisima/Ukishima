@@ -361,20 +361,65 @@ const CURRICULUM = [
         name: "Álgebra Superior I",
         clave: "0007",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d1.jpg",
         temario: [
-          { num: "1", name: "Lógica y métodos de demostración", horas: 12, subtemas: ["Proposiciones y conectivos lógicos", "Cuantificadores y predicados", "Demostraciones directas, por contraposición y por reducción al absurdo", "Inducción matemática"] },
-          { num: "2", name: "Conjuntos", horas: 12, subtemas: ["Operaciones con conjuntos: unión, intersección, complemento, diferencia", "Producto cartesiano", "Leyes de De Morgan", "Conjunto potencia"] },
-          { num: "3", name: "Relaciones y funciones", horas: 14, subtemas: ["Relaciones binarias", "Relaciones de equivalencia y clases de equivalencia", "Relaciones de orden parcial y total", "Funciones inyectivas, sobreyectivas y biyectivas", "Composición e inversas"] },
-          { num: "4", name: "Números enteros y divisibilidad", horas: 14, subtemas: ["Principio de buena ordenación", "División euclidiana", "Máximo común divisor y algoritmo de Euclides", "Números primos y teorema fundamental de la aritmética", "Congruencias y aritmética modular"] },
-          { num: "5", name: "Cardinalidad", horas: 8, subtemas: ["Conjuntos finitos e infinitos", "Conjuntos numerables y no numerables", "Teorema de Cantor-Schröder-Bernstein", "Cardinalidad del continuo"] }
+          { num: "1", name: "Conjuntos", horas: 12, subtemas: [
+            "Noción intuitiva e igualdad de conjuntos. Subconjuntos. Conjunto vacío, Conjunto Universal.",
+            "Operaciones con conjuntos: unión, intersección, complemento y diferencia.",
+            "Conjunto potencia. Producto cartesiano. Familias de conjuntos."
+          ]},
+          { num: "2", name: "Relaciones y funciones", horas: 19, subtemas: [
+            "Relaciones (dominio, codominio e imagen).",
+            "Funciones (imágenes e imágenes inversas).",
+            "Composición de funciones. Función inversa.",
+            "Funciones inyectivas, suprayectivas y biyectivas.",
+            "Cardinalidad. Conjuntos finitos e infinitos. Funciones entre conjuntos finitos.",
+            "Relaciones de equivalencia y particiones."
+          ]},
+          { num: "3", name: "Números naturales y cálculo combinatorio", horas: 12, subtemas: [
+            "Los números naturales. Principio de inducción.",
+            "Cálculo combinatorio: ordenaciones con repetición, ordenaciones, permutaciones y combinaciones.",
+            "Teorema del binomio. Relaciones entre coeficientes binomiales."
+          ]},
+          { num: "4", name: "Espacios vectoriales", horas: 12, subtemas: [
+            "Los espacios ℝ² y ℝ³. Interpretación geométrica.",
+            "El espacio vectorial ℝⁿ.",
+            "Subespacios. Combinaciones lineales. Subespacio generado por un conjunto de vectores.",
+            "Dependencia e independencia lineal.",
+            "Bases. Dimensión."
+          ]},
+          { num: "5", name: "Matrices y determinantes", horas: 13, subtemas: [
+            "Matrices, definición y operaciones. Transpuesta de una matriz.",
+            "Operaciones elementales: Matrices escalón reducidas. Rango de una matriz.",
+            "El determinante de una matriz cuadrada: definición y propiedades.",
+            "Cálculo de determinantes.",
+            "Caracterización del rango de una matriz por medio del determinante."
+          ]},
+          { num: "6", name: "Sistemas de ecuaciones lineales", horas: 12, subtemas: [
+            "Sistemas, soluciones, matriz y matriz aumentada.",
+            "Criterios de existencia de soluciones.",
+            "Regla de Cramer.",
+            "Espacio de soluciones de un sistema no homogéneo.",
+            "Resolución de sistemas (eliminación)."
+          ]}
         ],
         bibBasicas: [
-          { name: "Herstein, I.N. — Topics in Algebra. Wiley, 1975.", caps: ["Lógica y demostraciones", "Conjuntos y relaciones", "Números enteros"] },
-          { name: "Hungerford, T.W. — Abstract Algebra: An Introduction. Brooks/Cole, 2013.", caps: ["Conjuntos y funciones", "Divisibilidad en Z", "Congruencias"] }
+          { name: "Cárdenas, H.; Lluis, E.; Raggi, F.; Tomás, F. — Álgebra Superior. Trillas, 1974.", caps: ["Conjuntos", "Relaciones y funciones", "Números naturales", "Espacios vectoriales", "Matrices y determinantes", "Sistemas de ecuaciones lineales"] },
+          { name: "Nachbin, L. — Álgebra Elemental. OEA, 1986.", caps: ["Conjuntos y relaciones", "Funciones", "Álgebra lineal elemental"] }
         ],
-        bibComp: ["Fraleigh, J.B. — A First Course in Abstract Algebra. Pearson, 2014.", "Birkhoff, G.; MacLane, S. — A Survey of Modern Algebra. AKP Classics, 1997."],
-        subsecuentes: ["Álgebra Superior II", "Álgebra Lineal I", "Álgebra Moderna I"]
+        bibComp: [
+          "Dodge, C.W. — Logic and Numbers. Weber & Schmidt, 1969.",
+          "Friedberg, S.H.; Insel, A.J.; Spence, L.E. — Álgebra Lineal. Publicaciones Cultural, 1986.",
+          "Gentile, E.R. — Aritmética Elemental. OEA, 1985.",
+          "Grimaldi, R.P. — Matemáticas Discreta y Combinatoria. STE, 1998.",
+          "Grossman, S.I. — Álgebra Lineal. McGraw-Hill, 1996.",
+          "Halmos, P.R. — Teoría Intuitiva de los Conjuntos. Ed. Continental, 1973.",
+          "Hoffman, K.; Kunze, R. — Álgebra Lineal. Prentice Hall, 1973.",
+          "Lang, S. — Álgebra Lineal. STE, 1986.",
+          "Niven, I.M.; Zuckerman, H.S. — Introducción a la Teoría de los Números. Limusa-Wiley, 1969."
+        ],
+        subsecuentes: ["Álgebra Superior II", "Cálculo Diferencial e Integral III", "Taller de Modelación I"]
       },
       {
         id: "calculo_1",

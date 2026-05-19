@@ -8,8 +8,8 @@
    Sustituir con los IDs reales de tus archivos.
    ────────────────────────────────────────────── */
 const PDF = {
-  as1_b1: { title: "Álgebra Superior — Hall & Knight", driveId: "" },
-  as1_b2: { title: "Elementos de Lógica — Ebbinghaus", driveId: "" },
+  as1_b1: { title: "Álgebra Superior — Cárdenas, Lluis, Raggi & Tomás", driveId: "" },
+  as1_b2: { title: "Álgebra Elemental — Nachbin", driveId: "" },
   cd1_b1: { title: "Cálculo: Una Variable — Stewart", driveId: "" },
   cd1_b2: { title: "Análisis Matemático — Apostol", driveId: "" },
   ga1_b1: { title: "Geometría Analítica — Lehmann", driveId: "" },
