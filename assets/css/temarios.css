@@ -161,7 +161,7 @@ body {
 
 .sem-credits-badge {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   color: var(--ink3);
   border: 1px solid var(--border);
   padding: 2px 8px;
@@ -242,6 +242,7 @@ body {
 .card-icon {
   width: 42px;
   height: 42px;
+  border-radius: 0;
   background: transparent;
   border: 0;
   display: flex;
