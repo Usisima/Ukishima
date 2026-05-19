@@ -29,17 +29,19 @@
 
 html {
   scroll-behavior: smooth;
+  overscroll-behavior: none;
 }
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  min-height: 100vh;
+  min-height: 100svh;
   -webkit-font-smoothing: antialiased;
   padding-bottom: 4rem;
   position: relative;
   overflow-x: hidden;
+  overscroll-behavior: none;
   animation: pageFadeIn 0.18s ease both;
 }
 
@@ -928,6 +930,7 @@ body {
   background: rgba(0, 0, 0, 0.25);
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  overscroll-behavior: none;
   scrollbar-width: thin;
   scrollbar-color: rgba(94, 207, 190, 0.3) transparent;
   padding: 10px 0;
