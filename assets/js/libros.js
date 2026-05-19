@@ -29,10 +29,22 @@ const NOTE_LABELS = {
   dem: 'Demostración', eje: 'Ejemplo', obs: 'Observación',
 };
 
-/* ── NOTE ART SYMBOLS (álbum cover icon) ─────── */
-const NOTE_ART = {
-  def: '≝', teo: '★', cor: '∴', dem: '∎', eje: 'ε', obs: '⊙',
+/* ── DADO ALEATORIO (álbum cover) ────────────── */
+const _PIPS = {
+  1: [[12,12]],
+  2: [[7.5,7.5],[16.5,16.5]],
+  3: [[7.5,7.5],[12,12],[16.5,16.5]],
+  4: [[7.5,7.5],[16.5,7.5],[7.5,16.5],[16.5,16.5]],
+  5: [[7.5,7.5],[16.5,7.5],[12,12],[7.5,16.5],[16.5,16.5]],
+  6: [[7.5,7],[16.5,7],[7.5,12],[16.5,12],[7.5,17],[16.5,17]],
 };
+function randomDie() {
+  const n = Math.ceil(Math.random() * 6);
+  const dots = _PIPS[n].map(([cx,cy]) =>
+    `<circle cx="${cx}" cy="${cy}" r="1.9" fill="rgba(255,255,255,0.85)"/>`
+  ).join('');
+  return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="22" height="22">${dots}</svg>`;
+}
 
 /* ── HELPERS ──────────────────────────────────── */
 function isFavBook(id) { return S.favBooks.has(id); }
@@ -175,11 +187,10 @@ const R = {
         const nkey = `${key}_n${ni}`;
         const nfaved = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
-        const artSym = NOTE_ART[note.type] || '·';
         return `
         <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
           <div class="note-header">
-            <div class="note-art" aria-hidden="true">${artSym}</div>
+            <div class="note-art" aria-hidden="true">${randomDie()}</div>
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
               <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}</div>
@@ -197,9 +208,8 @@ const R = {
       return `
       <div class="chapter-item" data-ch-key="${esc(key)}">
         <div class="chapter-head">
-          <span class="chapter-num">Ch.${ch.num}</span>
+          <span class="chapter-num">${ch.num}</span>
           <span class="chapter-title">${esc(ch.title)}</span>
-          <span class="chapter-meta">${ch.notes.length} nota${ch.notes.length !== 1 ? 's' : ''}</span>
         </div>
         <div class="chapter-body" id="chbody-${esc(key)}">
           ${notesHtml}
@@ -235,7 +245,6 @@ const R = {
         </div>
 
         <div class="book-chapters-wrap">
-          <div class="chapters-label">Contenido — ${b.chapters.length} capítulo${b.chapters.length !== 1 ? 's' : ''}</div>
           ${chaptersHtml}
         </div>
 
