@@ -17,12 +17,12 @@
   --r2: 12px;
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   /* note type colors — pastel */
-  --c-def: #a8c8f0;
-  --c-teo: #8ed8b8;
-  --c-cor: #c8b8f4;
-  --c-dem: #f0d898;
-  --c-eje: #f0b0b8;
-  --c-obs: #a8ccb8;
+  --c-def: #b8d8f8;
+  --c-teo: #a8e4c8;
+  --c-cor: #d8ccfc;
+  --c-dem: #f8e0b0;
+  --c-eje: #f8c0c4;
+  --c-obs: #b8d4c4;
 }
 
 /* ── RESET ────────────────────────────────────── */
@@ -713,12 +713,12 @@ body {
   color: var(--ink3);
 }
 
-.note-item[data-type="def"] .note-type-badge { color: #8ec4f0; }
-.note-item[data-type="teo"] .note-type-badge { color: #88d0b0; }
-.note-item[data-type="cor"] .note-type-badge { color: #c5bafd; }
-.note-item[data-type="dem"] .note-type-badge { color: #e8c26a; }
-.note-item[data-type="eje"] .note-type-badge { color: #f09090; }
-.note-item[data-type="obs"] .note-type-badge { color: #94b4a8; }
+.note-item[data-type="def"] .note-type-badge { color: #b8d8f8; }
+.note-item[data-type="teo"] .note-type-badge { color: #a8e4c8; }
+.note-item[data-type="cor"] .note-type-badge { color: #d8ccfc; }
+.note-item[data-type="dem"] .note-type-badge { color: #f8e0b0; }
+.note-item[data-type="eje"] .note-type-badge { color: #f8c0c4; }
+.note-item[data-type="obs"] .note-type-badge { color: #b8d4c4; }
 
 .note-tex {
   font-size: 0.6rem;
