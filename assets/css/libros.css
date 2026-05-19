@@ -683,7 +683,7 @@ body {
 .note-item[data-type="obs"] .note-type-badge { color: #94b4a8; }
 
 .note-tex {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   line-height: 1.85;
   color: var(--ink2);
 }
