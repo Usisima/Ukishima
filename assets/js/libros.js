@@ -233,10 +233,15 @@ const R = {
               <div class="hero-title">${esc(b.title)}</div>
               <div class="hero-author">${esc(b.author)}</div>
               <div class="hero-edition">${esc(b.edition || '')}</div>
-              <button class="btn-pdf ${pdfBtnClass}" onclick="Reader.open('${esc(b.id)}')" ${hasPdf ? '' : 'disabled'}>
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                ${esc(pdfBtnTitle)}
-              </button>
+              <div class="hero-actions">
+                <button class="btn-pdf ${pdfBtnClass}" onclick="Reader.open('${esc(b.id)}')" ${hasPdf ? '' : 'disabled'}>
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  ${esc(pdfBtnTitle)}
+                </button>
+                <button class="hero-fav-btn ${isFavBook(b.id) ? 'faved' : ''}" onclick="A.toggleFavBook('${esc(b.id)}',this)" aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                  ${isFavBook(b.id) ? '♥' : '♡'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

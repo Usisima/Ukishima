@@ -2,14 +2,14 @@
 
 :root {
   --bg: #000;
-  --border: rgba(100, 220, 200, 0.08);
-  --border2: rgba(100, 220, 200, 0.16);
+  --border: rgba(190, 160, 230, 0.08);
+  --border2: rgba(190, 160, 230, 0.16);
   --ink: #e8f5f2;
   --ink2: rgba(232, 245, 242, 0.55);
   --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #a2e6db;
-  --gold2: #93e8d8;
-  --teal: #a8f0e2;
+  --gold: #c8b0e8;
+  --gold2: #b89dd8;
+  --teal: #ddd0f8;
   --teal-dim: rgba(168, 240, 226, 0.12);
   --r: 20px;
   --r2: 12px;
@@ -123,8 +123,8 @@ body {
   font-weight: 500;
   padding: 6px 16px;
   border-radius: 99px;
-  border: 1px solid rgba(94, 207, 190, 0.35);
-  background: rgba(94, 207, 190, 0.08);
+  border: 1px solid rgba(180, 148, 220, 0.35);
+  background: rgba(180, 148, 220, 0.08);
   color: var(--gold2);
   white-space: nowrap;
   letter-spacing: 0.04em;
@@ -152,7 +152,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(94, 207, 190, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(180, 148, 220, 0.25), transparent);
 }
 
 .nav-item {
