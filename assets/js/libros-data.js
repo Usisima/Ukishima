@@ -101,20 +101,634 @@ const LIBRARY = [
         chapters: [
           {
             num: 1, title: "Conjuntos",
-            notes: [
-              { type:"def", label:"Conjunto",
-                tex:"Un $\\textit{conjunto}$ es una colección bien definida de objetos llamados $\\textit{elementos}$. Se escribe $a\\in A$ si $a$ pertenece al conjunto $A$, y $a\\notin A$ en caso contrario." },
-              { type:"def", label:"Operaciones con conjuntos",
-                tex:"Para conjuntos $A,B$ dentro de un universo $U$:\\[A\\cup B=\\{x\\mid x\\in A\\text{ o }x\\in B\\},\\quad A\\cap B=\\{x\\mid x\\in A\\text{ y }x\\in B\\},\\quad A^c=\\{x\\in U\\mid x\\notin A\\}\\]" },
-              { type:"teo", label:"Leyes de De Morgan",
-                tex:"Para cualesquiera conjuntos $A$ y $B$:\\[(A\\cup B)^c=A^c\\cap B^c\\qquad(A\\cap B)^c=A^c\\cup B^c\\]",
-                dem:"Probamos $(A\\cup B)^c=A^c\\cap B^c$. Sea $x\\in(A\\cup B)^c$; entonces $x\\notin A\\cup B$, así que $x\\notin A$ y $x\\notin B$, es decir $x\\in A^c\\cap B^c$. Recíprocamente, si $x\\in A^c\\cap B^c$ entonces $x\\notin A$ y $x\\notin B$, luego $x\\notin A\\cup B$, i.e. $x\\in(A\\cup B)^c$. La segunda ley se demuestra de forma análoga. $\\blacksquare$" },
-              { type:"teo", label:"Principio de inclusión-exclusión",
-                tex:"Para conjuntos finitos $A$ y $B$:\\[|A\\cup B|=|A|+|B|-|A\\cap B|\\]En general: $|A_1\\cup\\cdots\\cup A_n|=\\displaystyle\\sum_i|A_i|-\\sum_{i<j}|A_i\\cap A_j|+\\cdots+(-1)^{n+1}|A_1\\cap\\cdots\\cap A_n|$",
-                dem:"Particionamos $A\\cup B$ en tres partes disjuntas: $A\\setminus B$, $B\\setminus A$ y $A\\cap B$. Entonces $|A\\cup B|=|A\\setminus B|+|B\\setminus A|+|A\\cap B|$. Como $|A|=|A\\setminus B|+|A\\cap B|$ y $|B|=|B\\setminus A|+|A\\cap B|$, sumando: $|A|+|B|=|A\\cup B|+|A\\cap B|$. Despejando: $|A\\cup B|=|A|+|B|-|A\\cap B|$. $\\blacksquare$" },
-              { type:"def", label:"Conjunto potencia y producto cartesiano",
-                tex:"El $\\textit{conjunto potencia}$ de $A$ es $\\mathcal{P}(A)=\\{B\\mid B\\subseteq A\\}$; se tiene $|\\mathcal{P}(A)|=2^{|A|}$. El $\\textit{producto cartesiano}$ es $A\\times B=\\{(a,b)\\mid a\\in A,\\,b\\in B\\}$ con $|A\\times B|=|A|\\cdot|B|$." },
-            ]
+            notes:
+[
+  {
+    "type": "section",
+    "title": "1.1 INTRODUCCION",
+    "content": "El Análisis matemático estudia conceptos relacionados de alguna manera con los números reales; por ello empezaremos nuestro estudio del Análisis con una discusión del sistema de los números reales. Existen diversos métodos para introducir los números reales. Uno de ellos parte de los enteros positivos 1, 2, 3, ..., que considera conceptos no definidos, utilizándolos para construir un sistema más amplio, los números racionales positivos (cocientes de enteros positivos), los negativos y el cero. Los números racionales son utilizados, a su vez, para construir los números irracionales, números reales como √2 y π, que no son racionales. El sistema de los números reales lo constituye la reunión de los números racionales e irracionales. A pesar de que estas cuestiones constituyen una parte importante de los fundamentos de la Matemática, no las describiremos aquí con detalle. Es un hecho que, en la mayor parte del Análisis, nos interesarán solamente las propiedades de los números reales antes que los métodos utilizados para construirlos. Por lo tanto, consideraremos los números reales mismos como objetos no definidos, sometidos a ciertos axiomas de los que extraeremos ulteriores propiedades. Dado que el lector está, probablemente, familiarizado con la mayoría de las propiedades de los números reales que consideraremos en las páginas que siguen, la exposición será más bien breve. Su propósito es examinar las características más importantes y persuadir al lector de que, de ser necesario, todas las propiedades se podrían deducir a partir de los axiomas. Tratamientos más detallados podrán hallarse en las referencias del final de este capítulo. Por conveniencia usaremos la notación y la terminología de la teoría de conjuntos elemental. Supongamos que S designa un conjunto (una colección de objetos). La notación x ∈ S significa que x está en el conjunto S, escribiendo x ∉ S para indicar que x no está en S. Un conjunto S es un subconjunto de T si cada elemento de S está también en T. Lo indicaremos escribiendo S ⊆ T. Un conjunto es no vacío si contiene, por lo menos, un elemento. Suponemos que existe un conjunto no vacío R de elementos, llamados números reales, que satisfacen los diez axiomas enumerados a continuación. Los axiomas se clasifican de manera natural en tres grupos a los que nos referiremos como axiomas de cuerpo, axiomas de orden y axioma de completitud (llamado también axioma del supremo o axioma de continuidad).",
+    "sourcePage": "pp. 1-2"
+  },
+  {
+    "type": "section",
+    "title": "1.2 LOS AXIOMAS DE CUERPO",
+    "content": "Junto con el conjunto R de los números reales admitimos la existencia de dos operaciones, llamadas suma y multiplicación, tales que, para cada par de números reales x e y, la suma x + y y el producto xy son números reales determinados unívocamente por x e y, satisfaciendo los siguientes axiomas. (En los axiomas que a continuación se exponen, x, y, z representan números reales arbitrarios en tanto no se precise lo contrario.)",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 1",
+    "tex": "x + y = y + x, \\quad xy = yx",
+    "description": "leyes conmutativas",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 2",
+    "tex": "x + (y + z) = (x + y) + z, \\quad x(yz) = (xy)z",
+    "description": "leyes asociativas",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 3",
+    "tex": "x(y + z) = xy + xz",
+    "description": "ley distributiva",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 4",
+    "tex": "\\text{Dados dos números reales cualesquiera } x \\text{ e } y \\text{ existe un número real } z \\text{ tal que } x + z = y.",
+    "description": "Dicho número z se designará por y - x; el número x - x se designará por 0. (Se puede demostrar que 0 es independiente de x. Escribiremos -x en vez de 0 - x y al número -x lo llamaremos opuesto de x.)",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 5",
+    "tex": "\\text{Existe, por lo menos, un número real } x \\neq 0. \\text{ Si } x \\text{ e } y \\text{ son dos números reales con } x \\neq 0, \\text{ entonces existe un número } z \\text{ tal que } xz = y.",
+    "description": "Dicho número z se designará por y/x; el número x/x se designará por 1 y puede demostrarse que es independiente de x. Escribiremos x^{-1} en vez de 1/x si x ≠ 0 y a x^{-1} lo llamaremos recíproco o inverso de x.",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "section",
+    "title": "1.3 LOS AXIOMAS DE ORDEN",
+    "content": "Suponemos también la existencia de una relación < que establece una ordenación entre los números reales y que satisface los axiomas siguientes:",
+    "sourcePage": "p. 2"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 6",
+    "tex": "\\text{Se verifica una y sólo una de las relaciones } x = y, \\; x < y, \\; x > y.",
+    "note": "x > y significa lo mismo que y < x.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 7",
+    "tex": "\\text{Si } x < y, \\text{ entonces, para cada } z, \\text{ es } x + z < y + z.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 8",
+    "tex": "\\text{Si } x > 0 \\text{ e } y > 0, \\text{ entonces } xy > 0.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 9",
+    "tex": "\\text{Si } x > y \\text{ e } y > z, \\text{ entonces } x > z.",
+    "note": "Un número real x se llama positivo si x > 0 y negativo si x < 0. Designaremos por R⁺ el conjunto de todos los números reales positivos y por R⁻ el conjunto de todos los números reales negativos.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "not",
+    "label": "Notación",
+    "tex": "x \\leq y",
+    "description": "abrevia la afirmación 'x < y o x = y'.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "not",
+    "label": "Notación",
+    "tex": "x \\geq y",
+    "description": "se utiliza de forma análoga.",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.1",
+    "tex": "\\text{Sean } a \\text{ y } b \\text{ números reales tales que } a \\leq b + \\epsilon \\text{ para cada } \\epsilon > 0. \\text{ Entonces } a \\leq b.",
+    "dem": "Si b < a, entonces la desigualdad (1) no se satisface para ε = (a - b)/2 puesto que b + ε = b + (a - b)/2 = (a + b)/2 < (a + a)/2 = a. Por lo tanto, por el axioma 6, resulta que a ≤ b. \\blacksquare",
+    "sourcePage": "p. 3"
+  },
+  {
+    "type": "section",
+    "title": "1.4 REPRESENTACION GEOMETRICA DE LOS NUMEROS REALES",
+    "content": "Los números reales son, a menudo, representados geométricamente como puntos de una recta (denominada recta real o eje real). Se elige un punto para que represente el 0 y otro a la derecha del 0 para que represente el 1, como muestra la Fig. 1.1. Esta elección determina la escala. Con un conjunto apropiado de axiomas para la Geometría euclídea a cada punto de la recta real corresponde un número real y uno solo y, recíprocamente, cada número real está representado por un punto de la recta real y uno solo. Es usual referirse al punto x en vez de referirse al punto correspondiente al número real x. La relación de orden admite una interpretación geométrica simple. Si x < y el punto x está a la izquierda del punto y, como muestra la figura 1.1. Los números positivos están a la derecha del 0 y los números negativos están a la izquierda del 0. Si a < b un punto x satisface las desigualdades a < x < b si y sólo si, x está entre a y b.",
+    "sourcePage": "p. 4"
+  },
+  {
+    "type": "section",
+    "title": "1.5 INTERVALOS",
+    "content": "El conjunto de todos los puntos comprendidos entre a y b se denomina intervalo. A menudo es importante distinguir entre los intervalos que incluyen sus extremos y los intervalos que no los incluyen.",
+    "sourcePage": "p. 4"
+  },
+  {
+    "type": "not",
+    "label": "Notación",
+    "tex": "\\{x: x \\text{ verifica } P\\}",
+    "description": "designa el conjunto de todos los números reales x tales que satisfacen la propiedad P.",
+    "sourcePage": "p. 4"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.2",
+    "tex": "\\text{Supongamos } a < b. \\text{ El intervalo abierto } (a,b) \\text{ se define por } (a,b) = \\{x: a < x < b\\}. \\text{ El intervalo cerrado } [a,b] \\text{ es el conjunto } \\{x: a \\leq x \\leq b\\}. \\text{Los intervalos semiabiertos } (a,b] \\text{ y } [a,b) \\text{ se definen análogamente utilizando, respectivamente, las desigualdades } a < x \\leq b \\text{ y } a \\leq x < b.",
+    "sourcePage": "p. 4"
+  },
+  {
+    "type": "def",
+    "label": "Intervalos infinitos",
+    "tex": "(a, +\\infty) = \\{x: x > a\\}, \\quad [a, +\\infty) = \\{x: x \\geq a\\}, \\quad (-\\infty, a) = \\{x: x < a\\}, \\quad (-\\infty, a] = \\{x: x \\leq a\\}.",
+    "note": "Se utiliza a veces el intervalo (-∞, +∞) para designar la recta real R. Un solo punto es considerado como un intervalo cerrado <degenerado>. Los símbolos +∞ y -∞ se utilizan aquí tan solo por conveniencias de notación y no deben ser considerados como números reales.",
+    "sourcePage": "pp. 4-5"
+  },
+  {
+    "type": "section",
+    "title": "1.6 LOS ENTEROS",
+    "sourcePage": "p. 5"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.3",
+    "tex": "\\text{Un conjunto de números reales se denomina conjunto inductivo si tiene las dos propiedades siguientes: a) El número 1 está en el conjunto. b) Para cada } x \\text{ del conjunto, el número } x + 1 \\text{ está también en el conjunto.}",
+    "sourcePage": "p. 5"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.4",
+    "tex": "\\text{Un número real se denomina entero positivo si pertenece a cada uno de los conjuntos inductivos. El conjunto de los enteros positivos se designa por } \\mathbf{Z}^+.",
+    "note": "El conjunto Z⁺ es, a su vez, inductivo. Contiene al número 1, al número 1+1 (designado por 2), al número 2+1 (designado por 3), y así sucesivamente. Como Z⁺ es subconjunto de cada uno de los conjuntos inductivos consideraremos a Z⁺ como el menor conjunto inductivo. Esta propiedad de Z⁺ se denomina, a menudo, principio de inducción.",
+    "sourcePage": "p. 5"
+  },
+  {
+    "type": "not",
+    "label": "Notación",
+    "tex": "\\mathbf{Z}",
+    "description": "designa el conjunto de los enteros (positivos, negativos y el cero).",
+    "sourcePage": "p. 5"
+  },
+  {
+    "type": "section",
+    "title": "1.7 TEOREMA DE DESCOMPOSICION UNICA PARA ENTEROS",
+    "sourcePage": "p. 6"
+  },
+  {
+    "type": "not",
+    "label": "Notación",
+    "tex": "d|n",
+    "description": "se lee 'd divide a n' y significa que existe un entero c tal que n = cd.",
+    "sourcePage": "p. 6"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.5",
+    "tex": "\\text{Cada entero } n > 1 \\text{ es primo o producto de primos.}",
+    "dem": "Utilizaremos la inducción sobre n. El teorema se verifica trivialmente para n = 2. Supongamos que es cierto para cada entero k con 1 < k < n. Si n no es primo, admite un divisor d con 1 < d < n. Por lo tanto, n = cd, con 1 < c < n. Puesto que tanto c como d son < n, cada uno es primo o es producto de primos; luego n es un producto de primos. \\blacksquare",
+    "sourcePage": "p. 6"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.6",
+    "tex": "\\text{Cada par de enteros } a \\text{ y } b \\text{ admite un divisor común } d \\text{ de la forma } d = ax + by \\text{ donde } x \\text{ e } y \\text{ son enteros. Además, cada divisor común de } a \\text{ y } b \\text{ divide a } d.",
+    "dem": "Supongamos primeramente que a ≥ 0 y b ≥ 0 y procedamos por inducción sobre n = a + b. Si n = 0, entonces a = b = 0 y podemos tomar d = 0 con x = y = 0. Supongamos entonces que el teorema ha sido probado para 0, 1, 2, …, n-1. Por simetría podemos suponer a ≥ b. Si b = 0, entonces d = a, x = 1, y = 0. Si b ≥ 1 podemos aplicar la hipótesis de inducción a a-b y a b, ya que su suma es a = n - b ≤ n-1. Por lo tanto existe un divisor común d de a-b y b de la forma d = (a-b)x + by. Este entero d divide también a (a-b)+b = a, luego d es un divisor común de a y de b y tenemos que d = ax + (y-x)b, es combinación lineal de a y b. Para completar la demostración debemos probar que cada divisor común divide a d. Como un divisor común divide a a y a b, dividirá también a la combinación lineal ax + (y-x)b = d. Esto completa la demostración si a ≥ 0 y b ≥ 0. Si uno de ellos o ambos fuesen negativos, aplicaríamos el resultado que acabamos de demostrar a |a| y |b|. \\blacksquare",
+    "note": "Si d es un divisor común de a y b de la forma d = ax + by, entonces -d es también un divisor común de la misma forma, -d = a(-x) + b(-y). De estos dos divisores comunes sólo el no negativo se denomina el máximo común divisor de a y de b y se designa por mcd(a, b) o, simplemente, por (a, b). Si (a, b) = 1, se dice que a y b son primos entre sí.",
+    "sourcePage": "p. 6"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.7 (Lema de Euclides)",
+    "tex": "\\text{Si } a|bc \\text{ y } (a, b) = 1, \\text{ entonces } a|c.",
+    "dem": "Como (a, b) = 1, podemos escribir 1 = ax + by. Por lo tanto, c = acx + bcy. Pero a|acx y a|bcy, luego a|c. \\blacksquare",
+    "sourcePage": "p. 7"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.8",
+    "tex": "\\text{Si un número primo } p \\text{ divide a } ab, \\text{ entonces } p|a \\text{ o } p|b. \\text{ En general, si un número primo } p \\text{ divide al producto } a_1 \\cdots a_k, \\text{ entonces } p \\text{ divide a uno de los factores por lo menos.}",
+    "dem": "Supongamos que p|ab y que p no divida a a. Si probamos que (p, a) = 1, el lema de Euclides implica que p|b. Sea d = (p, a). Entonces d|p, luego d = 1 o d = p. No puede ser que d = p ya que d|a, pero p no divide a a. Por lo tanto, d = 1. Para demostrar la afirmación más general se procede por inducción sobre el número k de factores. Los detalles se dejan al lector. \\blacksquare",
+    "sourcePage": "p. 7"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.9 (Teorema de descomposición única)",
+    "tex": "\\text{Cada entero } n > 1 \\text{ puede ser representado como producto de factores primos, y si se prescinde del orden de los factores la representación es única.}",
+    "dem": "Procederemos por inducción sobre n. El teorema es cierto para n = 2. Supongamos, entonces, que es cierto para todos los enteros mayores que 1 y menores que n. Si n es primo, no hay nada que demostrar. Supongamos, por lo tanto, que n es compuesto y que admite dos descomposiciones en factores primos; a saber n = p₁p₂…p_s = q₁q₂…q_t. Deseamos probar que s = t y que cada p es igual a algún q. Dado que p₁ divide a q₁·q₂…q_t, divide por lo menos a uno de los factores. Cambiando los índices de las q, si es necesario, se puede suponer p₁|q₁. Por lo tanto, p₁ = q₁ ya que tanto p₁ como q₁ son primos. En (2) simplificamos p₁ en ambos miembros y obtenemos n/p₁ = p₂…p_s = q₂…q_t. Como n es compuesto, 1 < n/p₁ < n; luego por la hipótesis de inducción las dos descomposiciones de n/p₁ son idénticas, si se prescinde del orden de los factores. Por lo tanto, lo mismo es cierto para (2) y la demostración está terminada. \\blacksquare",
+    "sourcePage": "pp. 7-8"
+  },
+  {
+    "type": "section",
+    "title": "1.8 LOS NÚMEROS RACIONALES",
+    "content": "Los cocientes de enteros a/b (donde b ≠ 0) se llamarán números racionales. Por ejemplo, 1/2, -7/5, y 6 son números racionales. El conjunto de los números racionales, que designaremos por Q, contiene a Z como subconjunto. Observe el lector que todos los axiomas de cuerpo y todos los axiomas de orden se verifican en Q. Suponemos que el lector está familiarizado con ciertas propiedades elementales de los números racionales. Por ejemplo, si a y b son racionales, su media (a+b)/2 también lo es y está comprendida entre a y b. Así pues, entre dos números racionales hay una infinidad de números racionales, lo cual implica que, dado un número racional cualquiera, no sea posible hablar del número racional «inmediato superior».",
+    "sourcePage": "p. 8"
+  },
+  {
+    "type": "section",
+    "title": "1.9 LOS NÚMEROS IRRACIONALES",
+    "content": "Los números reales que no son racionales se denominan irracionales. Por ejemplo, los números √2, e, π y e^α son irracionales.",
+    "sourcePage": "p. 8"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.10",
+    "tex": "\\text{Si } n \\text{ es un entero positivo que no sea un cuadrado perfecto, entonces } \\sqrt{n} \\text{ es irracional.}",
+    "dem": "Suponemos en primer lugar que n no admite ningún divisor >1 que sea cuadrado perfecto. Si admitimos que √n es racional, llegamos a contradicción. Supongamos que √n = a/b, donde a y b son enteros sin divisores comunes. Entonces nb² = a², dado que el primer miembro de esta igualdad es un múltiplo de n, también lo será a². Sin embargo, si a² es múltiplo de n, a deberá serlo ya que n no admite divisores >1 que sean cuadrados perfectos. (Esto se ve fácilmente examinando la descomposición de a en factores primos.) Todo ello significa que a = cn, donde c es un entero. Entonces la ecuación nb² = a² se transforma en nb² = c²n², o b² = nc². El mismo argumento prueba que b debe ser asimismo múltiplo de n. Entonces a y b serían ambos múltiplos de n, lo cual contradice el hecho de que a y b carecen de divisores comunes. Esto finaliza la demostración en el caso de que n no admita un divisor >1 que sea cuadrado perfecto. Si n admite un factor que sea cuadrado perfecto, podremos escribir n = m²k, donde k > 1 y k no admite divisores >1 que sean cuadrados perfectos. Por lo tanto √n = m√k; y si √n fuese racional, el número √k sería también racional, contradiciendo lo que acabamos de demostrar. \\blacksquare",
+    "sourcePage": "pp. 8-9"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.11",
+    "tex": "\\text{Si } e^x = 1 + x + x^2/2! + x^3/3! + \\cdots + x^n/n! + \\cdots, \\text{ entonces el número } e \\text{ es irracional.}",
+    "dem": "Probaremos que e⁻¹ es irracional. La serie e⁻¹ es una serie alternada con términos que decrecen constantemente en valor absoluto. En tales series el error cometido al cortar la serie por el n-ésimo término tiene el signo algebraico del primer término que se desprecia y, en valor absoluto, es menor que el del primer término que se desprecia. Por lo tanto, si s_n = ∑_{k=0}^n (-1)^k/k!, tenemos la desigualdad 0 < e⁻¹ - s_{2k-1} < 1/(2k)!, de la que se obtiene 0 < (2k-1)!(e⁻¹ - s_{2k-1}) < 1/(2k) ≤ 1/2, para todo entero k ≥ 1. Ahora bien (2k-1)! s_{2k-1} es siempre un entero. Si e⁻¹ fuese racional, entonces podríamos elegir k suficientemente grande para que (2k-1)! e⁻¹ fuese también un entero. A causa de (3) la diferencia entre ambos enteros debería ser un número comprendido entre 0 y 1/2, lo cual es imposible. Luego e⁻¹ no es racional y, por tanto, e tampoco lo es. \\blacksquare",
+    "note": "Para una demostración de la irracionalidad de π, ver Ejercicio 7.33.",
+    "sourcePage": "p. 9"
+  },
+  {
+    "type": "section",
+    "title": "1.10 COTAS SUPERIORES; ELEMENTO MAXIMO, COTA SUPERIOR MINIMA (SUPREMO)",
+    "sourcePage": "p. 10"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.12",
+    "tex": "\\text{Sea } S \\text{ un conjunto de números reales. Si existe un número real } b \\text{ tal que } x \\leq b \\text{ para todo } x \\text{ de } S, \\text{ diremos que } b \\text{ es una cota superior de } S \\text{ y que } S \\text{ está acotado superiormente por } b. \\text{Si una cota superior } b \\text{ es, además, un elemento de } S, \\text{ b se denomina último elemento o elemento máximo de } S. \\text{ A lo sumo habrá uno de tales } b. \\text{ Si existe tal número } b, \\text{ escribiremos } b = \\max S. \\text{ Un conjunto carente de cotas superiores se denomina no acotado superiormente. Las definiciones de los términos cota inferior, acotado inferiormente, primer elemento (o elemento mínimo) pueden formularse análogamente. Si } S \\text{ tiene un elemento mínimo, designaremos a dicho mínimo por mín } S.",
+    "sourcePage": "p. 10"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.13",
+    "tex": "\\text{Sea } S \\text{ un conjunto de números reales acotado superiormente. Un número real } b \\text{ se denomina extremo superior de } S \\text{ si verifica las dos propiedades siguientes: a) } b \\text{ es una cota superior de } S. \\text{ b) Ningún número menor que } b \\text{ es cota superior de } S.",
+    "note": "Es fácil probar que un conjunto no puede tener dos extremos superiores distintos. Por lo tanto, si existe extremo superior de S, existe sólo uno y puede hablarse del extremo superior. Es corriente, en la práctica, referirse al extremo superior de un conjunto por medio del término más breve de supremo, abreviado sup. Adoptamos esta convención y escribimos b = sup S, para indicar que b es el supremo de S. Si S tiene un elemento máximo, entonces máx S = sup S. El extremo inferior o ínfimo de S, designado por inf S, se define de forma análoga.",
+    "sourcePage": "p. 11"
+  },
+  {
+    "type": "section",
+    "title": "1.11 EL AXIOMA DE COMPLETITUD",
+    "sourcePage": "p. 11"
+  },
+  {
+    "type": "axiom",
+    "label": "Axioma 10",
+    "tex": "\\text{Todo conjunto no vacío } S \\text{ de números reales que esté acotado superiormente admite un supremo; es decir, existe un número real } b \\text{ tal que } b = \\sup S.",
+    "note": "Como consecuencia de este axioma se obtiene que todo conjunto no vacío de números reales acotado inferiormente admite un ínfimo.",
+    "sourcePage": "p. 11"
+  },
+  {
+    "type": "section",
+    "title": "1.12 ALGUNAS PROPIEDADES DEL SUPREMO",
+    "sourcePage": "p. 12"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.14 (Propiedad de la aproximación)",
+    "tex": "\\text{Sea } S \\text{ un conjunto no vacío de números reales con un supremo que se designa por } b = \\sup S. \\text{ Entonces, para cada } a < b \\text{ existe un } x \\text{ de } S \\text{ tal que } a < x \\leq b.",
+    "dem": "Ante todo, x ≤ b para todo x de S. Si fuese x ≤ a para todo x de S, entonces a sería una cota superior para S menor que el supremo que es la cota superior mínima. Por lo tanto, x > a para un x de S, por lo menos. \\blacksquare",
+    "sourcePage": "p. 12"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.15 (Propiedad aditiva)",
+    "tex": "\\text{Dados dos subconjuntos no vacíos de } \\mathbf{R}, A \\text{ y } B, \\text{ sea } C \\text{ el conjunto } C = \\{x + y: x \\in A, y \\in B\\}. \\text{ Si tanto } A \\text{ como } B \\text{ tienen un supremo, entonces } C \\text{ tiene un supremo y } \\sup C = \\sup A + \\sup B.",
+    "dem": "Sea a = sup A, b = sup B. Si z ∈ C, entonces z = x + y, donde x ∈ A, y ∈ B, luego z = x + y ≤ a + b. Por lo tanto a + b es una cota superior de C, luego C admite un supremo, sea c = sup C y c ≤ a + b. Veremos ahora que a + b ≤ c. Elijamos un ε > 0. Por el teorema 1.14 existe un x de A y un y de B tales que a - ε < x y b - ε < y. Sumando estas desigualdades, obtenemos a + b - 2ε < x + y ≤ c. Luego, a + b < c + 2ε para cada ε > 0 y, por el teorema 1.1, a + b ≤ c. \\blacksquare",
+    "sourcePage": "p. 12"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.16 (Propiedad de la comparación)",
+    "tex": "\\text{Dados dos subconjuntos no vacíos } S \\text{ y } T \\text{ de } \\mathbf{R} \\text{ tales que } s \\leq t \\text{ para todo } s \\text{ de } S \\text{ y todo } t \\text{ de } T, \\text{ si } T \\text{ tiene supremo, entonces } S \\text{ tiene supremo, y } \\sup S \\leq \\sup T.",
+    "dem": null,
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "section",
+    "title": "1.13 PROPIEDADES DE LOS ENTEROS DEDUCIDAS DEL AXIOMA DE COMPLETITUD",
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.17",
+    "tex": "\\text{El conjunto } \\mathbf{Z}^+ \\text{ de los enteros positivos 1, 2, 3, ..., no está acotado superiormente.",
+    "dem": "Si Z⁺ estuviese acotado superiormente, entonces Z⁺ admitiría un supremo, tal como a = sup Z⁺. Por el teorema 1.14 tendríamos que a - 1 < n para algún n de Z⁺. Por lo tanto n + 1 > a para esta n. Esto contradice el hecho de ser a = sup Z⁺ ya que n+1 ∈ Z⁺. \\blacksquare",
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.18",
+    "tex": "\\text{Para cada número real } x \\text{ existe un entero positivo } n \\text{ tal que } n > x.",
+    "dem": "Si no fuese así, existiría un x que sería una cota superior para Z⁺, en contradicción con el teorema 1.17. \\blacksquare",
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "section",
+    "title": "1.14 LA PROPIEDAD ARQUIMEDIANA DEL SISTEMA DE LOS NUMEROS REALES",
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.19",
+    "tex": "\\text{Si } x > 0 \\text{ y si } y \\text{ es un número real arbitrario, existe un entero positivo } n \\text{ tal que } nx > y.",
+    "dem": "Aplicar el teorema 1.18 sustituyendo x por y/x. \\blacksquare",
+    "sourcePage": "p. 13"
+  },
+  {
+    "type": "section",
+    "title": "1.15 LOS NUMEROS RACIONALES CON REPRESENTACION DECIMAL FINITA",
+    "sourcePage": "pp. 13-14"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.26",
+    "tex": "\\text{Por número complejo entenderemos un par ordenado de números reales, que designaremos por } (x_1, x_2). \\text{ La primera componente, } x_1, \\text{ se llama parte real del número complejo; la segunda componente, } x_2, \\text{ se llama parte imaginaria. Dos números complejos } x = (x_1, x_2) \\text{ e } y = (y_1, y_2) \\text{ son iguales, y escribiremos } x = y, \\text{ si, y sólo si, } x_1 = y_1 \\text{ y } x_2 = y_2. \\text{ Definimos la suma } x + y \\text{ y el producto } xy \\text{ por } x + y = (x_1 + y_1, x_2 + y_2), \\quad xy = (x_1 y_1 - x_2 y_2, x_1 y_2 + x_2 y_1).",
+    "note": "El conjunto de todos los números complejos será designado por C.",
+    "sourcePage": "p. 19"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.27",
+    "tex": "\\text{Las operaciones de suma y multiplicación que acabamos de definir satisfacen las leyes conmutativa, asociativa y distributiva.",
+    "dem": "Solamente demostraremos la propiedad distributiva; las otras demostraciones son más simples. Si x = (x₁, x₂), y = (y₁, y₂) y z = (z₁, z₂), entonces tenemos x(y+z) = (x₁, x₂)(y₁+z₁, y₂+z₂) = (x₁y₁ + x₁z₁ - x₂y₂ - x₂z₂, x₁y₂ + x₁z₂ + x₂y₁ + x₂z₁) = (x₁y₁ - x₂y₂, x₁y₂ + x₂y₁) + (x₁z₁ - x₂z₂, x₁z₂ + x₂z₁) = xy + xz. \\blacksquare",
+    "sourcePage": "pp. 19-20"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.28",
+    "tex": "(x_1, x_2) + (0, 0) = (x_1, x_2), \\quad (x_1, x_2)(0, 0) = (0, 0), \\quad (x_1, x_2)(1, 0) = (x_1, x_2), \\quad (x_1, x_2) + (-x_1, -x_2) = (0, 0).",
+    "dem": "Las demostraciones son inmediatas a partir de las definiciones, lo mismo que en los teoremas 1.29, 1.30, 1.32 y 1.33. \\blacksquare",
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.29",
+    "tex": "\\text{Dados dos números complejos } x = (x_1, x_2) \\text{ e } y = (y_1, y_2), \\text{ existe un número complejo } z \\text{ tal que } x + z = y. \\text{ De hecho, } z = (y_1 - x_1, y_2 - x_2). \\text{ Este } z \\text{ se designa por } y - x. \\text{ El número complejo } (-x_1, -x_2) \\text{ se designa por } -x.",
+    "dem": null,
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.30",
+    "tex": "\\text{Para cualquier par de números complejos } x \\text{ e } y, \\text{ tenemos } (-x)y = x(-y) = -(xy) = (-1, 0)(xy).",
+    "dem": null,
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.31",
+    "tex": "\\text{Si } x = (x_1, x_2) \\neq (0, 0) \\text{ e } y \\text{ son números complejos, definimos } x^{-1} = \\left[ \\frac{x_1}{x_1^2 + x_2^2}, -\\frac{x_2}{x_1^2 + x_2^2} \\right], \\text{ e } y/x = y x^{-1}.",
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.32",
+    "tex": "\\text{Si } x \\text{ e } y \\text{ son números complejos con } x \\neq (0, 0), \\text{ existe un número complejo } z \\text{ tal que } xz = y, \\text{ a saber, } z = yx^{-1}.",
+    "dem": null,
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.33",
+    "tex": "(x_1, 0) + (y_1, 0) = (x_1 + y_1, 0), \\quad (x_1, 0)(y_1, 0) = (x_1 y_1, 0), \\quad (x_1, 0)/(y_1, 0) = (x_1 / y_1, 0), \\text{ si } y_1 \\neq 0.",
+    "note": "Es evidente, que en virtud del teorema 1.33, podemos realizar las operaciones aritméticas de los números complejos de parte imaginaria nula operando tan solo con las partes reales por medio de las operaciones de los números reales. Por lo tanto, los números complejos de la forma (x,0) tienen las mismas propiedades aritméticas que los números reales. Por esta razón es conveniente considerar el sistema de los números reales como un caso particular del sistema de los números complejos, y convendremos en identificar el número complejo (x,0) con el número real x. Por eso escribiremos x = (x,0). En particular, 0 = (0,0) y 1 = (1,0).",
+    "sourcePage": "p. 20"
+  },
+  {
+    "type": "section",
+    "title": "1.22 REPRESENTACION GEOMETRICA DE LOS NUMEROS COMPLEJOS",
+    "content": "Así como los números reales se representan geométricamente como puntos de una recta, los números complejos se representan como puntos de un plano. El número complejo x = (x₁, x₂) puede ser imaginado como el 'punto' de coordenadas (x₁, x₂). Hecho esto, la definición de suma coincide con la suma según la regla del paralelogramo. (Ver Fig. 1.2.) La idea de expresar geométricamente los números complejos como puntos de un plano fue formulada por Gauss en su disertación de 1799 e, independentemente, por Argand en 1806. Más tarde Gauss ideó la expresión un tanto desafortunada de «número complejo». Los números complejos admiten otras representaciones geométricas. En vez de utilizar puntos de un plano, se pueden utilizar puntos de otras superficies. Riemann encontró que la esfera es especialmente adecuada para este propósito. Se proyectan los puntos de la esfera desde el Polo Norte sobre el plano tangente a la esfera en el Polo Sur y entonces a cada punto del plano le corresponde un punto sobre la esfera. Con excepción del Polo Norte, a cada punto de la esfera le corresponde un punto sobre el plano y sólo uno. Esta correspondencia se denomina una proyección estereográfica. (Ver Fig. 1.3.)",
+    "sourcePage": "pp. 21-22"
+  },
+  {
+    "type": "section",
+    "title": "1.23 LA UNIDAD IMAGINARIA",
+    "sourcePage": "p. 22"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.34",
+    "tex": "\\text{El número complejo } (0,1) \\text{ se representa por } i \\text{ y se llama unidad imaginaria.",
+    "sourcePage": "p. 22"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.35",
+    "tex": "\\text{Cada número complejo } x = (x_1, x_2) \\text{ puede representarse en la forma } x = x_1 + i x_2.",
+    "dem": "x₁ = (x₁, 0), i x₂ = (0,1)(x₂,0) = (0, x₂), x₁ + i x₂ = (x₁,0) + (0, x₂) = (x₁, x₂). \\blacksquare",
+    "sourcePage": "p. 22"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.36",
+    "tex": "i^2 = -1.",
+    "dem": "i² = (0,1)(0,1) = (-1,0) = -1. \\blacksquare",
+    "sourcePage": "p. 22"
+  },
+  {
+    "type": "section",
+    "title": "1.24 VALOR ABSOLUTO DE UN NÚMERO COMPLEJO",
+    "sourcePage": "p. 22"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.37",
+    "tex": "\\text{Si } x = (x_1, x_2), \\text{ definimos el módulo, o valor absoluto, de } x \\text{ como el número real no negativo } |x| \\text{ dado por } |x| = \\sqrt{x_1^2 + x_2^2}.",
+    "sourcePage": "p. 23"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.38",
+    "tex": "\\text{Para números complejos } x \\text{ e } y \\text{ tenemos: (i) } |x| = 0 \\text{ si, y sólo si, } x = 0; \\text{ (ii) } |xy| = |x||y|; \\text{ (iii) } |x/y| = |x|/|y| \\text{ si } y \\neq 0; \\text{ (iv) } |x| = |\\bar{x}|.",
+    "dem": "Las afirmaciones (i) y (iv) son inmediatas. Para demostrar (ii), consideremos x = x₁ + i x₂, y = y₁ + i y₂, entonces xy = x₁y₁ - x₂y₂ + i(x₁y₂ + x₂y₁). La afirmación (ii) se sigue de la relación |xy|² = x₁²y₁² + x₂²y₂² + x₁²y₂² + x₂²y₁² = (x₁² + x₂²)(y₁² + y₂²) = |x|²|y|². La ecuación (iii) puede deducirse de (ii) escribiéndola en la forma |x| = |y| |x/y|. \\blacksquare",
+    "sourcePage": "p. 23"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.39 (Desigualdad triangular)",
+    "tex": "\\text{Si } x \\text{ e } y \\text{ son números complejos, entonces } |x + y| \\leq |x| + |y|.",
+    "dem": null,
+    "sourcePage": "p. 23"
+  },
+  {
+    "type": "section",
+    "title": "1.25 IMPOSIBILIDAD DE ORDENAR LOS NÚMEROS COMPLEJOS",
+    "content": "Todavía no hemos definido ninguna relación de la forma x < y, si x e y son números complejos cualesquiera, ya que es imposible dar una definición de < para los números complejos que satisfaga las propiedades dadas por los axiomas 6 al 8. Para justificarlo, supongamos que fuese posible definir una relación de orden < que satisficiera los axiomas 6, 7 y 8. Entonces, como i ≠ 0, se debiera tener i > 0 o i < 0, por el axioma 6. Supongamos que i > 0. Entonces tomando x = y = i en el axioma 8, tendríamos i² > 0, o -1 > 0. Sumando 1 a ambos miembros (axioma 7), obtendríamos 0 > 1. Por otro lado, aplicando el axioma 8 a -1 > 0, hallaríamos 1 > 0. Tendríamos, pues, 0 > 1 y también 1 > 0, que, por el axioma 6, es imposible. Así pues, suponer que i > 0 lleva a contradicción. Un razonamiento análogo prueba que no es posible i < 0. Por lo tanto, los números complejos no pueden ser ordenados de tal suerte que se verifiquen los axiomas 6, 7 y 8.",
+    "sourcePage": "pp. 23-24"
+  },
+  {
+    "type": "section",
+    "title": "1.26 EXPONENCIALES COMPLEJAS",
+    "sourcePage": "p. 24"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.40",
+    "tex": "\\text{Si } z = x + iy, \\text{ definimos } e^z = e^{x+iy} \\text{ como el número complejo } e^x (\\cos y + i \\sin y).",
+    "note": "Esta definición coincide claramente con la función exponencial real cuando z es real (esto es, y = 0).",
+    "sourcePage": "p. 24"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.41",
+    "tex": "\\text{Si } z_1 = x_1 + iy_1 \\text{ y } z_2 = x_2 + iy_2 \\text{ son dos números complejos, entonces tenemos } e^{z_1}e^{z_2} = e^{z_1+z_2}.",
+    "dem": "e^{z₁} = e^{x₁}(cos y₁ + i sen y₁), e^{z₂} = e^{x₂}(cos y₂ + i sen y₂), e^{z₁}e^{z₂} = e^{x₁}e^{x₂}[cos y₁ cos y₂ - sen y₁ sen y₂ + i(cos y₁ sen y₂ + sen y₁ cos y₂)] = e^{x₁+x₂}[cos(y₁+y₂) + i sen(y₁+y₂)] = e^{z₁+z₂}. \\blacksquare",
+    "sourcePage": "pp. 24-25"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.42",
+    "tex": "e^z \\text{ jamás es cero}.",
+    "dem": "e^z e^{-z} = e^{z-z} = e^0 = 1. Por lo tanto, e^z no puede ser cero. \\blacksquare",
+    "sourcePage": "p. 25"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.43",
+    "tex": "\\text{Si } x \\text{ es real, entonces } |e^{ix}| = 1.",
+    "dem": "|e^{ix}|² = cos² x + sen² x = 1, y |e^{ix}| > 0. \\blacksquare",
+    "sourcePage": "p. 25"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.44",
+    "tex": "e^z = 1 \\text{ si, y sólo si, } z \\text{ es un múltiplo entero de } 2\\pi i.",
+    "dem": "Si z = 2πni, donde n es un entero, entonces e^z = cos(2πn) + i sen(2πn) = 1. Recíprocamente, supongamos que e^z = 1. Esto significa que e^x cos y = 1 y e^x sen y = 0. Como e^x ≠ 0, debe ser sen y = 0, y = kπ, donde k es un entero. Pero cos(kπ) = (-1)^k. Por lo tanto, e^z = (-1)^k e^x. Como e^z = 1, tenemos (-1)^k e^x = 1, luego e^x = (-1)^k. Como e^x > 0, k debe ser par. Por lo tanto e^x = 1 y entonces x = 0. Esto prueba el teorema. \\blacksquare",
+    "sourcePage": "p. 25"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.45",
+    "tex": "e^{z_1} = e^{z_2} \\text{ si, y sólo si, } z_1 - z_2 = 2\\pi i n \\text{ (donde } n \\text{ es un entero).}",
+    "dem": "e^{z₁} = e^{z₂} si, y sólo si, e^{z₁-z₂} = 1. \\blacksquare",
+    "sourcePage": "p. 25"
+  },
+  {
+    "type": "section",
+    "title": "1.28 EL ARGUMENTO DE UN NÚMERO COMPLEJO",
+    "sourcePage": "p. 25"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.46",
+    "tex": "\\text{Sea } z = x + iy \\text{ un número complejo no nulo. El único número real } \\theta \\text{ que satisface las condiciones } x = |z| \\cos \\theta, \\quad y = |z| \\sin \\theta, \\quad -\\pi < \\theta \\leq +\\pi \\text{ se llama el argumento principal de } z, \\text{ y se representa por } \\theta = \\arg(z).",
+    "sourcePage": "p. 26"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.47",
+    "tex": "\\text{Todo número complejo } z \\neq 0 \\text{ puede ser representado en la forma } z = re^{i\\theta}, \\text{ donde } r = |z| \\text{ y } \\theta = \\arg(z) + 2\\pi n, \\text{ siendo } n \\text{ un entero}.",
+    "sourcePage": "p. 26"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.48",
+    "tex": "\\text{Si } z_1z_2 \\neq 0, \\text{ entonces } \\arg(z_1z_2) = \\arg(z_1) + \\arg(z_2) + 2\\pi n(z_1,z_2), \\text{ donde } n(z_1,z_2) \\text{ es un entero que depende de } z_1 \\text{ y } z_2.",
+    "dem": "Si z₁ = |z₁|e^{iθ₁}, z₂ = |z₂|e^{iθ₂}, donde θ₁ = arg(z₁) y θ₂ = arg(z₂), entonces z₁z₂ = |z₁z₂|e^{i(θ₁+θ₂)}. Como -π < θ₁ ≤ +π y -π < θ₂ ≤ +π, tenemos -π < θ₁+θ₂ ≤ 2π. Por lo tanto existe un entero n tal que -π < θ₁+θ₂+2πn ≤ π. Este número n es, precisamente, el n(z₁,z₂) dado en el teorema, y para este n tenemos arg(z₁z₂) = θ₁+θ₂+2πn. Esto prueba el teorema. \\blacksquare",
+    "sourcePage": "p. 26"
+  },
+  {
+    "type": "section",
+    "title": "1.29 POTENCIAS ENTERAS Y RAICES DE NÚMEROS COMPLEJOS",
+    "sourcePage": "p. 26"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.49",
+    "tex": "\\text{Dados un número complejo } z \\text{ y un número entero } n, \\text{ definimos la } n\\text{-ésima potencia de } z \\text{ como sigue: } z^0 = 1, \\quad z^{n+1} = z^n z \\text{ si } n \\geq 0, \\quad z^{-n} = (z^{-1})^n \\text{ si } z \\neq 0 \\text{ y } n > 0.",
+    "sourcePage": "pp. 26-27"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.50",
+    "tex": "\\text{Dados dos enteros } m \\text{ y } n, \\text{ tenemos, para } z \\neq 0, \\quad z^n z^m = z^{n+m} \\quad \\text{y} \\quad (z_1z_2)^n = z_1^n z_2^n.",
+    "dem": null,
+    "sourcePage": "p. 27"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.51",
+    "tex": "\\text{Si } z \\neq 0, \\text{ y si } n \\text{ es un entero positivo, entonces existen exactamente } n \\text{ números complejos distintos } z_0, z_1, \\ldots, z_{n-1} \\text{ (llamados raíces } n\\text{-ésimas de } z), \\text{ tales que } z_k^n = z \\text{ para cada } k. \\text{ Además, estas raíces son dadas por las fórmulas } z_k = Re^{i\\phi_k}, \\text{ donde } R = |z|^{1/n}, \\quad \\phi_k = \\frac{\\arg(z) + 2\\pi k}{n} \\quad (k = 0,1,2,\\ldots,n-1).",
+    "note": "Las n raíces n-ésimas de z están igualmente espaciadas sobre el círculo de radio R = |z|^{1/n}, con centro en el origen.",
+    "dem": "Los n números complejos Re^{iφ_k}, 0 ≤ k ≤ n-1, son distintos y cada uno de ellos es una raíz n-ésima de z, ya que (Re^{iφ_k})ⁿ = Rⁿe^{inφ_k} = |z|e^{i(arg(z)+2πk)} = z. Debemos probar ahora que no hay otras raíces n-ésimas de z. Supongamos que w = Ae^{iα} es un número complejo tal que wⁿ = z. Entonces |w|ⁿ = |z|, de donde Aⁿ = |z|, A = |z|^{1/n}. Por lo tanto wⁿ = z puede escribirse e^{iαn} = e^{i[arg(z)]}, que implica nα - arg(z) = 2πk para algún entero k. Luego α = [arg(z) + 2πk]/n. Pero mientras k toma todos los valores, w toma sólo los valores distintos z₀, …, z_{n-1}. (Ver Fig. 1.4.) \\blacksquare",
+    "sourcePage": "p. 27"
+  },
+  {
+    "type": "section",
+    "title": "1.30 LOS LOGARITMOS COMPLEJOS",
+    "sourcePage": "p. 28"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.52",
+    "tex": "\\text{Si } z \\text{ es un número complejo } \\neq 0, \\text{ existen números complejos } w \\text{ tales que } e^w = z. \\text{ Uno de tales } w \\text{ es el número complejo } \\log |z| + i \\arg(z), \\text{ y todos los demás tienen la forma } \\log |z| + i \\arg(z) + 2n\\pi i, \\text{ donde } n \\text{ es un entero}.",
+    "dem": "Como e^{log|z| + i arg(z)} = e^{log|z|}e^{i arg(z)} = |z|e^{i arg(z)} = z, vemos que w = log|z| + i arg(z) es una solución de la ecuación e^w = z. Pero si w₁ es otra solución, entonces e^w = e^{w₁}, y, por lo tanto, w - w₁ = 2nπi. \\blacksquare",
+    "sourcePage": "p. 28"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.53",
+    "tex": "\\text{Sea } z \\neq 0 \\text{ un número complejo dado. Si } w \\text{ es un número complejo tal que } e^w = z, \\text{ entonces } w \\text{ se denomina un logaritmo de } z. \\text{ El valor particular de } w \\text{ dado por } w = \\log |z| + i \\arg(z) \\text{ se llama logaritmo principal de } z, \\text{ y para este } w \\text{ escribiremos } w = \\operatorname{Log} z.",
+    "sourcePage": "p. 28"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.54",
+    "tex": "\\text{Si } z_1z_2 \\neq 0, \\text{ entonces } \\operatorname{Log}(z_1z_2) = \\operatorname{Log}z_1 + \\operatorname{Log}z_2 + 2\\pi i n(z_1,z_2), \\text{ donde } n(z_1,z_2) \\text{ es el entero definido en el teorema 1.48}.",
+    "dem": "Log(z₁z₂) = log|z₁z₂| + i arg(z₁z₂) = log|z₁| + log|z₂| + i[arg(z₁) + arg(z₂) + 2π n(z₁,z₂)]. \\blacksquare",
+    "sourcePage": "p. 29"
+  },
+  {
+    "type": "section",
+    "title": "1.31 POTENCIAS COMPLEJAS",
+    "sourcePage": "p. 29"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.55",
+    "tex": "\\text{Si } z \\neq 0 \\text{ y si } w \\text{ es un número complejo cualquiera, definimos } z^w = e^{w \\operatorname{Log} z}.",
+    "sourcePage": "p. 29"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.56",
+    "tex": "z^{w_1}z^{w_2} = z^{w_1+w_2} \\text{ si } z \\neq 0.",
+    "dem": "z^{w₁+w₂} = e^{(w₁+w₂)Log z} = e^{w₁ Log z} e^{w₂ Log z} = z^{w₁}z^{w₂}. \\blacksquare",
+    "sourcePage": "p. 29"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.57",
+    "tex": "\\text{Si } z_1z_2 \\neq 0, \\text{ entonces } (z_1z_2)^w = z_1^w z_2^w e^{2\\pi i w n(z_1,z_2)}, \\text{ donde } n(z_1,z_2) \\text{ es el entero definido en el teorema 1.48}.",
+    "dem": "(z₁z₂)^w = e^{w Log(z₁z₂)} = e^{w[Log z₁ + Log z₂ + 2πi n(z₁,z₂)]}. \\blacksquare",
+    "sourcePage": "pp. 29-30"
+  },
+  {
+    "type": "section",
+    "title": "1.32 SENOS Y COSENOS COMPLEJOS",
+    "sourcePage": "p. 30"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.58",
+    "tex": "\\text{Dado un número complejo } z, \\text{ definimos } \\cos z = \\frac{e^{iz} + e^{-iz}}{2}, \\quad \\sin z = \\frac{e^{iz} - e^{-iz}}{2i}.",
+    "note": "Cuando z es real, estas igualdades concuerdan con la definición 1.40.",
+    "sourcePage": "p. 30"
+  },
+  {
+    "type": "teo",
+    "label": "Teorema 1.59",
+    "tex": "\\text{Si } z = x + iy, \\text{ entonces tenemos } \\cos z = \\cos x \\cosh y - i \\sin x \\sinh y, \\quad \\sin z = \\sin x \\cosh y + i \\cos x \\sinh y.",
+    "dem": "2 cos z = e^{iz} + e^{-iz} = e^{-y}(cos x + i sen x) + e^{y}(cos x - i sen x) = cos x(e^{y}+e^{-y}) - i sen x(e^{y}-e^{-y}) = 2 cos x cosh y - 2i sen x senh y. La demostración para sen z es análoga. \\blacksquare",
+    "sourcePage": "p. 30"
+  },
+  {
+    "type": "section",
+    "title": "1.33 INFINITO Y EL PLANO COMPLEJO AMPLIADO C*",
+    "sourcePage": "p. 30"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.60",
+    "tex": "\\text{Por sistema de los números complejos ampliado } \\mathbf{C}^* \\text{ entenderemos el plano complejo } \\mathbf{C} \\text{ junto con un símbolo } \\infty \\text{ que satisfaga las siguientes propiedades: a) Si } z \\in \\mathbf{C}, \\text{ entonces se tiene } z + \\infty = z - \\infty = \\infty, \\quad z/\\infty = 0. \\text{ b) Si } z \\in \\mathbf{C}, \\text{ pero } z \\neq 0, \\text{ entonces } z(\\infty) = \\infty \\text{ y } z/0 = \\infty. \\text{ c) } \\infty + \\infty = (\\infty)(\\infty) = \\infty.",
+    "sourcePage": "p. 30"
+  },
+  {
+    "type": "def",
+    "label": "Definición 1.61",
+    "tex": "\\text{Cada conjunto de } \\mathbf{C} \\text{ de la forma } \\{z: |z| > r \\geq 0\\} \\text{ se denomina entorno de } \\infty, \\text{ o bola con centro en } \\infty.",
+    "note": "El lector puede preguntarse por qué a R le hemos adjuntado dos símbolos +∞ y -∞, mientras que a C sólo le adjuntamos un símbolo, ∞. La respuesta radica en el hecho de que existe una relación de orden < entre números reales, mientras que entre números complejos no sucede lo mismo. Para que ciertas propiedades de los números reales que involucran la relación < se verifiquen sin excepción, es necesario disponer de dos símbolos, +∞ y -∞, tales como los definidos anteriormente. Ya hemos mencionado, por ejemplo, que cada conjunto no vacío tiene un sup en R*.",
+    "sourcePage": "pp. 30-31"
+  }
+]
           },
           {
             num: 2, title: "Relaciones y funciones",
