@@ -659,7 +659,7 @@ body {
 
 .note-label {
   font-family: 'Playfair Display', serif;
-  font-size: 0.84rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
@@ -669,7 +669,7 @@ body {
 /* type name below label — colored per type */
 .note-type-badge {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: 7.5px;
   text-transform: uppercase;
   letter-spacing: 0.13em;
   color: var(--ink3);
@@ -683,7 +683,7 @@ body {
 .note-item[data-type="obs"] .note-type-badge { color: #94b4a8; }
 
 .note-tex {
-  font-size: 0.82rem;
+  font-size: 0.7rem;
   line-height: 1.85;
   color: var(--ink2);
 }
@@ -798,7 +798,7 @@ body {
 .search-book-info { flex: 1; min-width: 0; }
 .search-book-title {
   font-family: 'Playfair Display', serif;
-  font-size: 0.82rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
@@ -892,7 +892,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--ink3);
-  font-size: 0.82rem;
+  font-size: 0.7rem;
   pointer-events: none;
 }
 
@@ -994,7 +994,7 @@ body {
 
 /* ── RESPONSIVE ──────────────────────────────── */
 @media (max-width: 380px) {
-  .header-title { font-size: 0.82rem; }
+  .header-title { font-size: 0.7rem; }
   .book-card { width: 96px; }
   .book-cover { width: 96px; height: 136px; }
 }
