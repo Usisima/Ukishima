@@ -269,7 +269,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--r);
   background: rgba(255, 255, 255, 0.025);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   overflow: hidden;
   transition: border-color var(--ease), box-shadow var(--ease);
 }
