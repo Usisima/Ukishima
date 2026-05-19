@@ -10,9 +10,12 @@
 const PDF = {
   as1_b1: { title: "Álgebra Superior — Cárdenas, Lluis, Raggi & Tomás", driveId: "" },
   as1_b2: { title: "Álgebra Elemental — Nachbin", driveId: "" },
-  cd1_b1: { title: "Cálculo: Una Variable — Stewart", driveId: "" },
-  cd1_b2: { title: "Análisis Matemático — Apostol", driveId: "" },
-  ga1_b1: { title: "Geometría Analítica — Lehmann", driveId: "" },
+  as2_b1: { title: "Álgebra Superior — Cárdenas, Lluis, Raggi & Tomás", driveId: "" },
+  as2_b2: { title: "Álgebra Elemental — Nachbin", driveId: "" },
+  cd1_b1: { title: "Cálculo Infinitesimal — Spivak", driveId: "" },
+  cd1_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
+  ga1_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
+  ga1_b2: { title: "Geometría Superior — Efimov", driveId: "" },
   al1_b1: { title: "Álgebra Lineal — Lay", driveId: "" },
   al1_b2: { title: "Álgebra Lineal — Grossman", driveId: "" },
   cd2_b1: { title: "Cálculo Multivariable — Stewart", driveId: "" },
@@ -48,64 +51,210 @@ const LIBRARY = [
       {
         id: "as1_b1",
         title: "Álgebra Superior",
-        author: "Hall & Knight",
-        edition: "Reimp. 2008",
+        author: "Cárdenas, Lluis, Raggi & Tomás",
+        edition: "Trillas, 1974",
         chapters: [
           {
-            num: 1, title: "Lógica Proposicional",
-            notes: [
-              { type:"def", label:"Proposición",
-                tex:"Una $\\textit{proposición}$ es un enunciado declarativo que es verdadero o falso, pero no ambos." },
-              { type:"def", label:"Conectivos lógicos",
-                tex:"Los conectivos fundamentales son: negación $\\lnot p$, conjunción $p\\land q$, disyunción $p\\lor q$, condicional $p\\to q$ y bicondicional $p\\leftrightarrow q$." },
-              { type:"teo", label:"Leyes de De Morgan",
-                tex:"Para proposiciones $p$ y $q$:\\[\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q\\qquad\\lnot(p\\lor q)\\equiv\\lnot p\\land\\lnot q\\]",
-                dem:"Verificamos $\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q$ por tabla de verdad:\\[\\begin{array}{cc|c|cc}p&q&p\\land q&\\lnot(p\\land q)&\\lnot p\\lor\\lnot q\\\\\\hline V&V&V&F&F\\\\V&F&F&V&V\\\\F&V&F&V&V\\\\F&F&F&V&V\\end{array}\\]Las columnas 4 y 5 son idénticas, luego las fórmulas son lógicamente equivalentes. La segunda ley se demuestra de forma análoga. $\\blacksquare$" },
-              { type:"def", label:"Tautología",
-                tex:"Una fórmula $\\varphi$ es una $\\textit{tautología}$ si su tabla de verdad es verdadera para toda asignación de valores." },
-            ]
-          },
-          {
-            num: 2, title: "Teoría de Conjuntos",
+            num: 1, title: "Conjuntos",
             notes: [
               { type:"def", label:"Conjunto",
-                tex:"Un $\\textit{conjunto}$ es una colección bien definida de objetos llamados $\\textit{elementos}$. Se escribe $a\\in A$ si $a$ pertenece al conjunto $A$." },
-              { type:"teo", label:"Álgebra de conjuntos",
-                tex:"Para cualesquiera conjuntos $A,B,C$:\\begin{align*}A\\cup(B\\cap C)&=(A\\cup B)\\cap(A\\cup C)\\\\A\\cap(B\\cup C)&=(A\\cap B)\\cup(A\\cap C)\\end{align*}" },
+                tex:"Un $\\textit{conjunto}$ es una colección bien definida de objetos llamados $\\textit{elementos}$. Se escribe $a\\in A$ si $a$ pertenece al conjunto $A$, y $a\\notin A$ en caso contrario." },
+              { type:"def", label:"Operaciones con conjuntos",
+                tex:"Para conjuntos $A,B$ dentro de un universo $U$:\\[A\\cup B=\\{x\\mid x\\in A\\text{ o }x\\in B\\},\\quad A\\cap B=\\{x\\mid x\\in A\\text{ y }x\\in B\\},\\quad A^c=\\{x\\in U\\mid x\\notin A\\}\\]" },
+              { type:"teo", label:"Leyes de De Morgan",
+                tex:"Para cualesquiera conjuntos $A$ y $B$:\\[(A\\cup B)^c=A^c\\cap B^c\\qquad(A\\cap B)^c=A^c\\cup B^c\\]",
+                dem:"Probamos $(A\\cup B)^c=A^c\\cap B^c$. Sea $x\\in(A\\cup B)^c$; entonces $x\\notin A\\cup B$, así que $x\\notin A$ y $x\\notin B$, es decir $x\\in A^c\\cap B^c$. Recíprocamente, si $x\\in A^c\\cap B^c$ entonces $x\\notin A$ y $x\\notin B$, luego $x\\notin A\\cup B$, i.e. $x\\in(A\\cup B)^c$. La segunda ley se demuestra de forma análoga. $\\blacksquare$" },
               { type:"teo", label:"Principio de inclusión-exclusión",
-                tex:"Para conjuntos finitos $A$ y $B$:\\[|A\\cup B|=|A|+|B|-|A\\cap B|\\]En general: $|A_1\\cup\\cdots\\cup A_n|=\\displaystyle\\sum_i|A_i|-\\sum_{i<j}|A_i\\cap A_j|+\\cdots$",
-                dem:"Particionamos $A\\cup B$ en tres partes disjuntas: $A\\setminus B$, $B\\setminus A$ y $A\\cap B$. Entonces\\[|A\\cup B|=|A\\setminus B|+|B\\setminus A|+|A\\cap B|.\\]Como $|A|=|A\\setminus B|+|A\\cap B|$ y $|B|=|B\\setminus A|+|A\\cap B|$, sumando:\\[|A|+|B|=|A\\setminus B|+|B\\setminus A|+2|A\\cap B|=|A\\cup B|+|A\\cap B|.\\]Despejando: $|A\\cup B|=|A|+|B|-|A\\cap B|$. $\\blacksquare$" },
-              { type:"def", label:"Producto cartesiano",
-                tex:"$A\\times B=\\{(a,b)\\mid a\\in A,\\,b\\in B\\}$. Se cumple $|A\\times B|=|A|\\cdot|B|$ para conjuntos finitos." },
+                tex:"Para conjuntos finitos $A$ y $B$:\\[|A\\cup B|=|A|+|B|-|A\\cap B|\\]En general: $|A_1\\cup\\cdots\\cup A_n|=\\displaystyle\\sum_i|A_i|-\\sum_{i<j}|A_i\\cap A_j|+\\cdots+(-1)^{n+1}|A_1\\cap\\cdots\\cap A_n|$",
+                dem:"Particionamos $A\\cup B$ en tres partes disjuntas: $A\\setminus B$, $B\\setminus A$ y $A\\cap B$. Entonces $|A\\cup B|=|A\\setminus B|+|B\\setminus A|+|A\\cap B|$. Como $|A|=|A\\setminus B|+|A\\cap B|$ y $|B|=|B\\setminus A|+|A\\cap B|$, sumando: $|A|+|B|=|A\\cup B|+|A\\cap B|$. Despejando: $|A\\cup B|=|A|+|B|-|A\\cap B|$. $\\blacksquare$" },
+              { type:"def", label:"Conjunto potencia y producto cartesiano",
+                tex:"El $\\textit{conjunto potencia}$ de $A$ es $\\mathcal{P}(A)=\\{B\\mid B\\subseteq A\\}$; se tiene $|\\mathcal{P}(A)|=2^{|A|}$. El $\\textit{producto cartesiano}$ es $A\\times B=\\{(a,b)\\mid a\\in A,\\,b\\in B\\}$ con $|A\\times B|=|A|\\cdot|B|$." },
             ]
           },
           {
-            num: 3, title: "Relaciones y Funciones",
+            num: 2, title: "Relaciones y funciones",
             notes: [
+              { type:"def", label:"Relación binaria",
+                tex:"Una $\\textit{relación}$ de $A$ en $B$ es un subconjunto $R\\subseteq A\\times B$. El $\\textit{dominio}$ de $R$ es $\\{a\\in A\\mid\\exists b:(a,b)\\in R\\}$ y la $\\textit{imagen}$ es $\\{b\\in B\\mid\\exists a:(a,b)\\in R\\}$." },
+              { type:"def", label:"Función",
+                tex:"Una $\\textit{función}$ $f:A\\to B$ es una relación donde cada $a\\in A$ tiene exactamente un $b$ con $(a,b)\\in f$. Se denota $f(a)=b$. La $\\textit{imagen directa}$ de $S\\subseteq A$ es $f(S)=\\{f(a)\\mid a\\in S\\}$." },
+              { type:"def", label:"Tipos de funciones",
+                tex:"$f:A\\to B$ es $\\textit{inyectiva}$ si $f(a_1)=f(a_2)\\Rightarrow a_1=a_2$; $\\textit{sobreyectiva}$ si $f(A)=B$; $\\textit{biyectiva}$ si es inyectiva y sobreyectiva. Una biyección admite función inversa $f^{-1}:B\\to A$." },
               { type:"def", label:"Relación de equivalencia",
-                tex:"Una relación $\\sim$ en $A$ es de equivalencia si es reflexiva ($a\\sim a$), simétrica ($a\\sim b\\Rightarrow b\\sim a$) y transitiva." },
+                tex:"Una relación $\\sim$ en $A$ es de $\\textit{equivalencia}$ si es reflexiva ($a\\sim a$), simétrica ($a\\sim b\\Rightarrow b\\sim a$) y transitiva ($a\\sim b,\\,b\\sim c\\Rightarrow a\\sim c$). La $\\textit{clase}$ de $a$ es $[a]=\\{x\\in A\\mid x\\sim a\\}$." },
               { type:"teo", label:"Partición por clases de equivalencia",
-                tex:"Toda relación de equivalencia $\\sim$ en $A$ determina una partición $A/\\!\\sim$ de $A$ en clases disjuntas $[a]=\\{x\\in A\\mid x\\sim a\\}$.",
-                dem:"Sean $[a]$ y $[b]$ dos clases. Supongamos $[a]\\cap[b]\\neq\\varnothing$; existe $c$ con $c\\sim a$ y $c\\sim b$. Por simetría y transitividad $a\\sim b$, luego para todo $x\\in[a]$: $x\\sim a\\sim b$, así $x\\in[b]$. Simétricamente $[b]\\subseteq[a]$, por tanto $[a]=[b]$. Además $a\\in[a]$ por reflexividad, así que las clases cubren $A$. Esto prueba que $A/\\!\\sim$ es una partición. $\\blacksquare$" },
-              { type:"def", label:"Función inyectiva, sobreyectiva, biyectiva",
-                tex:"$f:A\\to B$ es $\\textit{inyectiva}$ si $f(a_1)=f(a_2)\\Rightarrow a_1=a_2$; $\\textit{sobreyectiva}$ si $\\forall b\\in B,\\,\\exists a:f(a)=b$; $\\textit{biyectiva}$ si ambas." },
+                tex:"Toda relación de equivalencia $\\sim$ en $A$ induce una partición $A/\\!\\sim=\\{[a]\\mid a\\in A\\}$ de $A$ en clases disjuntas que cubren $A$.",
+                dem:"Sean $[a]$ y $[b]$ dos clases. Si $[a]\\cap[b]\\neq\\varnothing$ existe $c$ con $c\\sim a$ y $c\\sim b$. Por simetría y transitividad $a\\sim b$, luego $[a]\\subseteq[b]$ y $[b]\\subseteq[a]$, i.e. $[a]=[b]$. Además $a\\in[a]$ por reflexividad, así las clases cubren $A$. $\\blacksquare$" },
+              { type:"def", label:"Cardinalidad",
+                tex:"Dos conjuntos $A$ y $B$ tienen la misma $\\textit{cardinalidad}$ ($|A|=|B|$) si existe una biyección entre ellos. $A$ es $\\textit{finito}$ si $|A|=n$ para algún $n\\in\\mathbb{N}_0$; en otro caso es $\\textit{infinito}$." },
+            ]
+          },
+          {
+            num: 3, title: "Números naturales y cálculo combinatorio",
+            notes: [
+              { type:"teo", label:"Principio de inducción matemática",
+                tex:"Sea $P(n)$ una propiedad sobre $\\mathbb{N}$. Si $P(1)$ es verdadera y $P(k)\\Rightarrow P(k+1)$ para todo $k$, entonces $P(n)$ es verdadera para todo $n\\in\\mathbb{N}$." },
+              { type:"def", label:"Permutaciones y combinaciones",
+                tex:"El número de $\\textit{permutaciones}$ de $n$ objetos tomados de $r$ en $r$ es $P(n,r)=\\dfrac{n!}{(n-r)!}$. El número de $\\textit{combinaciones}$ es $\\binom{n}{r}=\\dfrac{n!}{r!(n-r)!}$." },
+              { type:"teo", label:"Teorema del binomio",
+                tex:"Para $n\\in\\mathbb{N}$ y cualesquiera $a,b$:\\[(a+b)^n=\\sum_{k=0}^n\\binom{n}{k}a^{n-k}b^k\\]Los coeficientes satisfacen $\\binom{n}{k}+\\binom{n}{k+1}=\\binom{n+1}{k+1}$ (identidad de Pascal)." },
+            ]
+          },
+          {
+            num: 4, title: "Espacios vectoriales",
+            notes: [
+              { type:"def", label:"Espacio vectorial",
+                tex:"Un $\\textit{espacio vectorial}$ sobre $\\mathbb{R}$ es un conjunto $V$ con operaciones de suma y multiplicación escalar que satisfacen los 8 axiomas (conmutatividad, asociatividad, elemento neutro, inverso aditivo, distributividades y compatibilidad escalar)." },
+              { type:"def", label:"Subespacio, independencia lineal y base",
+                tex:"$W\\subseteq V$ es $\\textit{subespacio}$ si es cerrado bajo suma y producto escalar. Vectores $v_1,\\ldots,v_n$ son $\\textit{linealmente independientes}$ si $\\alpha_1 v_1+\\cdots+\\alpha_n v_n=\\mathbf{0}\\Rightarrow$ todos $\\alpha_i=0$. Una $\\textit{base}$ es un conjunto generador l.i.; su cardinalidad es la $\\textit{dimensión}$ de $V$." },
+              { type:"teo", label:"Teorema de la base",
+                tex:"Todo espacio vectorial de dimensión finita $n$ es isomorfo a $\\mathbb{R}^n$. Cualesquiera dos bases de $V$ tienen el mismo número de elementos." },
+            ]
+          },
+          {
+            num: 5, title: "Matrices y determinantes",
+            notes: [
+              { type:"def", label:"Matriz y operaciones",
+                tex:"Una $\\textit{matriz}$ $A\\in\\mathbb{R}^{m\\times n}$ tiene $m$ filas y $n$ columnas. Las operaciones de suma, producto escalar y multiplicación $AB$ (con $A\\in\\mathbb{R}^{m\\times k}$, $B\\in\\mathbb{R}^{k\\times n}$) satisfacen $(AB)_{ij}=\\sum_l a_{il}b_{lj}$." },
+              { type:"def", label:"Determinante",
+                tex:"El $\\textit{determinante}$ $\\det(A)$ de $A\\in\\mathbb{R}^{n\\times n}$ se define por la expansión de Laplace a lo largo de cualquier fila o columna. Propiedades: $\\det(AB)=\\det(A)\\det(B)$, $\\det(A^T)=\\det(A)$, $A$ invertible $\\Leftrightarrow\\det(A)\\neq 0$." },
+              { type:"teo", label:"Rango y determinantes",
+                tex:"El $\\textit{rango}$ de $A$ es el tamaño del mayor menor no nulo de $A$. Se tiene $\\text{rango}(A)=r\\Leftrightarrow$ existe menor de orden $r$ no nulo y todo menor de orden $r+1$ es cero." },
+            ]
+          },
+          {
+            num: 6, title: "Sistemas de ecuaciones lineales",
+            notes: [
+              { type:"def", label:"Sistema y matriz aumentada",
+                tex:"Un $\\textit{sistema}$ $A\\mathbf{x}=\\mathbf{b}$ con $A\\in\\mathbb{R}^{m\\times n}$ se representa por la $\\textit{matriz aumentada}$ $[A|\\mathbf{b}]$. Las soluciones no cambian al aplicar operaciones elementales de fila." },
+              { type:"teo", label:"Teorema de Rouché-Fröbenius",
+                tex:"El sistema $A\\mathbf{x}=\\mathbf{b}$ tiene solución $\\Leftrightarrow\\text{rango}(A)=\\text{rango}([A|\\mathbf{b}])$. Si es compatible, la solución es única $\\Leftrightarrow\\text{rango}(A)=n$; si hay $n-r$ variables libres, hay infinitas soluciones." },
+              { type:"teo", label:"Regla de Cramer",
+                tex:"Si $A\\in\\mathbb{R}^{n\\times n}$ con $\\det(A)\\neq 0$, la única solución de $A\\mathbf{x}=\\mathbf{b}$ es $x_i=\\dfrac{\\det(A_i)}{\\det(A)}$, donde $A_i$ se obtiene sustituyendo la $i$-ésima columna de $A$ por $\\mathbf{b}$." },
             ]
           },
         ]
       },
       {
         id: "as1_b2",
-        title: "Mathematical Logic",
-        author: "H.-D. Ebbinghaus",
-        edition: "2ª ed. Springer",
+        title: "Álgebra Elemental",
+        author: "Leopoldo Nachbin",
+        edition: "OEA, 1986",
         chapters: [
           {
-            num: 1, title: "Sintaxis del Cálculo Proposicional",
+            num: 1, title: "Conjuntos y relaciones",
             notes: [
-              { type:"def", label:"Fórmula",
-                tex:"El conjunto $\\text{FOR}$ de fórmulas proposicionales se define inductivamente: variables $p_0,p_1,\\ldots\\in\\text{FOR}$; si $\\varphi,\\psi\\in\\text{FOR}$ entonces $\\lnot\\varphi,(\\varphi\\land\\psi)\\in\\text{FOR}$." },
-              { type:"teo", label:"Unicidad de lectura",
-                tex:"Cada fórmula $\\varphi$ tiene exactamente una lectura, es decir, su árbol de construcción es único." },
+              { type:"def", label:"Familia de conjuntos",
+                tex:"Una $\\textit{familia}$ de conjuntos indexada por $I$ es una función $i\\mapsto A_i$ con $i\\in I$. La unión e intersección generalizadas se denotan $\\bigcup_{i\\in I}A_i$ y $\\bigcap_{i\\in I}A_i$ respectivamente." },
+              { type:"obs", label:"Conjunto vacío",
+                tex:"El conjunto vacío $\\varnothing$ es subconjunto de todo conjunto: $\\varnothing\\subseteq A$ para todo $A$. Es único y satisface $A\\cup\\varnothing=A$, $A\\cap\\varnothing=\\varnothing$ y $A\\setminus A=\\varnothing$." },
+            ]
+          },
+          {
+            num: 2, title: "Funciones y cardinalidad",
+            notes: [
+              { type:"teo", label:"Composición e inversas",
+                tex:"Si $f:A\\to B$ y $g:B\\to C$ son funciones, la $\\textit{composición}$ $g\\circ f:A\\to C$ satisface $(g\\circ f)(a)=g(f(a))$. Si $f$ es biyectiva, $f^{-1}\\circ f=\\text{id}_A$ y $f\\circ f^{-1}=\\text{id}_B$." },
+              { type:"teo", label:"Conjuntos equipotentes y numerables",
+                tex:"$A$ y $B$ son $\\textit{equipotentes}$ si existe biyección $f:A\\to B$. Un conjunto es $\\textit{numerable}$ si es equipotente a $\\mathbb{N}$. $\\mathbb{Z}$ y $\\mathbb{Q}$ son numerables; $\\mathbb{R}$ no lo es (argumento diagonal de Cantor)." },
+            ]
+          },
+          {
+            num: 3, title: "Álgebra lineal elemental",
+            notes: [
+              { type:"def", label:"Espacio ℝⁿ",
+                tex:"$\\mathbb{R}^n=\\{(x_1,\\ldots,x_n)\\mid x_i\\in\\mathbb{R}\\}$ con suma componente a componente y producto escalar $\\lambda(x_1,\\ldots,x_n)=(\\lambda x_1,\\ldots,\\lambda x_n)$ es un espacio vectorial de dimensión $n$." },
+              { type:"obs", label:"Interpretación geométrica en ℝ² y ℝ³",
+                tex:"En $\\mathbb{R}^2$ los vectores se representan como flechas en el plano; la suma es la regla del paralelogramo. En $\\mathbb{R}^3$ se añade una tercera dimensión espacial. Las bases canónicas $\\{e_1,\\ldots,e_n\\}$ generan $\\mathbb{R}^n$." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Álgebra Superior II",
+    matId: "alg_sup_2",
+    color: "linear-gradient(135deg,#0a0612,#180e2a)",
+    books: [
+      {
+        id: "as2_b1",
+        title: "Álgebra Superior",
+        author: "Cárdenas, Lluis, Raggi & Tomás",
+        edition: "Trillas, 1974",
+        chapters: [
+          {
+            num: 4, title: "Números enteros y divisibilidad",
+            notes: [
+              { type:"def", label:"Anillo de los enteros",
+                tex:"$(\\mathbb{Z},+,\\cdot)$ es un $\\textit{dominio entero}$: anillo conmutativo con unidad, sin divisores de cero. Tiene orden compatible: $a<b$ y $c>0\\Rightarrow ac<bc$." },
+              { type:"teo", label:"Algoritmo de la división",
+                tex:"Para $a\\in\\mathbb{Z}$ y $b\\in\\mathbb{Z}^+$, existen únicos $q,r\\in\\mathbb{Z}$ con $0\\le r<b$ tales que $a=qb+r$. Aquí $q$ es el $\\textit{cociente}$ y $r$ el $\\textit{residuo}$." },
+              { type:"def", label:"Máximo común divisor",
+                tex:"El $\\textit{mcd}$ de $a,b\\in\\mathbb{Z}$ no ambos nulos es el mayor entero positivo que divide a ambos. El $\\textbf{algoritmo de Euclides}$ lo calcula: $\\gcd(a,b)=\\gcd(b,r)$ donde $r=a\\bmod b$." },
+              { type:"teo", label:"Identidad de Bezout",
+                tex:"Para $a,b\\in\\mathbb{Z}$ con $d=\\gcd(a,b)$, existen $s,t\\in\\mathbb{Z}$ tales que $sa+tb=d$. En particular $\\gcd(a,b)=1$ (coprimos) $\\Leftrightarrow\\exists s,t:sa+tb=1$." },
+              { type:"teo", label:"Factorización única (TFA)",
+                tex:"Todo entero $n>1$ se escribe de forma única (salvo orden) como producto de primos: $n=p_1^{e_1}\\cdots p_k^{e_k}$.",
+                dem:"$\\textit{Existencia}$: por inducción fuerte; si $n$ no es primo, $n=ab$ con $1<a,b<n$ y por hipótesis cada factor se factoriza. $\\textit{Unicidad}$: si $p\\mid ab$ y $p$ es primo, entonces $p\\mid a$ o $p\\mid b$ (lema de Euclides, usando Bezout). $\\blacksquare$" },
+            ]
+          },
+          {
+            num: 5, title: "Congruencias",
+            notes: [
+              { type:"def", label:"Congruencia módulo m",
+                tex:"$a\\equiv b\\pmod{m}$ si $m\\mid(a-b)$. La congruencia es una relación de equivalencia en $\\mathbb{Z}$; las clases de equivalencia forman el $\\textit{anillo de restos}$ $\\mathbb{Z}/m\\mathbb{Z}$." },
+              { type:"teo", label:"Teorema chino del residuo",
+                tex:"Si $m_1,\\ldots,m_k$ son primos entre sí de a pares, el sistema $x\\equiv a_i\\pmod{m_i}$ tiene solución única módulo $M=m_1\\cdots m_k$." },
+            ]
+          },
+          {
+            num: 6, title: "Números complejos",
+            notes: [
+              { type:"def", label:"Campo de los complejos",
+                tex:"$\\mathbb{C}=\\{a+bi\\mid a,b\\in\\mathbb{R}\\}$ con $i^2=-1$ forma un campo. El $\\textit{conjugado}$ es $\\overline{a+bi}=a-bi$ y el $\\textit{módulo}$ es $|z|=\\sqrt{a^2+b^2}$. Se cumple $z\\bar{z}=|z|^2$." },
+              { type:"teo", label:"Forma polar y teorema de De Moivre",
+                tex:"Todo $z=r e^{i\\theta}$ con $r=|z|$ y $\\theta=\\arg(z)$. El $\\textbf{teorema de De Moivre}$ afirma $(\\cos\\theta+i\\sin\\theta)^n=\\cos(n\\theta)+i\\sin(n\\theta)$. Las raíces $n$-ésimas de $z$ son $r^{1/n}e^{i(\\theta+2k\\pi)/n}$ para $k=0,\\ldots,n-1$." },
+            ]
+          },
+          {
+            num: 7, title: "Polinomios y ecuaciones",
+            notes: [
+              { type:"def", label:"Anillo de polinomios K[x]",
+                tex:"Para un campo $K$, $K[x]=\\{a_n x^n+\\cdots+a_0\\mid a_i\\in K\\}$ con las operaciones usuales forma un dominio entero. El $\\textit{grado}$ satisface $\\deg(fg)=\\deg f+\\deg g$." },
+              { type:"teo", label:"Algoritmo de la división en K[x]",
+                tex:"Para $f,g\\in K[x]$ con $g\\neq 0$, existen únicos $q,r\\in K[x]$ con $\\deg r<\\deg g$ tales que $f=qg+r$." },
+              { type:"teo", label:"Teorema del residuo y del factor",
+                tex:"$\\textbf{Residuo}$: $f(a)$ es el residuo de dividir $f$ entre $(x-a)$. $\\textbf{Factor}$: $a$ es raíz de $f$ $\\Leftrightarrow(x-a)\\mid f(x)$. Un polinomio de grado $n$ tiene a lo más $n$ raíces en $K$." },
+              { type:"teo", label:"Teorema fundamental del álgebra",
+                tex:"Todo polinomio no constante $f\\in\\mathbb{C}[x]$ tiene al menos una raíz en $\\mathbb{C}$. En consecuencia, $f$ se factoriza completamente en $\\mathbb{C}[x]$ como producto de factores lineales." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "as2_b2",
+        title: "Álgebra Elemental",
+        author: "Leopoldo Nachbin",
+        edition: "OEA, 1986",
+        chapters: [
+          {
+            num: 4, title: "Aritmética elemental",
+            notes: [
+              { type:"def", label:"Divisibilidad en ℤ",
+                tex:"$a\\mid b$ ($a$ $\\textit{divide}$ a $b$) si existe $k\\in\\mathbb{Z}$ con $b=ka$. Propiedades: $a\\mid b$ y $a\\mid c\\Rightarrow a\\mid(sb+tc)$ para $s,t\\in\\mathbb{Z}$." },
+              { type:"obs", label:"Números primos y criba de Eratóstenes",
+                tex:"Un primo es un entero $p>1$ divisible sólo por $1$ y $p$. La $\\textit{criba de Eratóstenes}$ lista los primos hasta $N$ tachando múltiplos. Hay infinitos primos (demostración de Euclides)." },
+            ]
+          },
+          {
+            num: 5, title: "Polinomios y ecuaciones algebraicas",
+            notes: [
+              { type:"def", label:"Polinomios irreducibles",
+                tex:"$f\\in K[x]$ es $\\textit{irreducible}$ si $\\deg f\\ge 1$ y $f=gh\\Rightarrow\\deg g=0$ o $\\deg h=0$. En $\\mathbb{R}[x]$, los irreducibles son los lineales y los cuadráticos sin raíces reales." },
+              { type:"teo", label:"Factorización única en K[x]",
+                tex:"$K[x]$ es un dominio de factorización única (DFU): todo polinomio no nulo de grado $\\ge 1$ se escribe de forma única como producto de polinomios irreducibles (salvo orden y unidades)." },
             ]
           },
         ]
@@ -120,64 +269,91 @@ const LIBRARY = [
     books: [
       {
         id: "cd1_b1",
-        title: "Cálculo: Una Variable",
-        author: "James Stewart",
-        edition: "8ª ed. Cengage",
+        title: "Cálculo Infinitesimal",
+        author: "Michael Spivak",
+        edition: "2ª ed. Reverté, 1998",
         chapters: [
           {
-            num: 2, title: "Límites y Continuidad",
+            num: 1, title: "Números reales",
             notes: [
-              { type:"def", label:"Límite (ε-δ)",
-                tex:"$\\displaystyle\\lim_{x\\to a}f(x)=L$ si $\\forall\\varepsilon>0,\\,\\exists\\delta>0$ tal que $0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon$." },
-              { type:"teo", label:"Teorema del emparedado (Sandwich)",
-                tex:"Si $g(x)\\le f(x)\\le h(x)$ cerca de $a$ y $\\displaystyle\\lim_{x\\to a}g(x)=\\lim_{x\\to a}h(x)=L$, entonces $\\displaystyle\\lim_{x\\to a}f(x)=L$." },
-              { type:"teo", label:"Álgebra de límites",
-                tex:"Si $\\lim_{x\\to a}f=L$ y $\\lim_{x\\to a}g=M$, entonces:\\[\\lim_{x\\to a}(f\\pm g)=L\\pm M,\\quad\\lim_{x\\to a}fg=LM,\\quad\\lim_{x\\to a}\\tfrac{f}{g}=\\tfrac{L}{M}\\;(M\\neq0)\\]" },
-              { type:"def", label:"Continuidad",
-                tex:"$f$ es continua en $a$ si $\\displaystyle\\lim_{x\\to a}f(x)=f(a)$. Equivalentemente, $\\forall\\varepsilon>0,\\,\\exists\\delta>0:|x-a|<\\delta\\Rightarrow|f(x)-f(a)|<\\varepsilon$." },
-              { type:"teo", label:"Teorema del valor intermedio",
-                tex:"Si $f$ es continua en $[a,b]$ y $N$ está entre $f(a)$ y $f(b)$, existe $c\\in(a,b)$ con $f(c)=N$." },
+              { type:"def", label:"Axiomas de campo y de orden",
+                tex:"$\\mathbb{R}$ es un $\\textit{campo ordenado}$: satisface los axiomas de campo (suma y producto con neutros e inversos), los axiomas de orden ($a<b$ y $b<c\\Rightarrow a<c$; tricotomía) y la $\\textit{propiedad arquimediana}$." },
+              { type:"teo", label:"Axioma del supremo (compleción)",
+                tex:"Todo subconjunto no vacío $A\\subseteq\\mathbb{R}$ acotado superiormente tiene $\\sup A\\in\\mathbb{R}$. Esto distingue a $\\mathbb{R}$ de $\\mathbb{Q}$ y garantiza la existencia de números como $\\sqrt{2}$.",
+                dem:"La existencia del supremo es axiomática en la construcción de Dedekind: $\\sup A$ es el corte de Dedekind que separa las cotas superiores de $A$ del resto. En la construcción por sucesiones de Cauchy, $\\sup A$ se construye como clase de equivalencia de sucesiones racionales convergentes. $\\blacksquare$" },
+              { type:"def", label:"Valor absoluto",
+                tex:"$|a|=a$ si $a\\ge0$, $|a|=-a$ si $a<0$. Propiedades: $|ab|=|a||b|$, $|a+b|\\le|a|+|b|$ ($\\textit{desigualdad triangular}$), $||a|-|b||\\le|a-b|$." },
             ]
           },
           {
-            num: 3, title: "Derivadas",
+            num: 2, title: "Funciones y sucesiones",
+            notes: [
+              { type:"def", label:"Sucesión convergente",
+                tex:"Una sucesión $(a_n)$ $\\textit{converge}$ a $L$ si $\\forall\\varepsilon>0,\\,\\exists N\\in\\mathbb{N}:\\,n>N\\Rightarrow|a_n-L|<\\varepsilon$. Escribimos $\\lim_{n\\to\\infty}a_n=L$." },
+              { type:"teo", label:"Criterio de convergencia monótona",
+                tex:"Toda sucesión monótona acotada es convergente. Si $(a_n)$ es creciente y acotada superiormente, $\\lim a_n=\\sup\\{a_n\\}$." },
+              { type:"def", label:"Sucesión de Cauchy",
+                tex:"$(a_n)$ es de $\\textit{Cauchy}$ si $\\forall\\varepsilon>0,\\,\\exists N:\\,m,n>N\\Rightarrow|a_m-a_n|<\\varepsilon$. En $\\mathbb{R}$: $(a_n)$ converge $\\Leftrightarrow$ es de Cauchy." },
+            ]
+          },
+          {
+            num: 5, title: "Límite y continuidad",
+            notes: [
+              { type:"def", label:"Límite de función (ε-δ)",
+                tex:"$\\displaystyle\\lim_{x\\to a}f(x)=L$ si $\\forall\\varepsilon>0,\\,\\exists\\delta>0:\\,0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon$. El valor $f(a)$ no importa (ni necesita existir)." },
+              { type:"teo", label:"Álgebra de límites",
+                tex:"Si $\\lim_{x\\to a}f=L$ y $\\lim_{x\\to a}g=M$, entonces $\\lim(f\\pm g)=L\\pm M$, $\\lim fg=LM$ y $\\lim f/g=L/M$ (con $M\\neq0$). También el $\\textit{teorema del emparedado}$: $g\\le f\\le h$ y $\\lim g=\\lim h=L\\Rightarrow\\lim f=L$." },
+              { type:"def", label:"Continuidad",
+                tex:"$f$ es $\\textit{continua}$ en $a$ si $\\lim_{x\\to a}f(x)=f(a)$. Equivale a: para toda sucesión $x_n\\to a$, $f(x_n)\\to f(a)$." },
+              { type:"teo", label:"Teorema del valor intermedio",
+                tex:"Si $f$ es continua en $[a,b]$ y $N$ está estrictamente entre $f(a)$ y $f(b)$, existe $c\\in(a,b)$ con $f(c)=N$.",
+                dem:"Supongamos $f(a)<N<f(b)$. Sea $c=\\sup\\{x\\in[a,b]\\mid f(x)<N\\}$. Por continuidad de $f$ en $c$, para todo $\\varepsilon$ existe $\\delta$: si $|x-c|<\\delta$ entonces $|f(x)-f(c)|<\\varepsilon$. Si $f(c)<N$ elegiríamos $x_0\\in(c,c+\\delta)$ con $f(x_0)<N$, contradiciendo la definición de supremo. Si $f(c)>N$ ocurre lo análogo. Luego $f(c)=N$. $\\blacksquare$" },
+              { type:"teo", label:"Teorema del valor extremo",
+                tex:"Si $f$ es continua en $[a,b]$, entonces $f$ alcanza su máximo y su mínimo en $[a,b]$: existen $c,d\\in[a,b]$ con $f(c)\\le f(x)\\le f(d)$ para todo $x\\in[a,b]$." },
+            ]
+          },
+          {
+            num: 9, title: "Derivadas",
             notes: [
               { type:"def", label:"Derivada",
-                tex:"$f'(a)=\\displaystyle\\lim_{h\\to 0}\\frac{f(a+h)-f(a)}{h}$, si el límite existe. Geométricamente es la pendiente de la recta tangente en $x=a$." },
+                tex:"$f'(a)=\\displaystyle\\lim_{h\\to 0}\\frac{f(a+h)-f(a)}{h}$ cuando el límite existe. Geométricamente es la pendiente de la recta tangente a la gráfica de $f$ en $x=a$." },
               { type:"teo", label:"Regla de la cadena",
-                tex:"Si $g$ es diferenciable en $a$ y $f$ en $g(a)$, entonces $(f\\circ g)'(a)=f'(g(a))\\cdot g'(a)$." },
-              { type:"teo", label:"Derivación implícita — método",
-                tex:"Para $F(x,y)=0$, diferenciando ambos lados respecto a $x$ y despejando $y'$: $\\dfrac{dy}{dx}=-\\dfrac{F_x}{F_y}$." },
+                tex:"Si $g$ es diferenciable en $a$ y $f$ es diferenciable en $g(a)$, entonces $(f\\circ g)'(a)=f'(g(a))\\cdot g'(a)$." },
+              { type:"teo", label:"Teorema del valor medio (Lagrange)",
+                tex:"Si $f$ es continua en $[a,b]$ y diferenciable en $(a,b)$, existe $c\\in(a,b)$ tal que $f'(c)=\\dfrac{f(b)-f(a)}{b-a}$.",
+                dem:"Sea $g(x)=f(x)-\\frac{f(b)-f(a)}{b-a}(x-a)$. Entonces $g(a)=g(b)=f(a)$. Por el $\\textit{teorema de Rolle}$ (que sigue del teorema del valor extremo), existe $c\\in(a,b)$ con $g'(c)=0$. Pero $g'(c)=f'(c)-\\frac{f(b)-f(a)}{b-a}=0$, que es la tesis. $\\blacksquare$" },
               { type:"teo", label:"Regla de L'Hôpital",
-                tex:"Si $\\displaystyle\\lim_{x\\to a}f(x)=\\lim_{x\\to a}g(x)=0$ (o $\\pm\\infty$) y $g'(x)\\ne0$ cerca de $a$, entonces $\\displaystyle\\lim_{x\\to a}\\frac{f(x)}{g(x)}=\\lim_{x\\to a}\\frac{f'(x)}{g'(x)}$." },
-            ]
-          },
-          {
-            num: 5, title: "Integral Definida",
-            notes: [
-              { type:"def", label:"Suma de Riemann",
-                tex:"$\\displaystyle S_n=\\sum_{i=1}^n f(x_i^*)\\,\\Delta x$, donde $\\Delta x=\\frac{b-a}{n}$ y $x_i^*\\in[x_{i-1},x_i]$." },
-              { type:"teo", label:"Teorema Fundamental del Cálculo (I)",
-                tex:"Si $f$ es continua en $[a,b]$ y $g(x)=\\displaystyle\\int_a^x f(t)\\,dt$, entonces $g'(x)=f(x)$." },
-              { type:"teo", label:"Teorema Fundamental del Cálculo (II)",
-                tex:"$\\displaystyle\\int_a^b f(x)\\,dx = F(b)-F(a)$ donde $F$ es cualquier antiderivada de $f$." },
+                tex:"Si $\\lim_{x\\to a}f(x)=\\lim_{x\\to a}g(x)=0$ (o $\\pm\\infty$) y $g'(x)\\neq0$ cerca de $a$, entonces $\\displaystyle\\lim_{x\\to a}\\frac{f(x)}{g(x)}=\\lim_{x\\to a}\\frac{f'(x)}{g'(x)}$ (si este último límite existe)." },
+              { type:"teo", label:"Polinomio de Taylor",
+                tex:"Si $f$ tiene $n+1$ derivadas en $(a-r,a+r)$, entonces $f(x)=\\displaystyle\\sum_{k=0}^n\\frac{f^{(k)}(a)}{k!}(x-a)^k+\\frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ para algún $c$ entre $a$ y $x$ ($\\textit{resto de Lagrange}$)." },
             ]
           },
         ]
       },
       {
         id: "cd1_b2",
-        title: "Calculus, Vol. 1",
-        author: "Tom M. Apostol",
-        edition: "2ª ed. Wiley",
+        title: "Cálculo con Geometría Analítica",
+        author: "Thomas & Finney",
+        edition: "9ª ed. Addison-Wesley, 1987",
         chapters: [
           {
-            num: 1, title: "Los Números Reales",
+            num: 1, title: "Funciones y gráficas",
             notes: [
-              { type:"teo", label:"Completitud de ℝ",
-                tex:"Todo subconjunto no vacío de $\\mathbb{R}$ acotado superiormente tiene supremo en $\\mathbb{R}$. Esta propiedad caracteriza a $\\mathbb{R}$ entre los campos ordenados." },
-              { type:"def", label:"Supremo e ínfimo",
-                tex:"$s=\\sup A$ si $s$ es cota superior de $A$ y $\\forall\\varepsilon>0,\\,\\exists a\\in A:a>s-\\varepsilon$. Análogamente $i=\\inf A$." },
+              { type:"def", label:"Función real de variable real",
+                tex:"Una $\\textit{función}$ $f:D\\subseteq\\mathbb{R}\\to\\mathbb{R}$ asigna a cada $x\\in D$ un único valor $f(x)$. Tipos: polinomiales, racionales, trigonométricas, exponenciales, logarítmicas. La $\\textit{composición}$ $(f\\circ g)(x)=f(g(x))$." },
+              { type:"obs", label:"Funciones pares, impares y periódicas",
+                tex:"$f$ es $\\textit{par}$ si $f(-x)=f(x)$ (simétrica respecto al eje $y$); $\\textit{impar}$ si $f(-x)=-f(x)$ (simétrica respecto al origen). Es $\\textit{periódica}$ de periodo $T>0$ si $f(x+T)=f(x)$ para todo $x$." },
+            ]
+          },
+          {
+            num: 3, title: "Aplicaciones de la derivada",
+            notes: [
+              { type:"teo", label:"Criterio de la primera derivada",
+                tex:"Si $f'$ cambia de signo de positivo a negativo en $c$, entonces $f(c)$ es un $\\textit{máximo local}$. Si cambia de negativo a positivo, es un $\\textit{mínimo local}$. Si no cambia de signo, $c$ no es extremo." },
+              { type:"teo", label:"Criterio de la segunda derivada",
+                tex:"Si $f'(c)=0$ y $f''(c)<0$, entonces $f(c)$ es máximo local; si $f''(c)>0$, es mínimo local. Si $f''(c)=0$, el criterio no decide." },
+              { type:"def", label:"Concavidad y puntos de inflexión",
+                tex:"$f$ es $\\textit{cóncava hacia arriba}$ en $(a,b)$ si $f''(x)>0$ allí; $\\textit{cóncava hacia abajo}$ si $f''(x)<0$. Un $\\textit{punto de inflexión}$ es donde la concavidad cambia." },
             ]
           },
         ]
@@ -192,28 +368,79 @@ const LIBRARY = [
     books: [
       {
         id: "ga1_b1",
-        title: "Geometría Analítica",
-        author: "Charles H. Lehmann",
-        edition: "Limusa, reimp. 2010",
+        title: "Geometría Analítica: Una Introducción a la Geometría",
+        author: "Ana Irene Ramírez Galarza",
+        edition: "Las Prensas de Ciencias, UNAM, 2004",
         chapters: [
           {
-            num: 2, title: "La Línea Recta",
+            num: 1, title: "Geometría cartesiana básica",
             notes: [
-              { type:"def", label:"Ecuación general de la recta",
-                tex:"$Ax+By+C=0$ con $A,B$ no ambos nulos. La pendiente es $m=-A/B$ y el intercepto en $y$ es $-C/B$." },
-              { type:"teo", label:"Distancia de un punto a una recta",
-                tex:"La distancia del punto $(x_0,y_0)$ a la recta $Ax+By+C=0$ es $d=\\dfrac{|Ax_0+By_0+C|}{\\sqrt{A^2+B^2}}$." },
+              { type:"def", label:"Distancia y simetría",
+                tex:"La $\\textit{distancia}$ entre $P=(x_1,y_1)$ y $Q=(x_2,y_2)$ en $\\mathbb{R}^2$ es $d(P,Q)=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$. El $\\textit{punto medio}$ es $M=\\left(\\tfrac{x_1+x_2}{2},\\tfrac{y_1+y_2}{2}\\right)$." },
+              { type:"def", label:"Lugares geométricos",
+                tex:"Un $\\textit{lugar geométrico}$ es el conjunto de todos los puntos que satisfacen una condición dada. Ejemplos: la circunferencia de centro $O$ y radio $r$ es $\\{P\\mid d(O,P)=r\\}$; una recta es $\\{P\\mid aP_x+bP_y+c=0\\}$." },
             ]
           },
           {
-            num: 3, title: "Cónicas",
+            num: 2, title: "Trigonometría y coordenadas polares",
+            notes: [
+              { type:"def", label:"Funciones trigonométricas",
+                tex:"Para $\\theta$ ángulo en un triángulo rectángulo: $\\sin\\theta=\\text{op}/\\text{hip}$, $\\cos\\theta=\\text{ad}/\\text{hip}$, $\\tan\\theta=\\text{op}/\\text{ad}$. Las identidades fundamentales incluyen $\\sin^2\\theta+\\cos^2\\theta=1$ y la fórmula de adición $\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$." },
+              { type:"def", label:"Coordenadas polares",
+                tex:"Un punto $P$ en el plano se puede representar como $(r,\\theta)$ donde $r=|OP|\\ge0$ y $\\theta$ es el ángulo con el eje positivo. La relación con cartesianas: $x=r\\cos\\theta$, $y=r\\sin\\theta$, $r=\\sqrt{x^2+y^2}$." },
+            ]
+          },
+          {
+            num: 3, title: "Espacios vectoriales y producto interior",
+            notes: [
+              { type:"def", label:"Vectores y operaciones",
+                tex:"Un $\\textit{vector}$ $\\mathbf{v}=(v_1,v_2)\\in\\mathbb{R}^2$ tiene $\\textit{norma}$ $\\|\\mathbf{v}\\|=\\sqrt{v_1^2+v_2^2}$. El $\\textit{producto escalar}$ es $\\mathbf{u}\\cdot\\mathbf{v}=u_1v_1+u_2v_2=\\|\\mathbf{u}\\|\\|\\mathbf{v}\\|\\cos\\theta$." },
+              { type:"teo", label:"Independencia lineal en ℝ² y ℝ³",
+                tex:"Dos vectores son $\\textit{linealmente dependientes}$ ssi son paralelos ($\\mathbf{u}\\times\\mathbf{v}=\\mathbf{0}$). El $\\textit{producto vectorial}$ en $\\mathbb{R}^3$ es $\\mathbf{u}\\times\\mathbf{v}\\perp\\mathbf{u}$ y $\\perp\\mathbf{v}$, con $\\|\\mathbf{u}\\times\\mathbf{v}\\|=\\|\\mathbf{u}\\|\\|\\mathbf{v}\\|\\sin\\theta$." },
+            ]
+          },
+          {
+            num: 4, title: "Rectas y planos",
+            notes: [
+              { type:"def", label:"Ecuaciones de la recta en ℝ²",
+                tex:"$\\textit{Ecuación general}$: $ax+by+c=0$ ($a,b$ no ambos nulos). $\\textit{Ecuación normal}$: $\\mathbf{n}\\cdot(\\mathbf{x}-P_0)=0$ con $\\mathbf{n}$ normal a la recta. Distancia de $(x_0,y_0)$ a $ax+by+c=0$: $d=\\dfrac{|ax_0+by_0+c|}{\\sqrt{a^2+b^2}}$." },
+              { type:"def", label:"Planos en ℝ³",
+                tex:"Un $\\textit{plano}$ con vector normal $\\mathbf{n}=(a,b,c)$ y punto $P_0=(x_0,y_0,z_0)$ tiene ecuación $a(x-x_0)+b(y-y_0)+c(z-z_0)=0$. La distancia de un punto $Q$ al plano $ax+by+cz+d=0$ es $\\dfrac{|aQ_x+bQ_y+cQ_z+d|}{\\sqrt{a^2+b^2+c^2}}$." },
+            ]
+          },
+          {
+            num: 5, title: "Cónicas",
             notes: [
               { type:"def", label:"Parábola",
-                tex:"Lugar geométrico de puntos equidistantes de un foco $F$ y una directriz $\\ell$. Forma canónica: $y^2=4px$ (eje horizontal) o $x^2=4py$ (eje vertical)." },
+                tex:"Lugar geométrico de puntos equidistantes del $\\textit{foco}$ $F$ y la $\\textit{directriz}$ $\\ell$. Forma canónica con vértice en el origen: $y^2=4px$ (eje $x$) o $x^2=4py$ (eje $y$)." },
               { type:"def", label:"Elipse",
-                tex:"$\\dfrac{x^2}{a^2}+\\dfrac{y^2}{b^2}=1$ con $a>b>0$. Focos en $(\\pm c,0)$ donde $c^2=a^2-b^2$. Excentricidad $e=c/a<1$." },
+                tex:"Lugar geométrico donde la suma de distancias a dos $\\textit{focos}$ $F_1,F_2$ es constante $2a$. Ecuación canónica: $\\dfrac{x^2}{a^2}+\\dfrac{y^2}{b^2}=1$ con $a>b>0$, $c^2=a^2-b^2$, $e=c/a<1$." },
               { type:"def", label:"Hipérbola",
-                tex:"$\\dfrac{x^2}{a^2}-\\dfrac{y^2}{b^2}=1$. Focos en $(\\pm c,0)$, $c^2=a^2+b^2$, asíntotas $y=\\pm(b/a)x$." },
+                tex:"Lugar geométrico donde la diferencia (en valor absoluto) de distancias a dos focos es constante $2a$. Ecuación canónica: $\\dfrac{x^2}{a^2}-\\dfrac{y^2}{b^2}=1$, $c^2=a^2+b^2$, asíntotas $y=\\pm\\tfrac{b}{a}x$." },
+              { type:"teo", label:"Clasificación de cónicas",
+                tex:"La ecuación general $Ax^2+Bxy+Cy^2+Dx+Ey+F=0$ define una cónica según el $\\textit{discriminante}$ $\\Delta=B^2-4AC$: elipse si $\\Delta<0$, parábola si $\\Delta=0$, hipérbola si $\\Delta>0$. Rotando ejes se elimina el término $Bxy$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "ga1_b2",
+        title: "Geometría Superior",
+        author: "N. Efimov",
+        edition: "MIR, 1984",
+        chapters: [
+          {
+            num: 1, title: "Trigonometría plana y esfèrica",
+            notes: [
+              { type:"teo", label:"Teorema del seno y del coseno",
+                tex:"En un triángulo con lados $a,b,c$ y ángulos opuestos $A,B,C$:\\[\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}\\quad(\\text{teorema del seno})\\]\\[c^2=a^2+b^2-2ab\\cos C\\quad(\\text{teorema del coseno})\\]" },
+            ]
+          },
+          {
+            num: 2, title: "Álgebra vectorial aplicada a la geometría",
+            notes: [
+              { type:"def", label:"Triple producto escalar",
+                tex:"El $\\textit{triple producto escalar}$ $(\\mathbf{a},\\mathbf{b},\\mathbf{c})=\\mathbf{a}\\cdot(\\mathbf{b}\\times\\mathbf{c})$ es igual al volumen (con signo) del paralelepípedo definido por los tres vectores. Es cero ssi los vectores son coplanares." },
             ]
           },
         ]

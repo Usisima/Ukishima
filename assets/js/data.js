@@ -426,41 +426,126 @@ const CURRICULUM = [
         name: "Cálculo Diferencial e Integral I",
         clave: "0091",
         creditos: 18,
+        horas: 144,
         icon: "assets/images/d2.jpg",
         temario: [
-          { num: "1", name: "Números reales", horas: 14, subtemas: ["Axiomas de campo y de orden", "Axioma del supremo", "Propiedades del supremo e ínfimo", "Densidad de Q en R"] },
-          { num: "2", name: "Sucesiones de números reales", horas: 16, subtemas: ["Definición de límite de sucesión", "Propiedades algebraicas de los límites", "Teorema del emparedado", "Sucesiones monótonas acotadas", "Sucesiones de Cauchy"] },
-          { num: "3", name: "Límite y continuidad de funciones", horas: 18, subtemas: ["Definición épsilon-delta de límite", "Propiedades algebraicas del límite", "Límites laterales", "Funciones continuas en un punto e intervalo", "Teorema del valor intermedio y teorema del valor extremo"] },
-          { num: "4", name: "Diferenciación", horas: 18, subtemas: ["Definición de derivada", "Reglas de derivación", "Regla de la cadena", "Teorema del valor medio de Lagrange", "Regla de L'Hôpital", "Teorema de Taylor"] },
-          { num: "5", name: "Integración de Riemann", horas: 18, subtemas: ["Sumas de Riemann y la integral definida", "Propiedades de la integral", "Teorema fundamental del cálculo", "Técnicas de integración: sustitución, partes", "Aplicaciones: área, volumen, longitud de arco"] }
+          { num: "1", name: "Introducción", horas: 6, subtemas: [
+            "Los problemas que fundamentan al cálculo.",
+            "Ejemplos."
+          ]},
+          { num: "2", name: "Números reales", horas: 15, subtemas: [
+            "Propiedades de los números enteros, racionales y reales y sus operaciones, desigualdades y valor absoluto.",
+            "La propiedad de compleción de los números reales, expansiones decimales."
+          ]},
+          { num: "3", name: "Funciones y sucesiones", horas: 30, subtemas: [
+            "Definición, ejemplos, gráficas y propiedades elementales de las funciones (polinomiales, racionales, trigonométricas, exponenciales, pares e impares, inyectivas y suprayectivas, periódicas, monótonas, acotadas).",
+            "Sucesiones de números reales, sucesiones de Cauchy.",
+            "Suma, producto y cociente de funciones y sucesiones.",
+            "Composición de funciones. Funciones inversas."
+          ]},
+          { num: "4", name: "Límite", horas: 30, subtemas: [
+            "Definición y ejemplos de sucesiones convergentes.",
+            "Criterios elementales para la convergencia de sucesiones.",
+            "Límite de funciones.",
+            "Definición, ejemplos y propiedades básicas del límite de una función.",
+            "Límite de la suma, el producto y el cociente de funciones.",
+            "Límites que involucran al infinito, asíntotas de curvas."
+          ]},
+          { num: "5", name: "Continuidad", horas: 22, subtemas: [
+            "Definición y propiedades de las funciones continuas en un punto.",
+            "La continuidad y la composición.",
+            "Funciones continuas en intervalos cerrados.",
+            "Propiedades de las funciones continuas en intervalos cerrados: máximos, mínimos y teorema de valor intermedio."
+          ]},
+          { num: "6", name: "Funciones derivables", horas: 41, subtemas: [
+            "Razón de cambio y razón instantánea de cambio y velocidad.",
+            "Tangentes de curvas.",
+            "Definición y ejemplos del concepto de derivada.",
+            "Relación entre la continuidad y la derivabilidad de una función.",
+            "Suma, producto y cociente de funciones derivables.",
+            "La regla de la cadena.",
+            "Método de Newton y raíces de funciones. Derivada de la función inversa.",
+            "Derivación implícita.",
+            "Derivadas de orden superior.",
+            "El Teorema del Valor Medio.",
+            "Puntos críticos. Localización de máximos y mínimos relativos, concavidad y puntos de inflexión.",
+            "Problemas de optimización.",
+            "Polinomios de Taylor y forma de Lagrange del residuo.",
+            "El Teorema del Valor Medio Generalizado y la Regla de L'Hôpital."
+          ]}
         ],
         bibBasicas: [
-          { name: "Apostol, T.M. — Calculus, Vol. I. Wiley, 1967.", caps: ["Números reales", "Sucesiones", "Límites y continuidad", "Diferenciación", "Integración"] },
-          { name: "Spivak, M. — Calculus. Publish or Perish, 2008.", caps: ["Números reales", "Funciones y límites", "Derivadas", "Integrales"] }
+          { name: "Arizmendi, H.; Carrillo, H.; Lara, M. — Cálculo. Primer Curso. Addison Wesley, 1987.", caps: ["Introducción", "Números reales", "Funciones y sucesiones", "Límite", "Continuidad", "Funciones derivables"] },
+          { name: "Courant, R.; John, F. — Introducción al Cálculo y al Análisis. Limusa, 1974.", caps: ["Números reales", "Límite", "Diferenciación"] },
+          { name: "Lang, S. — Cálculo I. Fondo Educativo Interamericano, 1990.", caps: ["Funciones y límites", "Derivadas"] },
+          { name: "Spivak, M. — Cálculo Infinitesimal (2a ed). Reverté, 1998.", caps: ["Números reales", "Funciones y sucesiones", "Límite", "Continuidad", "Derivadas"] },
+          { name: "Thomas, G.B.; Finney, R.L. — Cálculo con Geometría Analítica (9a ed). Addison-Wesley, 1987.", caps: ["Límites y continuidad", "Derivadas", "Aplicaciones de la derivada"] }
         ],
-        bibComp: ["Rudin, W. — Principles of Mathematical Analysis. McGraw-Hill, 1976.", "Stewart, J. — Calculus: Early Transcendentals. Cengage, 2015."],
-        subsecuentes: ["Cálculo Diferencial e Integral II", "Geometría Analítica II"]
+        bibComp: [
+          "Apostol, T.M. — Calculus, Volumen I. Ed. Reverté S.A., 2001.",
+          "Banach, S. — Cálculo Diferencial e Integral. UTEHA, 1991.",
+          "Kuratowski, K. — Introducción al Cálculo. Limusa-Wiley, 1970."
+        ],
+        subsecuentes: ["Cálculo Diferencial e Integral II", "Taller de Modelación I"]
       },
       {
         id: "geo_analitica_1",
         name: "Geometría Analítica I",
         clave: "0244",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d3.jpg",
         temario: [
-          { num: "1", name: "El plano coordenado", horas: 10, subtemas: ["Sistema cartesiano de coordenadas", "Distancia entre dos puntos y punto medio", "Pendiente de una recta", "Ecuaciones de la recta"] },
-          { num: "2", name: "La circunferencia", horas: 10, subtemas: ["Ecuación ordinaria y general de la circunferencia", "Circunferencia que pasa por tres puntos", "Posiciones relativas de recta y circunferencia", "Potencia de un punto"] },
-          { num: "3", name: "La parábola", horas: 12, subtemas: ["Definición como lugar geométrico", "Ecuación ordinaria con vértice en el origen", "Ecuación con vértice en un punto arbitrario", "Tangente a la parábola"] },
-          { num: "4", name: "La elipse", horas: 12, subtemas: ["Definición y elementos de la elipse", "Ecuación ordinaria", "Ecuación con centro desplazado", "Elipse y recta"] },
-          { num: "5", name: "La hipérbola", horas: 12, subtemas: ["Definición y elementos de la hipérbola", "Ecuación ordinaria", "Asíntotas", "Hipérbola equilátera"] },
-          { num: "6", name: "Cónicas en forma general", horas: 8, subtemas: ["Ecuación general de segundo grado en dos variables", "Identificación de cónicas", "Rotación de ejes y eliminación del término xy"] }
+          { num: "1", name: "Introducción", horas: 10, subtemas: [
+            "Los conceptos geométricos elementales: distancia entre dos puntos, distancia de un punto a una recta, distancia de un punto a un plano; simetría respecto a un punto, respecto a una recta y respecto a un plano.",
+            "Introducción de coordenadas cartesianas en el plano y en el espacio y el método analítico.",
+            "Lugares geométricos del plano y el espacio definidos por ecuaciones y desigualdades elementales. Gráficas de funciones de primer y segundo grados en una y dos variables."
+          ]},
+          { num: "2", name: "Trigonometría", horas: 15, subtemas: [
+            "Razones trigonométricas; primeras relaciones. El Teorema de Pitágoras.",
+            "Resolución de triángulos. Congruencia. Semejanza.",
+            "Rectas y puntos notables de un triángulo.",
+            "Ángulo central y ángulo inscrito. Potencia de un punto respecto a una circunferencia.",
+            "Funciones trigonométricas. Identidades trigonométricas.",
+            "Coordenadas polares. Curvas en coordenadas polares.",
+            "Curvas paramétricas.",
+            "Coordenadas esféricas y cilíndricas. Superficies coordenadas. Superficies paramétricas."
+          ]},
+          { num: "3", name: "Espacios vectoriales básicos", horas: 20, subtemas: [
+            "Definición y ejemplos de un espacio vectorial real (ℝ², ℝ³, las funciones reales de variable real; fuerzas planas y espaciales).",
+            "Subespacios vectoriales; ejemplos.",
+            "Independencia lineal, conjunto generador, base, dimensión. Dimensión de una curva y de una superficie.",
+            "Producto escalar, producto vectorial, triple producto escalar. Interpretación geométrica de cada uno y propiedades."
+          ]},
+          { num: "4", name: "Rectas, planos, semiplanos y semiespacios", horas: 15, subtemas: [
+            "Ecuaciones cartesianas y paramétricas de la recta en ℝ². Fórmula para la distancia de un punto a una recta. División de un segmento en una razón dada. Semiplanos.",
+            "Rectas en ℝ³; rectas que se cruzan, distancia de un punto a una recta. Distancia entre dos rectas.",
+            "Ecuaciones cartesianas y paramétricas de un plano en ℝ³. Distancia de un punto a un plano. Semiespacios.",
+            "Sistemas de ecuaciones lineales. Transversalidad.",
+            "Sistemas de desigualdades lineales."
+          ]},
+          { num: "5", name: "Cónicas", horas: 20, subtemas: [
+            "Definición, trazado y nomenclatura. Simetrías y extensión.",
+            "Ecuaciones canónicas; sistema coordenado 'natural'.",
+            "Cónicas con ejes paralelos a los coordenados. Traslaciones.",
+            "Rotaciones en ℝ². Clasificación de formas cuadráticas (discriminante).",
+            "Definición general de cónica (excentricidad). Secciones de un cono.",
+            "La tangente a una cónica; propiedad focal.",
+            "Cónicas parametrizadas.",
+            "Familias de cónicas."
+          ]}
         ],
         bibBasicas: [
-          { name: "Lehmann, C.H. — Geometría Analítica. Limusa, 2005.", caps: ["Plano coordenado", "La circunferencia", "La parábola", "La elipse", "La hipérbola"] },
-          { name: "Fuller, G.; Tarwater, D. — Analytic Geometry. Addison-Wesley, 1992.", caps: ["Rectas y circunferencias", "Cónicas", "Ecuación general"] }
+          { name: "Bracho, J. — Geometría Analítica. Notas. Facultad de Ciencias, UNAM.", caps: ["Coordenadas cartesianas", "Espacios vectoriales", "Rectas y planos", "Cónicas"] },
+          { name: "Efimov, N. — Geometría Superior. MIR, 1984.", caps: ["Trigonometría", "Álgebra vectorial", "Geometría analítica plana y espacial"] },
+          { name: "Preston, G.C.; Lovaglia, A.R. — Modern Analytic Geometry. Harper & Row, 1971.", caps: ["Coordenadas", "Rectas", "Cónicas", "Geometría vectorial"] },
+          { name: "Ramírez Galarza, A. — Geometría Analítica: Una Introducción a la Geometría. Las Prensas de Ciencias, UNAM, 2004.", caps: ["Geometría cartesiana", "Vectores", "Rectas y planos", "Cónicas"] }
         ],
-        bibComp: ["Riddle, D.F. — Analytic Geometry. Wadsworth, 1996.", "Protter, M.H.; Morrey, C.B. — College Calculus with Analytic Geometry. Addison-Wesley, 1977."],
-        subsecuentes: ["Geometría Analítica II", "Cálculo Diferencial e Integral II", "Geometría Moderna I"]
+        bibComp: [
+          "Eves, H. — Estudio de las Geometrías. UTEHA, 1969.",
+          "Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. Vínculos Matemáticos No. 150, Facultad de Ciencias, UNAM, 2000."
+        ],
+        subsecuentes: ["Cálculo Diferencial e Integral II", "Geometría Analítica II", "Taller de Modelación I"]
       },
       {
         id: "geo_moderna_1",
@@ -494,20 +579,56 @@ const CURRICULUM = [
         name: "Álgebra Superior II",
         clave: "0008",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d4.jpg",
         temario: [
-          { num: "1", name: "Grupos", horas: 16, subtemas: ["Definición y ejemplos de grupos", "Subgrupos y criterios de subgrupo", "Cosets y teorema de Lagrange", "Grupos cíclicos", "Grupos de permutaciones y ciclos"] },
-          { num: "2", name: "Homomorfismos de grupos", horas: 14, subtemas: ["Definición de homomorfismo e isomorfismo", "Núcleo e imagen", "Primer teorema de isomorfismo", "Grupos cociente"] },
-          { num: "3", name: "Subgrupos normales", horas: 12, subtemas: ["Subgrupos normales y grupos cociente", "Segundo y tercer teoremas de isomorfismo", "Grupos simples: A_n para n ≥ 5"] },
-          { num: "4", name: "Anillos", horas: 14, subtemas: ["Definición y ejemplos de anillos", "Dominios enteros y cuerpos", "Ideales y anillos cociente", "Homomorfismos de anillos"] },
-          { num: "5", name: "Polinomios", horas: 14, subtemas: ["Anillo de polinomios sobre un dominio", "Algoritmo de división para polinomios", "Factorización en dominios de factorización única", "Criterios de irreductibilidad"] }
+          { num: "1", name: "Números enteros", horas: 15, subtemas: [
+            "El anillo de los números enteros.",
+            "ℤ como dominio entero.",
+            "El orden en ℤ.",
+            "Principio de inducción. Principio del buen orden.",
+            "Unidades en ℤ."
+          ]},
+          { num: "2", name: "Divisibilidad", horas: 25, subtemas: [
+            "Propiedades elementales.",
+            "Algoritmo de la división.",
+            "Máximo común divisor. Algoritmo de Euclides. Mínimo común múltiplo.",
+            "Soluciones enteras de una ecuación lineal.",
+            "Números primos. Factorización única.",
+            "Congruencias. Congruencias lineales. Teorema chino del residuo."
+          ]},
+          { num: "3", name: "Números complejos", horas: 15, subtemas: [
+            "El campo de los números complejos.",
+            "Conjugación. Módulo o norma.",
+            "Raíces cuadradas. La ecuación de 2° grado.",
+            "Representación polar. Teorema de De Moivre. Raíces n-ésimas."
+          ]},
+          { num: "4", name: "Polinomios y ecuaciones polinomiales", horas: 25, subtemas: [
+            "Polinomios con coeficientes en un campo K. Operaciones. El dominio entero K[x].",
+            "Divisibilidad. Algoritmo de la división.",
+            "Máximo común divisor. Algoritmo de Euclides.",
+            "Polinomios irreducibles. Factorización única.",
+            "Evaluación. Raíces de un polinomio. Teorema del residuo. Teorema del factor. Factorización de polinomios. División sintética.",
+            "Raíces múltiples. Derivadas y multiplicidad.",
+            "Teorema fundamental del álgebra. Consecuencias."
+          ]}
         ],
         bibBasicas: [
-          { name: "Herstein, I.N. — Topics in Algebra. Wiley, 1975.", caps: ["Grupos", "Subgrupos normales", "Anillos", "Polinomios"] },
-          { name: "Hungerford, T.W. — Abstract Algebra: An Introduction. Brooks/Cole, 2013.", caps: ["Grupos y homomorfismos", "Grupos cociente", "Anillos e ideales", "Polinomios"] }
+          { name: "Cárdenas, H.; Lluis, E.; Raggi, F.; Tomás, F. — Álgebra Superior. Trillas, 1974.", caps: ["Números enteros", "Divisibilidad", "Números complejos", "Polinomios"] },
+          { name: "Nachbin, L. — Álgebra Elemental. OEA, 1986.", caps: ["Aritmética elemental", "Polinomios y ecuaciones"] }
         ],
-        bibComp: ["Fraleigh, J.B. — A First Course in Abstract Algebra. Pearson, 2014.", "Dummit, D.S.; Foote, R.M. — Abstract Algebra. Wiley, 2004."],
-        subsecuentes: ["Álgebra Moderna I", "Álgebra Lineal I"]
+        bibComp: [
+          "Dodge, C.W. — Sets, Logic and Numbers. Weber & Schmidt, 1969.",
+          "Friedberg, S.H.; Insel, A.J.; Spence, L.E. — Álgebra Lineal. Publicaciones Cultural, 1982.",
+          "Gentile, E.R. — Aritmética Elemental. OEA, 1985.",
+          "Grimaldi, R.P. — Matemáticas Discreta y Combinatoria. STE, 1998.",
+          "Grossman, S.I. — Álgebra Lineal. McGraw-Hill, 1996.",
+          "Halmos, P.R. — Teoría Intuitiva de los Conjuntos. Ed. Continental, 1966.",
+          "Hoffman, K.; Kunze, R. — Álgebra Lineal. Prentice Hall, 1973.",
+          "Lang, S. — Álgebra Lineal. STE, 1986.",
+          "Niven, I.M.; Zuckerman, H.S. — Introducción a la Teoría de los Números. Limusa-Wiley, 1969."
+        ],
+        subsecuentes: ["Álgebra Lineal I", "Taller de Modelación II"]
       },
       {
         id: "calculo_2",
