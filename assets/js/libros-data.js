@@ -23,16 +23,25 @@ const PDF = {
   ga2_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
   ga2_b2: { title: "Geometría Superior — Efimov", driveId: "" },
   cd3_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
-  ed_b1:  { title: "Ecuaciones Diferenciales — Simmons", driveId: "" },
-  ed_b2:  { title: "EDO — Blanchard, Devaney & Hall", driveId: "" },
+  cd3_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
+  al2_b1: { title: "Linear Algebra — Curtis", driveId: "" },
+  al2_b2: { title: "Álgebra Lineal — Lang", driveId: "" },
+  cd4_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
+  cd4_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
+  ed_b1:  { title: "Ordinary Differential Equations — Arnold", driveId: "" },
+  ed_b2:  { title: "Differential Equations — Blanchard, Devaney & Hall", driveId: "" },
   top_b1: { title: "Topología — Munkres", driveId: "" },
   top_b2: { title: "Introducción a la Topología — Gamelin", driveId: "" },
   ana_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
-  ana_b2: { title: "Análisis Real — Kolmogorov & Fomin", driveId: "" },
+  ana_b2: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
+  an2_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
+  an2_b2: { title: "Measure and Integral — Wheeden & Zygmund", driveId: "" },
+  vc1_b1: { title: "Complex Analysis — Ahlfors", driveId: "" },
+  vc1_b2: { title: "Complex Variables and Applications — Churchill & Brown", driveId: "" },
   prob_b1:{ title: "Probabilidad — Pitman", driveId: "" },
   prob_b2:{ title: "Introduction to Probability — Bertsekas", driveId: "" },
-  alm_b1: { title: "Álgebra Abstracta — Herstein", driveId: "" },
-  alm_b2: { title: "Álgebra Abstracta — Dummit & Foote", driveId: "" },
+  alm_b1: { title: "Topics in Algebra — Herstein", driveId: "" },
+  alm_b2: { title: "A First Course in Abstract Algebra — Fraleigh", driveId: "" },
 };
 
 /* ──────────────────────────────────────────────
@@ -689,49 +698,56 @@ const LIBRARY = [
     books: [
       {
         id: "ed_b1",
-        title: "Ecuaciones Diferenciales",
-        author: "George F. Simmons",
-        edition: "2ª ed. McGraw-Hill",
+        title: "Ordinary Differential Equations",
+        author: "V.I. Arnold",
+        edition: "Springer, 1992",
         chapters: [
           {
-            num: 1, title: "Ecuaciones de Primer Orden",
+            num: 1, title: "Ecuaciones diferenciales fundamentales",
             notes: [
               { type:"def", label:"EDO de orden $n$",
-                tex:"Una ecuación de la forma $F(x,y,y',\\ldots,y^{(n)})=0$. Es de orden $n$ si aparece $y^{(n)}$ pero no $y^{(n+1)}$." },
+                tex:"Una ecuación de la forma $F(t,x,\\dot{x},\\ldots,x^{(n)})=0$. La ecuación es de orden $n$ si $x^{(n)}$ aparece explícitamente." },
               { type:"teo", label:"Existencia y unicidad (Picard-Lindelöf)",
-                tex:"Si $f(x,y)$ es continua y Lipschitz en $y$ en un rectángulo $R$ alrededor de $(x_0,y_0)$, el PVI $y'=f(x,y),\\,y(x_0)=y_0$ tiene solución única en algún intervalo alrededor de $x_0$." },
-              { type:"def", label:"Ecuación separable",
-                tex:"$\\frac{dy}{dx}=g(x)h(y)$. Se resuelve separando: $\\displaystyle\\int\\frac{dy}{h(y)}=\\int g(x)\\,dx$." },
-              { type:"teo", label:"Factor integrante",
-                tex:"La ecuación $M\\,dx+N\\,dy=0$ es exacta si $\\partial M/\\partial y=\\partial N/\\partial x$. Si no, se busca $\\mu(x)$ o $\\mu(y)$ tal que $\\mu M\\,dx+\\mu N\\,dy=0$ sea exacta." },
+                tex:"Si $\\mathbf{f}(t,\\mathbf{x})$ es continua y Lipschitz en $\\mathbf{x}$ en un entorno de $(t_0,\\mathbf{x}_0)$, el PVI $\\dot{\\mathbf{x}}=\\mathbf{f}(t,\\mathbf{x}),\\,\\mathbf{x}(t_0)=\\mathbf{x}_0$ tiene solución única en algún intervalo alrededor de $t_0$." },
+              { type:"def", label:"Campo vectorial y flujo",
+                tex:"Una EDO autónoma $\\dot{\\mathbf{x}}=\\mathbf{v}(\\mathbf{x})$ define un campo vectorial $\\mathbf{v}$ en el espacio de fases. El flujo $g^t:\\mathbf{x}_0\\mapsto\\mathbf{x}(t)$ es la familia uniparamétrica de difeomorfismos asociada." },
             ]
           },
           {
-            num: 3, title: "EDO Lineales de Orden Superior",
+            num: 3, title: "Ecuaciones lineales",
             notes: [
               { type:"teo", label:"Principio de superposición",
-                tex:"Si $y_1,\\ldots,y_n$ son soluciones de $L[y]=0$ (lineal homogénea), entonces $c_1y_1+\\cdots+c_ny_n$ también lo es." },
-              { type:"def", label:"Wronskiano",
-                tex:"$W(y_1,\\ldots,y_n)(x)=\\det\\begin{pmatrix}y_1&\\cdots&y_n\\\\\\vdots&&\\vdots\\\\y_1^{(n-1)}&\\cdots&y_n^{(n-1)}\\end{pmatrix}$. $\\{y_i\\}$ son LI $\\Leftrightarrow$ $W\\not\\equiv0$." },
+                tex:"Si $\\mathbf{x}_1,\\ldots,\\mathbf{x}_n$ son soluciones de $\\dot{\\mathbf{x}}=A(t)\\mathbf{x}$ (homogénea), entonces $c_1\\mathbf{x}_1+\\cdots+c_n\\mathbf{x}_n$ también lo es." },
+              { type:"def", label:"Matriz fundamental",
+                tex:"Una matriz $\\Phi(t)$ cuyas columnas forman un conjunto fundamental de soluciones de $\\dot{\\mathbf{x}}=A\\mathbf{x}$. Satisface $\\dot{\\Phi}=A\\Phi$ con $\\det\\Phi(t)\\neq0$." },
               { type:"teo", label:"Variación de parámetros",
-                tex:"Dada la solución homogénea $y_h=c_1y_1+c_2y_2$, la solución particular de $L[y]=g$ es $y_p=y_1v_1+y_2v_2$ donde $v_i'$ se resuelve del sistema $\\begin{pmatrix}y_1&y_2\\\\y_1'&y_2'\\end{pmatrix}\\begin{pmatrix}v_1'\\\\v_2'\\end{pmatrix}=\\begin{pmatrix}0\\\\g\\end{pmatrix}$." },
+                tex:"La solución particular de $\\dot{\\mathbf{x}}=A(t)\\mathbf{x}+\\mathbf{b}(t)$ es $\\mathbf{x}_p=\\Phi(t)\\displaystyle\\int_{t_0}^t\\Phi^{-1}(s)\\mathbf{b}(s)\\,ds$." },
+            ]
+          },
+          {
+            num: 5, title: "Sistemas lineales con coeficientes constantes",
+            notes: [
+              { type:"def", label:"Exponencial de matriz",
+                tex:"$e^{At}=\\displaystyle\\sum_{k=0}^{\\infty}\\frac{(At)^k}{k!}$. La solución de $\\dot{\\mathbf{x}}=A\\mathbf{x},\\,\\mathbf{x}(0)=\\mathbf{x}_0$ es $\\mathbf{x}(t)=e^{At}\\mathbf{x}_0$." },
+              { type:"teo", label:"Clasificación por eigenvalores",
+                tex:"Para $\\dot{\\mathbf{x}}=A\\mathbf{x}$ en $\\mathbb{R}^2$: si $\\lambda_1,\\lambda_2<0$ → nodo estable; $\\lambda_1,\\lambda_2>0$ → nodo inestable; $\\lambda_1<0<\\lambda_2$ → punto silla; $\\lambda=\\alpha\\pm\\beta i,\\,\\alpha<0$ → espiral estable; $\\alpha=0$ → centro." },
             ]
           },
         ]
       },
       {
         id: "ed_b2",
-        title: "Ecuaciones Diferenciales",
+        title: "Differential Equations",
         author: "Blanchard, Devaney & Hall",
-        edition: "4ª ed. Cengage",
+        edition: "4ª ed. Cengage, 2012",
         chapters: [
           {
-            num: 2, title: "Sistemas de EDO",
+            num: 2, title: "Sistemas de primer orden",
             notes: [
               { type:"def", label:"Sistema autónomo",
-                tex:"$\\mathbf{x}'=\\mathbf{f}(\\mathbf{x})$ (sin dependencia explícita en $t$). Los puntos de equilibrio satisfacen $\\mathbf{f}(\\mathbf{x}^*)=\\mathbf{0}$." },
+                tex:"$\\dot{\\mathbf{x}}=\\mathbf{f}(\\mathbf{x})$ (sin dependencia explícita en $t$). Los puntos de equilibrio satisfacen $\\mathbf{f}(\\mathbf{x}^*)=\\mathbf{0}$." },
               { type:"teo", label:"Clasificación de equilibrios lineales",
-                tex:"Para $\\mathbf{x}'=A\\mathbf{x}$, el origen es: nodo estable/inestable si eigenvalores reales del mismo signo; silla si eigenvalores reales de signos opuestos; espiral si eigenvalores complejos ($\\text{Re}\\neq0$); centro si eigenvalores imaginarios puros." },
+                tex:"Para $\\dot{\\mathbf{x}}=A\\mathbf{x}$: nodo estable/inestable si eigenvalores reales del mismo signo; silla si eigenvalores reales de signos opuestos; espiral si eigenvalores complejos ($\\operatorname{Re}\\neq0$); centro si eigenvalores imaginarios puros." },
             ]
           },
         ]
@@ -971,19 +987,317 @@ const LIBRARY = [
       },
       {
         id: "alm_b2",
-        title: "Abstract Algebra",
-        author: "Dummit & Foote",
-        edition: "3ª ed. Wiley",
+        title: "A First Course in Abstract Algebra",
+        author: "John B. Fraleigh",
+        edition: "7ª ed. Addison-Wesley, 2003",
         chapters: [
           {
-            num: 13, title: "Extensiones de Cuerpos",
+            num: 4, title: "Grupos cíclicos",
             notes: [
-              { type:"def", label:"Extensión de cuerpos",
-                tex:"$F\\subset K$ cuerpos; $[K:F]=\\dim_F K$ es el grado de la extensión. Si $[K:F]<\\infty$, $K/F$ es $\\textit{finita}$." },
-              { type:"teo", label:"Torre de extensiones",
-                tex:"Si $F\\subset K\\subset L$, entonces $[L:F]=[L:K][K:F]$." },
-              { type:"def", label:"Cuerpo de descomposición",
-                tex:"El cuerpo de descomposición de $f\\in F[x]$ sobre $F$ es la menor extensión de $F$ en que $f$ se factoriza completamente en lineales." },
+              { type:"teo", label:"Clasificación de grupos cíclicos",
+                tex:"Todo grupo cíclico es isomorfo a $\\mathbb{Z}$ (si es infinito) o a $\\mathbb{Z}_n$ (si tiene orden $n$). Todo subgrupo de un grupo cíclico es cíclico." },
+              { type:"teo", label:"Subgrupos de $\\mathbb{Z}_n$",
+                tex:"Los subgrupos de $\\mathbb{Z}_n$ son exactamente $\\langle d\\rangle$ para cada divisor $d$ de $n$. Hay exactamente $\\tau(n)$ subgrupos (uno por cada divisor)." },
+            ]
+          },
+          {
+            num: 10, title: "Homomorfismos y factores",
+            notes: [
+              { type:"teo", label:"Primer teorema de isomorfismo",
+                tex:"Si $\\phi:G\\to G'$ es homomorfismo de grupos, entonces $G/\\ker\\phi\\cong\\phi(G)$. En particular, $|G|=|\\ker\\phi|\\cdot|\\operatorname{Im}\\phi|$." },
+              { type:"def", label:"Subgrupo normal",
+                tex:"$N\\trianglelefteq G$ si $gNg^{-1}=N$ para todo $g\\in G$. Equivalentemente, las clases laterales izquierda y derecha coinciden: $gN=Ng$." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Cálculo Diferencial e Integral III",
+    matId: "calculo_3",
+    color: "linear-gradient(135deg,#001a33,#003d7a)",
+    books: [
+      {
+        id: "cd3_b1",
+        title: "Cálculo Vectorial",
+        author: "Marsden & Tromba",
+        edition: "6ª ed. Freeman, 2012",
+        chapters: [
+          {
+            num: 1, title: "Geometría del espacio euclidiano",
+            notes: [
+              { type:"def", label:"Producto punto",
+                tex:"$\\mathbf{u}\\cdot\\mathbf{v}=u_1v_1+\\cdots+u_nv_n=\\|\\mathbf{u}\\|\\|\\mathbf{v}\\|\\cos\\theta$. Mide proyección: $\\text{proy}_{\\mathbf{v}}\\mathbf{u}=\\frac{\\mathbf{u}\\cdot\\mathbf{v}}{\\|\\mathbf{v}\\|^2}\\mathbf{v}$." },
+              { type:"def", label:"Producto vectorial en $\\mathbb{R}^3$",
+                tex:"$\\mathbf{u}\\times\\mathbf{v}=\\det\\begin{pmatrix}\\mathbf{i}&\\mathbf{j}&\\mathbf{k}\\\\u_1&u_2&u_3\\\\v_1&v_2&v_3\\end{pmatrix}$. $\\|\\mathbf{u}\\times\\mathbf{v}\\|=\\|\\mathbf{u}\\|\\|\\mathbf{v}\\|\\sin\\theta$ es el área del paralelogramo." },
+            ]
+          },
+          {
+            num: 2, title: "Diferenciación",
+            notes: [
+              { type:"def", label:"Derivada parcial",
+                tex:"$\\frac{\\partial f}{\\partial x_i}(\\mathbf{x}_0)=\\lim_{h\\to0}\\frac{f(\\mathbf{x}_0+h\\mathbf{e}_i)-f(\\mathbf{x}_0)}{h}$." },
+              { type:"def", label:"Diferenciabilidad",
+                tex:"$f:\\mathbb{R}^n\\to\\mathbb{R}^m$ es diferenciable en $\\mathbf{x}_0$ si existe $T$ lineal tal que $\\lim_{\\mathbf{h}\\to\\mathbf{0}}\\frac{\\|f(\\mathbf{x}_0+\\mathbf{h})-f(\\mathbf{x}_0)-T\\mathbf{h}\\|}{\\|\\mathbf{h}\\|}=0$. $T=Df(\\mathbf{x}_0)$ es la matriz jacobiana." },
+              { type:"teo", label:"Regla de la cadena",
+                tex:"Si $f:\\mathbb{R}^n\\to\\mathbb{R}^m$ y $g:\\mathbb{R}^m\\to\\mathbb{R}^p$ son diferenciables, entonces $D(g\\circ f)(\\mathbf{x})=Dg(f(\\mathbf{x}))\\cdot Df(\\mathbf{x})$." },
+            ]
+          },
+          {
+            num: 3, title: "Máximos y mínimos",
+            notes: [
+              { type:"teo", label:"Criterio de la segunda derivada",
+                tex:"Sea $f:\\mathbb{R}^2\\to\\mathbb{R}$ con $\\nabla f(\\mathbf{p})=\\mathbf{0}$ y $H=Hf(\\mathbf{p})$ la hessiana. Si $\\det H>0$ y $f_{xx}>0$: mínimo local; $\\det H>0$ y $f_{xx}<0$: máximo local; $\\det H<0$: punto silla." },
+              { type:"teo", label:"Multiplicadores de Lagrange",
+                tex:"Para maximizar/minimizar $f(\\mathbf{x})$ sujeto a $g(\\mathbf{x})=0$: en los extremos $\\nabla f=\\lambda\\nabla g$ para algún $\\lambda\\in\\mathbb{R}$ (multiplicador de Lagrange)." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd3_b2",
+        title: "Cálculo (Varias Variables)",
+        author: "Thomas & Finney",
+        edition: "9ª ed. Addison-Wesley, 1996",
+        chapters: [
+          {
+            num: 12, title: "Funciones de varias variables",
+            notes: [
+              { type:"def", label:"Límite y continuidad en $\\mathbb{R}^n$",
+                tex:"$\\lim_{\\mathbf{x}\\to\\mathbf{x}_0}f(\\mathbf{x})=L$ si para todo $\\varepsilon>0$ existe $\\delta>0$ tal que $\\|\\mathbf{x}-\\mathbf{x}_0\\|<\\delta\\Rightarrow|f(\\mathbf{x})-L|<\\varepsilon$." },
+              { type:"def", label:"Derivada direccional",
+                tex:"$D_{\\mathbf{u}}f(\\mathbf{x}_0)=\\lim_{h\\to0}\\frac{f(\\mathbf{x}_0+h\\mathbf{u})-f(\\mathbf{x}_0)}{h}=\\nabla f(\\mathbf{x}_0)\\cdot\\mathbf{u}$ (con $\\|\\mathbf{u}\\|=1$)." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Álgebra Lineal II",
+    matId: "algebra_lineal_2",
+    color: "linear-gradient(135deg,#0a001a,#220040)",
+    books: [
+      {
+        id: "al2_b1",
+        title: "Linear Algebra",
+        author: "Morton L. Curtis",
+        edition: "Springer, 1984",
+        chapters: [
+          {
+            num: 5, title: "Formas bilineales",
+            notes: [
+              { type:"def", label:"Forma bilineal",
+                tex:"$B:V\\times V\\to F$ bilineal si es lineal en cada argumento. Simétrica si $B(u,v)=B(v,u)$; antisimétrica si $B(u,v)=-B(v,u)$." },
+              { type:"def", label:"Forma cuadrática",
+                tex:"$Q:V\\to F$ definida por $Q(v)=B(v,v)$ para $B$ simétrica. Se representa mediante la matriz $[b_{ij}]$ donde $b_{ij}=B(e_i,e_j)$." },
+              { type:"teo", label:"Ley de inercia de Sylvester",
+                tex:"Toda forma cuadrática real es equivalente a $x_1^2+\\cdots+x_p^2-x_{p+1}^2-\\cdots-x_r^2$ con $r=\\operatorname{rango}(Q)$. El par $(p,r-p)$ (índice de positividad e índice de negatividad) es invariante." },
+            ]
+          },
+          {
+            num: 6, title: "Operadores sobre espacios con producto interior",
+            notes: [
+              { type:"def", label:"Operador adjunto",
+                tex:"Dado $T:V\\to V$ con producto interior, $T^*$ es el único operador tal que $\\langle T(u),v\\rangle=\\langle u,T^*(v)\\rangle$ para todos $u,v\\in V$." },
+              { type:"teo", label:"Teorema espectral (caso real)",
+                tex:"Todo operador autoadjunto $T=T^*$ sobre un espacio euclidiano tiene eigenvalores reales y eigenvectores que forman una base ortonormal de $V$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "al2_b2",
+        title: "Álgebra Lineal",
+        author: "Serge Lang",
+        edition: "3ª ed. Springer, 1987",
+        chapters: [
+          {
+            num: 7, title: "Forma de Jordan",
+            notes: [
+              { type:"def", label:"Bloque de Jordan",
+                tex:"$J_k(\\lambda)=\\begin{pmatrix}\\lambda&1&&0\\\\&\\lambda&\\ddots&\\\\&&\\ddots&1\\\\0&&&\\lambda\\end{pmatrix}\\in M_{k\\times k}$. La forma de Jordan de $T$ es una matriz diagonal de bloques $J_{k_i}(\\lambda_i)$." },
+              { type:"teo", label:"Existencia de la forma de Jordan",
+                tex:"Sobre un cuerpo algebraicamente cerrado, todo operador $T:V\\to V$ es semejante a una forma de Jordan (única salvo reordenamiento de bloques)." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Cálculo Diferencial e Integral IV",
+    matId: "calculo_4",
+    color: "linear-gradient(135deg,#001a33,#004d99)",
+    books: [
+      {
+        id: "cd4_b1",
+        title: "Cálculo Vectorial",
+        author: "Marsden & Tromba",
+        edition: "6ª ed. Freeman, 2012",
+        chapters: [
+          {
+            num: 5, title: "Integrales múltiples",
+            notes: [
+              { type:"def", label:"Integral doble",
+                tex:"$\\displaystyle\\iint_D f(x,y)\\,dA=\\lim_{\\|P\\|\\to0}\\sum_{i,j}f(x_{ij}^*,y_{ij}^*)\\,\\Delta A_{ij}$. Geométricamente es el volumen bajo la superficie $z=f(x,y)\\geq0$." },
+              { type:"teo", label:"Fubini",
+                tex:"Si $f$ es continua en el rectángulo $R=[a,b]\\times[c,d]$, entonces $\\displaystyle\\iint_R f\\,dA=\\int_a^b\\!\\left(\\int_c^d f(x,y)\\,dy\\right)dx=\\int_c^d\\!\\left(\\int_a^b f(x,y)\\,dx\\right)dy$." },
+              { type:"teo", label:"Cambio de variable",
+                tex:"$\\displaystyle\\iint_D f(x,y)\\,dx\\,dy=\\iint_{D^*}f(g(u,v))\\left|\\frac{\\partial(x,y)}{\\partial(u,v)}\\right|du\\,dv$, donde $\\left|\\partial(x,y)/\\partial(u,v)\\right|$ es el jacobiano de la transformación." },
+            ]
+          },
+          {
+            num: 7, title: "Teoremas del cálculo vectorial",
+            notes: [
+              { type:"teo", label:"Teorema de Green",
+                tex:"Si $C$ es curva cerrada simple orientada positivamente que bordea $D$, y $P,Q$ tienen derivadas parciales continuas, entonces $\\displaystyle\\oint_C P\\,dx+Q\\,dy=\\iint_D\\left(\\frac{\\partial Q}{\\partial x}-\\frac{\\partial P}{\\partial y}\\right)dA$." },
+              { type:"teo", label:"Teorema de Gauss (divergencia)",
+                tex:"$\\displaystyle\\oiint_{\\partial V}\\mathbf{F}\\cdot d\\mathbf{S}=\\iiint_V\\operatorname{div}\\mathbf{F}\\,dV$, con $\\partial V$ superficie cerrada orientada hacia afuera." },
+              { type:"teo", label:"Teorema de Stokes",
+                tex:"$\\displaystyle\\iint_S(\\nabla\\times\\mathbf{F})\\cdot d\\mathbf{S}=\\oint_{\\partial S}\\mathbf{F}\\cdot d\\mathbf{r}$, donde $\\partial S$ es la frontera de $S$ con orientación inducida." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "cd4_b2",
+        title: "Cálculo (Varias Variables)",
+        author: "Thomas & Finney",
+        edition: "9ª ed. Addison-Wesley, 1996",
+        chapters: [
+          {
+            num: 14, title: "Integrales múltiples",
+            notes: [
+              { type:"def", label:"Integrales iteradas en coordenadas polares",
+                tex:"$\\displaystyle\\iint_D f(x,y)\\,dA=\\int_\\alpha^\\beta\\int_{r_1(\\theta)}^{r_2(\\theta)}f(r\\cos\\theta,r\\sin\\theta)\\,r\\,dr\\,d\\theta$. El factor extra $r$ es el jacobiano de la transformación polar." },
+              { type:"def", label:"Integral triple en coordenadas esféricas",
+                tex:"$(x,y,z)=(\\rho\\sin\\phi\\cos\\theta,\\rho\\sin\\phi\\sin\\theta,\\rho\\cos\\phi)$. $dV=\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Variable Compleja I",
+    matId: "variable_compleja_1",
+    color: "linear-gradient(135deg,#1a0033,#3d0080)",
+    books: [
+      {
+        id: "vc1_b1",
+        title: "Complex Analysis",
+        author: "Lars V. Ahlfors",
+        edition: "3ª ed. McGraw-Hill, 1979",
+        chapters: [
+          {
+            num: 2, title: "Funciones analíticas",
+            notes: [
+              { type:"def", label:"Derivada compleja",
+                tex:"$f'(z_0)=\\lim_{z\\to z_0}\\frac{f(z)-f(z_0)}{z-z_0}$. A diferencia de la derivada real, el límite debe ser independiente de la dirección de aproximación." },
+              { type:"teo", label:"Ecuaciones de Cauchy-Riemann",
+                tex:"Si $f=u+iv$ es diferenciable en $z_0=x_0+iy_0$, entonces $\\frac{\\partial u}{\\partial x}=\\frac{\\partial v}{\\partial y}$ y $\\frac{\\partial u}{\\partial y}=-\\frac{\\partial v}{\\partial x}$ en $(x_0,y_0)$. Recíprocamente, si las parciales son continuas y satisfacen CR, $f$ es analítica." },
+              { type:"def", label:"Función armónica",
+                tex:"$u:\\Omega\\to\\mathbb{R}$ es armónica si $\\Delta u=\\frac{\\partial^2 u}{\\partial x^2}+\\frac{\\partial^2 u}{\\partial y^2}=0$. Las partes real e imaginaria de una función analítica son armónicas y se llaman conjugadas armónicas." },
+            ]
+          },
+          {
+            num: 4, title: "Integración compleja",
+            notes: [
+              { type:"teo", label:"Teorema de Cauchy",
+                tex:"Si $f$ es analítica en un dominio simplemente conexo $D$ y $\\gamma$ es cualquier curva cerrada en $D$, entonces $\\displaystyle\\oint_\\gamma f(z)\\,dz=0$." },
+              { type:"teo", label:"Fórmula integral de Cauchy",
+                tex:"Si $f$ es analítica en $\\bar{D}$ y $a\\in D$, $\\displaystyle f(a)=\\frac{1}{2\\pi i}\\oint_{\\partial D}\\frac{f(z)}{z-a}\\,dz$. Más generalmente, $f^{(n)}(a)=\\frac{n!}{2\\pi i}\\oint_{\\partial D}\\frac{f(z)}{(z-a)^{n+1}}\\,dz$." },
+              { type:"teo", label:"Teorema de Liouville",
+                tex:"Toda función entera acotada es constante. Consecuencia: el Teorema Fundamental del Álgebra (todo polinomio no constante con coeficientes complejos tiene al menos una raíz en $\\mathbb{C}$)." },
+            ]
+          },
+          {
+            num: 5, title: "Series de Laurent y residuos",
+            notes: [
+              { type:"def", label:"Serie de Laurent",
+                tex:"En la corona $r<|z-a|<R$, $f(z)=\\displaystyle\\sum_{n=-\\infty}^{+\\infty}c_n(z-a)^n$ donde $c_n=\\frac{1}{2\\pi i}\\oint_{\\gamma}\\frac{f(z)}{(z-a)^{n+1}}\\,dz$." },
+              { type:"def", label:"Clasificación de singularidades",
+                tex:"$a$ es singularidad aislada de $f$. Si la parte principal es nula: singularidad evitable. Si la parte principal es finita (polo de orden $m$). Si la parte principal es infinita: singularidad esencial." },
+              { type:"teo", label:"Teorema de los residuos",
+                tex:"Si $f$ es meromorfa en $D$ salvo en $a_1,\\ldots,a_n$ y $\\gamma$ es una curva cerrada que encierra a todas con índice $1$, entonces $\\displaystyle\\oint_\\gamma f\\,dz=2\\pi i\\sum_{k=1}^n\\operatorname{Res}(f,a_k)$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "vc1_b2",
+        title: "Complex Variables and Applications",
+        author: "Churchill & Brown",
+        edition: "9ª ed. McGraw-Hill, 2014",
+        chapters: [
+          {
+            num: 4, title: "Integrales",
+            notes: [
+              { type:"def", label:"Integral de línea compleja",
+                tex:"$\\displaystyle\\int_C f(z)\\,dz=\\int_a^b f(z(t))z'(t)\\,dt$ donde $z:[a,b]\\to\\mathbb{C}$ parametriza $C$. Satisface $\\left|\\int_C f\\,dz\\right|\\leq ML$, con $M=\\max_C|f|$ y $L$ la longitud de $C$." },
+              { type:"def", label:"Residuo",
+                tex:"$\\operatorname{Res}(f,a)=c_{-1}$ en la serie de Laurent de $f$ alrededor de $a$. Para un polo simple: $\\operatorname{Res}(f,a)=\\lim_{z\\to a}(z-a)f(z)$. Para polo de orden $m$: $\\operatorname{Res}(f,a)=\\frac{1}{(m-1)!}\\lim_{z\\to a}\\frac{d^{m-1}}{dz^{m-1}}[(z-a)^m f(z)]$." },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
+  {
+    subject: "Análisis Matemático II",
+    matId: "analisis_matematico_2",
+    color: "linear-gradient(135deg,#001a0d,#004d26)",
+    books: [
+      {
+        id: "an2_b1",
+        title: "Principles of Mathematical Analysis",
+        author: "Walter Rudin",
+        edition: "3ª ed. McGraw-Hill, 1976",
+        chapters: [
+          {
+            num: 11, title: "La integral de Lebesgue",
+            notes: [
+              { type:"def", label:"Función medible",
+                tex:"$f:\\mathbb{R}^n\\to\\mathbb{R}$ es medible si $\\{x:f(x)>a\\}$ es medible para todo $a\\in\\mathbb{R}$. Las funciones continuas y monótonas son medibles." },
+              { type:"def", label:"Integral de Lebesgue",
+                tex:"Para $f\\geq0$ medible: $\\displaystyle\\int f\\,d\\mu=\\sup\\left\\{\\int s\\,d\\mu : 0\\leq s\\leq f,\\,s\\text{ simple}\\right\\}$. Para $f$ general: $\\int f=\\int f^+-\\int f^-$ donde $f^+=\\max(f,0)$, $f^-=\\max(-f,0)$." },
+              { type:"teo", label:"Teorema de convergencia dominada (Lebesgue)",
+                tex:"Si $f_n\\to f$ puntualmente y existe $g\\geq0$ integrable con $|f_n|\\leq g$ para todo $n$, entonces $\\displaystyle\\lim_{n\\to\\infty}\\int f_n\\,d\\mu=\\int f\\,d\\mu$." },
+            ]
+          },
+        ]
+      },
+      {
+        id: "an2_b2",
+        title: "Measure and Integral",
+        author: "Wheeden & Zygmund",
+        edition: "2ª ed. CRC Press, 2015",
+        chapters: [
+          {
+            num: 3, title: "Medida de Lebesgue en $\\mathbb{R}^n$",
+            notes: [
+              { type:"def", label:"Medida exterior de Lebesgue",
+                tex:"$m^*(E)=\\inf\\left\\{\\sum_k|I_k|:E\\subset\\bigcup_k I_k,\\,I_k\\text{ intervalos abiertos}\\right\\}$. Un conjunto $E$ es medible Lebesgue si para todo $A\\subset\\mathbb{R}^n$: $m^*(A)=m^*(A\\cap E)+m^*(A\\cap E^c)$." },
+              { type:"teo", label:"Teorema de Fubini-Tonelli",
+                tex:"Si $f(x,y)\\geq0$ es medible en $\\mathbb{R}^{m+n}$, o si $f$ es integrable en $\\mathbb{R}^{m+n}$, entonces $\\displaystyle\\int_{\\mathbb{R}^{m+n}}f=\\int_{\\mathbb{R}^m}\\left(\\int_{\\mathbb{R}^n}f(x,y)\\,dy\\right)dx=\\int_{\\mathbb{R}^n}\\left(\\int_{\\mathbb{R}^m}f(x,y)\\,dx\\right)dy$." },
+              { type:"teo", label:"Desigualdad de Hölder",
+                tex:"Si $\\frac{1}{p}+\\frac{1}{q}=1$ con $p,q>1$, entonces $\\displaystyle\\int|fg|\\,d\\mu\\leq\\left(\\int|f|^p\\right)^{1/p}\\left(\\int|g|^q\\right)^{1/q}$. Para $p=q=2$: desigualdad de Cauchy-Schwarz." },
+            ]
+          },
+          {
+            num: 6, title: "El espacio $L^2$ y series de Fourier",
+            notes: [
+              { type:"def", label:"Espacio $L^2(E)$",
+                tex:"$L^2(E)=\\{f\\text{ medible}:\\int_E|f|^2\\,d\\mu<\\infty\\}$ con producto interior $\\langle f,g\\rangle=\\int_E f\\bar{g}\\,d\\mu$. Es un espacio de Hilbert separable." },
+              { type:"teo", label:"Convergencia en $L^2$ de series de Fourier",
+                tex:"Si $f\\in L^2([-\\pi,\\pi])$ y $\\hat{f}(n)=\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi f(t)e^{-int}\\,dt$, entonces $\\displaystyle\\sum_{n=-\\infty}^\\infty|\\hat{f}(n)|^2=\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi|f(t)|^2\\,dt$ (identidad de Parseval) y $f=\\sum_{n}\\hat{f}(n)e^{int}$ en norma $L^2$." },
             ]
           },
         ]

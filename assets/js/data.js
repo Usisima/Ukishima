@@ -841,20 +841,73 @@ const CURRICULUM = [
         name: "Cálculo Diferencial e Integral III",
         clave: "0093",
         creditos: 18,
+        horas: 144,
         icon: "assets/images/d8.jpg",
         temario: [
-          { num: "1", name: "Diferenciación en R^n", horas: 18, subtemas: ["Derivada de una función de R^n en R^m como transformación lineal", "Matriz jacobiana", "Regla de la cadena general", "Teorema de la función implícita", "Teorema de la función inversa"] },
-          { num: "2", name: "Integrales de línea", horas: 16, subtemas: ["Curvas en R^n y parametrizaciones", "Integral de línea de funciones escalares", "Integral de línea de campos vectoriales", "Trabajo y circulación"] },
-          { num: "3", name: "Campos conservativos", horas: 12, subtemas: ["Condición de conservatividad", "Función potencial", "Independencia de la trayectoria", "Conjuntos simplemente conexos"] },
-          { num: "4", name: "Integrales de superficie", horas: 16, subtemas: ["Superficies orientadas", "Integral de superficie de funciones escalares (área)", "Integral de flujo de campos vectoriales"] },
-          { num: "5", name: "Teoremas integrales del cálculo vectorial", horas: 18, subtemas: ["Teorema de Green en el plano", "Teorema de la divergencia de Gauss-Ostrogradski", "Teorema de Stokes", "Aplicaciones en física y geometría"] }
+          { num: "1", name: "Funciones de ℝ en ℝN", horas: 28, subtemas: [
+            "Funciones de ℝ en ℝN como curvas en el espacio, límites y derivadas en términos de las componentes.",
+            "La diferencial de una curva en el espacio, velocidad y el vector tangente, rapidez.",
+            "Propiedades de los límites y la derivada con respecto a la suma y el producto.",
+            "Curvas rectificables, longitud de arco, parametrización unitaria por longitud de arco.",
+            "Normal principal, curvatura, torsión y plano osculante.",
+            "Ejemplos de curvas en el plano y en el espacio.",
+            "Fórmula de Frenet y Serret (opcional)."
+          ]},
+          { num: "2", name: "Espacios normados (opcional)", horas: 7, subtemas: [
+            "Espacios vectoriales, normas en ℝN."
+          ]},
+          { num: "3", name: "Topología de ℝN y funciones de ℝN en ℝM", horas: 18, subtemas: [
+            "Conjuntos abiertos, cerrados, frontera.",
+            "Caracterización de compactos, teorema de Heine-Borel (opcional), producto de compactos.",
+            "Conexidad y conexidad relativa.",
+            "Definición de coordenadas polares, cilíndricas y esféricas.",
+            "Funciones de ℝN en ℝM, límites y continuidad.",
+            "Teoremas de continuidad en compactos o en conexos.",
+            "Teorema de Bolzano y Weierstrass.",
+            "Funciones continuas en compactos."
+          ]},
+          { num: "4", name: "Funciones de ℝN en ℝ", horas: 28, subtemas: [
+            "Conjuntos de nivel y gráficas.",
+            "Diferenciabilidad, propiedades, derivadas direccionales y derivadas parciales.",
+            "Gradiente de una función, propiedades: dirección de máximo cambio, definición de puntos críticos.",
+            "Teorema del valor medio, criterio de diferenciabilidad en términos de las parciales, derivadas de orden superior, plano tangente a una superficie.",
+            "Diferenciales de orden k, aproximación por polinomios de Taylor."
+          ]},
+          { num: "5", name: "Transformaciones (opcional)", horas: 7, subtemas: [
+            "Matrices, determinantes, y resolución de sistemas.",
+            "Valores y vectores propios.",
+            "Formas bilineales y cuadráticas."
+          ]},
+          { num: "6", name: "Funciones de ℝN en ℝM", horas: 28, subtemas: [
+            "Diferenciabilidad, jacobiano, regla de la cadena, ortogonalidad del gradiente a los conjuntos de nivel.",
+            "Teoremas de la función inversa e implícita con demostraciones.",
+            "Teorema del rango (opcional).",
+            "Definición del operador de divergencia, laplaciano y rotacional."
+          ]},
+          { num: "7", name: "Máximos y mínimos", horas: 28, subtemas: [
+            "Puntos críticos, formas cuadráticas definidas positivas, diagonalización y criterios de positividad, hessianos para detectar máximos, mínimos y puntos silla.",
+            "Máximos y mínimos con restricciones, multiplicadores de Lagrange."
+          ]}
         ],
         bibBasicas: [
-          { name: "Apostol, T.M. — Calculus, Vol. II. Wiley, 1969.", caps: ["Diferenciación en R^n", "Integrales de línea y de superficie", "Teoremas de Green, Gauss y Stokes"] },
-          { name: "Marsden, J.E.; Tromba, A. — Vector Calculus. W.H. Freeman, 2011.", caps: ["Teorema de la función inversa e implícita", "Integrales de línea", "Integrales de superficie", "Teoremas integrales"] }
+          { name: "Apostol, T.M. — Calculus, Volumen I. Ed. Reverté, 2001.", caps: ["Topología de ℝN", "Funciones de varias variables", "Diferenciabilidad"] },
+          { name: "Courant, R. — Differential and Integral Calculus, Vol. II. J. Wiley, 1936.", caps: ["Curvas en el espacio", "Funciones de varias variables"] },
+          { name: "Courant, R.; John, F. — Introducción al Cálculo y al Análisis Matemático, Vol. II. Limusa, 1974.", caps: ["Topología de ℝN", "Funciones de ℝN en ℝ y ℝM", "Máximos y mínimos"] },
+          { name: "Lang, S. — Calculus of Several Variables. Springer, 1987.", caps: ["Curvas en el espacio", "Funciones de varias variables", "Derivadas parciales", "Máximos y mínimos"] },
+          { name: "Marsden, J.; Tromba, A. — Cálculo Vectorial. Addison-Wesley, Pearson Educación, 1998.", caps: ["Curvas en ℝN", "Funciones escalares de varias variables", "Teoremas de la función inversa e implícita", "Máximos y mínimos"] },
+          { name: "Thomas, G.B.; Finney, R.L. — Cálculo: varias variables. Addison-Wesley Longman, 1999.", caps: ["Curvas y superficies", "Derivadas parciales", "Funciones de varias variables"] }
         ],
-        bibComp: ["Fleming, W. — Functions of Several Variables. Springer, 1977.", "Spivak, M. — Calculus on Manifolds. Benjamin/Cummings, 1965."],
-        subsecuentes: ["Cálculo Diferencial e Integral IV", "Ecuaciones Diferenciales I", "Análisis Matemático I"]
+        bibComp: [
+          "Buck, R.C. — Advanced Calculus. McGraw-Hill, 1978.",
+          "Budak, B.M.; Fomin, S.V. — Multiple Integrals Field Theory and Series. MIR, 1973.",
+          "Crowell, R.; Trotter, H.; Williamson, R. — Cálculo de Funciones Vectoriales. Prentice Hall Internacional, 1973.",
+          "Fulks, W. — Cálculo Avanzado. Limusa-Wiley, 1970.",
+          "Spivak, M. — Cálculo en Variedades. Ed. Reverté, 1987.",
+          "Spivak, M. — Cálculo Infinitesimal (2a ed). Ed. Reverté, 1998.",
+          "Stein, S.K. — Calculus and Analytic Geometry. McGraw-Hill, 1992.",
+          "Widder, D.V. — Advanced Calculus. Dover, 1989."
+        ],
+        subsecuentes: ["Cálculo Diferencial e Integral IV", "Ecuaciones Diferenciales I", "Probabilidad II", "Taller de Modelación III"]
       }
     ]
   },
@@ -868,59 +921,207 @@ const CURRICULUM = [
         name: "Álgebra Lineal II",
         clave: "0006",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d9.jpg",
         temario: [
-          { num: "1", name: "Formas bilineales y cuadráticas", horas: 14, subtemas: ["Formas bilineales y sus matrices", "Formas cuadráticas y clasificación por la signatura", "Ley de inercia de Sylvester", "Formas cuadráticas definidas positivas"] },
-          { num: "2", name: "Espacios con producto interior", horas: 16, subtemas: ["Definición y ejemplos de producto interior", "Norma inducida y desigualdad de Cauchy-Schwarz", "Ortogonalidad y complemento ortogonal", "Proceso de ortogonalización de Gram-Schmidt", "Bases ortonormales"] },
-          { num: "3", name: "Operadores en espacios con producto interior", horas: 14, subtemas: ["Operador adjunto", "Operadores autoadjuntos (simétricos y hermitianos)", "Operadores normales y unitarios", "Teorema espectral para operadores autoadjuntos"] },
-          { num: "4", name: "Formas canónicas", horas: 16, subtemas: ["Descomposición de la identidad en suma de proyecciones", "Forma normal de Jordan", "Polinomio mínimo y su relación con el de Jordan", "Aplicaciones: potencias de matrices, funciones de matrices"] },
-          { num: "5", name: "Aplicaciones del álgebra lineal", horas: 10, subtemas: ["Descomposición en valores singulares (SVD)", "Mínimos cuadrados y pseudoinversa de Moore-Penrose", "Aplicaciones a compresión de datos y estadística"] }
+          { num: "1", name: "Formas bilineales y operadores", horas: 15, subtemas: [
+            "Formas bilineales.",
+            "Formas cuadráticas.",
+            "Operadores autoadjuntos (simétricos y hermitianos).",
+            "Operadores unitarios y ortogonales.",
+            "Teorema de Sylvester sobre la signatura de una forma."
+          ]},
+          { num: "2", name: "Diagonalización", horas: 15, subtemas: [
+            "Vectores y valores propios.",
+            "Polinomio característico.",
+            "Diagonalización y bases de vectores propios."
+          ]},
+          { num: "3", name: "Triangulación", horas: 10, subtemas: [
+            "Existencia de una triangulación sobre ℂ.",
+            "Teorema de Hamilton-Cayley.",
+            "Diagonalización de operadores unitarios."
+          ]},
+          { num: "4", name: "El Teorema Espectral", horas: 15, subtemas: [
+            "Operadores simétricos sobre ℝ.",
+            "Operadores normales sobre ℂ."
+          ]},
+          { num: "5", name: "Forma canónica de Jordan", horas: 25, subtemas: [
+            "Descomposición primaria.",
+            "Forma canónica de Jordan."
+          ]}
         ],
         bibBasicas: [
-          { name: "Axler, S. — Linear Algebra Done Right. Springer, 2015.", caps: ["Productos interiores", "Operadores autoadjuntos", "Operadores normales y el teorema espectral", "Forma de Jordan"] },
-          { name: "Hoffman, K.; Kunze, R. — Linear Algebra. Prentice Hall, 1971.", caps: ["Formas bilineales", "Espacios con producto interior", "Formas canónicas"] }
+          { name: "Curtis, C.W. — Linear Algebra. Springer, 1984.", caps: ["Formas bilineales", "Diagonalización", "Teorema espectral", "Forma de Jordan"] },
+          { name: "Lang, S. — Álgebra Lineal. STE, 1986.", caps: ["Formas bilineales", "Operadores", "Teorema espectral", "Jordan"] },
+          { name: "Nomizu, K. — Fundamentals of Linear Algebra. McGraw-Hill, 1966.", caps: ["Formas bilineales y cuadráticas", "Diagonalización", "Forma de Jordan"] },
+          { name: "Rincón, H.A. — Álgebra Lineal. Las Prensas de Ciencias, UNAM, 2002.", caps: ["Formas bilineales", "Operadores autoadjuntos", "Teorema espectral", "Forma canónica de Jordan"] }
         ],
-        bibComp: ["Horn, R.A.; Johnson, C.R. — Matrix Analysis. Cambridge University Press, 2013.", "Gelfand, I.M. — Lectures on Linear Algebra. Dover, 1989."],
-        subsecuentes: ["Álgebra Moderna I", "Análisis Matemático I", "Geometría Diferencial I"]
+        bibComp: [
+          "Lluis, E. — Álgebra Lineal, Álgebra Multilineal y K-Teoría Algebraica Clásica. Addison-Wesley Iberoamericana, 1990.",
+          "Nickerson, H.K.; Spencer, D.C.; Steenrod, N.E. — Advanced Calculus. Van Nostrand, 1959."
+        ],
+        subsecuentes: ["Álgebra Moderna I", "Análisis Matemático I", "Cálculo de Variaciones", "Historia de las Matemáticas I", "Introducción Matemática a la Mecánica Celeste", "Lógica Matemática I", "Topología I"]
       },
       {
         id: "calculo_4",
         name: "Cálculo Diferencial e Integral IV",
         clave: "0094",
         creditos: 18,
+        horas: 144,
         icon: "assets/images/d10.jpg",
         temario: [
-          { num: "1", name: "Sucesiones y series de funciones", horas: 18, subtemas: ["Convergencia puntual y uniforme de sucesiones de funciones", "Propiedades de la convergencia uniforme: continuidad, integración, diferenciación", "Series de funciones y su convergencia uniforme", "Series de potencias: convergencia y propiedades analíticas"] },
-          { num: "2", name: "Series de Fourier", horas: 20, subtemas: ["Funciones periódicas y el espacio L²", "Coeficientes de Fourier: senos y cosenos", "Convergencia puntual y uniforme de series de Fourier", "Desigualdad de Bessel e identidad de Parseval", "Series de Fourier de senos y cosenos para funciones en [0, π]"] },
-          { num: "3", name: "Funciones de variable compleja", horas: 20, subtemas: ["Números complejos y el plano complejo", "Funciones analíticas: ecuaciones de Cauchy-Riemann", "Funciones elementales: exponencial, logaritmo, trigonométricas", "Integración compleja y teorema de Cauchy-Goursat", "Fórmula integral de Cauchy y consecuencias"] },
-          { num: "4", name: "Series de Laurent y singularidades", horas: 14, subtemas: ["Series de Taylor para funciones analíticas", "Series de Laurent", "Clasificación de singularidades aisladas", "Residuos y teorema de los residuos", "Cálculo de integrales reales mediante residuos"] }
+          { num: "1", name: "Integrales múltiples", horas: 32, subtemas: [
+            "Área de un conjunto plano.",
+            "Integral de una función de dos variables, como volumen debajo de una superficie y sumas de Riemann.",
+            "Propiedades de las integrales.",
+            "Conjuntos de medida cero.",
+            "Cálculo de integrales múltiples, teoremas de Fubini, integración sobre dominios más generales.",
+            "Integrales triples y cálculo de volúmenes.",
+            "Teorema del cambio de variables e integrales en polares, cilíndricas, esféricas.",
+            "Integrales impropias. Funciones no continuas. Integrales sobre regiones no acotadas.",
+            "Convergencia uniforme, teorema de Fubini, derivación bajo la integral."
+          ]},
+          { num: "2", name: "Integral de línea", horas: 22, subtemas: [
+            "Integración de funciones escalares sobre curvas paramétricas, independencia de la parametrización.",
+            "Integrales de línea en campos vectoriales, cálculo del trabajo.",
+            "Integrales de línea en campos del tipo gradiente y campos conservativos.",
+            "Teorema de Green, aplicaciones y ejemplos."
+          ]},
+          { num: "3", name: "Integral de superficie", horas: 22, subtemas: [
+            "Superficies parametrizadas, vector normal y plano tangente.",
+            "Integración sobre superficies parametrizadas y cálculo de áreas.",
+            "Independencia de la parametrización.",
+            "Integración de funciones escalares y vectoriales sobre superficies orientables.",
+            "Integrales en coordenadas curvilíneas."
+          ]},
+          { num: "4", name: "Teoremas integrales", horas: 32, subtemas: [
+            "Teorema de la divergencia en el plano. Teorema de Green, aplicación al laplaciano.",
+            "Teorema de Stokes, rotacional, vorticidad.",
+            "Teorema de Gauss y Stokes en el espacio.",
+            "Flujos a través de una superficie. Identidades de Green.",
+            "Problemas de Laplace. El laplaciano en distintas coordenadas.",
+            "Principio del máximo para la ecuación del calor. Función de Green."
+          ]},
+          { num: "5", name: "Convergencia uniforme y series de potencias", horas: 9, subtemas: [
+            "Convergencia uniforme en una variable, propiedades.",
+            "La prueba M de Weierstrass. Ejemplos de funciones continuas en ningún punto diferenciables.",
+            "Series de potencias, series de Taylor, intervalos de convergencia, derivación e integración término a término."
+          ]},
+          { num: "6", name: "Optativo: Integral de Fourier", horas: 9, subtemas: [
+            "Propiedades, teorema de inversión, Lema de Riemann-Lebesgue, Parseval, convolución.",
+            "Integral de Fresnel. Ecuación de onda con transformada de Fourier. Transformada de Laplace.",
+            "Desigualdad de Bessel, teoremas de convergencia uniforme. La ecuación de calor y de onda."
+          ]},
+          { num: "7", name: "Optativo: Métodos numéricos en integrales múltiples", horas: 9, subtemas: [
+            "Métodos del trapecio y de Simpson.",
+            "Cuadraturas gaussianas.",
+            "Integración en límites arbitrarios. Cálculo de errores. Método de Montecarlo."
+          ]},
+          { num: "8", name: "Optativo: Formas diferenciales", horas: 9, subtemas: [
+            "Derivada exterior, formas cerradas, formas exactas.",
+            "Cambios de variables para formas diferenciales.",
+            "Orientación de superficies. Integrales de formas diferenciales.",
+            "Teorema de Stokes en variedades, elemento de volumen."
+          ]}
         ],
         bibBasicas: [
-          { name: "Apostol, T.M. — Mathematical Analysis. Addison-Wesley, 1974.", caps: ["Sucesiones y series de funciones", "Series de Fourier"] },
-          { name: "Churchill, R.V.; Brown, J.W. — Complex Variables and Applications. McGraw-Hill, 2009.", caps: ["Funciones analíticas", "Integración compleja", "Series de Laurent", "Residuos"] }
+          { name: "Apostol, T.M. — Calculus, Volumen I. Ed. Reverté, 2001.", caps: ["Integrales múltiples", "Teoremas integrales"] },
+          { name: "Courant, R. — Differential and Integral Calculus, Vol. 2. J. Wiley, 1936.", caps: ["Integrales múltiples", "Integrales de línea y superficie"] },
+          { name: "Courant, R.; John, F. — Introducción al Cálculo y al Análisis Matemático, Vol. 2. Limusa, 1974.", caps: ["Integrales múltiples", "Campos vectoriales", "Teoremas integrales"] },
+          { name: "Lang, S. — Calculus of Several Variables. Springer, 1987.", caps: ["Integrales múltiples", "Integral de línea", "Integral de superficie", "Green, Gauss, Stokes"] },
+          { name: "Marsden, J.; Tromba, A. — Cálculo Vectorial. Addison-Wesley, Pearson Educación, 1998.", caps: ["Integrales múltiples", "Integral de línea", "Integral de superficie", "Teoremas integrales"] },
+          { name: "Thomas, G.B.; Finney, R.L. — Cálculo: Varias Variables. Addison-Wesley Longman, 1999.", caps: ["Integrales múltiples", "Campos vectoriales", "Stokes y Gauss"] }
         ],
-        bibComp: ["Rudin, W. — Real and Complex Analysis. McGraw-Hill, 1987.", "Ahlfors, L.V. — Complex Analysis. McGraw-Hill, 1979."],
-        subsecuentes: ["Variable Compleja I", "Análisis Matemático I", "Ecuaciones Diferenciales I"]
+        bibComp: [
+          "Buck, R.C. — Advanced Calculus. McGraw-Hill, 1978.",
+          "Budak, B.M.; Fomin, S.V. — Multiple Integrals Field Theory and Series. MIR, 1973.",
+          "Crowell, R.; Trotter, H.; Williamson, R. — Cálculo de Funciones Vectoriales. Prentice Hall Internacional, 1973.",
+          "Fulks, W. — Cálculo Avanzado. Limusa-Wiley, 1970.",
+          "Spivak, M. — Cálculo en Variedades. Ed. Reverté, 1987.",
+          "Spivak, M. — Cálculo Infinitesimal (2ª ed). Ed. Reverté, 1998.",
+          "Stein, S.K. — Calculus and Analytic Geometry. McGraw-Hill, 1992.",
+          "Widder, D.V. — Advanced Calculus. Dover, 1989."
+        ],
+        subsecuentes: ["Análisis Matemático I", "Ecuaciones Diferenciales Parciales I"]
       },
       {
         id: "ecuaciones_diferenciales_1",
         name: "Ecuaciones Diferenciales I",
         clave: "0162",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d11.jpg",
         temario: [
-          { num: "1", name: "Introducción y ecuaciones de primer orden", horas: 16, subtemas: ["Clasificación de EDOs: orden, linealidad", "Ecuaciones de variables separables", "Ecuaciones lineales de primer orden: factor integrante", "Ecuaciones exactas y factor integrante general", "Ecuaciones de Bernoulli y Ricatti"] },
-          { num: "2", name: "Ecuaciones lineales de orden superior", horas: 18, subtemas: ["Estructura de la solución general", "Ecuaciones homogéneas con coeficientes constantes", "Ecuaciones no homogéneas: coeficientes indeterminados", "Variación de parámetros", "Ecuación de Cauchy-Euler"] },
-          { num: "3", name: "Transformada de Laplace", horas: 16, subtemas: ["Definición y propiedades básicas", "Transformada de la derivada y la integral", "Función de Heaviside y función delta de Dirac", "Convolución y teorema de la convolución", "Solución de EDOs y sistemas con transformada de Laplace"] },
-          { num: "4", name: "Sistemas de EDOs lineales con coeficientes constantes", horas: 14, subtemas: ["Planteamiento matricial", "Solución mediante valores y vectores propios", "Casos de valores propios complejos y repetidos", "Solución con condiciones iniciales"] },
-          { num: "5", name: "Introducción a ecuaciones diferenciales no lineales", horas: 10, subtemas: ["Campo de pendientes y diagrama de fase", "Puntos de equilibrio y su clasificación elemental", "Análisis cualitativo de soluciones"] }
+          { num: "1", name: "Introducción", horas: 4, subtemas: [
+            "Repaso de nociones básicas y planteamiento de problemas generales.",
+            "Campos vectoriales en ℝn y su ecuación diferencial asociada.",
+            "Definición de espacio fásico, solución y retrato fase de una ecuación diferencial.",
+            "Métodos geométricos para analizar el retrato fase: isóclinas, familias de curvas paramétricas.",
+            "Existencia y unicidad de soluciones; aproximación de la solución y cuantificación del error."
+          ]},
+          { num: "2", name: "Ecuaciones diferenciales lineales de primer orden", horas: 5, subtemas: [
+            "Ecuaciones homogéneas.",
+            "Ecuaciones no homogéneas y métodos de variación de parámetros.",
+            "Teorema de Existencia y Unicidad y dependencia continua respecto a condiciones iniciales."
+          ]},
+          { num: "3", name: "Ecuaciones diferenciales no lineales de primer orden", horas: 10, subtemas: [
+            "Ecuaciones separables, ecuaciones exactas y el método del factor integrante.",
+            "Ejemplos y aplicaciones.",
+            "Teorema de Existencia y Unicidad de Picard.",
+            "Ecuación integral, iterados de Picard. Convergencia de los iterados de Picard.",
+            "Lema de Gronwall, dependencia de las condiciones iniciales."
+          ]},
+          { num: "4", name: "Ecuaciones diferenciales lineales de segundo orden", horas: 10, subtemas: [
+            "Ecuaciones diferenciales homogéneas con coeficientes constantes.",
+            "Propiedades del conjunto de soluciones, independencia lineal de soluciones, wronskiano.",
+            "Solución general.",
+            "Ecuaciones no homogéneas, variación de parámetros, coeficientes indeterminados.",
+            "Vibraciones mecánicas. Oscilaciones amortiguadas y forzadas, resonancias."
+          ]},
+          { num: "5", name: "Ecuaciones lineales de segundo orden con coeficientes variables", horas: 10, subtemas: [
+            "Métodos de solución por series de potencia.",
+            "Cálculo del radio de convergencia.",
+            "Ecuaciones singulares y el método de Frobenius.",
+            "Ejemplos: ecuaciones de Hermite, Laguerre, Euler, Bessel, Legendre, Tchebycheff, ecuación hipergeométrica."
+          ]},
+          { num: "6", name: "Optativo: Transformada de Laplace y de Fourier", horas: 6, subtemas: [
+            "Métodos de solución y aplicaciones para resolver ecuaciones de segundo orden."
+          ]},
+          { num: "7", name: "Sistemas de ecuaciones de primer orden lineales", horas: 17, subtemas: [
+            "Reducción de ecuaciones de orden n a un sistema de n ecuaciones de primer orden.",
+            "Sistema de ecuaciones de primer orden homogéneas. Soluciones linealmente independientes.",
+            "Ecuación del wronskiano y su solución. Matriz fundamental y solución general.",
+            "Ecuaciones con coeficientes constantes, exponencial de una matriz, valores y vectores propios.",
+            "Núcleo de la matriz y vector propio generalizado, teorema de Cayley-Hamilton.",
+            "Sistema de ecuaciones de primer orden no homogéneas. Método de variación de parámetros.",
+            "Teorema de existencia y unicidad para sistemas homogéneos de primer orden.",
+            "Aplicaciones: osciladores acoplados, tanques de salmueras, circuitos eléctricos, sistemas de poblaciones."
+          ]},
+          { num: "8", name: "Introducción a la teoría cualitativa", horas: 12, subtemas: [
+            "Estabilidad de la solución de equilibrio de sistemas lineales homogéneos con coeficientes constantes.",
+            "Clasificación de los puntos de equilibrio en el plano y en el espacio.",
+            "Plano fase.",
+            "Linearización de los puntos de equilibrio de un sistema no lineal.",
+            "Descripción cualitativa de los conjuntos límites y el Teorema de Poincaré-Bendixson.",
+            "Dibujo cualitativo del plano fase."
+          ]},
+          { num: "9", name: "Optativo: Ecuaciones en diferencias y métodos numéricos", horas: 6, subtemas: [
+            "Ecuaciones lineales en diferencias.",
+            "Aplicaciones: el método de Newton.",
+            "Método de Euler. Métodos de Runge-Kutta."
+          ]}
         ],
         bibBasicas: [
-          { name: "Boyce, W.E.; DiPrima, R.C. — Elementary Differential Equations and Boundary Value Problems. Wiley, 2012.", caps: ["Ecuaciones de primer orden", "Ecuaciones lineales de orden superior", "Transformada de Laplace", "Sistemas de EDOs"] },
-          { name: "Simmons, G.F. — Differential Equations with Applications and Historical Notes. CRC Press, 2016.", caps: ["EDOs de primer orden", "Ecuaciones lineales", "Sistemas de EDOs", "Transformada de Laplace"] }
+          { name: "Arnold, V.I. — Ordinary Differential Equations (3ª ed). Springer-Verlag, 1992.", caps: ["Introducción", "Campos vectoriales", "Sistemas lineales", "Teoría cualitativa"] },
+          { name: "Blanchard, P.; Devaney, R.; Hall, G. — Ecuaciones Diferenciales. International Thomson Editores, 1999.", caps: ["ED de primer orden", "Sistemas", "Teoría cualitativa"] },
+          { name: "Braun, M. — Differential Equations and their Applications. Springer-Verlag, 1993.", caps: ["ED lineales", "Sistemas", "Aplicaciones"] },
+          { name: "Derrick, W.; Grossman, S. — Ecuaciones Diferenciales con Aplicaciones. Addison-Wesley Iberamericana, 1986.", caps: ["ED de primer orden", "ED de orden superior", "Sistemas de ED"] }
         ],
-        bibComp: ["Tenenbaum, M.; Pollard, H. — Ordinary Differential Equations. Dover, 1985.", "Arnold, V.I. — Ordinary Differential Equations. MIT Press, 1978."],
-        subsecuentes: ["Ecuaciones Diferenciales II", "Análisis Matemático I", "Cálculo Diferencial e Integral IV"]
+        bibComp: [
+          "Boyce, W.; DiPrima, R. — Elementary Differential Equations and Boundary Value Problems. J. Wiley, 2001.",
+          "Hasser, N.B.; LaSalle, J.P.; Sullivan, J.A. — Análisis Matemático. Vol. 2. Ed. Trillas, 1977."
+        ],
+        subsecuentes: ["Dinámica de Sistemas no Lineales", "Ecuaciones Diferenciales Parciales I", "Análisis Matemático Aplicado"]
       }
     ]
   },
@@ -934,59 +1135,88 @@ const CURRICULUM = [
         name: "Álgebra Moderna I",
         clave: "0001",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d12.jpg",
         temario: [
-          { num: "1", name: "Grupos: teoría avanzada", horas: 16, subtemas: ["Acciones de grupos en conjuntos", "Ecuación de clases", "Teoremas de Sylow: existencia, conjugación y número", "p-grupos y grupos resolubles", "Clasificación de grupos abelianos finitos"] },
-          { num: "2", name: "Anillos: teoría avanzada", horas: 16, subtemas: ["Ideales primos y maximales", "Anillos de factores y el teorema chino del residuo para anillos", "Anillos noetherianos y artinianos", "Módulos sobre anillos"] },
-          { num: "3", name: "Teoría de campos", horas: 18, subtemas: ["Extensiones de campos: algebraicas y trascendentes", "Polinomio mínimo", "Cuerpos de descomposición", "Extensiones normales y separables"] },
-          { num: "4", name: "Teoría de Galois", horas: 18, subtemas: ["Grupo de Galois de una extensión", "Correspondencia de Galois", "Extensiones abelianas y radicales", "Resolubilidad de ecuaciones polinomiales por radicales", "Insolvabilidad del grupo S_5"] }
+          { num: "1", name: "Teoría elemental de grupos", horas: 25, subtemas: [
+            "Grupos.",
+            "Subgrupos.",
+            "Grupos cíclicos.",
+            "Grupos de permutaciones. Ciclos, transposiciones, paridad y el grupo alternante.",
+            "Clases laterales y el teorema de Lagrange.",
+            "Subgrupos normales y Grupo cociente.",
+            "Productos directos y grupos abelianos finitos."
+          ]},
+          { num: "2", name: "Homomorfismos", horas: 20, subtemas: [
+            "Homomorfismos.",
+            "Teorema de Cayley.",
+            "Teoremas de Isomorfismo."
+          ]},
+          { num: "3", name: "Tópicos avanzados", horas: 35, subtemas: [
+            "Series de subgrupos.",
+            "Teorema de Jordan-Hölder.",
+            "Acción de un grupo en un conjunto. La ecuación de clases.",
+            "Teoremas de Sylow.",
+            "Demostración del Teorema Fundamental de los grupos abelianos finitos."
+          ]}
         ],
         bibBasicas: [
-          { name: "Dummit, D.S.; Foote, R.M. — Abstract Algebra. Wiley, 2004.", caps: ["Acciones de grupos", "Teoremas de Sylow", "Anillos noetherianos", "Teoría de campos", "Teoría de Galois"] },
-          { name: "Lang, S. — Algebra. Springer, 2002.", caps: ["Grupos", "Anillos y módulos", "Campos y teoría de Galois"] }
+          { name: "Fraleigh, J.B. — A First Course in Abstract Algebra. Addison-Wesley, 2003.", caps: ["Grupos", "Subgrupos", "Homomorfismos", "Teoremas de Sylow"] },
+          { name: "Herstein, I.N. — Topics in Algebra. J. Wiley, 1975.", caps: ["Grupos", "Subgrupos y cosets", "Homomorfismos", "Grupos de permutaciones"] },
+          { name: "Rotman, J.J. — An Introduction to the Theory of Groups. Springer, 1995.", caps: ["Teoría elemental de grupos", "Homomorfismos", "Teoremas de Sylow", "Grupos abelianos finitos"] }
         ],
-        bibComp: ["Hungerford, T.W. — Algebra. Springer, 1974.", "Jacobson, N. — Basic Algebra I. Dover, 2009."],
-        subsecuentes: ["Álgebra Moderna II", "Geometría Algebraica I"]
+        bibComp: [
+          "Jacobson, N. — Lectures in Abstract Algebra. Springer, 1980.",
+          "Lang, S. — Algebra. Springer Verlag, 2002."
+        ],
+        subsecuentes: ["Álgebra Moderna II", "Análisis Matemático III", "Historia de las Matemáticas II", "Topología II", "Variable Compleja II"]
       },
       {
         id: "analisis_matematico_1",
         name: "Análisis Matemático I",
         clave: "0009",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d13.jpg",
         temario: [
-          { num: "1", name: "Topología del espacio métrico R^n", horas: 16, subtemas: ["Espacios métricos: definición y ejemplos", "Conjuntos abiertos, cerrados, compactos y conexos en R^n", "Completud y principio de contracción de Banach", "Teorema de Bolzano-Weierstrass"] },
-          { num: "2", name: "Continuidad uniforme y funciones de variación acotada", horas: 14, subtemas: ["Continuidad uniforme y sus propiedades", "Funciones de variación acotada", "Funciones absolutamente continuas"] },
-          { num: "3", name: "La integral de Riemann-Stieltjes", horas: 16, subtemas: ["Integral de Riemann-Stieltjes: definición y existencia", "Propiedades de la integral de Riemann-Stieltjes", "Funciones de variación acotada como integradoras", "Relación con la integral de Riemann"] },
-          { num: "4", name: "Sucesiones y series de funciones", horas: 14, subtemas: ["Convergencia puntual y uniforme", "Criterio de Weierstrass", "Continuidad, derivabilidad e integrabilidad de límites uniformes", "Aproximación de Stone-Weierstrass"] },
-          { num: "5", name: "Funciones de varias variables: diferenciabilidad avanzada", horas: 16, subtemas: ["Diferenciabilidad y la derivada como transformación lineal", "Derivadas parciales de orden superior y teorema de Clairaut", "Teorema de la función implícita y la función inversa (demostración)", "Extremos condicionados: multiplicadores de Lagrange"] }
+          { num: "1", name: "Espacios métricos", horas: 20, subtemas: ["Definición y ejemplos de espacios métricos", "Convergencia de sucesiones en espacios métricos", "Conjuntos abiertos, cerrados y sus propiedades", "Continuidad en espacios métricos", "Homeomorfismos", "Espacios completos. Teorema de Baire", "Teorema de punto fijo de Banach"] },
+          { num: "2", name: "Convergencia uniforme", horas: 20, subtemas: ["Sucesiones de funciones: convergencia puntual y uniforme", "Series de funciones: convergencia puntual y uniforme", "Criterio de Weierstrass para series de funciones", "Continuidad del límite uniforme", "Derivación e integración de límites uniformes"] },
+          { num: "3", name: "Compacidad", horas: 10, subtemas: ["Compacidad en espacios métricos", "Teorema de Heine-Borel en \\(\\mathbb{R}^n\\)", "Equicontinuidad y el teorema de Arzelà-Ascoli"] },
+          { num: "4", name: "Teorema de aproximación de Weierstrass", horas: 10, subtemas: ["Polinomios de Bernstein y teorema de Weierstrass", "Álgebras de funciones continuas", "Teorema de Stone-Weierstrass"] },
+          { num: "5", name: "Integral de Riemann-Stieljes", horas: 20, subtemas: ["Definición de la integral de Riemann-Stieljes", "Condiciones de integrabilidad", "Propiedades de la integral", "Funciones de variación acotada como integradoras", "Integración por partes y cambio de variable"] }
         ],
         bibBasicas: [
-          { name: "Rudin, W. — Principles of Mathematical Analysis. McGraw-Hill, 1976.", caps: ["Espacios métricos", "Continuidad", "Integración de Riemann-Stieltjes", "Sucesiones y series de funciones"] },
-          { name: "Apostol, T.M. — Mathematical Analysis. Addison-Wesley, 1974.", caps: ["Topología de R^n", "Continuidad uniforme", "Integral de Riemann-Stieltjes", "Sucesiones de funciones"] }
+          { name: "Apostol, T.M. — Mathematical Analysis. Addison-Wesley, 1974.", caps: ["Espacios métricos", "Límites y continuidad", "Sucesiones de funciones", "Integral de Riemann-Stieljes"] },
+          { name: "Bartle, R.G.; Sherbert, D.R. — Introduction to Real Analysis. Wiley, 2011.", caps: ["Sucesiones y series", "Continuidad", "Diferenciación", "Integración"] },
+          { name: "Jost, J. — Postmodern Analysis. Springer, 2005.", caps: ["Espacios métricos", "Continuidad uniforme", "Compacidad"] },
+          { name: "Kolmogorov, A.N.; Fomin, S.V. — Elementos de la teoría de funciones y del análisis funcional. Mir, 1975.", caps: ["Espacios métricos", "Espacios normados", "Integral de Lebesgue"] },
+          { name: "Rudin, W. — Principles of Mathematical Analysis. McGraw-Hill, 1976.", caps: ["Espacios métricos", "Continuidad", "Sucesiones y series de funciones", "Integral de Riemann-Stieljes"] },
+          { name: "Wheeden, R.L.; Zygmund, A. — Measure and Integral. Marcel Dekker, 1977.", caps: ["Funciones de variación acotada", "Integral de Lebesgue"] }
         ],
-        bibComp: ["Royden, H.L.; Fitzpatrick, P. — Real Analysis. Pearson, 2010.", "Munkres, J.R. — Analysis on Manifolds. Westview Press, 1991."],
-        subsecuentes: ["Análisis Matemático II", "Teoría de la Medida I", "Variable Compleja I"]
+        bibComp: ["Brézis, H. — Functional Analysis, Sobolev Spaces and Partial Differential Equations. Springer, 2011.", "Dieudonné, J. — Foundations of Modern Analysis. Academic Press, 1969.", "Lieb, E.H.; Loss, M. — Analysis. AMS, 2001.", "Royden, H.L.; Fitzpatrick, P. — Real Analysis. Pearson, 2010.", "Schwartz, L. — Analyse. Hermann, 1967."],
+        subsecuentes: ["Análisis Matemático Aplicado"]
       },
       {
         id: "variable_compleja_1",
         name: "Variable Compleja I",
         clave: "0840",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d14.jpg",
         temario: [
-          { num: "1", name: "Números complejos y funciones complejas", horas: 12, subtemas: ["El cuerpo de los números complejos", "Representación polar y fórmula de Euler", "Raíces de la unidad", "Funciones complejas: definición y ejemplos elementales"] },
-          { num: "2", name: "Funciones analíticas", horas: 16, subtemas: ["Derivada compleja", "Condiciones de Cauchy-Riemann", "Funciones armónicas y su relación con las analíticas", "Funciones elementales: exponencial, logaritmo, trigonométricas e hiperbólicas", "Funciones multivaluadas y ramas"] },
-          { num: "3", name: "Integración compleja", horas: 18, subtemas: ["Integrales sobre curvas en el plano complejo", "Teorema de Cauchy para dominios simplemente conexos", "Fórmulas integrales de Cauchy", "Consecuencias: principio del módulo máximo, teorema de Liouville, teorema fundamental del álgebra"] },
-          { num: "4", name: "Series de potencias y analítica", horas: 14, subtemas: ["Convergencia de series de potencias en C", "Series de Taylor de funciones analíticas", "Radio de convergencia y singularidades", "Desarrollos en series de funciones elementales"] },
-          { num: "5", name: "Singularidades aisladas y residuos", horas: 16, subtemas: ["Series de Laurent", "Clasificación de singularidades aisladas: evitables, polos y esenciales", "Teorema de Casorati-Weierstrass", "Residuos y teorema de los residuos", "Aplicación al cálculo de integrales reales"] }
+          { num: "1", name: "Preliminares y analicidad", horas: 20, subtemas: ["Números complejos: álgebra y geometría", "Representación polar, fórmula de Euler, raíces", "Funciones de variable compleja: límite y continuidad", "Derivada compleja", "Ecuaciones de Cauchy-Riemann", "Funciones analíticas y armónicas", "Funciones elementales: exponencial, logaritmo, trigonométricas, potencias"] },
+          { num: "2", name: "Integración", horas: 20, subtemas: ["Integral de línea compleja", "Teorema de Cauchy-Goursat", "Dominio simplemente conexo", "Fórmulas integrales de Cauchy", "Consecuencias: Liouville, teorema fundamental del álgebra, principio del módulo máximo"] },
+          { num: "3", name: "Series", horas: 20, subtemas: ["Series de potencias en \\(\\mathbb{C}\\)", "Radio de convergencia", "Series de Taylor de funciones analíticas", "Series de Laurent", "Clasificación de singularidades aisladas: evitables, polos y esenciales", "Teorema de Casorati-Weierstrass"] },
+          { num: "4", name: "Teorema del residuo y aplicaciones", horas: 20, subtemas: ["Residuo de una función en un punto singular", "Teorema de los residuos", "Cálculo de integrales reales impropias mediante residuos", "Integrales trigonométricas", "Lema de Jordan"] }
         ],
         bibBasicas: [
-          { name: "Ahlfors, L.V. — Complex Analysis. McGraw-Hill, 1979.", caps: ["Funciones analíticas", "Integración compleja", "Series de Laurent", "Residuos"] },
-          { name: "Conway, J.B. — Functions of One Complex Variable. Springer, 1978.", caps: ["Funciones analíticas", "Integración compleja", "Teorema de Cauchy", "Singularidades y residuos"] }
+          { name: "Ahlfors, L.V. — Complex Analysis. McGraw-Hill, 1979.", caps: ["Funciones analíticas", "Integración compleja", "Series de Taylor y Laurent", "Residuos"] },
+          { name: "Churchill, R.V.; Brown, J.W. — Complex Variables and Applications. McGraw-Hill, 2014.", caps: ["Funciones analíticas", "Integrales", "Series", "Residuos y sus usos"] },
+          { name: "Lascurain Orive, A. — Variable Compleja. Las Prensas de Ciencias, UNAM, 2003.", caps: ["Funciones analíticas", "Integración", "Series", "Residuos"] },
+          { name: "Marsden, J.E.; Hoffman, M.J. — Basic Complex Analysis. Freeman, 1999.", caps: ["Funciones analíticas", "Teorema de Cauchy", "Series de Laurent", "Residuos"] }
         ],
-        bibComp: ["Rudin, W. — Real and Complex Analysis. McGraw-Hill, 1987.", "Needham, T. — Visual Complex Analysis. Oxford University Press, 1997."],
-        subsecuentes: ["Variable Compleja II", "Análisis de Fourier I", "Ecuaciones Diferenciales Parciales I"]
+        bibComp: ["Markusevich, A.I. — Theory of Functions of a Complex Variable. Prentice-Hall, 1965.", "Titchmarsh, E.C. — The Theory of Functions. Oxford University Press, 1939."],
+        subsecuentes: []
       }
     ]
   },
@@ -1000,19 +1230,25 @@ const CURRICULUM = [
         name: "Análisis Matemático II",
         clave: "0010",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d15.jpg",
         temario: [
-          { num: "1", name: "Medida de Lebesgue en R", horas: 18, subtemas: ["Medida exterior de Lebesgue", "Conjuntos medibles Lebesgue", "Propiedades de la medida de Lebesgue: σ-aditividad, regularidad", "Conjuntos de Cantor y ejemplos de conjuntos no medibles"] },
-          { num: "2", name: "La integral de Lebesgue", horas: 20, subtemas: ["Funciones medibles y simples", "Integral de Lebesgue de funciones no negativas", "Integral de Lebesgue de funciones integrables", "Teorema de convergencia monótona (Beppo Levi)", "Lema de Fatou y teorema de convergencia dominada de Lebesgue", "Relación con la integral de Riemann"] },
-          { num: "3", name: "Espacios L^p", horas: 16, subtemas: ["Desigualdades de Hölder y Minkowski", "Espacios L^p como espacios de Banach", "Dualidad de L^p y L^q", "El espacio L²: estructura de espacio de Hilbert"] },
-          { num: "4", name: "Diferenciación e integración", horas: 16, subtemas: ["Funciones de variación acotada", "Funciones absolutamente continuas", "Teorema de Radon-Nikodym", "Derivada de Radon-Nikodym"] }
+          { num: "1", name: "Medida de Lebesgue en \\(\\mathbb{R}^n\\)", horas: 20, subtemas: ["Medida exterior de Lebesgue en \\(\\mathbb{R}^n\\)", "Conjuntos medibles Lebesgue", "Propiedades de la medida: σ-aditividad, regularidad", "Conjuntos de medida cero"] },
+          { num: "2", name: "Integral de Lebesgue", horas: 20, subtemas: ["Funciones medibles", "Integral de Lebesgue de funciones simples y no negativas", "Integral de Lebesgue de funciones integrables", "Teorema de Beppo Levi (convergencia monótona)", "Lema de Fatou", "Teorema de convergencia dominada de Lebesgue", "Relación con la integral de Riemann", "Teorema de Fubini-Tonelli", "Cambio de variable en la integral de Lebesgue"] },
+          { num: "3", name: "Teoremas de convergencia", horas: 20, subtemas: ["Convergencia puntual y convergencia en medida", "Teorema de Egorov", "Diferenciación bajo el signo de integral", "Integral dependiente de un parámetro"] },
+          { num: "4", name: "Espacio \\(L^2\\)", horas: 13, subtemas: ["Desigualdades de Hölder y Minkowski", "Los espacios \\(L^p\\) como espacios de Banach", "El espacio \\(L^2\\) como espacio de Hilbert", "Proyección ortogonal y complemento ortogonal", "Bases ortonormales y series de Fourier en \\(L^2\\)"] },
+          { num: "5", name: "Temas opcionales", horas: 7, subtemas: ["Medidas con signo y teorema de Radon-Nikodym", "Medidas de Borel y medidas de Radon", "Transformada de Fourier en \\(L^1\\) y \\(L^2\\)", "Convolución y sus propiedades"] }
         ],
         bibBasicas: [
-          { name: "Royden, H.L.; Fitzpatrick, P. — Real Analysis. Pearson, 2010.", caps: ["Medida de Lebesgue", "Integral de Lebesgue", "Espacios L^p", "Diferenciación e integración"] },
-          { name: "Folland, G.B. — Real Analysis: Modern Techniques and Their Applications. Wiley, 1999.", caps: ["Medida", "Integración", "Espacios L^p"] }
+          { name: "Apostol, T.M. — Mathematical Analysis. Addison-Wesley, 1974.", caps: ["Integración de Lebesgue", "Espacios L^p"] },
+          { name: "Bartle, R.G. — The Elements of Integration and Lebesgue Measure. Wiley, 1995.", caps: ["Medida de Lebesgue", "Integral de Lebesgue", "Espacios L^p"] },
+          { name: "Jost, J. — Postmodern Analysis. Springer, 2005.", caps: ["Medida e integración", "Espacios L^p"] },
+          { name: "Kolmogorov, A.N.; Fomin, S.V. — Elementos de la teoría de funciones y del análisis funcional. Mir, 1975.", caps: ["Integral de Lebesgue", "Espacios L^p", "Análisis funcional"] },
+          { name: "Rudin, W. — Principles of Mathematical Analysis. McGraw-Hill, 1976.", caps: ["Integración de Lebesgue"] },
+          { name: "Wheeden, R.L.; Zygmund, A. — Measure and Integral. Marcel Dekker, 1977.", caps: ["Medida de Lebesgue", "Integral de Lebesgue", "Espacios L^p"] }
         ],
-        bibComp: ["Rudin, W. — Real and Complex Analysis. McGraw-Hill, 1987.", "Halmos, P.R. — Measure Theory. Springer, 1974."],
-        subsecuentes: ["Teoría de la Medida I", "Análisis de Fourier I", "Procesos Estocásticos I"]
+        bibComp: ["Brézis, H. — Functional Analysis, Sobolev Spaces and Partial Differential Equations. Springer, 2011.", "Dieudonné, J. — Foundations of Modern Analysis. Academic Press, 1969.", "Lieb, E.H.; Loss, M. — Analysis. AMS, 2001.", "Royden, H.L.; Fitzpatrick, P. — Real Analysis. Pearson, 2010.", "Schwartz, L. — Analyse. Hermann, 1967."],
+        subsecuentes: ["Análisis Matemático III", "Simulación y Control", "Topología III", "Variable Compleja II"]
       }
     ]
   },
