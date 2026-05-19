@@ -383,10 +383,13 @@ const LIBRARY = [
     books: [
       {
         id: "ana_b3",
-        title: "Análisis Matemático",
-        author: "Tom M. Apostol",
-        edition: "2ª ed. Reverté, 1977",
-        chapters: [
+ title: "Análisis Matemático",
+ author: "Tom M. Apostol",
+ edition: "2ª ed. Reverté, 1977",
+ chapters: [
+          {
+            num: 1, title: "El sistema de los números reales y el sistema de los números complejos",
+            notes: [
               { type:"obs", label:"1.1 INTRODUCCION", tex:"El Análisis matemático estudia conceptos relacionados de alguna manera con los números reales; por ello empezaremos nuestro estudio del Análisis con una discusión del sistema de los números reales. Existen diversos métodos para introducir los números reales. Uno de ellos parte de los enteros positivos 1, 2, 3, ..., que considera conceptos no definidos, utilizándolos para construir un sistema más amplio, los números racionales positivos (cocientes de enteros positivos), los negativos y el cero. Los números racionales son utilizados, a su vez, para construir los números irracionales, números reales como √2 y π, que no son racionales. El sistema de los números reales lo constituye la reunión de los números racionales e irracionales. A pesar de que estas cuestiones constituyen una parte importante de los fundamentos de la Matemática, no las describiremos aquí con detalle. Es un hecho que, en la mayor parte del Análisis, nos interesarán solamente las propiedades de los números reales antes que los métodos utilizados para construirlos. Por lo tanto, consideraremos los números reales mismos como objetos no definidos, sometidos a ciertos axiomas de los que extraeremos ulteriores propiedades. Dado que el lector está, probablemente, familiarizado con la mayoría de las propiedades de los números reales que consideraremos en las páginas que siguen, la exposición será más bien breve. Su propósito es examinar las características más importantes y persuadir al lector de que, de ser necesario, todas las propiedades se podrían deducir a partir de los axiomas. Tratamientos más detallados podrán hallarse en las referencias del final de este capítulo. Por conveniencia usaremos la notación y la terminología de la teoría de conjuntos elemental. Supongamos que S designa un conjunto (una colección de objetos). La notación x ∈ S significa que x está en el conjunto S, escribiendo x ∉ S para indicar que x no está en S. Un conjunto S es un subconjunto de T si cada elemento de S está también en T. Lo indicaremos escribiendo S ⊆ T. Un conjunto es no vacío si contiene, por lo menos, un elemento. Suponemos que existe un conjunto no vacío R de elementos, llamados números reales, que satisfacen los diez axiomas enumerados a continuación. Los axiomas se clasifican de manera natural en tres grupos a los que nos referiremos como axiomas de cuerpo, axiomas de orden y axioma de completitud (llamado también axioma del supremo o axioma de continuidad).", sourcePage:"pp. 1-2" },
               { type:"obs", label:"1.2 LOS AXIOMAS DE CUERPO", tex:"Junto con el conjunto R de los números reales admitimos la existencia de dos operaciones, llamadas suma y multiplicación, tales que, para cada par de números reales x e y, la suma x + y y el producto xy son números reales determinados unívocamente por x e y, satisfaciendo los siguientes axiomas. (En los axiomas que a continuación se exponen, x, y, z representan números reales arbitrarios en tanto no se precise lo contrario.)", sourcePage:"p. 2" },
               { type:"def", label:"Axioma 1", tex:"$$x + y = y + x, \\quad xy = yx$$", description:"leyes conmutativas", sourcePage:"p. 2" },
@@ -470,9 +473,8 @@ const LIBRARY = [
             ]
           }
         ]
-      },
-      {
-        id: "ana_b1",
+ },
+ {id: "ana_b1",
         title: "Principles of Mathematical Analysis",
         author: "Walter Rudin",
         edition: "3ª ed. McGraw-Hill",
