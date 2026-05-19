@@ -56,8 +56,6 @@ const PDF = {
   ed_b2:  { title: "Differential Equations — Blanchard, Devaney & Hall", driveId: "" },
   ed_b3:  { title: "Differential Equations and Their Applications — Braun", driveId: "" },
   ed_b4:  { title: "Elementary Differential Equations — Derrick & Grossman", driveId: "" },
-  top_b1: { title: "Topología — Munkres", driveId: "" },
-  top_b2: { title: "Introducción a la Topología — Gamelin", driveId: "" },
   ana_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
   ana_b2: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
   ana_b3: { title: "Mathematical Analysis — Apostol", driveId: "" },
@@ -74,8 +72,6 @@ const PDF = {
   vc1_b2: { title: "Complex Variables and Applications — Churchill & Brown", driveId: "" },
   vc1_b3: { title: "Variable Compleja — Lascurain Orive", driveId: "" },
   vc1_b4: { title: "Basic Complex Analysis — Marsden & Hoffman", driveId: "" },
-  prob_b1:{ title: "Probabilidad — Pitman", driveId: "" },
-  prob_b2:{ title: "Introduction to Probability — Bertsekas", driveId: "" },
   alm_b1: { title: "Topics in Algebra — Herstein", driveId: "" },
   alm_b2: { title: "A First Course in Abstract Algebra — Fraleigh", driveId: "" },
   alm_b3: { title: "An Introduction to the Theory of Groups — Rotman", driveId: "" },
@@ -1060,7 +1056,7 @@ const LIBRARY = [
   },
 
   {
-    subject: "Ecuaciones Diferenciales Ordinarias",
+    subject: "Ecuaciones Diferenciales I",
     matId: "ec_dif",
     color: "linear-gradient(135deg,#0d0a07,#2a1e0e)",
     books: [
@@ -1166,69 +1162,6 @@ const LIBRARY = [
             notes: [
               { type:"def", label:"Transformada de Laplace",
                 tex:"$\\mathcal{L}\\{f\\}(s)=\\int_0^\\infty e^{-st}f(t)\\,dt$ (para $s$ suficientemente grande). Propiedades: $\\mathcal{L}\\{f'\\}=s\\mathcal{L}\\{f\\}-f(0)$; $\\mathcal{L}\\{e^{at}f\\}(s)=\\mathcal{L}\\{f\\}(s-a)$ (traslación). Útil para PVI con condiciones iniciales." },
-            ]
-          },
-        ]
-      },
-    ]
-  },
-
-  {
-    subject: "Topología I",
-    matId: "top_1",
-    color: "linear-gradient(135deg,#07111a,#0d2233)",
-    books: [
-      {
-        id: "top_b1",
-        title: "Topology",
-        author: "James R. Munkres",
-        edition: "2ª ed. Prentice Hall",
-        chapters: [
-          {
-            num: 2, title: "Espacios Topológicos y Funciones Continuas",
-            notes: [
-              { type:"def", label:"Topología",
-                tex:"Una $\\textit{topología}$ en $X$ es una colección $\\mathcal{T}\\subset\\mathcal{P}(X)$ tal que: $\\emptyset,X\\in\\mathcal{T}$; uniones arbitrarias de elementos de $\\mathcal{T}$ están en $\\mathcal{T}$; intersecciones finitas también." },
-              { type:"def", label:"Continuidad",
-                tex:"$f:(X,\\mathcal{T}_X)\\to(Y,\\mathcal{T}_Y)$ es continua si $\\forall V\\in\\mathcal{T}_Y$, $f^{-1}(V)\\in\\mathcal{T}_X$." },
-              { type:"teo", label:"Caracterización por sucesiones (espacios métricos)",
-                tex:"En un espacio métrico, $f$ es continua en $x$ $\\Leftrightarrow$ para toda sucesión $x_n\\to x$, $f(x_n)\\to f(x)$." },
-              { type:"def", label:"Homeomorfismo",
-                tex:"$f:X\\to Y$ es un $\\textit{homeomorfismo}$ si es biyectiva, continua, y su inversa $f^{-1}$ es continua. $X\\cong Y$ si existe tal $f$." },
-            ]
-          },
-          {
-            num: 3, title: "Conexidad y Compacidad",
-            notes: [
-              { type:"def", label:"Espacio conexo",
-                tex:"$X$ es $\\textit{conexo}$ si no puede escribirse como unión de dos abiertos disjuntos no vacíos. Equivalentemente, los únicos conjuntos abiertos y cerrados son $\\emptyset$ y $X$." },
-              { type:"teo", label:"Imagen de conexo es conexa",
-                tex:"Si $f:X\\to Y$ es continua y $X$ es conexo, entonces $f(X)$ es conexo." },
-              { type:"def", label:"Compacidad",
-                tex:"$X$ es $\\textit{compacto}$ si todo cubrimiento abierto tiene un subcubrimiento finito: si $X\\subset\\bigcup_{\\alpha}U_\\alpha$ ($U_\\alpha$ abiertos) entonces $X\\subset U_{\\alpha_1}\\cup\\cdots\\cup U_{\\alpha_n}$." },
-              { type:"teo", label:"Heine-Borel",
-                tex:"Un subconjunto de $\\mathbb{R}^n$ es compacto $\\Leftrightarrow$ es cerrado y acotado." },
-              { type:"teo", label:"Imagen de compacto es compacta",
-                tex:"Si $f:X\\to Y$ es continua y $X$ es compacto, entonces $f(X)$ es compacto. En particular, $f$ alcanza su máximo y mínimo en espacios métricos." },
-            ]
-          },
-        ]
-      },
-      {
-        id: "top_b2",
-        title: "Introduction to Topology",
-        author: "Gamelin & Greene",
-        edition: "2ª ed. Dover",
-        chapters: [
-          {
-            num: 1, title: "Espacios Métricos",
-            notes: [
-              { type:"def", label:"Espacio métrico",
-                tex:"$(X,d)$ donde $d:X\\times X\\to[0,\\infty)$ satisface: $d(x,y)=0\\Leftrightarrow x=y$; $d(x,y)=d(y,x)$; $d(x,z)\\le d(x,y)+d(y,z)$ (desigualdad triangular)." },
-              { type:"def", label:"Sucesión de Cauchy",
-                tex:"$(x_n)$ es de Cauchy si $\\forall\\varepsilon>0,\\,\\exists N:\\forall m,n>N,\\,d(x_m,x_n)<\\varepsilon$. Un espacio donde toda sucesión de Cauchy converge se llama $\\textit{completo}$." },
-              { type:"teo", label:"Completitud de ℝ^n",
-                tex:"$\\mathbb{R}^n$ con la métrica euclidiana es completo. Más generalmente, todo espacio de Hilbert es completo." },
             ]
           },
         ]
@@ -1384,72 +1317,6 @@ const LIBRARY = [
                 tex:"La $\\textit{variación total}$ de $f:[a,b]\\to\\mathbb{R}$ es $V_a^b(f)=\\sup_P\\sum_{i=1}^n|f(x_i)-f(x_{i-1})|$ (sup sobre todas las particiones $P$). $f$ es de variación acotada ($f\\in BV$) si $V_a^b(f)<\\infty$. Toda $f$ monótona es BV; $f\\in BV\\Leftrightarrow f=g-h$ con $g,h$ monótonas." },
               { type:"teo", label:"Integral de Riemann-Stieljes (Wheeden)",
                 tex:"Si $f$ es continua y $\\alpha\\in BV$, entonces $\\int_a^b f\\,d\\alpha$ existe. La integral de Lebesgue-Stieljes extiende esto a integradoras $\\alpha$ más generales, y coincide con $\\int f\\,d\\mu_\\alpha$ donde $\\mu_\\alpha$ es la medida de Borel inducida por $\\alpha$." },
-            ]
-          },
-        ]
-      },
-    ]
-  },
-
-  {
-    subject: "Probabilidad I",
-    matId: "prob_1",
-    color: "linear-gradient(135deg,#0d1007,#1e2a0e)",
-    books: [
-      {
-        id: "prob_b1",
-        title: "Probability",
-        author: "Jim Pitman",
-        edition: "Springer, 1993",
-        chapters: [
-          {
-            num: 1, title: "Introducción a la Probabilidad",
-            notes: [
-              { type:"def", label:"Espacio de probabilidad",
-                tex:"Una terna $(\\Omega,\\mathcal{F},P)$ donde $\\Omega$ es el espacio muestral, $\\mathcal{F}$ es una $\\sigma$-álgebra de eventos, y $P:\\mathcal{F}\\to[0,1]$ satisface $P(\\Omega)=1$ y $\\sigma$-aditividad." },
-              { type:"teo", label:"Probabilidad total",
-                tex:"Si $\\{B_i\\}$ es una partición de $\\Omega$: $P(A)=\\displaystyle\\sum_i P(A\\mid B_i)P(B_i)$." },
-              { type:"teo", label:"Teorema de Bayes",
-                tex:"$P(B_i\\mid A)=\\dfrac{P(A\\mid B_i)P(B_i)}{\\displaystyle\\sum_j P(A\\mid B_j)P(B_j)}$" },
-            ]
-          },
-          {
-            num: 3, title: "Variables Aleatorias",
-            notes: [
-              { type:"def", label:"Variable aleatoria",
-                tex:"Una función medible $X:\\Omega\\to\\mathbb{R}$, es decir, $\\{\\omega:X(\\omega)\\le x\\}\\in\\mathcal{F}$ para todo $x\\in\\mathbb{R}$." },
-              { type:"def", label:"Esperanza",
-                tex:"$E[X]=\\displaystyle\\int_\\Omega X\\,dP=\\begin{cases}\\sum_x x\\,P(X=x)&\\text{discreta}\\\\\\int_{-\\infty}^\\infty x\\,f_X(x)\\,dx&\\text{continua}\\end{cases}$" },
-              { type:"teo", label:"Desigualdad de Chebyshev",
-                tex:"$P(|X-\\mu|\\ge k\\sigma)\\le\\dfrac{1}{k^2}$, donde $\\mu=E[X]$ y $\\sigma^2=\\text{Var}(X)$." },
-              { type:"teo", label:"Ley de los grandes números (débil)",
-                tex:"Si $X_1,X_2,\\ldots$ son i.i.d. con media $\\mu$, entonces $\\bar{X}_n=\\frac{1}{n}\\sum_{i=1}^n X_i\\xrightarrow{P}\\mu$ cuando $n\\to\\infty$." },
-            ]
-          },
-          {
-            num: 5, title: "Distribuciones Notables",
-            notes: [
-              { type:"def", label:"Distribución Normal",
-                tex:"$X\\sim N(\\mu,\\sigma^2)$: $f_X(x)=\\dfrac{1}{\\sigma\\sqrt{2\\pi}}e^{-(x-\\mu)^2/(2\\sigma^2)}$. Tiene $E[X]=\\mu$, $\\text{Var}(X)=\\sigma^2$." },
-              { type:"teo", label:"Teorema Central del Límite",
-                tex:"Si $X_1,\\ldots,X_n$ son i.i.d. con media $\\mu$ y varianza $\\sigma^2<\\infty$, entonces $\\dfrac{\\bar{X}_n-\\mu}{\\sigma/\\sqrt{n}}\\xrightarrow{d}N(0,1)$." },
-            ]
-          },
-        ]
-      },
-      {
-        id: "prob_b2",
-        title: "Introduction to Probability",
-        author: "Bertsekas & Tsitsiklis",
-        edition: "2ª ed. Athena Scientific",
-        chapters: [
-          {
-            num: 4, title: "Cadenas de Markov",
-            notes: [
-              { type:"def", label:"Cadena de Markov",
-                tex:"Proceso estocástico $\\{X_n\\}_{n\\ge0}$ con la propiedad de Markov: $P(X_{n+1}=j\\mid X_n=i,X_{n-1},\\ldots)=P(X_{n+1}=j\\mid X_n=i)=p_{ij}$." },
-              { type:"def", label:"Estado recurrente y transitorio",
-                tex:"El estado $i$ es $\\textit{recurrente}$ si $P(T_i<\\infty)=1$ (el proceso regresa a $i$ con certeza); es $\\textit{transitorio}$ si $P(T_i<\\infty)<1$." },
             ]
           },
         ]
