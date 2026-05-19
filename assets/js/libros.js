@@ -187,14 +187,12 @@ const R = {
 
         ${(b.chapters || []).map((ch, ci) => {
           const key = `${b.id}_ch${ci}`;
-          const isOpen = S.openChapters.has(key);
           return `
-          <div class="chapter-item${isOpen ? ' open' : ''}" data-ch-key="${esc(key)}">
-            <div class="chapter-head" onclick="A.toggleChapter('${esc(key)}',this)">
+          <div class="chapter-item" data-ch-key="${esc(key)}">
+            <div class="chapter-head">
               <span class="chapter-num">Ch.${ch.num}</span>
               <span class="chapter-title">${esc(ch.title)}</span>
-              <span class="chapter-meta">${ch.notes.length} notas</span>
-              <svg class="chapter-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+              <span class="chapter-meta">${ch.notes.length} nota${ch.notes.length !== 1 ? 's' : ''}</span>
             </div>
             <div class="chapter-body" id="chbody-${esc(key)}">
               ${ch.notes.map((note, ni) => {
@@ -221,13 +219,8 @@ const R = {
       </div>
     `;
 
-    /* Render KaTeX for already-open chapters */
-    if (S.openChapters.size > 0) {
-      S.openChapters.forEach(key => {
-        const body = document.getElementById(`chbody-${key}`);
-        if (body) renderKatex(body);
-      });
-    }
+    /* Render all math immediately (chapters always expanded) */
+    renderKatex(main);
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -324,22 +317,6 @@ const A = {
     const faved = isFavNote(key);
     btn.textContent = faved ? '♥' : '♡';
     btn.classList.toggle('faved', faved);
-  },
-
-  toggleChapter(key, headEl) {
-    const item = headEl.closest('.chapter-item');
-    const body = document.getElementById(`chbody-${key}`);
-    if (!item || !body) return;
-
-    const wasOpen = item.classList.contains('open');
-    if (wasOpen) {
-      item.classList.remove('open');
-      S.openChapters.delete(key);
-    } else {
-      item.classList.add('open');
-      S.openChapters.add(key);
-      renderKatex(body);
-    }
   },
 
   search: (() => {
