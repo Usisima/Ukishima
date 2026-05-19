@@ -635,6 +635,8 @@ body {
   border: 1px solid var(--border);
   transition: background 0.18s;
   position: relative;
+  overflow: hidden;
+  min-width: 0;
 }
 
 /* ── per-type card background — pastel gradient to transparent ── */
@@ -724,12 +726,25 @@ body {
   font-size: 0.6rem;
   line-height: 1.85;
   color: var(--ink2);
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* KaTeX overrides for dark theme */
 .note-tex .katex { color: var(--ink); }
-.note-tex .katex-display { margin: 0.5em 0; overflow-x: auto; }
-.note-tex .katex-display > .katex { text-align: left; }
+.note-tex .katex-display {
+  margin: 0.5em 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+.note-tex .katex-display > .katex {
+  text-align: center;
+  max-width: 100%;
+  white-space: normal;
+}
 
 /* ── EXPANDABLE DEM ──────────────────────────── */
 .note-item.has-dem { cursor: pointer; }
@@ -781,8 +796,18 @@ body {
 }
 
 .note-dem-tex .katex { color: var(--ink); }
-.note-dem-tex .katex-display { margin: 0.5em 0; overflow-x: auto; }
-.note-dem-tex .katex-display > .katex { text-align: left; }
+.note-dem-tex .katex-display {
+  margin: 0.5em 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+.note-dem-tex .katex-display > .katex {
+  text-align: center;
+  max-width: 100%;
+  white-space: normal;
+}
 
 .note-fav-btn {
   background: transparent;
