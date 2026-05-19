@@ -586,64 +586,90 @@ body {
   padding: 0 0 0.25rem;
 }
 
+/* ── NOTE ITEM — álbum cover track style ─────── */
 .note-item {
-  padding: 0.75rem 0.75rem 0.75rem 1rem;
-  border-left: 2px solid var(--border2);
-  margin: 0.5rem 0;
-  border-radius: 0 var(--r2) var(--r2) 0;
-  background: rgba(255, 255, 255, 0.015);
-  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  padding: 0.7rem 0.75rem;
+  margin: 0.45rem 0;
+  border-radius: var(--r2);
+  background: rgba(255,255,255,0.022);
+  border: 1px solid var(--border);
+  transition: background 0.18s;
   position: relative;
 }
 
-/* ── per-type left border + tinted bg ──────── */
-.note-item[data-type="def"] { border-left-color: rgba(123,185,239,0.55); background: rgba(123,185,239,0.03); }
-.note-item[data-type="teo"] { border-left-color: rgba(94,207,190,0.6);   background: rgba(94,207,190,0.04); }
-.note-item[data-type="cor"] { border-left-color: rgba(181,168,240,0.5);  background: rgba(181,168,240,0.03); }
-.note-item[data-type="dem"] { border-left-color: rgba(232,194,106,0.45); background: rgba(232,194,106,0.03); }
-.note-item[data-type="eje"] { border-left-color: rgba(240,144,144,0.45); background: rgba(240,144,144,0.025); }
-.note-item[data-type="obs"] { border-left-color: rgba(148,180,168,0.35); background: rgba(148,180,168,0.02); }
-
-/* ── tag row ───────────────────────────────── */
-.note-tag {
+/* header row: art + meta + fav */
+.note-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.35rem;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
 }
 
-/* ── pill: color swatch only, no label ──────── */
-.note-tag-type {
-  display: inline-block;
-  width: 28px;
-  height: 7px;
-  border-radius: 99px;
+/* ── album cover square ─────────────────────── */
+.note-art {
+  width: 44px;
+  height: 44px;
+  border-radius: 9px;
   flex-shrink: 0;
-  font-size: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.93);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.42);
+  user-select: none;
+  position: relative;
   overflow: hidden;
-  border: none;
-  align-self: center;
-  background: rgba(232,245,242,0.1);
 }
 
-.note-tag-type::before { display: none; }
+/* specular highlight on the cover */
+.note-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.16) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
 
-/* ── per-type pill colors ───────────────────── */
-.note-item[data-type="def"] .note-tag-type { background: rgba(123,185,239,0.55); }
-.note-item[data-type="teo"] .note-tag-type { background: rgba(94,207,190,0.55);  }
-.note-item[data-type="cor"] .note-tag-type { background: rgba(181,168,240,0.55); }
-.note-item[data-type="dem"] .note-tag-type { background: rgba(232,194,106,0.55); }
-.note-item[data-type="eje"] .note-tag-type { background: rgba(240,144,144,0.55); }
-.note-item[data-type="obs"] .note-tag-type { background: rgba(148,180,168,0.55); }
+/* ── per-type cover gradients ───────────────── */
+.note-item[data-type="def"] .note-art { background: linear-gradient(135deg, #1a4878, #2262b0); }
+.note-item[data-type="teo"] .note-art { background: linear-gradient(135deg, #0c5048, #178f7a); }
+.note-item[data-type="cor"] .note-art { background: linear-gradient(135deg, #3b256e, #6244b5); }
+.note-item[data-type="dem"] .note-art { background: linear-gradient(135deg, #5c3a08, #9c6618); }
+.note-item[data-type="eje"] .note-art { background: linear-gradient(135deg, #5a1818, #a03535); }
+.note-item[data-type="obs"] .note-art { background: linear-gradient(135deg, #183830, #285e4e); }
+
+.note-meta { flex: 1; min-width: 0; }
 
 .note-label {
   font-family: 'Playfair Display', serif;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: 0.4rem;
   line-height: 1.3;
+  margin-bottom: 3px;
 }
+
+/* type name below label — colored per type */
+.note-type-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--ink3);
+}
+
+.note-item[data-type="def"] .note-type-badge { color: #8ec4f0; }
+.note-item[data-type="teo"] .note-type-badge { color: #5ecfbe; }
+.note-item[data-type="cor"] .note-type-badge { color: #c5bafd; }
+.note-item[data-type="dem"] .note-type-badge { color: #e8c26a; }
+.note-item[data-type="eje"] .note-type-badge { color: #f09090; }
+.note-item[data-type="obs"] .note-type-badge { color: #94b4a8; }
 
 .note-tex {
   font-size: 0.82rem;

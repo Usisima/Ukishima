@@ -29,6 +29,11 @@ const NOTE_LABELS = {
   dem: 'Demostración', eje: 'Ejemplo', obs: 'Observación',
 };
 
+/* ── NOTE ART SYMBOLS (álbum cover icon) ─────── */
+const NOTE_ART = {
+  def: '≝', teo: '★', cor: '∴', dem: '∎', eje: 'ε', obs: '⊙',
+};
+
 /* ── HELPERS ──────────────────────────────────── */
 function isFavBook(id) { return S.favBooks.has(id); }
 function toggleFavBook(id) {
@@ -170,17 +175,21 @@ const R = {
         const nkey = `${key}_n${ni}`;
         const nfaved = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
+        const artSym = NOTE_ART[note.type] || '·';
         return `
         <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
-          <div class="note-tag">
-            <span class="note-tag-type">${esc(NOTE_LABELS[note.type] || note.type)}</span>
+          <div class="note-header">
+            <div class="note-art" aria-hidden="true">${artSym}</div>
+            <div class="note-meta">
+              <div class="note-label">${esc(note.label)}</div>
+              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}</div>
+            </div>
             <button class="note-fav-btn ${nfaved}"
               onclick="A.toggleFavNote('${esc(nkey)}',this)"
               aria-label="Guardar nota">
               ${nfavIcon}
             </button>
           </div>
-          <div class="note-label">${esc(note.label)}</div>
           <div class="note-tex" data-tex="${esc(note.tex)}">${esc(note.tex)}</div>
         </div>`;
       }).join('');
