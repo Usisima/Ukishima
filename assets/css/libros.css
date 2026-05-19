@@ -701,6 +701,59 @@ body {
 .note-tex .katex-display { margin: 0.5em 0; overflow-x: auto; }
 .note-tex .katex-display > .katex { text-align: left; }
 
+/* ── EXPANDABLE DEM ──────────────────────────── */
+.note-item.has-dem { cursor: pointer; }
+.note-item.has-dem:active { filter: brightness(1.06); }
+
+.dem-chev {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 3px;
+  color: var(--c-dem);
+  transition: transform 0.22s ease;
+  flex-shrink: 0;
+}
+
+.note-item.dem-open .dem-chev { transform: rotate(180deg); }
+
+.note-dem {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.2, 1, 0.4, 1),
+              opacity 0.25s ease,
+              margin-top 0.25s ease;
+  opacity: 0;
+  margin-top: 0;
+}
+
+.note-item.dem-open .note-dem {
+  max-height: 1200px;
+  opacity: 1;
+  margin-top: 0.65rem;
+}
+
+.note-dem-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c-dem);
+  opacity: 0.75;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(232,194,106,0.18);
+}
+
+.note-dem-tex {
+  font-size: 0.6rem;
+  line-height: 1.85;
+  color: var(--ink2);
+}
+
+.note-dem-tex .katex { color: var(--ink); }
+.note-dem-tex .katex-display { margin: 0.5em 0; overflow-x: auto; }
+.note-dem-tex .katex-display > .katex { text-align: left; }
+
 .note-fav-btn {
   background: transparent;
   border: none;

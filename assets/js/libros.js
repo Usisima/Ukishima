@@ -175,21 +175,30 @@ const R = {
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
         const imgN = (discIdx % DISC_TOTAL) + 1;
         discIdx++;
+        const hasDem = !!note.dem;
+        const demSection = hasDem ? `
+          <div class="note-dem">
+            <div class="note-dem-label">Demostración</div>
+            <div class="note-dem-tex">${esc(note.dem)}</div>
+          </div>` : '';
+        const chevron = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
+        const favStop = hasDem ? 'event.stopPropagation();' : '';
         return `
-        <div class="note-item" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}">
+        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
           <div class="note-header">
             <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt=""></div>
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
-              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}</div>
+              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}${chevron}</div>
             </div>
             <button class="note-fav-btn ${nfaved}"
-              onclick="A.toggleFavNote('${esc(nkey)}',this)"
+              onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)"
               aria-label="Guardar nota">
               ${nfavIcon}
             </button>
           </div>
-          <div class="note-tex" data-tex="${esc(note.tex)}">${esc(note.tex)}</div>
+          <div class="note-tex">${esc(note.tex)}</div>
+          ${demSection}
         </div>`;
       }).join('');
 
@@ -336,6 +345,10 @@ const A = {
     const faved = isFavNote(key);
     btn.textContent = faved ? '♥' : '♡';
     btn.classList.toggle('faved', faved);
+  },
+
+  toggleDem(noteEl) {
+    noteEl.classList.toggle('dem-open');
   },
 
   search: (() => {

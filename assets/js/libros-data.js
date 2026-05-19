@@ -59,7 +59,8 @@ const LIBRARY = [
               { type:"def", label:"Conectivos lógicos",
                 tex:"Los conectivos fundamentales son: negación $\\lnot p$, conjunción $p\\land q$, disyunción $p\\lor q$, condicional $p\\to q$ y bicondicional $p\\leftrightarrow q$." },
               { type:"teo", label:"Leyes de De Morgan",
-                tex:"Para proposiciones $p$ y $q$:\\[\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q\\qquad\\lnot(p\\lor q)\\equiv\\lnot p\\land\\lnot q\\]" },
+                tex:"Para proposiciones $p$ y $q$:\\[\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q\\qquad\\lnot(p\\lor q)\\equiv\\lnot p\\land\\lnot q\\]",
+                dem:"Verificamos $\\lnot(p\\land q)\\equiv\\lnot p\\lor\\lnot q$ por tabla de verdad:\\[\\begin{array}{cc|c|cc}p&q&p\\land q&\\lnot(p\\land q)&\\lnot p\\lor\\lnot q\\\\\\hline V&V&V&F&F\\\\V&F&F&V&V\\\\F&V&F&V&V\\\\F&F&F&V&V\\end{array}\\]Las columnas 4 y 5 son idénticas, luego las fórmulas son lógicamente equivalentes. La segunda ley se demuestra de forma análoga. $\\blacksquare$" },
               { type:"def", label:"Tautología",
                 tex:"Una fórmula $\\varphi$ es una $\\textit{tautología}$ si su tabla de verdad es verdadera para toda asignación de valores." },
             ]
@@ -72,7 +73,8 @@ const LIBRARY = [
               { type:"teo", label:"Álgebra de conjuntos",
                 tex:"Para cualesquiera conjuntos $A,B,C$:\\begin{align*}A\\cup(B\\cap C)&=(A\\cup B)\\cap(A\\cup C)\\\\A\\cap(B\\cup C)&=(A\\cap B)\\cup(A\\cap C)\\end{align*}" },
               { type:"teo", label:"Principio de inclusión-exclusión",
-                tex:"Para conjuntos finitos $A$ y $B$:\\[|A\\cup B|=|A|+|B|-|A\\cap B|\\]En general: $|A_1\\cup\\cdots\\cup A_n|=\\displaystyle\\sum_i|A_i|-\\sum_{i<j}|A_i\\cap A_j|+\\cdots$" },
+                tex:"Para conjuntos finitos $A$ y $B$:\\[|A\\cup B|=|A|+|B|-|A\\cap B|\\]En general: $|A_1\\cup\\cdots\\cup A_n|=\\displaystyle\\sum_i|A_i|-\\sum_{i<j}|A_i\\cap A_j|+\\cdots$",
+                dem:"Particionamos $A\\cup B$ en tres partes disjuntas: $A\\setminus B$, $B\\setminus A$ y $A\\cap B$. Entonces\\[|A\\cup B|=|A\\setminus B|+|B\\setminus A|+|A\\cap B|.\\]Como $|A|=|A\\setminus B|+|A\\cap B|$ y $|B|=|B\\setminus A|+|A\\cap B|$, sumando:\\[|A|+|B|=|A\\setminus B|+|B\\setminus A|+2|A\\cap B|=|A\\cup B|+|A\\cap B|.\\]Despejando: $|A\\cup B|=|A|+|B|-|A\\cap B|$. $\\blacksquare$" },
               { type:"def", label:"Producto cartesiano",
                 tex:"$A\\times B=\\{(a,b)\\mid a\\in A,\\,b\\in B\\}$. Se cumple $|A\\times B|=|A|\\cdot|B|$ para conjuntos finitos." },
             ]
@@ -83,7 +85,8 @@ const LIBRARY = [
               { type:"def", label:"Relación de equivalencia",
                 tex:"Una relación $\\sim$ en $A$ es de equivalencia si es reflexiva ($a\\sim a$), simétrica ($a\\sim b\\Rightarrow b\\sim a$) y transitiva." },
               { type:"teo", label:"Partición por clases de equivalencia",
-                tex:"Toda relación de equivalencia $\\sim$ en $A$ determina una partición $A/\\!\\sim$ de $A$ en clases disjuntas $[a]=\\{x\\in A\\mid x\\sim a\\}$." },
+                tex:"Toda relación de equivalencia $\\sim$ en $A$ determina una partición $A/\\!\\sim$ de $A$ en clases disjuntas $[a]=\\{x\\in A\\mid x\\sim a\\}$.",
+                dem:"Sean $[a]$ y $[b]$ dos clases. Supongamos $[a]\\cap[b]\\neq\\varnothing$; existe $c$ con $c\\sim a$ y $c\\sim b$. Por simetría y transitividad $a\\sim b$, luego para todo $x\\in[a]$: $x\\sim a\\sim b$, así $x\\in[b]$. Simétricamente $[b]\\subseteq[a]$, por tanto $[a]=[b]$. Además $a\\in[a]$ por reflexividad, así que las clases cubren $A$. Esto prueba que $A/\\!\\sim$ es una partición. $\\blacksquare$" },
               { type:"def", label:"Función inyectiva, sobreyectiva, biyectiva",
                 tex:"$f:A\\to B$ es $\\textit{inyectiva}$ si $f(a_1)=f(a_2)\\Rightarrow a_1=a_2$; $\\textit{sobreyectiva}$ si $\\forall b\\in B,\\,\\exists a:f(a)=b$; $\\textit{biyectiva}$ si ambas." },
             ]
