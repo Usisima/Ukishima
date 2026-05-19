@@ -36,7 +36,7 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  min-height: 100svh;
+  
   -webkit-font-smoothing: antialiased;
   padding-bottom: 4rem;
   position: relative;

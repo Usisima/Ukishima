@@ -34,7 +34,7 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  min-height: 100svh;
+  
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   overscroll-behavior: none;
@@ -606,6 +606,14 @@ body {
   transition: background 0.18s;
   position: relative;
 }
+
+/* ── per-type card background tints ────────────── */
+.note-item[data-type="def"] { background: rgba(123,185,239,0.07); border-color: rgba(123,185,239,0.14); }
+.note-item[data-type="teo"] { background: rgba(94,207,190,0.07);  border-color: rgba(94,207,190,0.14);  }
+.note-item[data-type="cor"] { background: rgba(181,168,240,0.07); border-color: rgba(181,168,240,0.14); }
+.note-item[data-type="dem"] { background: rgba(232,194,106,0.07); border-color: rgba(232,194,106,0.14); }
+.note-item[data-type="eje"] { background: rgba(240,144,144,0.07); border-color: rgba(240,144,144,0.14); }
+.note-item[data-type="obs"] { background: rgba(148,180,168,0.07); border-color: rgba(148,180,168,0.14); }
 
 /* header row: art + meta + fav */
 .note-header {
