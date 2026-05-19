@@ -390,9 +390,6 @@ const LIBRARY = [
           {
             num: 1, title: "El sistema de los números reales y el sistema de los números complejos",
             notes: [
-          {
-            num: 1, title: "El sistema de los números reales y el sistema de los números complejos",
-            notes: [
               { type:"def", label:"Axioma 1", tex:"$$x + y = y + x, \\quad xy = yx$$", description:"Leyes conmutativas", dem:null, sourcePage:"p. 2" },
               { type:"def", label:"Axioma 2", tex:"$$x + (y + z) = (x + y) + z, \\quad x(yz) = (xy)z$$", description:"Leyes asociativas", dem:null, sourcePage:"p. 2" },
               { type:"def", label:"Axioma 3", tex:"$$x(y + z) = xy + xz$$", description:"Ley distributiva", dem:null, sourcePage:"p. 2" },
@@ -456,7 +453,6 @@ const LIBRARY = [
               { type:"teo", label:"Representación polar", tex:"Todo $z \\neq 0$ puede representarse como $z = re^{i\\theta}$, donde $r = |z|$ y $\\theta = \\arg(z) + 2\\pi n$ para algún entero $n$.", note:"$(r_1 e^{i\\theta_1})(r_2 e^{i\\theta_2}) = r_1 r_2 e^{i(\\theta_1+\\theta_2)}$, $\\quad \\dfrac{r_1 e^{i\\theta_1}}{r_2 e^{i\\theta_2}} = \\dfrac{r_1}{r_2}e^{i(\\theta_1-\\theta_2)}$.", dem:null, sourcePage:"p. 27" },
               { type:"teo", label:"Argumento del producto", tex:"Si $z_1 z_2 \\neq 0$: $$\\arg(z_1 z_2) = \\arg(z_1) + \\arg(z_2) + 2\\pi\\, n(z_1,z_2),$$ donde $n(z_1,z_2) = 0$ si $-\\pi < \\arg z_1 + \\arg z_2 \\leq \\pi$; $= 1$ si $\\arg z_1 + \\arg z_2 \\leq -\\pi$; $= -1$ si $\\arg z_1 + \\arg z_2 > \\pi$.", dem:"Sea $\theta_k=\arg(z_k)$. Entonces $z_1 z_2=|z_1 z_2|e^{i(\theta_1+\theta_2)}$. Como $-2\pi < \theta_1+\theta_2 \leq 2\pi$, existe $n$ con $-\pi < \theta_1+\theta_2+2\pi n \leq \pi$, que es $n(z_1,z_2)$. $\blacksquare$", sourcePage:"p. 28" },
               { type:"def", label:"Potencias enteras de números complejos", tex:"Dado $z \\in \\mathbb{C}$ y $n \\in \\mathbb{Z}$, se define: $z^0 = 1$; $z^{n+1} = z^n z$ si $n \\geq 0$; $z^{-n} = (z^{-1})^n$ si $z \\neq 0$.", dem:null, sourcePage:"p. 28" },
-              { type:"def", label:"Potencias enteras de números complejos", tex:"Dado $z \\in \\mathbb{C}$ y $n \\in \\mathbb{Z}$, se define: $z^0 = 1$; $z^{n+1} = z^n z$ si $n \\geq 0$; $z^{-n} = (z^{-1})^n$ si $z \\neq 0$ y $n > 0$.", dem:null, sourcePage:"p. 28" },
               { type:"teo", label:"Reglas de exponentes en $\\mathbb{C}$", tex:"Dados $m, n \\in \\mathbb{Z}$ y $z \\neq 0$: $$z^n z^m = z^{n+m}, \\qquad (z_1 z_2)^n = z_1^n z_2^n.$$", dem:"Por inducción. Se deja como ejercicio. $\\blacksquare$", sourcePage:"p. 29" },
               { type:"teo", label:"Raíces $n$-ésimas de un número complejo", tex:"Si $z \\neq 0$ y $n$ es un entero positivo, existen exactamente $n$ números complejos distintos $z_0, z_1, \\ldots, z_{n-1}$ tales que $z_k^n = z$. Están dados por $$z_k = R\\, e^{i\\phi_k}, \\quad R = |z|^{1/n}, \\quad \\phi_k = \\frac{\\arg(z) + 2\\pi k}{n}, \\quad k = 0, 1, \\ldots, n-1.$$", note:"Las $n$ raíces $n$-ésimas están igualmente espaciadas sobre el círculo de radio $R = |z|^{1/n}$ centrado en el origen.", dem:"Los $n$ números $Re^{i\\phi_k}$ son distintos y satisfacen $(Re^{i\\phi_k})^n = R^n e^{in\\phi_k} = |z|\\,e^{i(\\arg(z)+2\\pi k)} = z$. $\\blacksquare$", sourcePage:"pp. 29-30" },
               { type:"def", label:"Logaritmo complejo", tex:"Si $z \\neq 0$, un número complejo $w$ es un logaritmo de $z$ si $e^w = z$; se escribe $w = \\log z$. El valor principal, $\\operatorname{Log} z$, es aquel cuya parte imaginaria está en $(-\\pi, \\pi]$: si $z = re^{i\\theta}$ con $r > 0$ y $-\\pi < \\theta \\leq \\pi$, entonces $$\\operatorname{Log} z = \\ln r + i\\theta.$$", dem:null, sourcePage:"p. 30" },
@@ -468,10 +464,10 @@ const LIBRARY = [
               { type:"def", label:"Plano complejo ampliado $\\mathbb{C}^*$", tex:"El sistema de los números complejos ampliado $\\mathbb{C}^*$ es el plano complejo $\\mathbb{C}$ junto con un símbolo $\\infty$ que satisface: (a) si $z \\in \\mathbb{C}$: $z + \\infty = z - \\infty = \\infty$, $z/\\infty = 0$; (b) si $z \\neq 0$: $z(\\infty) = \\infty$, $z/0 = \\infty$; (c) $\\infty + \\infty = (\\infty)(\\infty) = \\infty$.", dem:null, sourcePage:"p. 34" },
               { type:"def", label:"Entorno de $\\infty$ en $\\mathbb{C}^*$", tex:"Cada conjunto de la forma $\\{z \\in \\mathbb{C} : |z| > r \\geq 0\\}$ se denomina entorno de $\\infty$, o bola con centro en $\\infty$.", dem:null, sourcePage:"p. 34" }
             ]
-          }
+          },
         ]
- },
- {id: "ana_b1",
+      },
+      {id: "ana_b1",
         title: "Principles of Mathematical Analysis",
         author: "Walter Rudin",
         edition: "3ª ed. McGraw-Hill",
