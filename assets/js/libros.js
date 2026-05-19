@@ -77,39 +77,18 @@ function renderKatex(el) {
   } catch(e) { /* silent */ }
 }
 
-/* ── READER (PDF overlay) ─────────────────────── */
-const Reader = {
-  open(bookId) {
-    const info = PDF[bookId];
-    if (!info) return;
-    if (!info.driveId) {
-      alert('El PDF aún no está disponible para este libro.');
-      return;
-    }
-    const src = `https://drive.google.com/file/d/${info.driveId}/preview`;
-    const url = `https://drive.google.com/file/d/${info.driveId}/view`;
-    const overlay = document.getElementById('pdf-overlay');
-    const frame   = document.getElementById('pdf-frame');
-    const title   = document.getElementById('pdf-title');
-    const link    = document.getElementById('pdf-newtab-btn');
-    title.textContent = info.title;
-    link.href = url;
-    frame.src = src;
-    document.getElementById('pdf-loading').style.display = 'block';
-    overlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    frame.onload = () => {
-      document.getElementById('pdf-loading').style.display = 'none';
-    };
-  },
-  close() {
-    const overlay = document.getElementById('pdf-overlay');
-    const frame   = document.getElementById('pdf-frame');
-    overlay.style.display = 'none';
-    frame.src = '';
-    document.body.style.overflow = '';
-  },
-};
+/* ── FIND NOTE BY KEY ─────────────────────────── */
+function findNote(nkey) {
+  const m = nkey.match(/^(.+)_ch(\d+)_n(\d+)$/);
+  if (!m) return null;
+  const [, bookId, ci, ni] = m;
+  const found = findBook(bookId);
+  if (!found) return null;
+  const ch = found.book.chapters?.[+ci];
+  const note = ch?.notes?.[+ni];
+  if (!note) return null;
+  return { note, book: found.book, subject: found.subject, color: found.color, chTitle: ch.title };
+}
 
 /* ── RENDER ───────────────────────────────────── */
 const R = {
@@ -161,10 +140,6 @@ const R = {
     const { book: b, subject, color } = found;
 
     document.getElementById('header-title').textContent = b.title;
-
-    const hasPdf = PDF[b.id] && PDF[b.id].driveId;
-    const pdfBtnClass = hasPdf ? '' : 'disabled';
-    const pdfBtnTitle = hasPdf ? 'Leer PDF' : 'PDF no disponible';
 
     let discIdx = 0;
     const chaptersHtml = (b.chapters || []).map((ch, ci) => {
@@ -234,10 +209,6 @@ const R = {
               <div class="hero-author">${esc(b.author)}</div>
               <div class="hero-edition">${esc(b.edition || '')}</div>
               <div class="hero-actions">
-                <button class="btn-pdf ${pdfBtnClass}" onclick="Reader.open('${esc(b.id)}')" ${hasPdf ? '' : 'disabled'}>
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                  ${esc(pdfBtnTitle)}
-                </button>
                 <button class="hero-fav-btn ${isFavBook(b.id) ? 'faved' : ''}" onclick="A.toggleFavBook('${esc(b.id)}',this)" aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
                   ${isFavBook(b.id) ? '♥' : '♡'}
                 </button>
@@ -305,33 +276,67 @@ const R = {
     document.getElementById('header-title').textContent = 'Bibliografía';
     const main = document.getElementById('lib-main');
 
-    const favBookIds = [...S.favBooks];
-    if (!favBookIds.length) {
-      main.innerHTML = `<div class="favs-section"><div class="lib-empty"><div class="lib-empty-icon">♡</div><p>Aún no tienes libros favoritos.<br>Toca ♡ en un libro para guardarlo.</p></div></div>`;
+    const favNoteKeys = [...S.favNotes];
+    const favBookIds  = [...S.favBooks];
+
+    if (!favNoteKeys.length && !favBookIds.length) {
+      main.innerHTML = `<div class="favs-section"><div class="lib-empty"><div class="lib-empty-icon">♡</div><p>Aún no tienes nada guardado.<br>Toca ♡ en un libro o nota para guardarlo.</p></div></div>`;
       return;
     }
 
-    const rows = favBookIds.map(id => {
-      const found = findBook(id);
-      if (!found) return '';
-      const { book: b, subject, color } = found;
-      return `
-        <div class="fav-book-row" onclick="Nav.go('book','${esc(b.id)}')">
-          <div class="fav-book-cover">
-            ${coverDiv(color, b.title)}
+    let html = '<div class="favs-section">';
+
+    if (favNoteKeys.length) {
+      html += `<div class="favs-label">${favNoteKeys.length} nota${favNoteKeys.length !== 1 ? 's' : ''} guardada${favNoteKeys.length !== 1 ? 's' : ''}</div>`;
+      html += favNoteKeys.map(nkey => {
+        const found = findNote(nkey);
+        if (!found) return '';
+        const { note, book: b, color } = found;
+        const hasDem = !!note.dem;
+        const chevron = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
+        const demSection = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${esc(note.dem)}</div></div>` : '';
+        const favStop = hasDem ? 'event.stopPropagation();' : '';
+        return `
+        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
+          <div class="note-header">
+            <div class="note-meta">
+              <div class="note-label">${esc(note.label)}</div>
+              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}${chevron}</div>
+              <div class="fav-note-source" onclick="event.stopPropagation();Nav.go('book','${esc(b.id)}')">${esc(b.title)}</div>
+            </div>
+            <button class="note-fav-btn faved"
+              onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)"
+              aria-label="Quitar de favoritos">
+              ♥
+            </button>
           </div>
+          <div class="note-tex">${esc(note.tex)}</div>
+          ${demSection}
+        </div>`;
+      }).join('');
+    }
+
+    if (favBookIds.length) {
+      html += `<div class="favs-label${favNoteKeys.length ? ' favs-label--spaced' : ''}">${favBookIds.length} libro${favBookIds.length !== 1 ? 's' : ''} guardado${favBookIds.length !== 1 ? 's' : ''}</div>`;
+      html += favBookIds.map(id => {
+        const found = findBook(id);
+        if (!found) return '';
+        const { book: b, color } = found;
+        return `
+        <div class="fav-book-row" onclick="Nav.go('book','${esc(b.id)}')">
+          <div class="fav-book-cover">${coverDiv(color, b.title)}</div>
           <div class="fav-book-info">
             <div class="fav-book-title">${esc(b.title)}</div>
             <div class="fav-book-author">${esc(b.author)}</div>
           </div>
           <svg class="fav-book-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>`;
-    }).join('');
+      }).join('');
+    }
 
-    main.innerHTML = `<div class="favs-section">
-      <div class="favs-label">${favBookIds.length} libro${favBookIds.length !== 1 ? 's' : ''} guardado${favBookIds.length !== 1 ? 's' : ''}</div>
-      ${rows}
-    </div>`;
+    html += '</div>';
+    main.innerHTML = html;
+    renderKatex(main);
   },
 };
 
@@ -348,6 +353,10 @@ const A = {
   toggleFavNote(key, btn) {
     toggleFavNote(key);
     const faved = isFavNote(key);
+    if (S.view === 'favs') {
+      R.favs();
+      return;
+    }
     btn.textContent = faved ? '♥' : '♡';
     btn.classList.toggle('faved', faved);
   },
@@ -462,16 +471,6 @@ const Nav = {
     inp.focus();
     document.getElementById('lib-search-clear').style.display = 'none';
     A.search('');
-  });
-
-  /* PDF close */
-  document.getElementById('pdf-close-btn').addEventListener('click', () => Reader.close());
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const overlay = document.getElementById('pdf-overlay');
-      if (overlay.style.display !== 'none') Reader.close();
-    }
   });
 
   /* sync sticky tops to real header height */
