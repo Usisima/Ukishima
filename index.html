@@ -149,119 +149,91 @@
 <script src="assets/js/state.js"></script>
 <script>
 
-// Black hole ASCII — two overlaid coordinate systems:
+// Black hole ASCII — fixed 120×24 character grid; font-size scales via CSS vw
+// so the entire figure scales as a single unit with the viewport.
 //   DISK   (flat ellipse)  → accretion ring + spiral arms
 //   SPHERE (true circle)   → photon ring + event horizon ball
 (function () {
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
+  // ── Fixed design grid ─────────────────────────────────────────────────────
+  const COLS = 120, ROWS = 24;
+
+  const CX  = Math.floor(COLS / 2);    // 60
+  const CY  = Math.floor(ROWS / 2);    // 12
+  const RA  = Math.floor(COLS * 0.28); // disk horizontal radius (cols)
+  const SRA = Math.round(RA  * 0.29);  // sphere horizontal radius (cols)
+  const SRB = SRA * 0.375;             // sphere vertical radius — char aspect keeps it circular
+  const RB  = Math.min(CY - 2, Math.round(RA / 5.33)); // disk vertical radius (rows)
+
   const PERIOD = 14000;
-  // 40-level brightness scale  (invisible → dense)
-  const LV = " .`,:;!~-_>?)(|/\\jrxnuvczXYUCLJQZmMW#@";
+  const LV = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
   const N  = LV.length - 1;
   const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
-  const SK = 5.4;  // spiral-arm winding
-
-  let W, H, CX, CY, RA, RB, SRA, SRB, meta, buf;
-  let elapsed = 0, lastTs = null, rafId = null;
-
-  function measureCW() {
-    const fs = getComputedStyle(pre).fontSize;
-    const sp = document.createElement('span');
-    sp.style.cssText = `font-family:'DM Mono',monospace;font-size:${fs};` +
-      `line-height:1;position:absolute;visibility:hidden;white-space:pre;top:-9999px`;
-    sp.textContent = 'M'.repeat(80);
-    document.body.appendChild(sp);
-    const w = sp.getBoundingClientRect().width / 80;
-    document.body.removeChild(sp);
-    return w || parseFloat(fs) * 0.6;
-  }
+  const SK = 5.4;
 
   const wrap = a => a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
 
-  function setup() {
-    const cw = measureCW();
-    W   = Math.max(40, Math.floor(window.innerWidth / cw));
-    CX  = Math.floor(W / 2);
-    RA  = Math.floor(W * 0.34);          // disk radius — leaves space on sides
-    SRA = Math.round(RA * 0.29);
-    SRB = SRA * 0.375;                   // sphere rows — keeps it circular
-    const rawRB = Math.round(RA / 5.33);
-    // H grows to fit both the sphere glow and the disk
-    H   = Math.max(20, Math.ceil(Math.max(SRB * 1.85, rawRB * 1.70) * 2) + 6);
-    CY  = Math.floor(H / 2);
-    RB  = Math.min(CY - 2, rawRB);
-    buf = new Array(W);
+  // Pre-compute both coordinate systems once — grid never changes
+  const meta = Array.from({ length: ROWS }, (_, r) =>
+    Array.from({ length: COLS }, (_, c) => {
+      const dx = (c - CX) / RA,   dy = (r - CY) / RB;
+      const sx = (c - CX) / SRA,  sy = (r - CY) / SRB;
+      return {
+        dd: Math.hypot(dx, dy), da: Math.atan2(dy, dx),
+        sd: Math.hypot(sx, sy), sa: Math.atan2(sy, sx),
+      };
+    })
+  );
 
-    // Pre-compute both coordinate systems for every cell
-    meta = Array.from({ length: H }, (_, r) =>
-      Array.from({ length: W }, (_, c) => {
-        const dx = (c - CX) / RA,   dy = (r - CY) / RB;
-        const sx = (c - CX) / SRA,  sy = (r - CY) / SRB;
-        return {
-          dd: Math.hypot(dx, dy), da: Math.atan2(dy, dx),  // disk
-          sd: Math.hypot(sx, sy), sa: Math.atan2(sy, sx),  // sphere
-        };
-      })
-    );
-  }
+  const buf = new Array(COLS);
+  let elapsed = 0, lastTs = null, rafId = null;
 
   function tick(ts) {
     if (lastTs !== null) elapsed += ts - lastTs;
     lastTs = ts;
     const phase = (elapsed / PERIOD) * 2 * Math.PI + Math.PI * 0.5;
-    const lines = new Array(H);
+    const lines = new Array(ROWS);
 
-    for (let r = 0; r < H; r++) {
+    for (let r = 0; r < ROWS; r++) {
       const row = meta[r];
-      for (let c = 0; c < W; c++) {
+      for (let c = 0; c < COLS; c++) {
         const { dd, da, sd, sa } = row[c];
 
-        // ── Absolute void: event horizon swallows everything ──
         if (sd < 0.50) { buf[c] = ' '; continue; }
 
         let b = 0;
 
-        // ── SPHERE layer (circular photon ring + inner ball) ──────────────
+        // ── SPHERE layer ──────────────────────────────────────────────────
         {
           const spda  = wrap(sa - phase);
           const sprox = Math.max(0, Math.cos(spda)) ** 2;
           const sbase = 0.04 + 0.15 * Math.max(0, Math.sin(sa));
 
           if (sd < 0.84) {
-            // Inner ball: subtle Lambertian shading — lit side faces the phase
             const depth = (sd - 0.50) / 0.34;
             b = Math.max(b, Math.max(0, Math.cos(spda)) * 0.20 * depth);
-
           } else if (sd < 1.14) {
-            // Photon ring: the bright circle around the ball
             b = Math.max(b, sbase + sprox * (1 - sbase));
-
           } else if (sd < 1.70) {
-            // Outer photon glow fading away
             const fade = 1 - (sd - 1.14) / 0.56;
             b = Math.max(b, (sbase + sprox * (1 - sbase)) * 0.55 * fade);
           }
         }
 
-        // ── DISK layer (flat elliptical accretion ring + spiral arms) ─────
+        // ── DISK layer ────────────────────────────────────────────────────
         {
           const ddda  = wrap(da - phase);
           const dprox = Math.max(0, Math.cos(ddda)) ** 2;
           const dbase = 0.06 + 0.18 * Math.max(0, Math.sin(da));
 
           if (dd >= 0.88 && dd < 1.12) {
-            // Accretion ring — brightest part
             b = Math.max(b, dbase + dprox * (1 - dbase));
-
           } else if (dd >= 1.12 && dd < 1.60) {
-            // Inner spiral halo
             const sda = wrap(da - SK * (dd - 1.12) - phase);
             b = Math.max(b, Math.cos(sda) ** 2 * 0.55);
-
           } else if (dd >= 1.60 && dd < 2.10) {
-            // Outer spiral arms, fading to nothing
             const sda  = wrap(da - SK * (dd - 1.12) - phase);
             const fade = 1 - (dd - 1.60) / 0.50;
             b = Math.max(b, Math.cos(sda) ** 2 * 0.35 * Math.max(0, fade));
@@ -277,20 +249,9 @@
     rafId = requestAnimationFrame(tick);
   }
 
-  function start() {
-    lastTs = null;
-    setup();
-    if (rafId) cancelAnimationFrame(rafId);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
     rafId = requestAnimationFrame(tick);
-  }
-
-  let resizeTimer = null;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(start, 200);
   });
-
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
