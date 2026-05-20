@@ -339,6 +339,7 @@ body {
   color: var(--ink3);
   backdrop-filter: blur(4px);
   z-index: 2;
+  outline: none;
 }
 .book-fav-dot:hover,
 .book-fav-dot.faved { color: var(--gold); border-color: rgba(180, 148, 220, 0.45); }
