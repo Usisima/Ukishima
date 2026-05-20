@@ -163,15 +163,32 @@
   const DRA = 62, DRB = DRA * Math.cos(INC) * AR;
   const PERIOD = 11000;
 
-  // Concentric ring bands: [inner_dd, outer_dd, base_hue]
-  // Inner rings are hotter (gold), outer rings cooler (red).
-  // Gaps between bands appear as dark voids in the disk.
-  const BANDS = [
-    [0.17, 0.36, 43],
-    [0.44, 0.60, 32],
-    [0.68, 0.82, 23],
-    [0.90, 1.03, 15],
+  // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue }
+  // Inner rings orbit faster: phaseLocal = phase * (BASE_RC / rc)^1.5 (Keplerian)
+  const RINGS  = [
+    { rc: 0.22, w: 0.040, hue: 46 },
+    { rc: 0.40, w: 0.055, hue: 36 },
+    { rc: 0.60, w: 0.065, hue: 25 },
+    { rc: 0.84, w: 0.075, hue: 16 },
   ];
+  const BASE_RC = 0.40;
+
+  // Seeded star field — flat typed arrays for O(1) per-cell lookup
+  const STARS = (() => {
+    let s = 0xabcdef01;
+    const r = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967295; };
+    return Array.from({ length: 200 }, () => ({
+      c: Math.floor(r() * COLS), r: Math.floor(r() * ROWS),
+      b: 0.10 + r() * 0.30, tw: 0.3 + r() * 3.0, ph: r() * 6.28,
+    }));
+  })();
+  const starB  = new Float32Array(COLS * ROWS);
+  const starTw = new Float32Array(COLS * ROWS);
+  const starPh = new Float32Array(COLS * ROWS);
+  for (const s of STARS) {
+    const i = s.r * COLS + s.c;
+    starB[i] = s.b; starTw[i] = s.tw; starPh[i] = s.ph;
+  }
 
   const LV_RAW = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
   const LV = [...LV_RAW].map(c => c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '&' ? '&amp;' : c);
@@ -194,6 +211,7 @@
     if (last !== null) elapsed += ts - last;
     last = ts;
     const phase = (elapsed / PERIOD) * 2 * Math.PI;
+    const t_sec = elapsed / 1000;
 
     let html = '';
 
@@ -204,47 +222,60 @@
       for (let c = 0; c < COLS; c++) {
         const { sd, sa, dd, da } = meta[r][c];
 
+        // r > CY → bottom of ellipse = NEAR side (disk between us and BH) → disk in front
+        // r ≤ CY → top    of ellipse = FAR  side (disk behind BH)        → ring in front
+        const nearSide = r > CY;
+
+        // Gaussian rings with Keplerian differential rotation
+        let diskB = 0, diskRelA = 0, diskHue = 30;
+        for (const ring of RINGS) {
+          const dt     = (dd - ring.rc) / ring.w;
+          const radial = Math.exp(-dt * dt * 3.2);
+          if (radial < 0.02) continue;
+          const phLocal = phase * (BASE_RC / ring.rc) ** 1.5;
+          const relA    = wrap(da - phLocal);
+          const contrib = radial * (0.18 + 0.82 * Math.max(0, Math.cos(relA)));
+          if (contrib > diskB) { diskB = contrib; diskRelA = relA; diskHue = ring.hue; }
+        }
+
+        // Photon ring — only outside the event horizon
+        let ringB = 0, ringT = 0;
+        if (sd >= 0.78 && sd < 1.85) {
+          const boost = 0.65 + 0.35 * Math.max(0, Math.cos(wrap(sa - phase)));
+          ringT = sd < 1.0 ? (sd - 0.78) / 0.22 : Math.max(0, 1 - (sd - 1.0) / 0.85);
+          ringB = ringT * 0.88 * boost;
+        }
+
+        // Near side: disk overrides ring AND void.
+        // Far  side: ring overrides disk; void stays void.
+        const showDisk = nearSide ? diskB > 0.01 : (diskB > 0.01 && ringB <= 0.02);
+        const showRing = !showDisk && ringB > 0.02 && sd >= 0.78;
+        const inVoid   = sd < 0.78;
+
         let ch, color;
-
-        if (sd < 0.78) {
-          ch = ' '; color = null;
+        if (showDisk) {
+          ch = lv(diskB);
+          const dN = Math.max(0, Math.cos(diskRelA));
+          const h  = Math.round((diskHue + dN * 12) / 5) * 5;
+          const l  = Math.round((14 + dN * 66) / 5) * 5;
+          color = `hsl(${h},90%,${l}%)`;
+        } else if (showRing) {
+          ch = lv(ringB);
+          const l = Math.round((38 + ringT * 54) / 5) * 5;
+          const s = Math.round((78 - ringT * 58) / 10) * 10;
+          color = `hsl(265,${s}%,${l}%)`;
+        } else if (sd >= 0.78) {
+          // Background stars — twinkling, only outside event horizon
+          const idx = r * COLS + c;
+          if (starB[idx] > 0) {
+            const sb = starB[idx] * (0.65 + 0.35 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
+            if (sb > 0.18) {
+              ch = '.';
+              color = `hsl(${210 + Math.round(sb * 40)},25%,${Math.round(40 + sb * 40)}%)`;
+            } else { ch = ' '; color = null; }
+          } else { ch = ' '; color = null; }
         } else {
-          let diskB = 0, ringB = 0, diskRelA = 0, ringT = 0, diskHue = 30;
-
-          // Find which ring band this point falls in (gaps → diskB stays 0)
-          for (const [inner, outer, hue] of BANDS) {
-            if (dd >= inner && dd <= outer) {
-              const t  = (dd - inner) / (outer - inner);   // 0=inner edge, 1=outer edge
-              const radial = Math.max(0, 1 - (2 * t - 1) ** 2 * 1.5); // bell, zeroes near edges
-              diskRelA = wrap(da - phase);
-              diskB    = radial * (0.18 + 0.82 * Math.max(0, Math.cos(diskRelA)));
-              diskHue  = hue;
-              break;
-            }
-          }
-
-          if (sd < 1.85) {
-            const boost = 0.65 + 0.35 * Math.max(0, Math.cos(wrap(sa - phase)));
-            ringT = sd < 1.0 ? (sd - 0.78) / 0.22 : Math.max(0, 1 - (sd - 1.0) / 0.85);
-            ringB = ringT * 0.88 * boost;
-          }
-
-          ch = lv(Math.max(diskB, ringB));
-
-          if (diskB >= ringB && diskB > 0.01) {
-            // Disk: base hue per ring, brightens & shifts gold on approaching side
-            const dN = Math.max(0, Math.cos(diskRelA));
-            const h  = Math.round((diskHue + dN * 12) / 5) * 5;
-            const l  = Math.round((14 + dN * 66) / 5) * 5;
-            color = `hsl(${h},90%,${l}%)`;
-          } else if (ringB > 0.02) {
-            // Photon ring: deep violet → near-white lavender
-            const l = Math.round((38 + ringT * 54) / 5) * 5;
-            const s = Math.round((78 - ringT * 58) / 10) * 10;
-            color = `hsl(265,${s}%,${l}%)`;
-          } else {
-            color = null;
-          }
+          ch = ' '; color = null;
         }
 
         if (color === runColor) {
