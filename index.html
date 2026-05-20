@@ -156,7 +156,6 @@
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
-  const H      = 28;
   const PERIOD = 14000;
   // 40-level brightness scale  (invisible → dense)
   const LV = " .`,:;!~-_>?)(|/\\jrxnuvczXYUCLJQZmMW#@";
@@ -164,7 +163,7 @@
   const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
   const SK = 5.4;  // spiral-arm winding
 
-  let W, CX, CY, RA, RB, SRA, SRB, meta, buf;
+  let W, H, CX, CY, RA, RB, SRA, SRB, meta, buf;
   let elapsed = 0, lastTs = null, rafId = null;
 
   function measureCW() {
@@ -185,11 +184,14 @@
     const cw = measureCW();
     W   = Math.max(40, Math.floor(window.innerWidth / cw));
     CX  = Math.floor(W / 2);
+    RA  = Math.floor(W * 0.34);          // disk radius — leaves space on sides
+    SRA = Math.round(RA * 0.29);
+    SRB = SRA * 0.375;                   // sphere rows — keeps it circular
+    const rawRB = Math.round(RA / 5.33);
+    // H grows to fit both the sphere glow and the disk
+    H   = Math.max(20, Math.ceil(Math.max(SRB * 1.85, rawRB * 1.70) * 2) + 6);
     CY  = Math.floor(H / 2);
-    RA  = Math.floor(W * 0.44);          // disk horizontal radius (cols)
-    RB  = Math.min(CY - 2, Math.round(RA / 5.33)); // disk vertical radius (rows)
-    SRA = Math.round(RA * 0.29);         // sphere radius (cols)
-    SRB = SRA * 0.375;                   // sphere radius (rows) — keeps it circular on screen
+    RB  = Math.min(CY - 2, rawRB);
     buf = new Array(W);
 
     // Pre-compute both coordinate systems for every cell
@@ -258,16 +260,11 @@
             const sda = wrap(da - SK * (dd - 1.12) - phase);
             b = Math.max(b, Math.cos(sda) ** 2 * 0.55);
 
-          } else if (dd >= 1.60 && dd < 2.45) {
-            // Outer spiral arms, fading
+          } else if (dd >= 1.60 && dd < 2.10) {
+            // Outer spiral arms, fading to nothing
             const sda  = wrap(da - SK * (dd - 1.12) - phase);
-            const fade = 1 - (dd - 1.60) / 0.85;
-            b = Math.max(b, Math.cos(sda) ** 2 * 0.40 * Math.max(0, fade));
-
-          } else if (dd >= 2.45 && dd < 3.00) {
-            // Sparse outer-space dots (static)
-            const hash = Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000;
-            b = Math.max(b, hash < 30 ? 0.055 : 0);
+            const fade = 1 - (dd - 1.60) / 0.50;
+            b = Math.max(b, Math.cos(sda) ** 2 * 0.35 * Math.max(0, fade));
           }
         }
 
