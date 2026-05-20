@@ -170,10 +170,10 @@
   // Rings spaced so each fills its radial band; k=1.8 gives ~16% brightness at band edges
   // → ring looks full/solid, gap between rings drops to ~7% (visible thin separator)
   const RINGS  = [
-    { rc: 0.24,  w: 0.090, hue: 46 },
-    { rc: 0.455, w: 0.085, hue: 36 },
-    { rc: 0.660, w: 0.080, hue: 25 },
-    { rc: 0.865, w: 0.085, hue: 16 },
+    { rc: 0.24,  w: 0.090, hue: 46, off: 0.7 },
+    { rc: 0.455, w: 0.085, hue: 36, off: 2.4 },
+    { rc: 0.660, w: 0.080, hue: 25, off: 4.0 },
+    { rc: 0.865, w: 0.085, hue: 16, off: 5.6 },
   ];
   const BASE_RC = 0.45;
 
@@ -239,7 +239,7 @@
           const dt     = (dd - ring.rc) / ring.w;
           const radial = Math.exp(-dt * dt * 1.8);
           if (radial < 0.02) continue;
-          const phLocal  = phase * (BASE_RC / ring.rc) ** 1.5;
+          const phLocal  = phase * (BASE_RC / ring.rc) ** 1.5 + ring.off;
           const relA     = wrap(da - phLocal);
           // Asymmetric trail: sharp leading edge, long trailing glow that grows with radius
           const trailSq  = (0.28 + ring.rc * 1.9) ** 2 * 0.44;
