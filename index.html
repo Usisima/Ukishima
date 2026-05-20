@@ -149,52 +149,63 @@
 <script src="assets/js/state.js"></script>
 <script>
 
-// Black hole ASCII animation
+// Black hole ASCII animation — rich palette + spiral arms
 (function () {
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
-  const H      = 22;       // fixed row count
-  const PERIOD = 13000;    // ms per orbit
-  const LV     = [' ', '·', '░', '▒', '▓', '█'];
-  const lv     = b => LV[Math.min(5, Math.max(0, Math.round(b * 5)))];
+  const H      = 24;
+  const PERIOD = 14000;
+
+  // 35-level brightness scale: invisible → dense
+  const LV = " .`,:;!~-_>?)(|/\\jrxnuvczXYUCLJQZmMW";
+  const N  = LV.length - 1;
+  const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
+
+  const SK = 5.2; // spiral winding constant
 
   let W, CX, CY, RA, RB, meta, buf;
   let elapsed = 0, lastTs = null, rafId = null;
 
-  function measureCharWidth() {
-    const fs  = getComputedStyle(pre).fontSize;
-    const sp  = document.createElement('span');
+  function measureCW() {
+    const fs = getComputedStyle(pre).fontSize;
+    const sp = document.createElement('span');
     sp.style.cssText = `font-family:'DM Mono',monospace;font-size:${fs};` +
-                       `line-height:1;position:absolute;visibility:hidden;white-space:pre;top:-9999px`;
-    sp.textContent   = '█'.repeat(80);
+      `line-height:1;position:absolute;visibility:hidden;white-space:pre;top:-9999px`;
+    sp.textContent = 'M'.repeat(80);
     document.body.appendChild(sp);
     const cw = sp.getBoundingClientRect().width / 80;
     document.body.removeChild(sp);
     return cw || parseFloat(fs) * 0.6;
   }
 
+  function wrap(a) {
+    return a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
+  }
+
   function setup() {
-    const cw = measureCharWidth();
+    const cw = measureCW();
     W  = Math.max(40, Math.floor(window.innerWidth / cw));
     CX = Math.floor(W / 2);
-    CY = Math.floor(H / 2);                     // ≈ 10
-    RA = Math.floor(W * 0.44);                  // ring fills ~88 % of width
-    RB = Math.min(CY - 1, Math.round(RA / 5.33)); // aspect-ratio-corrected height
+    CY = Math.floor(H / 2);
+    RA = Math.floor(W * 0.44);
+    RB = Math.min(CY - 1, Math.round(RA / 5.33));
     buf = new Array(W);
 
     meta = Array.from({ length: H }, (_, r) =>
       Array.from({ length: W }, (_, c) => {
         const nx = (c - CX) / RA, ny = (r - CY) / RB;
         const d  = Math.hypot(nx, ny), a = Math.atan2(ny, nx);
+        // zones: 0=void  1=dark  2=ring  3=inner-halo  4=spiral  5=outer-dots  6=empty
         let z;
-        if      (d < 0.50) z = 0;
-        else if (d < 0.92) z = 1;
-        else if (d < 1.08) z = 2;
-        else if (d < 1.52) z = 3;
-        else if (d < 2.65) z = (Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000 < 36) ? 4 : 0;
-        else               z = 0;
-        return { z, a };
+        if      (d < 0.46) z = 0;
+        else if (d < 0.88) z = 1;
+        else if (d < 1.10) z = 2;
+        else if (d < 1.55) z = 3;
+        else if (d < 2.30) z = 4;
+        else if (d < 2.85) z = 5;
+        else               z = 6;
+        return { z, d, a };
       })
     );
   }
@@ -208,14 +219,38 @@
     for (let r = 0; r < H; r++) {
       const row = meta[r];
       for (let c = 0; c < W; c++) {
-        const { z, a } = row[c];
-        if (z === 0 || z === 1) { buf[c] = ' '; continue; }
-        if (z === 4)            { buf[c] = '·'; continue; }
-        let da = a - phase;
-        da -= 2 * Math.PI * Math.round(da / (2 * Math.PI));
-        const prox = Math.max(0, Math.cos(da)) ** 2;
-        const base = z === 2 ? 0.05 + 0.16 * Math.max(0, Math.sin(a)) : 0;
-        buf[c] = lv(base + prox * (z === 2 ? 1 - base : 0.38));
+        const { z, d, a } = row[c];
+
+        if (z === 0 || z === 1 || z === 6) { buf[c] = ' '; continue; }
+
+        let b = 0;
+        const da = wrap(a - phase);
+
+        if (z === 2) {
+          // Photon ring: bright spot orbits, accretion disk base at bottom
+          const prox = Math.max(0, Math.cos(da)) ** 2;
+          const base = 0.05 + 0.16 * Math.max(0, Math.sin(a));
+          b = base + prox * (1 - base);
+
+        } else if (z === 3) {
+          // Inner halo: spiral drag trailing the ring
+          const sda  = wrap(a - SK * (d - 1.10) - phase);
+          const prox = Math.cos(sda) ** 2; // 2 arms, no clipping
+          b = prox * 0.48 + 0.04 * Math.max(0, Math.sin(a));
+
+        } else if (z === 4) {
+          // Outer spiral arms: fade with distance
+          const sda  = wrap(a - SK * (d - 1.10) - phase);
+          const prox = Math.cos(sda) ** 2;
+          const fade = 1 - (d - 1.55) / (2.30 - 1.55);
+          b = prox * 0.36 * Math.max(0, fade);
+
+        } else { // z === 5: outer sparse static dots
+          const hash = Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000;
+          b = hash < 28 ? 0.05 : 0;
+        }
+
+        buf[c] = lv(b);
       }
       lines[r] = buf.join('');
     }
@@ -225,7 +260,7 @@
   }
 
   function start() {
-    lastTs = null; // pause elapsed during recalc
+    lastTs = null;
     setup();
     if (rafId) cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(tick);
