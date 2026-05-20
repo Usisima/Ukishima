@@ -487,18 +487,8 @@ body {
   font-size: clamp(5px, 1.4vw, 6.5px);
   line-height: 1.6;
   white-space: pre;
-  background: radial-gradient(
-    ellipse 44% 30% at var(--bh-cx, 50%) var(--bh-cy, 83%),
-    rgba(248, 230, 255, 1.00) 0%,
-    rgba(215, 190, 250, 0.90) 18%,
-    rgba(188, 160, 235, 0.60) 42%,
-    rgba(160, 132, 215, 0.28) 65%,
-    rgba(132, 108, 192, 0.08) 88%,
-    transparent 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgba(210, 185, 248, 0.88);
+  overflow: hidden;
 }
 
 .bh-caption {

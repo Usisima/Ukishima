@@ -25,24 +25,7 @@
 
   <!-- BLACK HOLE -->
   <div class="bh-wrap">
-    <pre class="bh-art" id="bh-art" aria-hidden="true">               ·   ·   ·   ·   ·   ·   ·   ·   ·
-           ·                                           ·
-        ·             ·   ·   ·   ·   ·   ·               ·
-       ·           ·                       ·                ·
-      ·            ·  ░ ░ ░ ░ ░ ░ ░ ░ ░  ·                ·
-     ·             ░░░                 ░░░               ·
-    ·              ░░                   ░░              ·
-   ·              ░░                     ░░              ·
-   ·              ░░                     ░░              ·
-   ·              ░░                     ░░              ·
-    ·             ░░                   ░░               ·
-     ·           ░░░░░░░░░░░░░░░░░░░░░░░░░             ·
-      ·           ▒▒░░░░░░░░░░░░░░░░░░░▒▒            ·
-       ·           ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒            ·
-        ·           ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓          ·
-          ·           ▓▓████████████▓▓          ·
-             ·                                ·
-               ·   ·   ·   ·   ·   ·   ·   ·   ·</pre>
+    <pre class="bh-art" id="bh-art" aria-hidden="true"></pre>
     <div class="bh-caption">M87* · 6.5 × 10⁹ M☉</div>
   </div>
 
@@ -166,24 +149,71 @@
 <script src="assets/js/state.js"></script>
 <script>
 
-// Black hole: bright spot orbits the ring by animating the gradient center
+// Black hole ASCII animation — characters change density to simulate a
+// bright spot orbiting the ring: · ░ ▒ ▓ █ ▓ ▒ ░ · (no element rotation)
 (function () {
-  const bh = document.getElementById('bh-art');
-  if (!bh) return;
-  // Elliptical orbit that traces the ring shape in % of element size
-  const cx0 = 50, cy0 = 54;   // orbit center
-  const rx   = 27, ry   = 29;  // orbit radii
-  const period = 14000;         // ms per full orbit
-  let t0 = null;
-  function frame(ts) {
+  const pre = document.getElementById('bh-art');
+  if (!pre) return;
+
+  // Canvas dimensions and ring geometry
+  // RA/RB corrected for character aspect ratio (DM Mono w/h ≈ 0.375 at small sizes)
+  // so that the ring looks like a 2:1 horizontal ellipse on screen
+  const W = 65, H = 22, CX = 32, CY = 10, RA = 27, RB = 5;
+  const PERIOD = 13000; // ms per full orbit
+
+  // Pre-compute cell type and angle for every grid position
+  const meta = Array.from({ length: H }, (_, r) =>
+    Array.from({ length: W }, (_, c) => {
+      const nx = (c - CX) / RA, ny = (r - CY) / RB;
+      const d = Math.hypot(nx, ny);
+      const a = Math.atan2(ny, nx);
+      // Zone:  0=empty  1=dark  2=ring  3=halo  4=dot
+      let z;
+      if      (d < 0.50) z = 0;
+      else if (d < 0.92) z = 1;
+      else if (d < 1.08) z = 2;
+      else if (d < 1.52) z = 3;
+      else if (d < 2.65) z = (Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000 < 36) ? 4 : 0;
+      else               z = 0;
+      return { z, a };
+    })
+  );
+
+  const LV = [' ', '·', '░', '▒', '▓', '█'];
+  const lv  = b => LV[Math.min(5, Math.max(0, Math.round(b * 5)))];
+  const buf = new Array(W);
+  let t0    = null;
+
+  function tick(ts) {
     if (!t0) t0 = ts;
-    // start phase at π/2 so the bright spot begins at the bottom (accretion disk)
-    const angle = ((ts - t0) / period) * 2 * Math.PI + Math.PI / 2;
-    bh.style.setProperty('--bh-cx', (cx0 + rx * Math.cos(angle)).toFixed(2) + '%');
-    bh.style.setProperty('--bh-cy', (cy0 + ry * Math.sin(angle)).toFixed(2) + '%');
-    requestAnimationFrame(frame);
+    // Phase starts at π/2 → bright spot begins at the bottom (accretion disk)
+    const phase = ((ts - t0) / PERIOD) * 2 * Math.PI + Math.PI * 0.5;
+    const lines = new Array(H);
+
+    for (let r = 0; r < H; r++) {
+      const row = meta[r];
+      for (let c = 0; c < W; c++) {
+        const { z, a } = row[c];
+        if (z === 0 || z === 1) { buf[c] = ' '; continue; }
+        if (z === 4)            { buf[c] = '·'; continue; }
+
+        // Angular distance from the bright phase, normalised to [-π, π]
+        let da = a - phase;
+        da -= 2 * Math.PI * Math.round(da / (2 * Math.PI));
+        const prox = Math.max(0, Math.cos(da)) ** 2; // cos² falloff
+
+        // Ring: faint base at bottom (accretion disk ambient), zero elsewhere
+        const base = z === 2 ? 0.05 + 0.16 * Math.max(0, Math.sin(a)) : 0;
+        buf[c] = lv(base + prox * (z === 2 ? 1 - base : 0.38));
+      }
+      lines[r] = buf.join('');
+    }
+
+    pre.textContent = lines.join('\n');
+    requestAnimationFrame(tick);
   }
-  requestAnimationFrame(frame);
+
+  requestAnimationFrame(tick);
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
