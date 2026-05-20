@@ -231,20 +231,30 @@
         }
 
         // ── DISK layer ────────────────────────────────────────────────────
+        // Zones have explicit gaps between them so each region reads as distinct.
+        // max(0, cos(sda))^n clips the negative half → ONE arm per winding with
+        // a 180° trailing dark gap, eliminating the symmetric counter-rotation
+        // that cos² produced.
         {
           const ddda  = wrap(da - phase);
           const dprox = Math.max(0, Math.cos(ddda)) ** 2;
-          const dbase = 0.06 + 0.18 * Math.max(0, Math.sin(da));
+          const dbase = 0.06 + 0.20 * Math.max(0, Math.sin(da));
 
-          if (dd >= 0.88 && dd < 1.12) {
+          if (dd >= 0.90 && dd < 1.10) {
+            // ── Accretion ring ──────────────────────────────────────────────
             b = Math.max(b, dbase + dprox * (1 - dbase));
-          } else if (dd >= 1.12 && dd < 1.60) {
-            const sda = wrap(da - SK * (dd - 1.12) - phase);
-            b = Math.max(b, Math.cos(sda) ** 2 * 0.55);
-          } else if (dd >= 1.60 && dd < 2.10) {
-            const sda  = wrap(da - SK * (dd - 1.12) - phase);
-            const fade = 1 - (dd - 1.60) / 0.50;
-            b = Math.max(b, Math.cos(sda) ** 2 * 0.35 * Math.max(0, fade));
+
+          } else if (dd >= 1.17 && dd < 1.57) {
+            // ── Inner spiral (gap 0.07 after ring) ─────────────────────────
+            // +SK trails the rotation → arm bends inward, material looks like it falls in
+            const sda = wrap(da + SK * (dd - 1.17) - phase);
+            b = Math.max(b, Math.max(0, Math.cos(sda)) ** 3 * 0.62);
+
+          } else if (dd >= 1.66 && dd < OUTER_DD) {
+            // ── Outer spiral (gap 0.09 after inner) ────────────────────────
+            const sda  = wrap(da + SK * (dd - 1.17) - phase);
+            const fade = 1 - (dd - 1.66) / (OUTER_DD - 1.66);
+            b = Math.max(b, Math.max(0, Math.cos(sda)) ** 3 * 0.40 * Math.max(0, fade));
           }
         }
 
