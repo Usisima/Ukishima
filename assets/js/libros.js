@@ -240,38 +240,66 @@ const R = {
       return;
     }
 
-    const results = [];
+    const bookResults = [];
+    const noteResults = [];
+
     for (const subj of LIBRARY) {
       for (const b of subj.books) {
-        const titleMatch = b.title.toLowerCase().includes(q);
-        const authorMatch = b.author.toLowerCase().includes(q);
-        const subjMatch = subj.subject.toLowerCase().includes(q);
-        if (titleMatch || authorMatch || subjMatch) {
-          results.push({ book: b, subject: subj.subject, color: subj.color });
+        if (b.title.toLowerCase().includes(q) ||
+            b.author.toLowerCase().includes(q) ||
+            subj.subject.toLowerCase().includes(q)) {
+          bookResults.push({ book: b, subject: subj.subject, color: subj.color });
+        }
+        for (const ch of (b.chapters || [])) {
+          for (const note of (ch.notes || [])) {
+            if (note.type === 'sublabel') continue;
+            if ((note.label || '').toLowerCase().includes(q) ||
+                (note.tex  || '').toLowerCase().includes(q)) {
+              noteResults.push({ note, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
+            }
+          }
         }
       }
     }
 
-    if (!results.length) {
+    if (!bookResults.length && !noteResults.length) {
       main.innerHTML = `<div class="search-results"><div class="search-empty"><strong>Sin resultados</strong>Intenta con otro término.</div></div>`;
       return;
     }
 
-    main.innerHTML = `<div class="search-results">
-      <div class="search-result-group-label">${results.length} libro${results.length !== 1 ? 's' : ''} encontrado${results.length !== 1 ? 's' : ''}</div>
-      ${results.map(({ book: b, subject, color }) => `
+    const chevronSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
+
+    let html = '<div class="search-results">';
+
+    if (bookResults.length) {
+      html += `<div class="search-result-group-label">${bookResults.length} libro${bookResults.length !== 1 ? 's' : ''}</div>`;
+      html += bookResults.map(({ book: b, subject, color }) => `
         <div class="search-book-card" onclick="Nav.go('book','${esc(b.id)}')">
-          <div class="search-book-cover">
-            ${coverDiv(color, b.title)}
-          </div>
+          <div class="search-book-cover">${coverDiv(color, b.title)}</div>
           <div class="search-book-info">
             <div class="search-book-title">${esc(b.title)}</div>
             <div class="search-book-subject">${esc(subject)}</div>
           </div>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-      `).join('')}
-    </div>`;
+          ${chevronSvg}
+        </div>`).join('');
+    }
+
+    if (noteResults.length) {
+      html += `<div class="search-result-group-label${bookResults.length ? ' search-result-group-label--spaced' : ''}">${noteResults.length} nota${noteResults.length !== 1 ? 's' : ''}</div>`;
+      html += noteResults.map(({ note, book: b, subject, color }) => `
+        <div class="search-note-card" onclick="Nav.go('book','${esc(b.id)}')" data-type="${esc(note.type)}">
+          <div class="search-note-type-dot" data-type="${esc(note.type)}">${esc(NOTE_LABELS[note.type] || note.type)}</div>
+          <div class="search-note-info">
+            <div class="search-note-label">${esc(note.label)}</div>
+            <div class="search-note-source">${esc(b.title)} · ${esc(subject)}</div>
+          </div>
+          ${chevronSvg}
+        </div>`).join('');
+    }
+
+    html += '</div>';
+    main.innerHTML = html;
+    renderKatex(main);
   },
 
   /* ── FAVS ────────────────────────────────────── */
@@ -289,8 +317,26 @@ const R = {
 
     let html = '<div class="favs-section">';
 
+    if (favBookIds.length) {
+      html += `<div class="favs-label">${favBookIds.length} libro${favBookIds.length !== 1 ? 's' : ''} guardado${favBookIds.length !== 1 ? 's' : ''}</div>`;
+      html += favBookIds.map(id => {
+        const found = findBook(id);
+        if (!found) return '';
+        const { book: b, color } = found;
+        return `
+        <div class="fav-book-row" onclick="Nav.go('book','${esc(b.id)}')">
+          <div class="fav-book-cover">${coverDiv(color, b.title)}</div>
+          <div class="fav-book-info">
+            <div class="fav-book-title">${esc(b.title)}</div>
+            <div class="fav-book-author">${esc(b.author)}</div>
+          </div>
+          <svg class="fav-book-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>`;
+      }).join('');
+    }
+
     if (favNoteKeys.length) {
-      html += `<div class="favs-label">${favNoteKeys.length} nota${favNoteKeys.length !== 1 ? 's' : ''} guardada${favNoteKeys.length !== 1 ? 's' : ''}</div>`;
+      html += `<div class="favs-label${favBookIds.length ? ' favs-label--spaced' : ''}">${favNoteKeys.length} nota${favNoteKeys.length !== 1 ? 's' : ''} guardada${favNoteKeys.length !== 1 ? 's' : ''}</div>`;
       html += favNoteKeys.map(nkey => {
         const found = findNote(nkey);
         if (!found) return '';
@@ -315,24 +361,6 @@ const R = {
           </div>
           <div class="note-tex">${esc(note.tex)}</div>
           ${demSection}
-        </div>`;
-      }).join('');
-    }
-
-    if (favBookIds.length) {
-      html += `<div class="favs-label${favNoteKeys.length ? ' favs-label--spaced' : ''}">${favBookIds.length} libro${favBookIds.length !== 1 ? 's' : ''} guardado${favBookIds.length !== 1 ? 's' : ''}</div>`;
-      html += favBookIds.map(id => {
-        const found = findBook(id);
-        if (!found) return '';
-        const { book: b, color } = found;
-        return `
-        <div class="fav-book-row" onclick="Nav.go('book','${esc(b.id)}')">
-          <div class="fav-book-cover">${coverDiv(color, b.title)}</div>
-          <div class="fav-book-info">
-            <div class="fav-book-title">${esc(b.title)}</div>
-            <div class="fav-book-author">${esc(b.author)}</div>
-          </div>
-          <svg class="fav-book-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>`;
       }).join('');
     }
