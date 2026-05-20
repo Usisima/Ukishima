@@ -16,6 +16,8 @@ function saveArr(k, a) { localStorage.setItem(k, JSON.stringify(a)); }
 const S = {
   view: 'home',           // 'home' | 'book' | 'search' | 'favs'
   bookId: null,
+  noteKey: null,          // deep-link: scroll to this note after rendering
+  bookQuery: '',          // in-book search query
   openChapters: new Set(),
   favBooks: loadSet(SK_FAVBOOKS),
   favNotes: loadSet(SK_FAVNOTES),
@@ -90,6 +92,26 @@ function findNote(nkey) {
   return { note, book: found.book, subject: found.subject, color: found.color, chTitle: ch.title };
 }
 
+/* ── IN-BOOK SEARCH FILTER ────────────────────── */
+function filterBookNotes(q) {
+  const lq = q.trim().toLowerCase();
+  document.querySelectorAll('.chapter-item').forEach(chEl => {
+    let anyVisible = false;
+    chEl.querySelectorAll('.note-item, .note-sublabel').forEach(el => {
+      if (el.classList.contains('note-sublabel')) {
+        el.style.display = lq ? 'none' : '';
+        return;
+      }
+      const label = (el.querySelector('.note-label')?.textContent || '').toLowerCase();
+      const tex   = (el.querySelector('.note-tex')?.textContent   || '').toLowerCase();
+      const match = !lq || label.includes(lq) || tex.includes(lq);
+      el.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    chEl.style.display = !lq || anyVisible ? '' : 'none';
+  });
+}
+
 /* ── RENDER ───────────────────────────────────── */
 const R = {
 
@@ -107,18 +129,18 @@ const R = {
           <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
         </div>
         <div class="lib-book-scroll">
-          ${subj.books.map(b => R._bookCard(b, subj.color)).join('')}
+          ${subj.books.map((b, i) => R._bookCard(b, subj.color, i)).join('')}
         </div>
         ${si < LIBRARY.length - 1 ? '<div class="subject-divider"></div>' : ''}
       </div>
     `).join('');
   },
 
-  _bookCard(b, color) {
+  _bookCard(b, color, idx = 0) {
     const faved = isFavBook(b.id) ? 'faved' : '';
     const favIcon = isFavBook(b.id) ? '♥' : '♡';
     return `
-      <div class="book-card" onclick="Nav.go('book','${esc(b.id)}')">
+      <div class="book-card" data-book-id="${esc(b.id)}" data-orig-idx="${idx}" onclick="Nav.go('book','${esc(b.id)}')">
         <div class="book-cover">
           ${coverDiv(color, b.title)}
           <button class="book-fav-dot ${faved}"
@@ -218,6 +240,14 @@ const R = {
           </div>
         </div>
 
+        <div class="book-search-row">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+          <input class="book-search-input" type="text" placeholder="Buscar en este libro…" autocomplete="off" spellcheck="false" value="${esc(S.bookQuery)}">
+          <button class="book-search-clear" style="display:${S.bookQuery ? 'flex' : 'none'}" aria-label="Limpiar">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
         <div class="book-chapters-wrap">
           ${chaptersHtml}
         </div>
@@ -226,6 +256,7 @@ const R = {
     `;
 
     renderKatex(main);
+    if (S.bookQuery) filterBookNotes(S.bookQuery);
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -248,12 +279,13 @@ const R = {
             subj.subject.toLowerCase().includes(q)) {
           bookResults.push({ book: b, subject: subj.subject, color: subj.color });
         }
-        for (const ch of (b.chapters || [])) {
-          for (const note of (ch.notes || [])) {
+        for (const [ci, ch] of (b.chapters || []).entries()) {
+          for (const [ni, note] of (ch.notes || []).entries()) {
             if (note.type === 'sublabel') continue;
             if ((note.label || '').toLowerCase().includes(q) ||
                 (note.tex  || '').toLowerCase().includes(q)) {
-              noteResults.push({ note, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
+              const nkey = `${b.id}_ch${ci}_n${ni}`;
+              noteResults.push({ note, nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
             }
           }
         }
@@ -284,8 +316,8 @@ const R = {
 
     if (noteResults.length) {
       html += `<div class="search-result-group-label${bookResults.length ? ' search-result-group-label--spaced' : ''}">${noteResults.length} nota${noteResults.length !== 1 ? 's' : ''}</div>`;
-      html += noteResults.map(({ note, book: b, subject, color }) => `
-        <div class="search-note-card" onclick="Nav.go('book','${esc(b.id)}')" data-type="${esc(note.type)}">
+      html += noteResults.map(({ note, nkey, book: b, subject, color }) => `
+        <div class="search-note-card" onclick="Nav.go('book','${esc(b.id)}','${esc(nkey)}')" data-type="${esc(note.type)}">
           <div class="search-note-type-dot" data-type="${esc(note.type)}">${esc(NOTE_LABELS[note.type] || note.type)}</div>
           <div class="search-note-info">
             <div class="search-note-label">${esc(note.label)}</div>
@@ -377,6 +409,15 @@ const A = {
     btn.textContent = faved ? '♥' : '♡';
     btn.classList.toggle('faved', faved);
     btn.setAttribute('aria-label', faved ? 'Quitar de favoritos' : 'Añadir a favoritos');
+
+    const scroll = btn.closest('.lib-book-scroll');
+    if (!scroll) return;
+    const cards = [...scroll.querySelectorAll(':scope > .book-card')];
+    const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
+      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+    const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
+      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+    [...favs, ...rest].forEach(c => scroll.appendChild(c));
   },
 
   toggleFavNote(key, btn) {
@@ -402,13 +443,24 @@ const A = {
       timer = setTimeout(() => R.search(), 180);
     };
   })(),
+
+  bookSearch: (() => {
+    let timer = null;
+    return (q) => {
+      S.bookQuery = q;
+      clearTimeout(timer);
+      timer = setTimeout(() => filterBookNotes(q), 120);
+    };
+  })(),
 };
 
 /* ── NAVIGATION ───────────────────────────────── */
 const Nav = {
-  go(view, bookId) {
-    S.view = view;
-    S.bookId = bookId || null;
+  go(view, bookId, noteKey) {
+    S.view    = view;
+    S.bookId  = bookId  || null;
+    S.noteKey = noteKey || null;
+    if (view !== 'book') S.bookQuery = '';
 
     if (view === 'book' && bookId) {
       addRecent(bookId);
@@ -443,7 +495,23 @@ const Nav = {
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
-    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    /* scroll: to note if deep-link, else to top */
+    if (S.noteKey) {
+      const key = S.noteKey;
+      S.noteKey = null;
+      requestAnimationFrame(() => {
+        const el = document.querySelector(`.note-item[data-nkey="${CSS.escape(key)}"]`);
+        if (!el) return;
+        const headerH = document.getElementById('lib-header')?.offsetHeight || 0;
+        const tabsH   = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+        const top = el.getBoundingClientRect().top + window.scrollY - headerH - tabsH - 16;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+        el.classList.add('note-highlight');
+        setTimeout(() => el.classList.remove('note-highlight'), 1600);
+      });
+    } else {
+      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    }
   },
 };
 
@@ -501,6 +569,24 @@ const Nav = {
     inp.focus();
     document.getElementById('lib-search-clear').style.display = 'none';
     A.search('');
+  });
+
+  /* in-book search — delegated (elements created dynamically) */
+  document.addEventListener('input', e => {
+    if (!e.target.classList.contains('book-search-input')) return;
+    const q = e.target.value;
+    const clearBtn = document.querySelector('.book-search-clear');
+    if (clearBtn) clearBtn.style.display = q ? 'flex' : 'none';
+    A.bookSearch(q);
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.book-search-clear')) return;
+    const inp = document.querySelector('.book-search-input');
+    if (inp) { inp.value = ''; inp.focus(); }
+    const clearBtn = document.querySelector('.book-search-clear');
+    if (clearBtn) clearBtn.style.display = 'none';
+    A.bookSearch('');
   });
 
   /* sync sticky tops to real header height */
