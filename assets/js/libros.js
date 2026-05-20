@@ -211,12 +211,10 @@ const R = {
               <div class="hero-title">${esc(b.title)}</div>
               <div class="hero-author">${esc(b.author)}</div>
               <div class="hero-edition">${esc(b.edition || '')}</div>
-              <div class="hero-actions">
-                <button class="hero-fav-btn ${isFavBook(b.id) ? 'faved' : ''}" onclick="A.toggleFavBook('${esc(b.id)}',this)" aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
-                  ${isFavBook(b.id) ? '♥' : '♡'}
-                </button>
-              </div>
             </div>
+            <button class="hero-fav-btn ${isFavBook(b.id) ? 'faved' : ''}" onclick="A.toggleFavBook('${esc(b.id)}',this)" aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+              ${isFavBook(b.id) ? '♥' : '♡'}
+            </button>
           </div>
         </div>
 
@@ -445,12 +443,13 @@ const Nav = {
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
-    window.scrollTo(0, 0);
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   },
 };
 
 /* ── INIT ─────────────────────────────────────── */
 (function init() {
+  history.scrollRestoration = 'manual';
   /* handle initial URL hash */
   const hash = location.hash;
   if (hash.startsWith('#libro/')) {

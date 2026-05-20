@@ -490,15 +490,7 @@ body {
   font-family: 'DM Mono', monospace;
   font-size: 7.5px;
   color: rgba(255,255,255,0.28);
-  margin-bottom: 0.7rem;
   letter-spacing: 0.05em;
-}
-
-/* Hero action row: pdf + fav */
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
 }
 
 .hero-fav-btn {
