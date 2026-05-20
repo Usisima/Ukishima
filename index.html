@@ -166,6 +166,26 @@
 <script src="assets/js/state.js"></script>
 <script>
 
+// Black hole: bright spot orbits the ring by animating the gradient center
+(function () {
+  const bh = document.getElementById('bh-art');
+  if (!bh) return;
+  // Elliptical orbit that traces the ring shape in % of element size
+  const cx0 = 50, cy0 = 54;   // orbit center
+  const rx   = 27, ry   = 29;  // orbit radii
+  const period = 14000;         // ms per full orbit
+  let t0 = null;
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    // start phase at π/2 so the bright spot begins at the bottom (accretion disk)
+    const angle = ((ts - t0) / period) * 2 * Math.PI + Math.PI / 2;
+    bh.style.setProperty('--bh-cx', (cx0 + rx * Math.cos(angle)).toFixed(2) + '%');
+    bh.style.setProperty('--bh-cy', (cy0 + ry * Math.sin(angle)).toFixed(2) + '%');
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   const allMats = CURRICULUM.flatMap(s => s.materias);
   const globalPct = getGlobalPct();

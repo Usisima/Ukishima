@@ -487,25 +487,18 @@ body {
   font-size: clamp(5px, 1.4vw, 6.5px);
   line-height: 1.6;
   white-space: pre;
-  will-change: transform;
-  animation: bhSpin 100s linear infinite;
   background: radial-gradient(
-    ellipse 72% 52% at 50% 78%,
+    ellipse 44% 30% at var(--bh-cx, 50%) var(--bh-cy, 83%),
     rgba(248, 230, 255, 1.00) 0%,
-    rgba(215, 190, 250, 0.90) 16%,
-    rgba(188, 160, 235, 0.62) 36%,
-    rgba(160, 132, 215, 0.32) 58%,
-    rgba(132, 108, 192, 0.11) 78%,
-    rgba(105,  84, 168, 0.02) 100%
+    rgba(215, 190, 250, 0.90) 18%,
+    rgba(188, 160, 235, 0.60) 42%,
+    rgba(160, 132, 215, 0.28) 65%,
+    rgba(132, 108, 192, 0.08) 88%,
+    transparent 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-@keyframes bhSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
 }
 
 .bh-caption {
