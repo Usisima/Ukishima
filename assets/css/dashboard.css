@@ -489,9 +489,7 @@ body {
 
 .bh-art {
   font-family: 'DM Mono', monospace;
-  /* 120 chars × 0.6em/char = 72em = viewport width when font-size = 100vw/72 ≈ 1.25vw */
-  /* clamp keeps it readable on phones and not giant on desktops */
-  font-size: clamp(4px, 1.25vw, 9px);
+  font-size: 1px; /* overridden by script: clamp(4px, 90/(COLS*0.6) vw, 8px) */
   line-height: 1.6;
   white-space: pre;
   color: rgba(210, 185, 248, 0.88);

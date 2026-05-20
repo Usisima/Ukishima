@@ -158,11 +158,19 @@
   if (!pre) return;
 
   // ── Fixed design grid ─────────────────────────────────────────────────────
-  const COLS = 120, ROWS = 24;
+  // COLS is derived from RA so the outer spiral edge always fits with margin.
+  // Spiral extends to OUTER_DD * RA cols from center → COLS = 2*(that + PAD).
+  // font-size is set so COLS chars span 90% of the viewport (scales with screen).
+  const RA       = 33;
+  const OUTER_DD = 2.10;
+  const COLS     = 2 * (Math.ceil(OUTER_DD * RA) + 8);  // 156
+  const ROWS     = 24;
 
-  const CX  = Math.floor(COLS / 2);    // 60
-  const CY  = Math.floor(ROWS / 2);    // 12
-  const RA  = Math.floor(COLS * 0.28); // disk horizontal radius (cols)
+  // Each char is ~0.6em wide → COLS * 0.6 * fontSize = 90vw → fontSize = 90/(COLS*0.6) vw
+  pre.style.fontSize = `clamp(4px, ${(90 / (COLS * 0.6)).toFixed(3)}vw, 8px)`;
+
+  const CX  = Math.floor(COLS / 2);
+  const CY  = Math.floor(ROWS / 2);
   const SRA = Math.round(RA  * 0.29);  // sphere horizontal radius (cols)
   const SRB = SRA * 0.375;             // sphere vertical radius — char aspect keeps it circular
   const RB  = Math.min(CY - 2, Math.round(RA / 5.33)); // disk vertical radius (rows)
