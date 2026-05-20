@@ -308,10 +308,8 @@
             const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
             if (sb > 0.14) {
               ch    = STAR_CH[starSz[idx]];
-              const hue = STAR_HUES[starHz[idx]];
-              const sat = Math.round((12 + sb * 55) / 5) * 5;
-              const lit = Math.round((28 + sb * 52) / 5) * 5;
-              color = `hsl(${hue},${sat}%,${lit}%)`;
+              const lit = Math.round((30 + sb * 55) / 5) * 5;
+              color = `hsl(0,0%,${lit}%)`;
             } else { ch = ' '; color = null; }
           } else { ch = ' '; color = null; }
         } else {
