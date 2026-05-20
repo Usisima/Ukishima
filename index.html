@@ -149,22 +149,22 @@
 <script src="assets/js/state.js"></script>
 <script>
 
-// Black hole ASCII animation — rich palette + spiral arms
+// Black hole ASCII — two overlaid coordinate systems:
+//   DISK   (flat ellipse)  → accretion ring + spiral arms
+//   SPHERE (true circle)   → photon ring + event horizon ball
 (function () {
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
-  const H      = 24;
+  const H      = 28;
   const PERIOD = 14000;
-
-  // 35-level brightness scale: invisible → dense
-  const LV = " .`,:;!~-_>?)(|/\\jrxnuvczXYUCLJQZmMW";
+  // 40-level brightness scale  (invisible → dense)
+  const LV = " .`,:;!~-_>?)(|/\\jrxnuvczXYUCLJQZmMW#@";
   const N  = LV.length - 1;
   const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
+  const SK = 5.4;  // spiral-arm winding
 
-  const SK = 5.2; // spiral winding constant
-
-  let W, CX, CY, RA, RB, meta, buf;
+  let W, CX, CY, RA, RB, SRA, SRB, meta, buf;
   let elapsed = 0, lastTs = null, rafId = null;
 
   function measureCW() {
@@ -174,38 +174,33 @@
       `line-height:1;position:absolute;visibility:hidden;white-space:pre;top:-9999px`;
     sp.textContent = 'M'.repeat(80);
     document.body.appendChild(sp);
-    const cw = sp.getBoundingClientRect().width / 80;
+    const w = sp.getBoundingClientRect().width / 80;
     document.body.removeChild(sp);
-    return cw || parseFloat(fs) * 0.6;
+    return w || parseFloat(fs) * 0.6;
   }
 
-  function wrap(a) {
-    return a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
-  }
+  const wrap = a => a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
 
   function setup() {
     const cw = measureCW();
-    W  = Math.max(40, Math.floor(window.innerWidth / cw));
-    CX = Math.floor(W / 2);
-    CY = Math.floor(H / 2);
-    RA = Math.floor(W * 0.44);
-    RB = Math.min(CY - 1, Math.round(RA / 5.33));
+    W   = Math.max(40, Math.floor(window.innerWidth / cw));
+    CX  = Math.floor(W / 2);
+    CY  = Math.floor(H / 2);
+    RA  = Math.floor(W * 0.44);          // disk horizontal radius (cols)
+    RB  = Math.min(CY - 2, Math.round(RA / 5.33)); // disk vertical radius (rows)
+    SRA = Math.round(RA * 0.29);         // sphere radius (cols)
+    SRB = SRA * 0.375;                   // sphere radius (rows) — keeps it circular on screen
     buf = new Array(W);
 
+    // Pre-compute both coordinate systems for every cell
     meta = Array.from({ length: H }, (_, r) =>
       Array.from({ length: W }, (_, c) => {
-        const nx = (c - CX) / RA, ny = (r - CY) / RB;
-        const d  = Math.hypot(nx, ny), a = Math.atan2(ny, nx);
-        // zones: 0=void  1=dark  2=ring  3=inner-halo  4=spiral  5=outer-dots  6=empty
-        let z;
-        if      (d < 0.46) z = 0;
-        else if (d < 0.88) z = 1;
-        else if (d < 1.10) z = 2;
-        else if (d < 1.55) z = 3;
-        else if (d < 2.30) z = 4;
-        else if (d < 2.85) z = 5;
-        else               z = 6;
-        return { z, d, a };
+        const dx = (c - CX) / RA,   dy = (r - CY) / RB;
+        const sx = (c - CX) / SRA,  sy = (r - CY) / SRB;
+        return {
+          dd: Math.hypot(dx, dy), da: Math.atan2(dy, dx),  // disk
+          sd: Math.hypot(sx, sy), sa: Math.atan2(sy, sx),  // sphere
+        };
       })
     );
   }
@@ -219,35 +214,61 @@
     for (let r = 0; r < H; r++) {
       const row = meta[r];
       for (let c = 0; c < W; c++) {
-        const { z, d, a } = row[c];
+        const { dd, da, sd, sa } = row[c];
 
-        if (z === 0 || z === 1 || z === 6) { buf[c] = ' '; continue; }
+        // ── Absolute void: event horizon swallows everything ──
+        if (sd < 0.50) { buf[c] = ' '; continue; }
 
         let b = 0;
-        const da = wrap(a - phase);
 
-        if (z === 2) {
-          // Photon ring: bright spot orbits, accretion disk base at bottom
-          const prox = Math.max(0, Math.cos(da)) ** 2;
-          const base = 0.05 + 0.16 * Math.max(0, Math.sin(a));
-          b = base + prox * (1 - base);
+        // ── SPHERE layer (circular photon ring + inner ball) ──────────────
+        {
+          const spda  = wrap(sa - phase);
+          const sprox = Math.max(0, Math.cos(spda)) ** 2;
+          const sbase = 0.04 + 0.15 * Math.max(0, Math.sin(sa));
 
-        } else if (z === 3) {
-          // Inner halo: spiral drag trailing the ring
-          const sda  = wrap(a - SK * (d - 1.10) - phase);
-          const prox = Math.cos(sda) ** 2; // 2 arms, no clipping
-          b = prox * 0.48 + 0.04 * Math.max(0, Math.sin(a));
+          if (sd < 0.84) {
+            // Inner ball: subtle Lambertian shading — lit side faces the phase
+            const depth = (sd - 0.50) / 0.34;
+            b = Math.max(b, Math.max(0, Math.cos(spda)) * 0.20 * depth);
 
-        } else if (z === 4) {
-          // Outer spiral arms: fade with distance
-          const sda  = wrap(a - SK * (d - 1.10) - phase);
-          const prox = Math.cos(sda) ** 2;
-          const fade = 1 - (d - 1.55) / (2.30 - 1.55);
-          b = prox * 0.36 * Math.max(0, fade);
+          } else if (sd < 1.14) {
+            // Photon ring: the bright circle around the ball
+            b = Math.max(b, sbase + sprox * (1 - sbase));
 
-        } else { // z === 5: outer sparse static dots
-          const hash = Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000;
-          b = hash < 28 ? 0.05 : 0;
+          } else if (sd < 1.70) {
+            // Outer photon glow fading away
+            const fade = 1 - (sd - 1.14) / 0.56;
+            b = Math.max(b, (sbase + sprox * (1 - sbase)) * 0.55 * fade);
+          }
+        }
+
+        // ── DISK layer (flat elliptical accretion ring + spiral arms) ─────
+        {
+          const ddda  = wrap(da - phase);
+          const dprox = Math.max(0, Math.cos(ddda)) ** 2;
+          const dbase = 0.06 + 0.18 * Math.max(0, Math.sin(da));
+
+          if (dd >= 0.88 && dd < 1.12) {
+            // Accretion ring — brightest part
+            b = Math.max(b, dbase + dprox * (1 - dbase));
+
+          } else if (dd >= 1.12 && dd < 1.60) {
+            // Inner spiral halo
+            const sda = wrap(da - SK * (dd - 1.12) - phase);
+            b = Math.max(b, Math.cos(sda) ** 2 * 0.55);
+
+          } else if (dd >= 1.60 && dd < 2.45) {
+            // Outer spiral arms, fading
+            const sda  = wrap(da - SK * (dd - 1.12) - phase);
+            const fade = 1 - (dd - 1.60) / 0.85;
+            b = Math.max(b, Math.cos(sda) ** 2 * 0.40 * Math.max(0, fade));
+
+          } else if (dd >= 2.45 && dd < 3.00) {
+            // Sparse outer-space dots (static)
+            const hash = Math.abs(r * 7919 + c * 6271 + r * c * 997) % 1000;
+            b = Math.max(b, hash < 30 ? 0.055 : 0);
+          }
         }
 
         buf[c] = lv(b);
