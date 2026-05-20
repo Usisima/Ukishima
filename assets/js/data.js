@@ -552,6 +552,7 @@ const CURRICULUM = [
         name: "Geometría Moderna I",
         clave: "0249",
         creditos: 10,
+        horas: 80,
         icon: "assets/images/d16.jpg",
         temario: [
           { num: "1", name: "Fundamentos de geometría euclidiana", horas: 12, subtemas: ["Los axiomas de Euclides y Hilbert", "Incidencia, orden y separación", "Congruencia de segmentos y ángulos", "Postulado de las paralelas"] },

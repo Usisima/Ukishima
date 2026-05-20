@@ -226,7 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mat) {
         const pct = getMateriaProgress(mat);
         updateCircProgress(matId, pct);
-        const sem = findSemForMat(matId);
+        let sem = findSemForMat(matId);
+        if (!sem) {
+          const m = matId.match(/^opt_(\d+)_/);
+          if (m) sem = CURRICULUM.find(s => s.semestre === parseInt(m[1]));
+        }
         if (sem) updateSemProgress(sem.semestre);
       }
       updateGlobalBadge();
