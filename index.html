@@ -165,14 +165,6 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/state.js"></script>
 <script>
-// Black hole scroll rotation
-(function () {
-  const bh = document.getElementById('bh-art');
-  if (!bh) return;
-  window.addEventListener('scroll', () => {
-    bh.style.transform = 'rotate(' + (window.scrollY * 0.13) + 'deg)';
-  }, { passive: true });
-})();
 
 document.addEventListener('DOMContentLoaded', () => {
   const allMats = CURRICULUM.flatMap(s => s.materias);

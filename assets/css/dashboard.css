@@ -488,6 +488,7 @@ body {
   line-height: 1.6;
   white-space: pre;
   will-change: transform;
+  animation: bhSpin 100s linear infinite;
   background: radial-gradient(
     ellipse 72% 52% at 50% 78%,
     rgba(248, 230, 255, 1.00) 0%,
@@ -500,6 +501,11 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+@keyframes bhSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .bh-caption {
