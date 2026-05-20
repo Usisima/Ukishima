@@ -26,7 +26,6 @@
   <!-- BLACK HOLE -->
   <div class="bh-wrap">
     <pre class="bh-art" id="bh-art" aria-hidden="true"></pre>
-    <div class="bh-caption">M87* · 6.5 × 10⁹ M☉</div>
   </div>
 
   <!-- HERO RING -->
@@ -178,20 +177,28 @@
   const BASE_RC = 0.45;
 
   // Seeded star field — flat typed arrays for O(1) per-cell lookup
+  // sz: glyph size 0-4  hz: hue index 0-3 (blue-white / white / yellow / warm)
+  const STAR_CH   = ['.', "'", ',', '*', '+'];
+  const STAR_HUES = [215, 195, 52, 24];
   const STARS = (() => {
     let s = 0xabcdef01;
     const r = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967295; };
-    return Array.from({ length: 200 }, () => ({
+    return Array.from({ length: 220 }, () => ({
       c: Math.floor(r() * COLS), r: Math.floor(r() * ROWS),
-      b: 0.10 + r() * 0.30, tw: 0.3 + r() * 3.0, ph: r() * 6.28,
+      b: 0.06 + r() * 0.46, tw: 0.2 + r() * 3.5, ph: r() * 6.28,
+      sz: Math.min(4, Math.floor(r() * r() * 5.5)),   // skewed toward small
+      hz: Math.floor(r() * 4),
     }));
   })();
   const starB  = new Float32Array(COLS * ROWS);
   const starTw = new Float32Array(COLS * ROWS);
   const starPh = new Float32Array(COLS * ROWS);
+  const starSz = new Uint8Array(COLS * ROWS);
+  const starHz = new Uint8Array(COLS * ROWS);
   for (const s of STARS) {
     const i = s.r * COLS + s.c;
     starB[i] = s.b; starTw[i] = s.tw; starPh[i] = s.ph;
+    starSz[i] = s.sz; starHz[i] = s.hz;
   }
 
   // Pure ASCII — only charset guaranteed identical advance-width in DM Mono.
@@ -295,13 +302,16 @@
           const sl = Math.round((8 + scatterB * 22) / 5) * 5;
           color = `hsl(28,55%,${sl}%)`;
         } else if (sd >= 0.78) {
-          // Background stars — twinkling, only outside event horizon
+          // Background stars — varying size, brightness, color temperature
           const idx = r * COLS + c;
           if (starB[idx] > 0) {
-            const sb = starB[idx] * (0.65 + 0.35 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
-            if (sb > 0.18) {
-              ch = '.';
-              color = `hsl(${210 + Math.round(sb * 40)},25%,${Math.round(40 + sb * 40)}%)`;
+            const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
+            if (sb > 0.14) {
+              ch    = STAR_CH[starSz[idx]];
+              const hue = STAR_HUES[starHz[idx]];
+              const sat = Math.round((12 + sb * 55) / 5) * 5;
+              const lit = Math.round((28 + sb * 52) / 5) * 5;
+              color = `hsl(${hue},${sat}%,${lit}%)`;
             } else { ch = ' '; color = null; }
           } else { ch = ' '; color = null; }
         } else {
