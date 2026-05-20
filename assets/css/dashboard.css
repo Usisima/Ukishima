@@ -492,7 +492,20 @@ body {
   font-size: 1px; /* overridden by script: clamp(4px, 90/(COLS*0.6) vw, 8px) */
   line-height: 1.6;
   white-space: pre;
-  color: rgba(210, 185, 248, 0.88);
+  /* Radial gradient centered on the sphere (CX=50%, CY=50% of the pre).       */
+  /* Stops calibrated to the sphere's pixel extent inside the 156×24 char grid: */
+  /*   ~12% = photon ring outer edge (sd=1.14 × SRA in cols / half-diagonal)    */
+  /*   ~44% = accretion ring outer edge (RA×1.12 cols / half-diagonal)          */
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 252, 255, 0.97)  0%,
+    rgba(235, 218, 255, 0.95) 12%,
+    rgba(210, 185, 248, 0.88) 44%,
+    rgba(172, 132, 205, 0.80) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   display: block;
 }
 
