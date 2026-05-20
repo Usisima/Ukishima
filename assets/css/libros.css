@@ -723,8 +723,8 @@ body {
 .note-item[data-type="obs"] .note-type-badge { color: #b8d4c4; }
 
 .note-tex {
-  font-size: 0.88rem;
-  line-height: 1.85;
+  font-size: 0.78rem;
+  line-height: 1.8;
   color: var(--ink2);
   max-width: 100%;
   word-break: break-word;
@@ -763,11 +763,11 @@ body {
 }
 
 .note-sublabel span {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--ink3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ink2);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -816,8 +816,8 @@ body {
 }
 
 .note-dem-tex {
-  font-size: 0.88rem;
-  line-height: 1.85;
+  font-size: 0.78rem;
+  line-height: 1.8;
   color: var(--ink2);
 }
 
