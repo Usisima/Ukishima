@@ -492,6 +492,7 @@ body {
   font-size: 1px;
   line-height: 1.6;
   white-space: pre;
+  overflow: hidden;
   color: #1a0828;
   display: block;
 }

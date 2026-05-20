@@ -155,6 +155,8 @@
 
   const COLS = 160, ROWS = 26;
   pre.style.fontSize = `clamp(4px, ${(90 / (COLS * 0.6)).toFixed(3)}vw, 8px)`;
+  pre.style.width = COLS + 'ch';
+  pre.style.overflowX = 'hidden';
 
   const CX = COLS >> 1, CY = ROWS >> 1;
   const AR = 0.375;
@@ -192,7 +194,10 @@
     starB[i] = s.b; starTw[i] = s.tw; starPh[i] = s.ph;
   }
 
-  const LV_RAW = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
+  // DM Mono only contains ASCII + Greek block (U+0370-U+03FF).
+  // Math Operators (∂,∑,∫,∇…) are NOT in DM Mono — they fall back to a system font
+  // with a different cell width, making characters shift every frame. ASCII+Greek only.
+  const LV_RAW = " .·,;:`'ινδεαλμβπστρηφψξθζχΓΛΠΣΦΘΞΨΩ";
   const LV = [...LV_RAW].map(c => c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '&' ? '&amp;' : c);
   const N  = LV.length - 1;
   const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
@@ -248,11 +253,25 @@
           ringB = ringT * 0.88 * boost;
         }
 
+        // Disintegration scatter: debris halo beyond outer disk edge, co-rotating
+        let scatterB = 0;
+        if (dd > 0.96 && dd < 1.65 && sd >= 0.78) {
+          const dist    = (dd - 0.96) / 0.69;
+          const falloff = Math.exp(-dist * dist * 5.5);
+          const phOuter = phase * (BASE_RC / 0.865) ** 1.5;
+          const relA    = wrap(da - phOuter);
+          const n1 = Math.abs(Math.sin(relA * 4.3 + t_sec * 0.5));
+          const n2 = Math.abs(Math.sin(c * 5.9 + r * 9.7  + t_sec * 1.9));
+          const n3 = Math.abs(Math.sin(c * 2.3 + r * 5.1  - t_sec * 1.5 + dd * 11));
+          scatterB = falloff * n1 * n2 * n3;
+        }
+
         // Near side: disk overrides ring AND void.
         // Far  side: ring overrides disk; void stays void.
-        const showDisk = nearSide ? diskB > 0.01 : (diskB > 0.01 && ringB <= 0.02);
-        const showRing = !showDisk && ringB > 0.02 && sd >= 0.78;
-        const inVoid   = sd < 0.78;
+        const showDisk    = nearSide ? diskB > 0.01 : (diskB > 0.01 && ringB <= 0.02);
+        const showRing    = !showDisk && ringB > 0.02 && sd >= 0.78;
+        const showScatter = !showDisk && !showRing && sd >= 0.78 && scatterB > 0.42;
+        const inVoid      = sd < 0.78;
 
         let ch, color;
         if (showDisk) {
@@ -266,6 +285,10 @@
           const l = Math.round((38 + ringT * 54) / 5) * 5;
           const s = Math.round((78 - ringT * 58) / 10) * 10;
           color = `hsl(265,${s}%,${l}%)`;
+        } else if (showScatter) {
+          ch = lv(scatterB * 0.44);
+          const sl = Math.round((8 + scatterB * 22) / 5) * 5;
+          color = `hsl(28,55%,${sl}%)`;
         } else if (sd >= 0.78) {
           // Background stars — twinkling, only outside event horizon
           const idx = r * COLS + c;
