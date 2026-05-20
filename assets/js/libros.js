@@ -145,6 +145,9 @@ const R = {
     const chaptersHtml = (b.chapters || []).map((ch, ci) => {
       const key = `${b.id}_ch${ci}`;
       const notesHtml = ch.notes.map((note, ni) => {
+        if (note.type === 'sublabel') {
+          return `<div class="note-sublabel"><span>${esc(note.label)}</span></div>`;
+        }
         const nkey = `${key}_n${ni}`;
         const nfaved = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';

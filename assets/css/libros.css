@@ -745,6 +745,33 @@ body {
   white-space: normal;
 }
 
+/* ── NOTE SUBLABEL / SECTION DIVIDER ─────────── */
+.note-sublabel {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.25rem 0 0.35rem;
+  padding: 0 0.1rem;
+}
+
+.note-sublabel::before,
+.note-sublabel::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+
+.note-sublabel span {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* ── EXPANDABLE DEM ──────────────────────────── */
 .note-item.has-dem { cursor: pointer; }
 .note-item.has-dem:active { filter: brightness(1.06); }
