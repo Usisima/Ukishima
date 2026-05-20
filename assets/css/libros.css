@@ -729,6 +729,8 @@ body {
   max-width: 100%;
   word-break: break-word;
   overflow-wrap: break-word;
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* KaTeX overrides for dark theme */
@@ -819,6 +821,8 @@ body {
   font-size: 0.78rem;
   line-height: 1.8;
   color: var(--ink2);
+  text-align: justify;
+  hyphens: auto;
 }
 
 .note-dem-tex .katex { color: var(--ink); }
