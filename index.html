@@ -149,143 +149,122 @@
 <script src="assets/js/state.js"></script>
 <script>
 
-// Black hole ASCII — fixed 120×24 character grid; font-size scales via CSS vw
-// so the entire figure scales as a single unit with the viewport.
-//   DISK   (flat ellipse)  → accretion ring + spiral arms
-//   SPHERE (true circle)   → photon ring + event horizon ball
 (function () {
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
-  // ── Fixed design grid ─────────────────────────────────────────────────────
-  // COLS is derived from RA so the outer spiral edge always fits with margin.
-  // Spiral extends to OUTER_DD * RA cols from center → COLS = 2*(that + PAD).
-  // font-size is set so COLS chars span 90% of the viewport (scales with screen).
-  const RA       = 33;
-  const OUTER_DD = 2.10;
-  const COLS     = 2 * (Math.ceil(OUTER_DD * RA) + 8);  // 156
-  const ROWS     = 24;
-
-  // Each char is ~0.6em wide → COLS * 0.6 * fontSize = 90vw → fontSize = 90/(COLS*0.6) vw
+  const COLS = 160, ROWS = 26;
   pre.style.fontSize = `clamp(4px, ${(90 / (COLS * 0.6)).toFixed(3)}vw, 8px)`;
 
-  const CX  = Math.floor(COLS / 2);
-  const CY  = Math.floor(ROWS / 2);
-  const SRA = Math.round(RA  * 0.29);  // sphere horizontal radius (cols)
-  const SRB = SRA * 0.375;             // sphere vertical radius — char aspect keeps it circular
-  const RB  = Math.min(CY - 2, Math.round(RA / 5.33)); // disk vertical radius (rows)
+  const CX = COLS >> 1, CY = ROWS >> 1;
+  const AR = 0.375;
+  const SR  = 8, SRB = SR * AR;
+  const INC = 78 * Math.PI / 180;
+  const DRA = 62, DRB = DRA * Math.cos(INC) * AR;
+  const PERIOD = 11000;
 
-  const PERIOD = 14000;
-  const LV = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
+  // Concentric ring bands: [inner_dd, outer_dd, base_hue]
+  // Inner rings are hotter (gold), outer rings cooler (red).
+  // Gaps between bands appear as dark voids in the disk.
+  const BANDS = [
+    [0.17, 0.36, 43],
+    [0.44, 0.60, 32],
+    [0.68, 0.82, 23],
+    [0.90, 1.03, 15],
+  ];
+
+  const LV_RAW = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
+  const LV = [...LV_RAW].map(c => c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '&' ? '&amp;' : c);
   const N  = LV.length - 1;
   const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
-  const SK = 5.4;
-
   const wrap = a => a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
 
-  // Pre-compute both coordinate systems once — grid never changes
   const meta = Array.from({ length: ROWS }, (_, r) =>
-    Array.from({ length: COLS }, (_, c) => {
-      const dx = (c - CX) / RA,   dy = (r - CY) / RB;
-      const sx = (c - CX) / SRA,  sy = (r - CY) / SRB;
-      const h  = Math.abs(r * 7919 + c * 6271 + r * c * 997) % 10000;
-      const h2 = Math.abs(r * 4297 + c * 8221 + (r+3) * (c+7) * 613) % 10000;
-      return {
-        dd: Math.hypot(dx, dy), da: Math.atan2(dy, dx),
-        sd: Math.hypot(sx, sy), sa: Math.atan2(sy, sx),
-        np:  h  / 10000 * 2 * Math.PI,   // unique oscillation phase per cell
-        np2: h2 / 10000 * 2 * Math.PI,   // second independent phase
-        nw:  h < 800 ? h / 800 : -1,     // ~8% of cells carry a particle
-      };
-    })
+    Array.from({ length: COLS }, (_, c) => ({
+      sd: Math.hypot((c - CX) / SR,  (r - CY) / SRB),
+      sa: Math.atan2((r - CY) / SRB, (c - CX) / SR),
+      dd: Math.hypot((c - CX) / DRA, (r - CY) / DRB),
+      da: Math.atan2((r - CY) / DRB, (c - CX) / DRA),
+    }))
   );
 
-  const buf = new Array(COLS);
-  let elapsed = 0, lastTs = null, rafId = null;
+  let elapsed = 0, last = null;
 
   function tick(ts) {
-    if (lastTs !== null) elapsed += ts - lastTs;
-    lastTs = ts;
-    const phase = (elapsed / PERIOD) * 2 * Math.PI + Math.PI * 0.5;
-    const lines = new Array(ROWS);
+    if (last !== null) elapsed += ts - last;
+    last = ts;
+    const phase = (elapsed / PERIOD) * 2 * Math.PI;
+
+    let html = '';
 
     for (let r = 0; r < ROWS; r++) {
-      const row = meta[r];
+      if (r > 0) html += '\n';
+      let runColor = null, runChars = '';
+
       for (let c = 0; c < COLS; c++) {
-        const { dd, da, sd, sa, np, np2, nw } = row[c];
+        const { sd, sa, dd, da } = meta[r][c];
 
-        if (sd < 0.50) { buf[c] = ' '; continue; }
+        let ch, color;
 
-        let b = 0;
+        if (sd < 0.78) {
+          ch = ' '; color = null;
+        } else {
+          let diskB = 0, ringB = 0, diskRelA = 0, ringT = 0, diskHue = 30;
 
-        // ── SPHERE layer ──────────────────────────────────────────────────
-        {
-          const spda  = wrap(sa - phase);
-          const sprox = Math.max(0, Math.cos(spda)) ** 2;
-          const sbase = 0.04 + 0.15 * Math.max(0, Math.sin(sa));
+          // Find which ring band this point falls in (gaps → diskB stays 0)
+          for (const [inner, outer, hue] of BANDS) {
+            if (dd >= inner && dd <= outer) {
+              const t  = (dd - inner) / (outer - inner);   // 0=inner edge, 1=outer edge
+              const radial = Math.max(0, 1 - (2 * t - 1) ** 2 * 1.5); // bell, zeroes near edges
+              diskRelA = wrap(da - phase);
+              diskB    = radial * (0.18 + 0.82 * Math.max(0, Math.cos(diskRelA)));
+              diskHue  = hue;
+              break;
+            }
+          }
 
-          if (sd < 0.84) {
-            const depth = (sd - 0.50) / 0.34;
-            b = Math.max(b, Math.max(0, Math.cos(spda)) * 0.20 * depth);
-          } else if (sd < 1.14) {
-            b = Math.max(b, sbase + sprox * (1 - sbase));
-          } else if (sd < 1.70) {
-            const fade = 1 - (sd - 1.14) / 0.56;
-            b = Math.max(b, (sbase + sprox * (1 - sbase)) * 0.55 * fade);
+          if (sd < 1.85) {
+            const boost = 0.65 + 0.35 * Math.max(0, Math.cos(wrap(sa - phase)));
+            ringT = sd < 1.0 ? (sd - 0.78) / 0.22 : Math.max(0, 1 - (sd - 1.0) / 0.85);
+            ringB = ringT * 0.88 * boost;
+          }
+
+          ch = lv(Math.max(diskB, ringB));
+
+          if (diskB >= ringB && diskB > 0.01) {
+            // Disk: base hue per ring, brightens & shifts gold on approaching side
+            const dN = Math.max(0, Math.cos(diskRelA));
+            const h  = Math.round((diskHue + dN * 12) / 5) * 5;
+            const l  = Math.round((14 + dN * 66) / 5) * 5;
+            color = `hsl(${h},90%,${l}%)`;
+          } else if (ringB > 0.02) {
+            // Photon ring: deep violet → near-white lavender
+            const l = Math.round((38 + ringT * 54) / 5) * 5;
+            const s = Math.round((78 - ringT * 58) / 10) * 10;
+            color = `hsl(265,${s}%,${l}%)`;
+          } else {
+            color = null;
           }
         }
 
-        // ── DISK layer ────────────────────────────────────────────────────
-        // Zones have explicit gaps between them so each region reads as distinct.
-        // max(0, cos(sda))^n clips the negative half → ONE arm per winding with
-        // a 180° trailing dark gap, eliminating the symmetric counter-rotation
-        // that cos² produced.
-        {
-          const ddda  = wrap(da - phase);
-          const dprox = Math.max(0, Math.cos(ddda)) ** 2;
-          const dbase = 0.06 + 0.20 * Math.max(0, Math.sin(da));
-
-          if (dd >= 0.90 && dd < 1.10) {
-            // ── Accretion ring ──────────────────────────────────────────────
-            b = Math.max(b, dbase + dprox * (1 - dbase));
-
-          } else if (dd >= 1.17 && dd < 1.57) {
-            // ── Inner spiral — 2 arms, ~60° wide each, ~120° dark gap between
-            const sda = wrap(da - SK * (dd - 1.17) - phase);
-            b = Math.max(b, Math.max(0, Math.cos(2 * sda)) ** 1.2 * 0.62);
-
-          } else if (dd >= 1.66 && dd < OUTER_DD) {
-            // ── Outer spiral — same 2-arm pattern, fades to 0 at grid edge
-            const sda  = wrap(da - SK * (dd - 1.17) - phase);
-            const fade = 1 - (dd - 1.66) / (OUTER_DD - 1.66);
-            b = Math.max(b, Math.max(0, Math.cos(2 * sda)) ** 1.2 * 0.40 * Math.max(0, fade));
-          }
+        if (color === runColor) {
+          runChars += ch;
+        } else {
+          if (runChars) html += runColor ? `<span style="color:${runColor}">${runChars}</span>` : runChars;
+          runColor = color;
+          runChars = ch;
         }
-
-        // ── PARTICLES / FIELD NOISE ──────────────────────────────────────
-        if (nw >= 0) {
-          // Two oscillators at different speeds → irregular non-periodic pulsing
-          const p1 = Math.max(0, Math.sin(elapsed * 0.00155 + np )) ** 2;
-          const p2 = Math.max(0, Math.cos(elapsed * 0.00390 + np2)) ** 3;
-          b = Math.max(b, nw * 0.44 * Math.max(p1, p2 * 0.75));
-        }
-        // Slow large-scale wisps — creates depth and moving gas-cloud texture
-        b = Math.max(b, Math.max(0,
-          Math.sin(dd * 2.7 + da * 1.8 + elapsed * 0.00028) *
-          Math.cos(dd * 1.3 - da * 2.5 + elapsed * 0.00019)
-        ) * 0.09);
-
-        buf[c] = lv(b);
       }
-      lines[r] = buf.join('');
+
+      if (runChars) html += runColor ? `<span style="color:${runColor}">${runChars}</span>` : runChars;
     }
 
-    pre.textContent = lines.join('\n');
-    rafId = requestAnimationFrame(tick);
+    pre.innerHTML = html;
+    requestAnimationFrame(tick);
   }
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
-    rafId = requestAnimationFrame(tick);
+    requestAnimationFrame(tick);
   });
 })();
 
