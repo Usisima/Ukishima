@@ -1263,3 +1263,112 @@ body {
   .book-cover { width: 130px; height: 183px; }
   .book-cover-title { font-size: 10px; }
 }
+
+/* ── CHAPTER SCRUBBER ─────────────────────────── */
+#bk-scrubber {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 48vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 180;
+  cursor: ns-resize;
+  touch-action: none;
+  user-select: none;
+  padding: 0 5px;
+}
+
+#bk-scrub-track {
+  width: 3px;
+  flex: 1;
+  background: rgba(200, 176, 232, 0.18);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 6px 0;
+  gap: 0;
+  transition: background 0.2s;
+}
+
+#bk-scrubber.is-dragging #bk-scrub-track {
+  background: rgba(200, 176, 232, 0.5);
+}
+
+.scrub-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(200, 176, 232, 0.3);
+  flex-shrink: 0;
+  margin: 2px 0;
+  transition: background 0.12s, transform 0.12s;
+}
+
+.scrub-dot.is-ch {
+  width: 6px;
+  height: 6px;
+  background: rgba(200, 176, 232, 0.45);
+}
+
+.scrub-dot.is-active {
+  background: var(--gold);
+  transform: scale(1.5);
+}
+
+#bk-scrub-menu {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-height: 58vh;
+  width: 185px;
+  background: rgba(6, 2, 16, 0.97);
+  border: 1px solid rgba(200, 176, 232, 0.16);
+  border-radius: 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  z-index: 179;
+  pointer-events: none;
+  backdrop-filter: blur(24px) saturate(140%);
+  padding: 6px 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+#bk-scrub-menu::-webkit-scrollbar { display: none; }
+
+#bk-scrub-menu.is-open { opacity: 1; }
+
+.scrub-row {
+  padding: 4px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  line-height: 1.35;
+  color: rgba(232, 245, 242, 0.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.08s, background 0.08s;
+}
+
+.scrub-row.is-ch {
+  color: rgba(232, 245, 242, 0.62);
+  font-size: 9.5px;
+  padding: 5px 12px;
+}
+
+.scrub-row.is-sub {
+  padding-left: 20px;
+  font-size: 8.5px;
+}
+
+.scrub-row.is-active {
+  color: var(--gold);
+  background: rgba(200, 176, 232, 0.08);
+}

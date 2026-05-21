@@ -122,18 +122,23 @@ const R = {
       main.innerHTML = `<div class="lib-empty"><div class="lib-empty-icon">📚</div><p>No hay libros disponibles.</p></div>`;
       return;
     }
-    main.innerHTML = LIBRARY.map((subj, si) => `
-      <div class="lib-subject-section" style="animation-delay:${si * 0.04}s">
-        <div class="lib-subject-header">
-          <div class="lib-subject-name">${esc(subj.subject)}</div>
-          <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
-        </div>
-        <div class="lib-book-scroll">
-          ${subj.books.map((b, i) => R._bookCard(b, subj.color, i)).join('')}
-        </div>
-        ${si < LIBRARY.length - 1 ? '<div class="subject-divider"></div>' : ''}
-      </div>
-    `).join('');
+    main.innerHTML = LIBRARY.map((subj, si) => {
+      // Render favorites first within each subject, preserving original index for reordering
+      const ordered = subj.books
+        .map((b, i) => ({ b, i }))
+        .sort((a, b) => (isFavBook(a.b.id) ? 0 : 1) - (isFavBook(b.b.id) ? 0 : 1) || a.i - b.i);
+      return `
+        <div class="lib-subject-section" style="animation-delay:${si * 0.04}s">
+          <div class="lib-subject-header">
+            <div class="lib-subject-name">${esc(subj.subject)}</div>
+            <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
+          </div>
+          <div class="lib-book-scroll">
+            ${ordered.map(({ b, i }) => R._bookCard(b, subj.color, i)).join('')}
+          </div>
+          ${si < LIBRARY.length - 1 ? '<div class="subject-divider"></div>' : ''}
+        </div>`;
+    }).join('');
   },
 
   _bookCard(b, color, idx = 0) {
@@ -257,6 +262,9 @@ const R = {
 
     renderKatex(main);
     if (S.bookQuery) filterBookNotes(S.bookQuery);
+
+    Scrub.reset();
+    requestAnimationFrame(() => Scrub.build());
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -454,6 +462,141 @@ const A = {
   })(),
 };
 
+/* ── CHAPTER SCRUBBER ─────────────────────────── */
+const Scrub = {
+  secs: [],
+  active: false,
+  idx: -1,
+
+  reset() { this.secs = []; this.idx = -1; },
+
+  build() {
+    this.secs = [];
+    document.querySelectorAll('.chapter-item').forEach(chEl => {
+      const head = chEl.querySelector('.chapter-head');
+      if (head) {
+        const num   = chEl.querySelector('.chapter-num')?.textContent.trim()   || '';
+        const title = chEl.querySelector('.chapter-title')?.textContent.trim() || '';
+        const raw   = num ? `${num}. ${title}` : title;
+        this.secs.push({
+          label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw,
+          el: head, isChapter: true,
+        });
+      }
+      chEl.querySelectorAll('.note-sublabel').forEach(sub => {
+        const t = sub.textContent.trim();
+        this.secs.push({
+          label: t.length > 24 ? t.slice(0, 23) + '…' : t,
+          el: sub, isChapter: false,
+        });
+      });
+    });
+    this._renderTrack();
+    this._renderMenu();
+  },
+
+  _renderTrack() {
+    const track = document.getElementById('bk-scrub-track');
+    if (!track) return;
+    track.innerHTML = this.secs.map((s, i) =>
+      `<span class="scrub-dot${s.isChapter ? ' is-ch' : ''}" data-i="${i}"></span>`
+    ).join('');
+  },
+
+  _renderMenu() {
+    const menu = document.getElementById('bk-scrub-menu');
+    if (!menu) return;
+    menu.innerHTML = this.secs.map((s, i) =>
+      `<div class="scrub-row${s.isChapter ? ' is-ch' : ' is-sub'}" data-i="${i}">${s.label}</div>`
+    ).join('');
+  },
+
+  _idxAt(clientY) {
+    const bar = document.getElementById('bk-scrubber');
+    if (!bar || !this.secs.length) return 0;
+    const r = bar.getBoundingClientRect();
+    const t = Math.max(0, Math.min(0.9999, (clientY - r.top) / r.height));
+    return Math.floor(t * this.secs.length);
+  },
+
+  move(clientY) {
+    const i = this._idxAt(clientY);
+    if (i === this.idx) return;
+    this.idx = i;
+    document.querySelectorAll('#bk-scrub-track .scrub-dot').forEach((d, j) =>
+      d.classList.toggle('is-active', j === i));
+    document.querySelectorAll('#bk-scrub-menu .scrub-row').forEach((row, j) =>
+      row.classList.toggle('is-active', j === i));
+    const activeRow = document.querySelector('#bk-scrub-menu .scrub-row.is-active');
+    if (activeRow) activeRow.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+  },
+
+  snap() {
+    if (this.idx < 0 || this.idx >= this.secs.length) return;
+    const { el } = this.secs[this.idx];
+    if (!el) return;
+    const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
+    const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  },
+
+  open()  {
+    document.getElementById('bk-scrub-menu')?.classList.add('is-open');
+    document.getElementById('bk-scrubber')?.classList.add('is-dragging');
+  },
+  close() {
+    document.getElementById('bk-scrub-menu')?.classList.remove('is-open');
+    document.getElementById('bk-scrubber')?.classList.remove('is-dragging');
+  },
+
+  setVisible(v) {
+    const bar = document.getElementById('bk-scrubber');
+    if (!bar) return;
+    // If showing, defer until after build() populates secs
+    if (v) {
+      requestAnimationFrame(() => {
+        bar.style.display = this.secs.length ? 'flex' : 'none';
+      });
+    } else {
+      bar.style.display = 'none';
+    }
+  },
+
+  init() {
+    const bar = document.getElementById('bk-scrubber');
+    if (!bar) return;
+
+    const onStart = (y) => {
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return;
+      this.active = true;
+      this.open();
+      this.move(y);
+    };
+    const onMove = (y) => { if (this.active) this.move(y); };
+    const onEnd  = () => {
+      if (!this.active) return;
+      this.active = false;
+      this.snap();
+      setTimeout(() => this.close(), 200);
+    };
+
+    bar.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+    bar.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientY);  }, { passive: false });
+    bar.addEventListener('touchend',   e => { e.preventDefault(); onEnd(); }, { passive: false });
+
+    bar.addEventListener('mousedown', e => {
+      e.preventDefault();
+      onStart(e.clientY);
+      const mm = ev => onMove(ev.clientY);
+      const mu = () => { onEnd(); document.removeEventListener('mousemove', mm); document.removeEventListener('mouseup', mu); };
+      document.addEventListener('mousemove', mm);
+      document.addEventListener('mouseup',   mu);
+    });
+  },
+};
+
 /* ── NAVIGATION ───────────────────────────────── */
 const Nav = {
   go(view, bookId, noteKey) {
@@ -494,6 +637,8 @@ const Nav = {
     if (S.view === 'book')   R.book(S.bookId);
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
+
+    Scrub.setVisible(S.view === 'book');
 
     /* scroll: to note if deep-link, else to top */
     if (S.noteKey) {
@@ -599,4 +744,6 @@ const Nav = {
   }
   fixStickyTops();
   window.addEventListener('resize', fixStickyTops);
+
+  Scrub.init();
 })();
