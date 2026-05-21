@@ -24,7 +24,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  height: 100%;
   overscroll-behavior: none;
 }
 
@@ -32,10 +32,12 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
-  padding-bottom: 5rem;
   animation: pageFadeIn 0.18s ease both;
 }
 
@@ -46,8 +48,8 @@ body {
 
 /* ==================== HEADER ==================== */
 .header {
-  position: sticky;
-  top: 0;
+  position: static;
+  flex-shrink: 0;
   z-index: 200;
   padding: 1.1rem 1.5rem 0.9rem;
   display: flex;
@@ -132,10 +134,9 @@ body {
 
 /* ==================== BOTTOM NAV ==================== */
 .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: static;
+  flex-shrink: 0;
+  width: 100%;
   z-index: 200;
   display: flex;
   align-items: stretch;
@@ -473,16 +474,9 @@ body {
 
 /* ==================== BLACK HOLE ==================== */
 .bh-wrap {
-  /* Full-bleed: break out of dash-container's max-width and padding */
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
+  flex: 1;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
+  width: 100%;
   user-select: none;
   pointer-events: none;
 }

@@ -66,7 +66,7 @@
 
   const CX = COLS >> 1;
   // Place hole at true viewport center (accounting for header above the art, not nav below)
-  const CY = Math.max(5, Math.round((window.innerHeight / 2 - headerH) / lineH));
+  const CY = Math.max(5, Math.round((window.innerHeight - headerH - navH) / 2 / lineH));
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = COLS / 160;
