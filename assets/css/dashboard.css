@@ -474,12 +474,16 @@ body {
 
 /* ==================== PILLS ==================== */
 .dash-pills {
-  flex-shrink: 0;
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 62px);
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   align-items: center;
-  padding: 1rem 1.5rem 1.4rem;
+  pointer-events: none;
 }
 
 .dash-pill {
@@ -500,6 +504,7 @@ body {
   letter-spacing: 0.02em;
   transition: background 0.18s, border-color 0.18s;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 
 .dash-pill:hover,
