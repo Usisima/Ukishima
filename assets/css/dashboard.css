@@ -59,6 +59,7 @@ body {
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px) saturate(150%);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
 }
 
 .header::after {
@@ -198,6 +199,7 @@ body {
   height: 2px;
   background: var(--gold);
   border-radius: 0 0 2px 2px;
+  box-shadow: 0 0 10px 2px rgba(200, 176, 232, 0.55);
 }
 
 .nav-item:not(.active):hover { color: var(--ink2); }
@@ -520,10 +522,15 @@ body {
   pointer-events: auto;
 }
 
-.dash-pill:hover,
-.dash-pill:active {
-  background: rgba(255, 255, 255, 0.13);
+.dash-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.28);
+}
+
+.dash-pill:active {
+  background: rgba(200, 176, 232, 0.18);
+  border-color: rgba(200, 176, 232, 0.55);
+  box-shadow: 0 0 18px 4px rgba(200, 176, 232, 0.22), 0 0 6px 1px rgba(232, 168, 58, 0.15);
 }
 
 .dash-pill svg {

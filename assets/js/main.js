@@ -65,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
   root.innerHTML = CURRICULUM.map(renderSemester).join('');
   updateGlobalBadge();
 
+  // Staggered card entrance
+  root.querySelectorAll('.card').forEach((card, i) => {
+    card.style.animationDelay = `${Math.min(i * 38, 480)}ms`;
+  });
+
   // ==================== CLICK EVENTS ====================
   root.addEventListener('click', e => {
 
@@ -214,6 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const idx = parseInt(tc.dataset.tcIdx);
       const done = tc.checked;
       setTemaDone(matId, idx, done);
+      if (done) {
+        tc.classList.remove('popping');
+        void tc.offsetWidth;
+        tc.classList.add('popping');
+        tc.addEventListener('animationend', () => tc.classList.remove('popping'), { once: true });
+      }
       const item = tc.closest('.tema-item');
       if (item) {
         item.classList.toggle('done', done);
