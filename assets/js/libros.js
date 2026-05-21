@@ -563,11 +563,17 @@ _currentIdx() {
     return best;
   },
 
+  _blockFn: null,
+
   open() {
     if (!this.secs.length) this.build();
     if (!this.secs.length) return;
     this.rot = this._currentIdx();
     this.isOpen = true;
+    if (!this._blockFn) {
+      this._blockFn = e => e.preventDefault();
+      document.addEventListener('touchmove', this._blockFn, { passive: false });
+    }
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'block';
     document.getElementById('bk-disc-btn')?.classList.add('is-open');
@@ -576,6 +582,10 @@ _currentIdx() {
 
   close() {
     this.isOpen = false;
+    if (this._blockFn) {
+      document.removeEventListener('touchmove', this._blockFn);
+      this._blockFn = null;
+    }
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'none';
     document.getElementById('bk-disc-btn')?.classList.remove('is-open');
