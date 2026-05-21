@@ -163,9 +163,14 @@
   const lineH = fsPx * 1.6;
   const headerH = document.querySelector('.header')?.offsetHeight ?? 56;
   const navH    = document.querySelector('.bottom-nav')?.offsetHeight ?? 60;
-  const ROWS = Math.max(30, Math.ceil((window.innerHeight - headerH - navH) / lineH));
+  const ROWS = Math.max(
+    Math.ceil((window.innerHeight - headerH - navH) / lineH),
+    30
+  );
 
-  const CX = COLS >> 1, CY = ROWS >> 1;
+  const CX = COLS >> 1;
+  // Place hole at true viewport center (accounting for header above the art, not nav below)
+  const CY = Math.max(5, Math.round((window.innerHeight / 2 - headerH) / lineH));
   const AR = 0.375;
   const SR  = 8, SRB = SR * AR;
   const INC = 78 * Math.PI / 180;
