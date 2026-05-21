@@ -473,6 +473,17 @@ body {
 }
 
 /* ==================== PILLS ==================== */
+@keyframes pillsSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .dash-pills {
   position: fixed;
   bottom: calc(env(safe-area-inset-bottom, 0px) + 130px);
@@ -484,6 +495,8 @@ body {
   gap: 0.6rem;
   align-items: center;
   pointer-events: none;
+  animation: pillsSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.3s;
 }
 
 .dash-pill {
