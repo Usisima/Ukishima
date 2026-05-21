@@ -471,6 +471,18 @@ const Disc = {
   LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
   SPEED:  4.5,    // drag speed multiplier
+  _slFn:  null,   // scroll-lock touchmove handler
+
+  _lockScroll() {
+    if (this._slFn) return;
+    this._slFn = e => e.preventDefault();
+    document.addEventListener('touchmove', this._slFn, { passive: false });
+  },
+  _unlockScroll() {
+    if (!this._slFn) return;
+    document.removeEventListener('touchmove', this._slFn);
+    this._slFn = null;
+  },
 
   reset() { this.secs = []; this.rot = 0; },
 
@@ -565,6 +577,7 @@ const Disc = {
     if (!this.secs.length) return;
     this.rot = this._currentIdx();
     this.isOpen = true;
+    this._lockScroll();
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'block';
     document.getElementById('bk-disc-btn')?.classList.add('is-open');
@@ -573,6 +586,7 @@ const Disc = {
 
   close() {
     this.isOpen = false;
+    this._unlockScroll();
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'none';
     document.getElementById('bk-disc-btn')?.classList.remove('is-open');
@@ -631,9 +645,11 @@ const Disc = {
 
     // Button press opens + starts drag in one gesture
     btn.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+    btn.addEventListener('touchcancel', () => { _detach(); if (dragging) { dragging = false; this.close(); } });
     // Dragging from within the already-open disc also works
     if (wrap) {
-      wrap.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+      wrap.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+      wrap.addEventListener('touchcancel', () => { _detach(); if (dragging) { dragging = false; this.close(); } });
     }
 
     // Mouse equivalent (desktop)
