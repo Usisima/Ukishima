@@ -7,8 +7,8 @@
   --ink: #e8f5f2;
   --ink2: rgba(232, 245, 242, 0.55);
   --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #c8b0e8;
-  --gold2: #b89dd8;
+  --gold: #e8a83a;
+  --gold2: #d4922a;
   --teal: #ddd0f8;
   --teal-dim: rgba(168, 240, 226, 0.12);
   --r: 20px;
@@ -125,8 +125,8 @@ body {
   font-weight: 500;
   padding: 6px 16px;
   border-radius: 99px;
-  border: 1px solid rgba(180, 148, 220, 0.35);
-  background: rgba(180, 148, 220, 0.08);
+  border: 1px solid rgba(232, 168, 58, 0.35);
+  background: rgba(232, 168, 58, 0.08);
   color: var(--gold2);
   white-space: nowrap;
   letter-spacing: 0.04em;
@@ -167,7 +167,7 @@ body {
   display: flex;
   gap: 1rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(180, 148, 220, 0.25) transparent;
+  scrollbar-color: rgba(232, 168, 58, 0.25) transparent;
 }
 
 .mapa-scroll-container::-webkit-scrollbar {
@@ -180,7 +180,7 @@ body {
 }
 
 .mapa-scroll-container::-webkit-scrollbar-thumb {
-  background: rgba(180, 148, 220, 0.25);
+  background: rgba(232, 168, 58, 0.25);
   border-radius: 99px;
 }
 
@@ -241,8 +241,8 @@ body {
 }
 
 .mat-node.completed {
-  border-color: rgba(180, 148, 220, 0.35);
-  background: rgba(180, 148, 220, 0.07);
+  border-color: rgba(232, 168, 58, 0.35);
+  background: rgba(232, 168, 58, 0.07);
 }
 
 .mat-node.in-progress {
@@ -450,8 +450,8 @@ body {
   padding: 0.75rem;
   margin-top: 1rem;
   border-radius: var(--r);
-  background: rgba(180, 148, 220, 0.08);
-  border: 1px solid rgba(180, 148, 220, 0.25);
+  background: rgba(232, 168, 58, 0.08);
+  border: 1px solid rgba(232, 168, 58, 0.25);
   color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
@@ -462,8 +462,8 @@ body {
 }
 
 .map-go-btn:hover {
-  background: rgba(180, 148, 220, 0.15);
-  border-color: rgba(180, 148, 220, 0.45);
+  background: rgba(232, 168, 58, 0.15);
+  border-color: rgba(232, 168, 58, 0.45);
 }
 
 /* ==================== BOTTOM NAV ==================== */
@@ -488,7 +488,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(180, 148, 220, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(232, 168, 58, 0.25), transparent);
 }
 
 .nav-item {

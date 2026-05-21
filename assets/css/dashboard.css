@@ -7,8 +7,8 @@
   --ink: #e8f5f2;
   --ink2: rgba(232, 245, 242, 0.55);
   --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #c8b0e8;
-  --gold2: #b89dd8;
+  --gold: #e8a83a;
+  --gold2: #d4922a;
   --teal: #ddd0f8;
   --teal-dim: rgba(168, 240, 226, 0.12);
   --r: 20px;
@@ -126,8 +126,8 @@ body {
   font-weight: 500;
   padding: 6px 16px;
   border-radius: 99px;
-  border: 1px solid rgba(180, 148, 220, 0.35);
-  background: rgba(180, 148, 220, 0.08);
+  border: 1px solid rgba(232, 168, 58, 0.35);
+  background: rgba(232, 168, 58, 0.08);
   color: var(--gold2);
   white-space: nowrap;
   letter-spacing: 0.04em;
@@ -154,7 +154,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(180, 148, 220, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(232, 168, 58, 0.25), transparent);
 }
 
 .nav-item {
@@ -199,7 +199,7 @@ body {
   height: 2px;
   background: var(--gold);
   border-radius: 0 0 2px 2px;
-  box-shadow: 0 0 10px 2px rgba(200, 176, 232, 0.55);
+  box-shadow: 0 0 10px 2px rgba(232, 168, 58, 0.55);
 }
 
 .nav-item:not(.active):hover { color: var(--ink2); }
@@ -528,9 +528,9 @@ body {
 }
 
 .dash-pill:active {
-  background: rgba(200, 176, 232, 0.18);
-  border-color: rgba(200, 176, 232, 0.55);
-  box-shadow: 0 0 18px 4px rgba(200, 176, 232, 0.22), 0 0 6px 1px rgba(232, 168, 58, 0.15);
+  background: rgba(232, 168, 58, 0.18);
+  border-color: rgba(232, 168, 58, 0.55);
+  box-shadow: 0 0 18px 4px rgba(232, 168, 58, 0.22), 0 0 6px 1px rgba(232, 168, 58, 0.15);
 }
 
 .dash-pill svg {
