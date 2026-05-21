@@ -667,10 +667,9 @@ const Disc = {
         dragging = false;
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
-          const target = this._calcTarget(t);
           this._unlockScroll();
-          requestAnimationFrame(() => window.scrollTo({ top: target, behavior: 'smooth' }));
-          setTimeout(() => this.close(), 380);
+          requestAnimationFrame(() => requestAnimationFrame(() => this.scrollTo(t)));
+          setTimeout(() => this.close(), 450);
         });
       };
       document.addEventListener('touchmove', _tmm, { passive: false });
@@ -699,10 +698,9 @@ const Disc = {
         document.removeEventListener('mouseup',   mu);
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
-          const target = this._calcTarget(t);
           this._unlockScroll();
-          requestAnimationFrame(() => window.scrollTo({ top: target, behavior: 'smooth' }));
-          setTimeout(() => this.close(), 380);
+          requestAnimationFrame(() => requestAnimationFrame(() => this.scrollTo(t)));
+          setTimeout(() => this.close(), 450);
         });
       };
       document.addEventListener('mousemove', mm);
