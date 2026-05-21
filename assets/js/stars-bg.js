@@ -38,8 +38,8 @@
     const c = Math.floor(rand() * COLS);
     const r = Math.floor(rand() * ROWS);
     const i = r * COLS + c;
-    starB[i]  = 0.10 + rand() * 0.52;
-    starTw[i] = 0.25 + rand() * 3.2;
+    starB[i]  = 0.18 + rand() * 0.62;
+    starTw[i] = 1.4  + rand() * 7.5;   // fast: 1.4–8.9 Hz
     starPh[i] = rand() * 6.2832;
     starSz[i] = Math.min(4, Math.floor(rand() * rand() * 5.5));
   }
@@ -61,7 +61,7 @@
         let ch = ' ', color = null;
 
         if (starB[idx] > 0) {
-          const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t * starTw[idx] + starPh[idx]));
+          const sb = starB[idx] * Math.max(0, 0.5 + 0.5 * Math.sin(t * starTw[idx] + starPh[idx]));
           if (sb > 0.11) {
             ch    = STAR_CH[starSz[idx]];
             const lit = Math.round((26 + sb * 60) / 5) * 5;
