@@ -24,6 +24,17 @@
   <pre class="bh-art" id="bh-art" aria-hidden="true"></pre>
 </div>
 
+<div class="dash-pills">
+  <a href="temarios.html" class="dash-pill">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    Temarios
+  </a>
+  <a href="libros.html" class="dash-pill">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    Bibliografía
+  </a>
+</div>
+
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-item active">
@@ -55,18 +66,13 @@
   pre.style.width      = '100%';
   pre.style.overflowX  = 'hidden';
 
-  // Fill the visible main area vertically (below header, above bottom nav)
-  const lineH   = fsPx * 1.6;
-  const headerH = document.querySelector('.header')?.offsetHeight ?? 56;
-  const navH    = document.querySelector('.bottom-nav')?.offsetHeight ?? 60;
-  const ROWS = Math.max(
-    Math.ceil((window.innerHeight - headerH - navH) / lineH),
-    30
-  );
+  // Size to the bh-wrap element's actual rendered height
+  const lineH  = fsPx * 1.6;
+  const wrapH  = pre.parentElement?.offsetHeight ?? (window.innerHeight - 120);
+  const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  // Place hole at true viewport center (accounting for header above the art, not nav below)
-  const CY = Math.max(5, Math.round((window.innerHeight - headerH - navH) / 2 / lineH));
+  const CY = Math.max(5, Math.round(wrapH / 2 / lineH));
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = COLS / 160;

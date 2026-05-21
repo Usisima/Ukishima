@@ -472,6 +472,46 @@ body {
   flex-shrink: 0;
 }
 
+/* ==================== PILLS ==================== */
+.dash-pills {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 1rem 1.5rem 1.4rem;
+}
+
+.dash-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 99px;
+  border: 1px solid rgba(190, 160, 230, 0.28);
+  background: rgba(200, 176, 232, 0.07);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dash-pill:hover,
+.dash-pill:active {
+  background: rgba(200, 176, 232, 0.15);
+  border-color: rgba(190, 160, 230, 0.5);
+}
+
+.dash-pill svg {
+  width: 15px;
+  height: 15px;
+  stroke: var(--gold);
+  flex-shrink: 0;
+}
+
 /* ==================== BLACK HOLE ==================== */
 .bh-wrap {
   flex: 1;
