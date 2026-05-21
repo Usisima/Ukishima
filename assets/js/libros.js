@@ -414,6 +414,8 @@ const A = {
   toggleFavBook(id, btn) {
     toggleFavBook(id);
     const faved = isFavBook(id);
+    btn.blur();
+    window.getSelection()?.removeAllRanges();
     btn.textContent = faved ? '♥' : '♡';
     btn.classList.toggle('faved', faved);
     btn.setAttribute('aria-label', faved ? 'Quitar de favoritos' : 'Añadir a favoritos');
@@ -431,6 +433,8 @@ const A = {
   toggleFavNote(key, btn) {
     toggleFavNote(key);
     const faved = isFavNote(key);
+    btn.blur();
+    window.getSelection()?.removeAllRanges();
     if (S.view === 'favs') {
       R.favs();
       return;
