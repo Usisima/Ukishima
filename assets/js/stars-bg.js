@@ -7,7 +7,7 @@
 
   // Fill screen width exactly at ≥4px font
   const _W   = window.innerWidth;
-  const COLS = Math.min(120, Math.floor(_W / (4 * 0.6)));  // cap at 120 cols for bg density
+  const COLS = Math.floor(_W / (4 * 0.6));   // fills full width, no cap
   const fsPx = _W / (COLS * 0.6);                          // exact fill, no gaps
   const lineH = fsPx * 1.6;
   const ROWS  = Math.max(Math.ceil(window.innerHeight / lineH) + 2, 18);
