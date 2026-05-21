@@ -263,8 +263,8 @@ const R = {
     renderKatex(main);
     if (S.bookQuery) filterBookNotes(S.bookQuery);
 
-    Scrub.reset();
-    requestAnimationFrame(() => Scrub.build());
+    Disc.reset();
+    requestAnimationFrame(() => Disc.build());
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -462,13 +462,16 @@ const A = {
   })(),
 };
 
-/* ── CHAPTER SCRUBBER ─────────────────────────── */
-const Scrub = {
-  secs: [],
-  active: false,
-  idx: -1,
+/* ── DISC SCRUBBER ────────────────────────────── */
+const Disc = {
+  secs:   [],
+  rot:    0,      // float index of centered item
+  isOpen: false,
+  R:      300,    // disc radius (px)
+  LEDGE:  180,    // disc center offset past right screen edge (px)
+  STEP:   0.11,   // radians between adjacent items (~6.3°)
 
-  reset() { this.secs = []; this.idx = -1; },
+  reset() { this.secs = []; this.rot = 0; },
 
   build() {
     this.secs = [];
@@ -478,122 +481,162 @@ const Scrub = {
         const num   = chEl.querySelector('.chapter-num')?.textContent.trim()   || '';
         const title = chEl.querySelector('.chapter-title')?.textContent.trim() || '';
         const raw   = num ? `${num}. ${title}` : title;
-        this.secs.push({
-          label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw,
-          el: head, isChapter: true,
-        });
+        this.secs.push({ label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw, el: head, isCh: true });
       }
       chEl.querySelectorAll('.note-sublabel').forEach(sub => {
         const t = sub.textContent.trim();
-        this.secs.push({
-          label: t.length > 24 ? t.slice(0, 23) + '…' : t,
-          el: sub, isChapter: false,
-        });
+        this.secs.push({ label: t.length > 24 ? t.slice(0, 23) + '…' : t, el: sub, isCh: false });
       });
     });
-    this._renderTrack();
-    this._renderMenu();
   },
 
-  _renderTrack() {
-    const track = document.getElementById('bk-scrub-track');
-    if (!track) return;
-    track.innerHTML = this.secs.map((s, i) =>
-      `<span class="scrub-dot${s.isChapter ? ' is-ch' : ''}" data-i="${i}"></span>`
-    ).join('');
+  _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
+
+  _render() {
+    const wrap = document.getElementById('bk-disc-wrap');
+    if (!wrap) return;
+    const W  = window.innerWidth;
+    const H  = window.innerHeight;
+    const R  = this.R, L = this.LEDGE, S = this.STEP;
+    const cy = H / 2;
+    const active = Math.round(this._clamp(this.rot));
+    const buf = [];
+
+    this.secs.forEach((sec, i) => {
+      const theta     = (i - this.rot) * S;
+      const arcX      = W + L - R * Math.cos(theta);
+      const arcY      = cy + R * Math.sin(theta);
+      const rightDist = W - arcX; // negative = arc is off-screen right
+
+      if (arcY < -40 || arcY > H + 40) return;
+
+      const absTh  = Math.abs(theta);
+      const opacity = Math.max(0.04, 1 - absTh * 0.9);
+      const isAct   = i === active;
+
+      buf.push(
+        `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" ` +
+        `data-i="${i}" ` +
+        `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
+      );
+    });
+
+    wrap.innerHTML = buf.join('');
   },
 
-  _renderMenu() {
-    const menu = document.getElementById('bk-scrub-menu');
-    if (!menu) return;
-    menu.innerHTML = this.secs.map((s, i) =>
-      `<div class="scrub-row${s.isChapter ? ' is-ch' : ' is-sub'}" data-i="${i}">${s.label}</div>`
-    ).join('');
+  _snapTo(target, cb) {
+    const go = () => {
+      const diff = target - this.rot;
+      if (Math.abs(diff) < 0.02) { this.rot = target; this._render(); cb?.(); return; }
+      this.rot += diff * 0.22;
+      this._render();
+      requestAnimationFrame(go);
+    };
+    go();
   },
 
-  _idxAt(clientY) {
-    const bar = document.getElementById('bk-scrubber');
-    if (!bar || !this.secs.length) return 0;
-    const r = bar.getBoundingClientRect();
-    const t = Math.max(0, Math.min(0.9999, (clientY - r.top) / r.height));
-    return Math.floor(t * this.secs.length);
-  },
-
-  move(clientY) {
-    const i = this._idxAt(clientY);
-    if (i === this.idx) return;
-    this.idx = i;
-    document.querySelectorAll('#bk-scrub-track .scrub-dot').forEach((d, j) =>
-      d.classList.toggle('is-active', j === i));
-    document.querySelectorAll('#bk-scrub-menu .scrub-row').forEach((row, j) =>
-      row.classList.toggle('is-active', j === i));
-    const activeRow = document.querySelector('#bk-scrub-menu .scrub-row.is-active');
-    if (activeRow) activeRow.scrollIntoView({ block: 'nearest', behavior: 'instant' });
-  },
-
-  snap() {
-    if (this.idx < 0 || this.idx >= this.secs.length) return;
-    const { el } = this.secs[this.idx];
-    if (!el) return;
+  scrollTo(i) {
+    const sec = this.secs[i];
+    if (!sec?.el) return;
     const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
     const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-    const top = el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+    const top = sec.el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
-  open()  {
-    document.getElementById('bk-scrub-menu')?.classList.add('is-open');
-    document.getElementById('bk-scrubber')?.classList.add('is-dragging');
+  _currentIdx() {
+    const cy = window.innerHeight / 2;
+    let best = 0, bestD = Infinity;
+    this.secs.forEach((s, i) => {
+      if (!s.el) return;
+      const d = Math.abs(s.el.getBoundingClientRect().top - cy);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
   },
+
+  open() {
+    if (!this.secs.length) this.build();
+    if (!this.secs.length) return;
+    this.rot = this._currentIdx();
+    this.isOpen = true;
+    const wrap = document.getElementById('bk-disc-wrap');
+    if (wrap) wrap.style.display = 'block';
+    document.getElementById('bk-disc-btn')?.classList.add('is-open');
+    this._render();
+  },
+
   close() {
-    document.getElementById('bk-scrub-menu')?.classList.remove('is-open');
-    document.getElementById('bk-scrubber')?.classList.remove('is-dragging');
+    this.isOpen = false;
+    const wrap = document.getElementById('bk-disc-wrap');
+    if (wrap) wrap.style.display = 'none';
+    document.getElementById('bk-disc-btn')?.classList.remove('is-open');
   },
 
   setVisible(v) {
-    const bar = document.getElementById('bk-scrubber');
-    if (!bar) return;
-    // If showing, defer until after build() populates secs
+    const btn = document.getElementById('bk-disc-btn');
+    if (!btn) return;
     if (v) {
       requestAnimationFrame(() => {
-        bar.style.display = this.secs.length ? 'flex' : 'none';
+        btn.style.display = this.secs.length ? 'flex' : 'none';
       });
     } else {
-      bar.style.display = 'none';
+      btn.style.display = 'none';
+      this.close();
     }
   },
 
   init() {
-    const bar = document.getElementById('bk-scrubber');
-    if (!bar) return;
+    const btn = document.getElementById('bk-disc-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      if (!this.secs.length) this.build();
+      this.isOpen ? this.close() : this.open();
+    });
+
+    let startY = 0, startRot = 0, dragging = false;
 
     const onStart = (y) => {
-      if (!this.secs.length) this.build();
-      if (!this.secs.length) return;
-      this.active = true;
-      this.open();
-      this.move(y);
+      if (!this.isOpen) return;
+      dragging = true; startY = y; startRot = this.rot;
     };
-    const onMove = (y) => { if (this.active) this.move(y); };
-    const onEnd  = () => {
-      if (!this.active) return;
-      this.active = false;
-      this.snap();
-      setTimeout(() => this.close(), 200);
+    const onMove = (y) => {
+      if (!dragging) return;
+      this.rot = this._clamp(startRot + (y - startY) / (this.R * this.STEP));
+      this._render();
+    };
+    const onEnd = () => {
+      if (!dragging) return;
+      dragging = false;
+      const target = Math.round(this._clamp(this.rot));
+      this._snapTo(target, () => {
+        this.scrollTo(target);
+        setTimeout(() => this.close(), 380);
+      });
     };
 
-    bar.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
-    bar.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientY);  }, { passive: false });
-    bar.addEventListener('touchend',   e => { e.preventDefault(); onEnd(); }, { passive: false });
+    const wrap = document.getElementById('bk-disc-wrap');
+    if (wrap) {
+      wrap.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+      wrap.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientY);  }, { passive: false });
+      wrap.addEventListener('touchend',   e => { e.preventDefault(); onEnd(); }, { passive: false });
+      wrap.addEventListener('mousedown', e => {
+        e.preventDefault();
+        onStart(e.clientY);
+        const mm = ev => onMove(ev.clientY);
+        const mu = () => { onEnd(); document.removeEventListener('mousemove', mm); document.removeEventListener('mouseup', mu); };
+        document.addEventListener('mousemove', mm);
+        document.addEventListener('mouseup', mu);
+      });
+    }
 
-    bar.addEventListener('mousedown', e => {
-      e.preventDefault();
-      onStart(e.clientY);
-      const mm = ev => onMove(ev.clientY);
-      const mu = () => { onEnd(); document.removeEventListener('mousemove', mm); document.removeEventListener('mouseup', mu); };
-      document.addEventListener('mousemove', mm);
-      document.addEventListener('mouseup',   mu);
-    });
+    // Close on tap outside the disc
+    document.addEventListener('touchstart', e => {
+      if (!this.isOpen) return;
+      const w = document.getElementById('bk-disc-wrap');
+      if (!w?.contains(e.target) && !btn.contains(e.target)) this.close();
+    }, { passive: true });
   },
 };
 
@@ -638,7 +681,7 @@ const Nav = {
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
-    Scrub.setVisible(S.view === 'book');
+    Disc.setVisible(S.view === 'book');
 
     /* scroll: to note if deep-link, else to top */
     if (S.noteKey) {
@@ -745,5 +788,5 @@ const Nav = {
   fixStickyTops();
   window.addEventListener('resize', fixStickyTops);
 
-  Scrub.init();
+  Disc.init();
 })();
