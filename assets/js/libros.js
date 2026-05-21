@@ -474,20 +474,6 @@ const Disc = {
   LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
   SPEED:  4.5,    // drag speed multiplier
-  _slFn: null,
-
-  _lockScroll() {
-    if (this._slFn) return;
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    this._slFn = true;
-  },
-  _unlockScroll() {
-    if (!this._slFn) return;
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    this._slFn = null;
-  },
 
   reset() { this.secs = []; this.rot = 0; },
 
@@ -582,7 +568,6 @@ _currentIdx() {
     if (!this.secs.length) return;
     this.rot = this._currentIdx();
     this.isOpen = true;
-    this._lockScroll();
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'block';
     document.getElementById('bk-disc-btn')?.classList.add('is-open');
@@ -591,7 +576,6 @@ _currentIdx() {
 
   close() {
     this.isOpen = false;
-    this._unlockScroll();
     const wrap = document.getElementById('bk-disc-wrap');
     if (wrap) wrap.style.display = 'none';
     document.getElementById('bk-disc-btn')?.classList.remove('is-open');
@@ -643,7 +627,6 @@ _currentIdx() {
         dragging = false;
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
-          this._unlockScroll();
           this.scrollTo(t);
           setTimeout(() => this.close(), 380);
         });
@@ -674,7 +657,6 @@ _currentIdx() {
         document.removeEventListener('mouseup',   mu);
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
-          this._unlockScroll();
           this.scrollTo(t);
           setTimeout(() => this.close(), 380);
         });
