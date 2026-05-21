@@ -152,10 +152,10 @@ function renderOptItem(opt, semNum, slotIdx) {
   const isSelected = chosen && chosen.name === opt.name;
   // Skip optativas already picked in another slot
   if (!isSelected && getAllChosenOptNames().includes(opt.name)) return '';
-  const initials = opt.name.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase() || opt.name[0].toUpperCase();
+  const iconSrc = opt.icon || 'assets/images/d0.jpg';
   return `<div class="opt-item${isSelected ? ' selected' : ''}"
     data-opt-pick="${opt.name}" data-opt-sem="${semNum}" data-opt-slot="${slotIdx}">
-    <div class="opt-item-icon">${initials}</div>
+    <div class="opt-item-icon"><img src="${iconSrc}" alt="" onerror="this.style.display='none'"></div>
     <div class="opt-item-info">
       <div class="opt-item-name">${opt.name}</div>
       <div class="opt-item-meta">
