@@ -316,7 +316,7 @@ const R = {
           <div class="search-book-cover">${coverDiv(color, b.title)}</div>
           <div class="search-book-info">
             <div class="search-book-title">${esc(b.title)}</div>
-            <div class="search-book-subject">${esc(subject)}</div>
+            <div class="search-book-subject">${esc(b.author)}</div>
           </div>
           ${chevronSvg}
         </div>`).join('');
@@ -326,10 +326,9 @@ const R = {
       html += `<div class="search-result-group-label${bookResults.length ? ' search-result-group-label--spaced' : ''}">${noteResults.length} nota${noteResults.length !== 1 ? 's' : ''}</div>`;
       html += noteResults.map(({ note, nkey, book: b, subject, color }) => `
         <div class="search-note-card" onclick="Nav.go('book','${esc(b.id)}','${esc(nkey)}')" data-type="${esc(note.type)}">
-          <div class="search-note-type-dot" data-type="${esc(note.type)}">${esc(NOTE_LABELS[note.type] || note.type)}</div>
           <div class="search-note-info">
             <div class="search-note-label">${esc(note.label)}</div>
-            <div class="search-note-source">${esc(b.title)} · ${esc(subject)}</div>
+            <div class="search-note-source">${esc(b.title)}</div>
           </div>
           ${chevronSvg}
         </div>`).join('');
@@ -475,29 +474,18 @@ const Disc = {
   LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
   SPEED:  4.5,    // drag speed multiplier
-  _slFn:     null,
-  _scrollTop: 0,
+  _slFn: null,
 
   _lockScroll() {
     if (this._slFn) return;
-    this._scrollTop = window.scrollY;
-    const b = document.body;
-    b.style.position = 'fixed';
-    b.style.top      = `-${this._scrollTop}px`;
-    b.style.left     = '0';
-    b.style.right    = '0';
-    b.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
     this._slFn = true;
   },
-  _unlockScroll(noRestore = false) {
+  _unlockScroll() {
     if (!this._slFn) return;
-    const b = document.body;
-    b.style.position = '';
-    b.style.top      = '';
-    b.style.left     = '';
-    b.style.right    = '';
-    b.style.overflow = '';
-    if (!noRestore) window.scrollTo(0, this._scrollTop);
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
     this._slFn = null;
   },
 
@@ -578,19 +566,7 @@ const Disc = {
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
-  // Calculates absolute scroll target while body may be locked (position:fixed).
-  // Uses saved _scrollTop to compensate for the fixed offset.
-  _calcTarget(i) {
-    const sec = this.secs[i];
-    if (!sec?.el) return 0;
-    const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
-    const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-    const rawTop = sec.el.getBoundingClientRect().top;
-    const scrollOffset = this._slFn ? this._scrollTop : window.scrollY;
-    return Math.max(0, rawTop + scrollOffset - hH - tH - 10);
-  },
-
-  _currentIdx() {
+_currentIdx() {
     const cy = window.innerHeight / 2;
     let best = 0, bestD = Infinity;
     this.secs.forEach((s, i) => {
@@ -668,8 +644,8 @@ const Disc = {
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
           this._unlockScroll();
-          requestAnimationFrame(() => requestAnimationFrame(() => this.scrollTo(t)));
-          setTimeout(() => this.close(), 450);
+          this.scrollTo(t);
+          setTimeout(() => this.close(), 380);
         });
       };
       document.addEventListener('touchmove', _tmm, { passive: false });
@@ -699,8 +675,8 @@ const Disc = {
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
           this._unlockScroll();
-          requestAnimationFrame(() => requestAnimationFrame(() => this.scrollTo(t)));
-          setTimeout(() => this.close(), 450);
+          this.scrollTo(t);
+          setTimeout(() => this.close(), 380);
         });
       };
       document.addEventListener('mousemove', mm);
