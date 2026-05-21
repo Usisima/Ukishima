@@ -502,7 +502,8 @@ const Disc = {
     const W  = window.innerWidth;
     const H  = window.innerHeight;
     const R  = this.R, L = this.LEDGE, S = this.STEP;
-    const cy = H / 2;
+    const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
+    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : H / 2;
     const active = Math.round(this._clamp(this.rot));
     const buf = [];
 
@@ -553,7 +554,8 @@ const Disc = {
   },
 
 _currentIdx() {
-    const cy = window.innerHeight / 2;
+    const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
+    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
     let best = 0, bestD = Infinity;
     this.secs.forEach((s, i) => {
       if (!s.el) return;
