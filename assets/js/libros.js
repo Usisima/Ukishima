@@ -507,9 +507,12 @@ const Disc = {
       const theta     = (i - this.rot) * S;
       const arcX      = W + L - R * Math.cos(theta);
       const arcY      = cy + R * Math.sin(theta);
-      const rightDist = W - arcX; // negative = arc is off-screen right
+      const rightDist = W - arcX; // distance from screen right edge to item's right edge
 
       if (arcY < -40 || arcY > H + 40) return;
+
+      // Max usable width: from left screen edge (with margin) to the arc position
+      const maxW = Math.max(50, Math.min(W - 14, arcX - 8));
 
       const absTh  = Math.abs(theta);
       const opacity = Math.max(0.04, 1 - absTh * 0.9);
@@ -518,7 +521,8 @@ const Disc = {
       buf.push(
         `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" ` +
         `data-i="${i}" ` +
-        `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
+        `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
+        `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
       );
     });
 

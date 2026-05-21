@@ -1314,20 +1314,20 @@ body {
   pointer-events: none;
 }
 
-/* Disc item container — right strip, clips arc items */
+/* Disc item container — full-screen overlay, clips at top/bottom/right */
 #bk-disc-wrap {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  width: 300px;
   z-index: 182;
   overflow: hidden;
   pointer-events: auto;
   display: none;
   touch-action: none;
   user-select: none;
-  background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.62) 14%);
+  background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.68) 38%);
   backdrop-filter: blur(10px) saturate(70%);
   -webkit-backdrop-filter: blur(10px) saturate(70%);
 }
@@ -1348,7 +1348,6 @@ body {
 /* Individual disc items — positioned by JS along the arc */
 .disc-item {
   position: absolute;
-  max-width: 175px;
   padding: 3px 10px 3px 0;
   border-radius: 6px;
   font-family: 'DM Mono', monospace;
