@@ -467,9 +467,10 @@ const Disc = {
   secs:   [],
   rot:    0,      // float index of centered item
   isOpen: false,
-  R:      300,    // disc radius (px)
-  LEDGE:  180,    // disc center offset past right screen edge (px)
+  R:      480,    // disc radius (px)
+  LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
+  SPEED:  2.5,    // drag speed multiplier
 
   reset() { this.secs = []; this.rot = 0; },
 
@@ -610,7 +611,7 @@ const Disc = {
       _detach();
       _tmm = e => {
         e.preventDefault();
-        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) / (this.R * this.STEP));
+        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
         this._render();
       };
       _tmu = () => {
@@ -638,7 +639,7 @@ const Disc = {
       if (!this.secs.length) return;
       if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
       let sy = e.clientY, sr = this.rot;
-      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) / (this.R * this.STEP)); this._render(); };
+      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
       const mu = () => {
         document.removeEventListener('mousemove', mm);
         document.removeEventListener('mouseup',   mu);
