@@ -9,10 +9,10 @@
   --ink: #e8f5f2;
   --ink2: rgba(232, 245, 242, 0.55);
   --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #e8a83a;
-  --gold2: #d4922a;
+  --gold: #9bbfb5;
+  --gold2: #7aa89e;
   --teal: #ddd0f8;
-  --teal-dim: rgba(232, 168, 58, 0.10);
+  --teal-dim: rgba(155, 191, 181, 0.10);
   --r: 20px;
   --r2: 12px;
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -166,7 +166,7 @@ body {
 
 .lib-tab.active {
   background: var(--teal-dim);
-  border-color: rgba(232, 168, 58, 0.35);
+  border-color: rgba(155, 191, 181, 0.35);
   color: var(--gold);
 }
 
@@ -230,7 +230,7 @@ body {
   backdrop-filter: blur(12px);
   transition: all 0.2s;
 }
-.lib-back-btn:hover { border-color: rgba(232, 168, 58, 0.35); color: var(--gold); }
+.lib-back-btn:hover { border-color: rgba(155, 191, 181, 0.35); color: var(--gold); }
 
 /* ── MAIN AREA ───────────────────────────────── */
 .lib-main {
@@ -347,7 +347,7 @@ body {
   touch-action: manipulation;
 }
 .book-fav-dot:hover,
-.book-fav-dot.faved { color: var(--gold); border-color: rgba(232, 168, 58, 0.45); }
+.book-fav-dot.faved { color: var(--gold); border-color: rgba(155, 191, 181, 0.45); }
 
 .book-card-title {
   font-family: 'Playfair Display', serif;
@@ -524,8 +524,8 @@ body {
 }
 .hero-fav-btn:hover,
 .hero-fav-btn.faved {
-  background: rgba(232, 168, 58, 0.22);
-  border-color: rgba(232, 168, 58, 0.5);
+  background: rgba(155, 191, 181, 0.22);
+  border-color: rgba(155, 191, 181, 0.5);
   color: var(--gold);
 }
 
@@ -593,7 +593,7 @@ body {
   padding: 0.5rem 1rem;
   border-radius: var(--r);
   background: var(--teal-dim);
-  border: 1px solid rgba(232, 168, 58, 0.28);
+  border: 1px solid rgba(155, 191, 181, 0.28);
   color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -602,7 +602,7 @@ body {
   transition: all 0.2s;
   text-decoration: none;
 }
-.btn-pdf:hover { background: rgba(232, 168, 58, 0.18); border-color: rgba(232, 168, 58, 0.45); }
+.btn-pdf:hover { background: rgba(155, 191, 181, 0.18); border-color: rgba(155, 191, 181, 0.45); }
 .btn-pdf:disabled, .btn-pdf.disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -1186,7 +1186,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(232, 168, 58, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(155, 191, 181, 0.25), transparent);
 }
 
 .nav-item {
@@ -1231,7 +1231,7 @@ body {
   height: 2px;
   background: var(--gold);
   border-radius: 0 0 2px 2px;
-  box-shadow: 0 0 10px 2px rgba(232, 168, 58, 0.55);
+  box-shadow: 0 0 10px 2px rgba(155, 191, 181, 0.55);
 }
 
 .nav-item:not(.active):hover { color: var(--ink2); }
