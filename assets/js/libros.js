@@ -587,55 +587,74 @@ const Disc = {
   },
 
   init() {
-    const btn = document.getElementById('bk-disc-btn');
+    const btn  = document.getElementById('bk-disc-btn');
+    const wrap = document.getElementById('bk-disc-wrap');
     if (!btn) return;
 
-    btn.addEventListener('click', () => {
-      if (!this.secs.length) this.build();
-      this.isOpen ? this.close() : this.open();
-    });
-
     let startY = 0, startRot = 0, dragging = false;
+    let _tmm = null, _tmu = null;
 
+    const _detach = () => {
+      if (_tmm) { document.removeEventListener('touchmove', _tmm); _tmm = null; }
+      if (_tmu) { document.removeEventListener('touchend',  _tmu); _tmu = null; }
+    };
+
+    // Press → open disc immediately, then track finger globally
     const onStart = (y) => {
-      if (!this.isOpen) return;
-      dragging = true; startY = y; startRot = this.rot;
-    };
-    const onMove = (y) => {
-      if (!dragging) return;
-      this.rot = this._clamp(startRot + (y - startY) / (this.R * this.STEP));
-      this._render();
-    };
-    const onEnd = () => {
-      if (!dragging) return;
-      dragging = false;
-      const target = Math.round(this._clamp(this.rot));
-      this._snapTo(target, () => {
-        this.scrollTo(target);
-        setTimeout(() => this.close(), 380);
-      });
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return;
+      if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
+      dragging = true;
+      startY   = y;
+      startRot = this.rot;
+      _detach();
+      _tmm = e => {
+        e.preventDefault();
+        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) / (this.R * this.STEP));
+        this._render();
+      };
+      _tmu = () => {
+        _detach();
+        if (!dragging) return;
+        dragging = false;
+        const t = Math.round(this._clamp(this.rot));
+        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+      };
+      document.addEventListener('touchmove', _tmm, { passive: false });
+      document.addEventListener('touchend',  _tmu, { passive: false });
     };
 
-    const wrap = document.getElementById('bk-disc-wrap');
+    // Button press opens + starts drag in one gesture
+    btn.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+    // Dragging from within the already-open disc also works
     if (wrap) {
       wrap.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
-      wrap.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientY);  }, { passive: false });
-      wrap.addEventListener('touchend',   e => { e.preventDefault(); onEnd(); }, { passive: false });
-      wrap.addEventListener('mousedown', e => {
-        e.preventDefault();
-        onStart(e.clientY);
-        const mm = ev => onMove(ev.clientY);
-        const mu = () => { onEnd(); document.removeEventListener('mousemove', mm); document.removeEventListener('mouseup', mu); };
-        document.addEventListener('mousemove', mm);
-        document.addEventListener('mouseup', mu);
-      });
     }
 
-    // Close on tap outside the disc
+    // Mouse equivalent (desktop)
+    const onMD = e => {
+      e.preventDefault();
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return;
+      if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
+      let sy = e.clientY, sr = this.rot;
+      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) / (this.R * this.STEP)); this._render(); };
+      const mu = () => {
+        document.removeEventListener('mousemove', mm);
+        document.removeEventListener('mouseup',   mu);
+        const t = Math.round(this._clamp(this.rot));
+        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+      };
+      document.addEventListener('mousemove', mm);
+      document.addEventListener('mouseup',   mu);
+    };
+    btn.addEventListener('mousedown', onMD);
+    if (wrap) wrap.addEventListener('mousedown', onMD);
+
+    // Close on tap outside when disc is open and no drag in progress
     document.addEventListener('touchstart', e => {
-      if (!this.isOpen) return;
-      const w = document.getElementById('bk-disc-wrap');
-      if (!w?.contains(e.target) && !btn.contains(e.target)) this.close();
+      if (!this.isOpen || dragging) return;
+      if (!wrap?.contains(e.target) && !btn.contains(e.target)) this.close();
     }, { passive: true });
   },
 };
