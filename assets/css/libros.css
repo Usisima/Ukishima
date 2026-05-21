@@ -1270,17 +1270,17 @@ body {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 28px;
-  height: 62px;
+  width: 26px;
+  height: 68px;
   z-index: 185;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 8px;
   border: 1px solid rgba(200,176,232,0.22);
   border-right: none;
-  border-radius: 10px 0 0 10px;
+  border-radius: 999px 0 0 999px;
   background: rgba(4,1,14,0.86);
   backdrop-filter: blur(16px) saturate(130%);
   cursor: pointer;
@@ -1289,21 +1289,17 @@ body {
   padding: 0;
   transition: background 0.2s, border-color 0.2s;
 }
-#bk-disc-btn span {
-  display: block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(200,176,232,0.45);
+#bk-disc-btn svg {
+  color: rgba(200,176,232,0.5);
   flex-shrink: 0;
-  transition: background 0.2s, transform 0.2s;
+  display: block;
+  transition: color 0.2s;
 }
 #bk-disc-btn.is-open {
   background: rgba(10,4,28,0.96);
   border-color: rgba(200,176,232,0.5);
 }
-#bk-disc-btn.is-open span { background: var(--gold); }
-#bk-disc-btn.is-open span:nth-child(2) { transform: scale(1.5); }
+#bk-disc-btn.is-open svg { color: var(--gold); }
 
 /* Center-selection guide line extending left from the button */
 #bk-disc-btn.is-open::before {
