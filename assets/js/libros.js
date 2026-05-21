@@ -668,8 +668,10 @@ const Disc = {
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
           const target = this._calcTarget(t);
+          const from   = this._scrollTop;
           this._unlockScroll(true);
-          window.scrollTo({ top: target, behavior: 'smooth' });
+          window.scrollTo(0, from);           // restaura posición sin animación
+          window.scrollTo({ top: target, behavior: 'smooth' }); // anima en la dirección correcta
           setTimeout(() => this.close(), 380);
         });
       };
@@ -700,7 +702,9 @@ const Disc = {
         const t = Math.round(this._clamp(this.rot));
         this._snapTo(t, () => {
           const target = this._calcTarget(t);
+          const from   = this._scrollTop;
           this._unlockScroll(true);
+          window.scrollTo(0, from);
           window.scrollTo({ top: target, behavior: 'smooth' });
           setTimeout(() => this.close(), 380);
         });
