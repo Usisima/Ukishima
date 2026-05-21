@@ -471,16 +471,29 @@ const Disc = {
   LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
   SPEED:  4.5,    // drag speed multiplier
-  _slFn:  null,   // scroll-lock touchmove handler
+  _slFn:     null,
+  _scrollTop: 0,
 
   _lockScroll() {
     if (this._slFn) return;
-    this._slFn = e => e.preventDefault();
-    document.addEventListener('touchmove', this._slFn, { passive: false });
+    this._scrollTop = window.scrollY;
+    const b = document.body;
+    b.style.position = 'fixed';
+    b.style.top      = `-${this._scrollTop}px`;
+    b.style.left     = '0';
+    b.style.right    = '0';
+    b.style.overflow = 'hidden';
+    this._slFn = true;
   },
   _unlockScroll() {
     if (!this._slFn) return;
-    document.removeEventListener('touchmove', this._slFn);
+    const b = document.body;
+    b.style.position = '';
+    b.style.top      = '';
+    b.style.left     = '';
+    b.style.right    = '';
+    b.style.overflow = '';
+    window.scrollTo(0, this._scrollTop);
     this._slFn = null;
   },
 
