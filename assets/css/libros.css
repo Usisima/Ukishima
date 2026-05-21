@@ -1267,22 +1267,22 @@ body {
 /* ── DISC SCRUBBER ────────────────────────────── */
 #bk-disc-btn {
   position: fixed;
-  right: 0;
+  right: 4px;
   top: 50%;
   transform: translateY(-50%);
-  width: 26px;
-  height: 68px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   z-index: 185;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border: 1px solid rgba(200,176,232,0.22);
-  border-right: none;
-  border-radius: 999px 0 0 999px;
-  background: rgba(4,1,14,0.86);
-  backdrop-filter: blur(16px) saturate(130%);
+  gap: 7px;
+  border: 1.5px solid rgba(255,255,255,0.28);
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -1290,16 +1290,16 @@ body {
   transition: background 0.2s, border-color 0.2s;
 }
 #bk-disc-btn svg {
-  color: rgba(200,176,232,0.5);
+  color: rgba(255,255,255,0.78);
   flex-shrink: 0;
   display: block;
   transition: color 0.2s;
 }
 #bk-disc-btn.is-open {
-  background: rgba(10,4,28,0.96);
-  border-color: rgba(200,176,232,0.5);
+  background: rgba(0,0,0,0.9);
+  border-color: rgba(255,255,255,0.55);
 }
-#bk-disc-btn.is-open svg { color: var(--gold); }
+#bk-disc-btn.is-open svg { color: #fff; }
 
 /* Center-selection guide line extending left from the button */
 #bk-disc-btn.is-open::before {
@@ -1308,9 +1308,9 @@ body {
   right: 100%;
   top: 50%;
   transform: translateY(-50%);
-  width: 130px;
+  width: 140px;
   height: 1px;
-  background: linear-gradient(to left, rgba(200,176,232,0.45), transparent);
+  background: linear-gradient(to left, rgba(255,255,255,0.4), transparent);
   pointer-events: none;
 }
 
@@ -1327,9 +1327,12 @@ body {
   display: none;
   touch-action: none;
   user-select: none;
+  background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.62) 14%);
+  backdrop-filter: blur(10px) saturate(70%);
+  -webkit-backdrop-filter: blur(10px) saturate(70%);
 }
 
-/* Top/bottom fade to suggest items going off-screen */
+/* Top/bottom fade */
 #bk-disc-wrap::before,
 #bk-disc-wrap::after {
   content: '';
@@ -1339,8 +1342,8 @@ body {
   z-index: 3;
   pointer-events: none;
 }
-#bk-disc-wrap::before { top: 0;    background: linear-gradient(to bottom, var(--bg), transparent); }
-#bk-disc-wrap::after  { bottom: 0; background: linear-gradient(to top,    var(--bg), transparent); }
+#bk-disc-wrap::before { top: 0;    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent); }
+#bk-disc-wrap::after  { bottom: 0; background: linear-gradient(to top,    rgba(0,0,0,0.7), transparent); }
 
 /* Individual disc items — positioned by JS along the arc */
 .disc-item {
@@ -1354,18 +1357,19 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: rgba(232,245,242,0.48);
+  color: rgba(255,255,255,0.5);
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 2;
 }
-.disc-item.is-ch  { font-size: 11px; color: rgba(232,245,242,0.72); }
-.disc-item.is-sub { font-size: 9px;  color: rgba(232,245,242,0.38); padding-left: 6px; }
+.disc-item.is-ch  { font-size: 11px; color: rgba(255,255,255,0.75); }
+.disc-item.is-sub { font-size: 9px;  color: rgba(255,255,255,0.38); padding-left: 6px; }
 .disc-item.is-active {
-  color: var(--gold);
-  background: rgba(200,176,232,0.10);
-  border: 1px solid rgba(200,176,232,0.22);
+  color: #fff;
+  font-weight: 600;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
   padding-left: 7px;
 }
-.disc-item.is-active.is-ch  { font-size: 12px; font-weight: 600; }
+.disc-item.is-active.is-ch  { font-size: 12px; }
 .disc-item.is-active.is-sub { font-size: 10px; }

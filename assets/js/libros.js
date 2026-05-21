@@ -470,7 +470,7 @@ const Disc = {
   R:      480,    // disc radius (px)
   LEDGE:  330,    // disc center offset past right screen edge (px)
   STEP:   0.11,   // radians between adjacent items (~6.3°)
-  SPEED:  2.5,    // drag speed multiplier
+  SPEED:  4.5,    // drag speed multiplier
 
   reset() { this.secs = []; this.rot = 0; },
 
