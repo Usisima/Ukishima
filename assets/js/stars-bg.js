@@ -5,9 +5,10 @@
   pre.setAttribute('aria-hidden', 'true');
   document.body.insertBefore(pre, document.body.firstChild);
 
-  const COLS  = 90;
-  const FS_VW = 100 / (COLS * 0.6);          // vw so COLS characters fill 100vw
-  const fsPx  = Math.max(4, Math.min(8, window.innerWidth * FS_VW / 100));
+  // Fill screen width exactly at ≥4px font
+  const _W   = window.innerWidth;
+  const COLS = Math.min(120, Math.floor(_W / (4 * 0.6)));  // cap at 120 cols for bg density
+  const fsPx = _W / (COLS * 0.6);                          // exact fill, no gaps
   const lineH = fsPx * 1.6;
   const ROWS  = Math.max(Math.ceil(window.innerHeight / lineH) + 2, 18);
 
@@ -15,8 +16,8 @@
     'position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;' +
     'pointer-events:none;overflow:hidden;' +
     'font-family:\'DM Mono\',monospace;' +
-    `font-size:clamp(4px,${FS_VW.toFixed(3)}vw,8px);` +
-    `width:${COLS}ch;max-width:100vw;` +
+    `font-size:${fsPx.toFixed(3)}px;` +
+    'width:100%;' +
     'line-height:1.6;white-space:pre;' +
     'margin:0;padding:0;' +
     'opacity:0.22;mix-blend-mode:screen;' +

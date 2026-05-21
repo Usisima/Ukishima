@@ -142,15 +142,16 @@
   const pre = document.getElementById('bh-art');
   if (!pre) return;
 
-  const COLS = 160;
-  pre.style.fontSize = `clamp(4px, ${(90 / (COLS * 0.6)).toFixed(3)}vw, 8px)`;
-  pre.style.width = COLS + 'ch';
-  pre.style.overflowX = 'hidden';
+  // Fill screen width exactly: COLS capped at 160, font size computed to fill W perfectly
+  const _W   = window.innerWidth;
+  const COLS = Math.min(160, Math.floor(_W / (4 * 0.6)));  // ≥4px font guaranteed
+  const fsPx = _W / (COLS * 0.6);                          // exact fill, no gaps
+  pre.style.fontSize   = `${fsPx.toFixed(3)}px`;
+  pre.style.width      = '100%';
+  pre.style.overflowX  = 'hidden';
 
   // Fill the visible main area vertically (below header, above bottom nav)
-  const fsVw = 90 / (COLS * 0.6);
-  const fsPx = Math.max(4, Math.min(8, window.innerWidth * fsVw / 100));
-  const lineH = fsPx * 1.6;
+  const lineH   = fsPx * 1.6;
   const headerH = document.querySelector('.header')?.offsetHeight ?? 56;
   const navH    = document.querySelector('.bottom-nav')?.offsetHeight ?? 60;
   const ROWS = Math.max(
@@ -162,9 +163,11 @@
   // Place hole at true viewport center (accounting for header above the art, not nav below)
   const CY = Math.max(5, Math.round((window.innerHeight / 2 - headerH) / lineH));
   const AR = 0.375;
-  const SR  = 8, SRB = SR * AR;
+  // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
+  const _sc = COLS / 160;
+  const SR  = Math.max(4, Math.round(8  * _sc)), SRB = SR * AR;
   const INC = 78 * Math.PI / 180;
-  const DRA = 62, DRB = DRA * Math.cos(INC) * AR;
+  const DRA = Math.max(20, Math.round(62 * _sc)), DRB = DRA * Math.cos(INC) * AR;
   const PERIOD = 4500;
 
   // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue }
