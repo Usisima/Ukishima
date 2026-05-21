@@ -128,7 +128,7 @@ function renderCardBody(mat) {
 function renderCard(mat) {
   const pct = getMateriaProgress(mat);
   const iconSrc = mat.icon || 'assets/images/d0.jpg';
-  const iconHtml = `<img src="${iconSrc}" alt="${mat.name}" onerror="this.style.display='none'">`;
+  const iconHtml = `<img src="${iconSrc}" alt="${mat.name}" onerror="this.src='assets/images/d0.jpg'">`;
   return `<div class="card" id="card-${mat.id}">
     <div class="card-head" data-toggle="${mat.id}">
       <div class="card-icon">${iconHtml}</div>
@@ -155,7 +155,7 @@ function renderOptItem(opt, semNum, slotIdx) {
   const iconSrc = opt.icon || 'assets/images/d0.jpg';
   return `<div class="opt-item${isSelected ? ' selected' : ''}"
     data-opt-pick="${opt.name}" data-opt-sem="${semNum}" data-opt-slot="${slotIdx}">
-    <div class="opt-item-icon"><img src="${iconSrc}" alt="" onerror="this.style.display='none'"></div>
+    <div class="opt-item-icon"><img src="${iconSrc}" alt="" onerror="this.src='assets/images/d0.jpg'"></div>
     <div class="opt-item-info">
       <div class="opt-item-name">${opt.name}</div>
       <div class="opt-item-meta">
@@ -187,7 +187,7 @@ function renderOptativaSlotContent(sem, slotIdx) {
     const mat = { ...enrichOptativa(chosen), id: `opt_${sem.semestre}_${slotIdx}` };
     const pct = getMateriaProgress(mat);
     const iconSrc = mat.icon || 'assets/images/d0.jpg';
-    const iconHtml = `<img src="${iconSrc}" alt="${mat.name}" onerror="this.style.display='none'">`;
+    const iconHtml = `<img src="${iconSrc}" alt="${mat.name}" onerror="this.src='assets/images/d0.jpg'">`;
     return `<div class="card" id="card-opt_${sem.semestre}_${slotIdx}">
       <div class="card-head" data-toggle="opt_${sem.semestre}_${slotIdx}">
         <div class="card-icon">${iconHtml}</div>
