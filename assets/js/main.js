@@ -29,6 +29,35 @@ function updateGlobalBadge() {
   if (badge) badge.textContent = `${getGlobalPct()}%`;
 }
 
+function updateSemCredits(semNum) {
+  const sem = CURRICULUM.find(s => s.semestre === semNum);
+  if (!sem) return;
+  const fixed = sem.materias.reduce((s, m) => s + m.creditos, 0);
+  const opts = Array.from({ length: sem.optativas || 0 }, (_, i) => getOptSlot(semNum, i))
+    .filter(Boolean).reduce((s, o) => s + (o.creditos || 0), 0);
+  const badge = document.getElementById(`sem-credits-${semNum}`);
+  if (badge) badge.textContent = `${fixed + opts} créditos`;
+}
+
+function rerenderAllOptSlots() {
+  CURRICULUM.forEach(s => {
+    for (let i = 0; i < (s.optativas || 0); i++) {
+      rerenderOptSlot(s.semestre, i);
+    }
+  });
+}
+
+function scrollCarouselToSelected(wrap) {
+  const viewport = wrap.querySelector('.opt-carousel-viewport');
+  const items = Array.from(wrap.querySelectorAll('.opt-item'));
+  const selectedIdx = items.findIndex(el => el.classList.contains('selected'));
+  if (viewport && selectedIdx >= 0) {
+    const ITEM_H = 70;
+    const VP_H = 220;
+    viewport.scrollTop = Math.max(0, selectedIdx * ITEM_H - (VP_H - ITEM_H) / 2);
+  }
+}
+
 function updateCircProgress(matId, pct) {
   const card = document.getElementById(`card-${matId}`);
   if (!card) return;
@@ -145,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const opening = !wrap.classList.contains('open');
         wrap.classList.toggle('open', opening);
         addBtn.classList.toggle('open', opening);
+        if (opening) scrollCarouselToSelected(wrap);
       }
       return;
     }
@@ -155,7 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const sem = parseInt(changeBtn.dataset.optChangeSem);
       const slot = parseInt(changeBtn.dataset.optChangeSlot);
       const wrap = document.getElementById(`opt-slot-${sem}-${slot}-wrap`);
-      if (wrap) wrap.classList.toggle('open');
+      if (wrap) {
+        wrap.classList.toggle('open');
+        if (wrap.classList.contains('open')) scrollCarouselToSelected(wrap);
+      }
       return;
     }
 
@@ -165,8 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const sem = parseInt(removeBtn.dataset.optRemoveSem);
       const slot = parseInt(removeBtn.dataset.optRemoveSlot);
       clearOptSlot(sem, slot);
-      rerenderOptSlot(sem, slot);
+      rerenderAllOptSlots();
       updateSemProgress(sem);
+      updateSemCredits(sem);
       updateGlobalBadge();
       return;
     }
@@ -180,8 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const opt = getOptativasPool(sem).find(o => o.name === name);
       if (opt) {
         setOptSlot(sem, slot, opt);
-        rerenderOptSlot(sem, slot);
+        rerenderAllOptSlots();
         updateSemProgress(sem);
+        updateSemCredits(sem);
         updateGlobalBadge();
       }
       return;

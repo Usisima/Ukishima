@@ -937,28 +937,30 @@ body {
   scroll-behavior: smooth;
   overscroll-behavior: none;
   scrollbar-width: thin;
-  scrollbar-color: rgba(180, 148, 220, 0.3) transparent;
+  scrollbar-color: rgba(180, 148, 220, 0.25) transparent;
   padding: 10px 0;
 }
 
 .opt-carousel-viewport::-webkit-scrollbar {
-  width: 6px;
+  width: 3px;
+}
+
+.opt-carousel-viewport::-webkit-scrollbar-button {
+  display: none;
 }
 
 .opt-carousel-viewport::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 99px;
-  margin: 15px 0;
+  background: transparent;
+  margin: 10px 0;
 }
 
 .opt-carousel-viewport::-webkit-scrollbar-thumb {
-  background: rgba(180, 148, 220, 0.3);
+  background: rgba(180, 148, 220, 0.25);
   border-radius: 99px;
-  cursor: pointer;
 }
 
 .opt-carousel-viewport::-webkit-scrollbar-thumb:hover {
-  background: rgba(180, 148, 220, 0.5);
+  background: rgba(180, 148, 220, 0.45);
 }
 
 .opt-carousel-inner {

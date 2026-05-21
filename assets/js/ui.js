@@ -151,6 +151,8 @@ function renderCard(mat) {
 function renderOptItem(opt, semNum, slotIdx) {
   const chosen = getOptSlot(semNum, slotIdx);
   const isSelected = chosen && chosen.name === opt.name;
+  // Skip optativas already picked in another slot
+  if (!isSelected && getAllChosenOptNames().includes(opt.name)) return '';
   const initials = opt.name.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase() || opt.name[0].toUpperCase();
   return `<div class="opt-item${isSelected ? ' selected' : ''}"
     data-opt-pick="${opt.name}" data-opt-sem="${semNum}" data-opt-slot="${slotIdx}">
@@ -230,7 +232,10 @@ function renderOptativaSlot(sem, slotIdx) {
 // ==================== SEMESTER SECTION ====================
 function renderSemester(sem) {
   const pct = getSemPct(sem);
-  const tc = sem.materias.reduce((s, m) => s + m.creditos, 0);
+  const fixedCredits = sem.materias.reduce((s, m) => s + m.creditos, 0);
+  const optCredits = Array.from({ length: sem.optativas || 0 }, (_, i) => getOptSlot(sem.semestre, i))
+    .filter(Boolean).reduce((s, o) => s + (o.creditos || 0), 0);
+  const tc = fixedCredits + optCredits;
   const cards = sem.materias.map(renderCard).join('');
   let optSlots = '';
   for (let i = 0; i < (sem.optativas || 0); i++) {
@@ -239,7 +244,7 @@ function renderSemester(sem) {
   return `<div class="semester" id="sem-${sem.semestre}">
     <div class="sem-header">
       <span class="sem-title">${sem.titulo}</span>
-      <span class="sem-credits-badge">${tc} créditos</span>
+      <span class="sem-credits-badge" id="sem-credits-${sem.semestre}">${tc} créditos</span>
     </div>
     <div class="sem-prog-row">
       <div class="sem-bar-track">
