@@ -489,7 +489,7 @@ const Disc = {
     b.style.overflow = 'hidden';
     this._slFn = true;
   },
-  _unlockScroll() {
+  _unlockScroll(noRestore = false) {
     if (!this._slFn) return;
     const b = document.body;
     b.style.position = '';
@@ -497,7 +497,7 @@ const Disc = {
     b.style.left     = '';
     b.style.right    = '';
     b.style.overflow = '';
-    window.scrollTo(0, this._scrollTop);
+    if (!noRestore) window.scrollTo(0, this._scrollTop);
     this._slFn = null;
   },
 
@@ -578,6 +578,18 @@ const Disc = {
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
+  // Calculates absolute scroll target while body may be locked (position:fixed).
+  // Uses saved _scrollTop to compensate for the fixed offset.
+  _calcTarget(i) {
+    const sec = this.secs[i];
+    if (!sec?.el) return 0;
+    const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
+    const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+    const rawTop = sec.el.getBoundingClientRect().top;
+    const scrollOffset = this._slFn ? this._scrollTop : window.scrollY;
+    return Math.max(0, rawTop + scrollOffset - hH - tH - 10);
+  },
+
   _currentIdx() {
     const cy = window.innerHeight / 2;
     let best = 0, bestD = Infinity;
@@ -654,7 +666,12 @@ const Disc = {
         if (!dragging) return;
         dragging = false;
         const t = Math.round(this._clamp(this.rot));
-        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+        this._snapTo(t, () => {
+          const target = this._calcTarget(t);
+          this._unlockScroll(true);
+          window.scrollTo({ top: target, behavior: 'smooth' });
+          setTimeout(() => this.close(), 380);
+        });
       };
       document.addEventListener('touchmove', _tmm, { passive: false });
       document.addEventListener('touchend',  _tmu, { passive: false });
@@ -681,7 +698,12 @@ const Disc = {
         document.removeEventListener('mousemove', mm);
         document.removeEventListener('mouseup',   mu);
         const t = Math.round(this._clamp(this.rot));
-        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+        this._snapTo(t, () => {
+          const target = this._calcTarget(t);
+          this._unlockScroll(true);
+          window.scrollTo({ top: target, behavior: 'smooth' });
+          setTimeout(() => this.close(), 380);
+        });
       };
       document.addEventListener('mousemove', mm);
       document.addEventListener('mouseup',   mu);
