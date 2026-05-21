@@ -476,19 +476,22 @@ body {
 .dash-pills {
   flex-shrink: 0;
   display: flex;
-  gap: 0.75rem;
-  justify-content: center;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
   padding: 1rem 1.5rem 1.4rem;
 }
 
 .dash-pill {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.55rem;
-  padding: 0.7rem 1.5rem;
+  width: 200px;
+  padding: 0.75rem 0;
   border-radius: 99px;
-  border: 1px solid rgba(190, 160, 230, 0.28);
-  background: rgba(200, 176, 232, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
   color: var(--ink);
   text-decoration: none;
   font-family: 'DM Sans', sans-serif;
@@ -501,14 +504,14 @@ body {
 
 .dash-pill:hover,
 .dash-pill:active {
-  background: rgba(200, 176, 232, 0.15);
-  border-color: rgba(190, 160, 230, 0.5);
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .dash-pill svg {
   width: 15px;
   height: 15px;
-  stroke: var(--gold);
+  stroke: rgba(255, 255, 255, 0.6);
   flex-shrink: 0;
 }
 
