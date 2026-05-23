@@ -1,5 +1,8 @@
 /* page-transitions.js — cross-page fade out before navigation */
 
+/* Suppress Chrome's native PWA install banner on all pages (index.html shows its own button) */
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); });
+
 /* Reset pinch-zoom to 1× on every page load */
 (function () {
   var vp = document.querySelector('meta[name="viewport"]');
