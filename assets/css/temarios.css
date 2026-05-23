@@ -1155,8 +1155,7 @@ body {
   z-index: 200;
   display: flex;
   align-items: stretch;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(20px) saturate(150%);
+  background: #000;
   border-top: 1px solid var(--border);
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
