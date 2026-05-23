@@ -24,7 +24,7 @@
     <div class="header-logo">Ж</div>
     <div class="header-divider"></div>
     <div class="header-text">
-      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v57</span></div>
+      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v58</span></div>
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
@@ -44,7 +44,6 @@
     <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Instalar aplicación
   </button>
-  <p class="dash-browser-hint" id="dash-browser-hint" style="display:none">Abre este sitio en Chrome y usa el menú ⋮ → "Añadir a pantalla de inicio".</p>
 </div>
 
 <div class="dash-bottom" id="dash-bottom">
@@ -452,7 +451,6 @@
   var deferredPrompt = null;
   var btn        = document.getElementById('btn-install');
   var btnPrompt  = document.getElementById('btn-install-prompt');
-  var hint       = document.getElementById('dash-browser-hint');
 
   function onInstall() {
     deferredPrompt.prompt();
@@ -468,15 +466,8 @@
     deferredPrompt = e;
     if (btn)       btn.style.display       = 'flex';
     if (btnPrompt) btnPrompt.style.display  = 'flex';
-    if (hint)      hint.style.display       = 'none';
   });
 
-  /* Si no llega beforeinstallprompt (ya instalada o no compatible), mostrar hint */
-  setTimeout(function () {
-    if (!deferredPrompt && btnPrompt && btnPrompt.style.display === 'none') {
-      if (hint) hint.style.display = 'block';
-    }
-  }, 2000);
 
   if (btn)       btn.addEventListener('click',       onInstall);
   if (btnPrompt) btnPrompt.addEventListener('click', onInstall);
