@@ -110,7 +110,7 @@
 <script src="assets/js/stars-bg.js"></script>
 <script>
 (function () {
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone || location.search.includes('dev=1');
   var prompt  = document.getElementById('dash-browser-prompt');
   var bottom  = document.getElementById('dash-bottom');
   var nav     = document.querySelector('.bottom-nav');
@@ -127,7 +127,7 @@
 <script src="assets/js/state.js"></script>
 <script>
 (function () {
-  if (!(window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone)) return;
+  if (!(window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone || location.search.includes('dev=1'))) return;
   const allMats = CURRICULUM.flatMap(function(s) { return s.materias; });
   const total   = allMats.length;
   const done    = allMats.filter(function(m) { return isComplete(m); }).length;

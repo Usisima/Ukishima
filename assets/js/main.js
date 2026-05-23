@@ -136,7 +136,7 @@ function renderView(root, view, query) {
     TEM_QUERY = query !== undefined ? query : TEM_QUERY;
     root.innerHTML = renderSearchResults(TEM_QUERY);
   }
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.documentElement.scrollTop = 0;
   stagger(root);
   katexRoot(root);
 }

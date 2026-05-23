@@ -5,7 +5,7 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
 
 /* Redirect browser users to index.html — solo la app instalada accede a las demás páginas */
 (function () {
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone || location.search.includes('dev=1');
   var path = window.location.pathname;
   var isIndex = path === '/' || path === '' || path.endsWith('/index.html') || path.endsWith('/');
   if (!isStandalone && !isIndex) {
