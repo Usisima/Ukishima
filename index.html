@@ -24,7 +24,7 @@
     <div class="header-logo">Ж</div>
     <div class="header-divider"></div>
     <div class="header-text">
-      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v55</span></div>
+      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v57</span></div>
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
@@ -182,9 +182,13 @@
   pre.style.width      = '100%';
   pre.style.overflowX  = 'hidden';
 
-  // Size to the bh-wrap element's actual rendered height
-  const lineH  = fsPx * 1.6;
-  const wrapH  = pre.parentElement?.offsetHeight ?? (window.innerHeight - 120);
+  // Size to the available height between header and bottom nav
+  const lineH   = fsPx * 1.6;
+  const headerEl = document.querySelector('.header');
+  const navEl    = document.querySelector('.bottom-nav');
+  const wrapH    = window.innerHeight
+                 - (headerEl ? headerEl.offsetHeight : 0)
+                 - (navEl    ? navEl.offsetHeight    : 0);
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
