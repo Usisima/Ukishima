@@ -139,7 +139,7 @@
       '</div>' +
       '<div class="cal-progress-meta">' +
         '<span class="cal-progress-date">3 feb 2026</span>' +
-        '<span class="cal-progress-today">&#9679; hoy: ' + fmt(today) + '</span>' +
+        '<span class="cal-progress-today">&#9679; ' + fmt(today) + ' ' + today.getFullYear() + '</span>' +
         '<span class="cal-progress-date">29 may 2026</span>' +
       '</div>' +
     '</div>';
@@ -226,20 +226,15 @@
       var br = (!fR && !fB) ? '4px' : '0';
       var bl = (!fL && !fB) ? '4px' : '0';
 
-      // Erase the notch via destination-out blend so the cell background (full rect,
-      // pixel-perfect connectivity) stays on the element, but the notch becomes
-      // transparent and shows the stars behind. isolation:isolate keeps the erase
-      // from leaking to the page.
-      var SD = 'position:absolute;top:0;left:0;width:100%;height:100%;mix-blend-mode:destination-out;pointer-events:none;z-index:0';
+      var SD = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0';
       var semBg = '';
       if (d.semStart && bg)
-        semBg = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="'+SD+'"><polygon points="0,0 28,50 0,100" fill="black"/></svg>';
+        semBg = '<div style="'+SD+';background:'+bg+';clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%,28% 50%)"></div>';
       if (d.semEnd && bg)
-        semBg = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="'+SD+'"><polygon points="72,0 100,0 100,50" fill="black"/><polygon points="72,100 100,100 100,50" fill="black"/></svg>';
+        semBg = '<div style="'+SD+';background:'+bg+';clip-path:polygon(0% 0%,72% 0%,100% 50%,72% 100%,0% 100%)"></div>';
 
       var st = [];
-      if (bg) st.push('background:' + bg);
-      if (semBg) st.push('isolation:isolate');
+      if (bg && !semBg) st.push('background:' + bg);
       if (fL || fR || fT || fB) st.push('border-radius:' + tl + ' ' + tr + ' ' + br + ' ' + bl);
 
       // Vacaciones: dotted border + connectivity border-radius (eliminates corner zurcos)
@@ -283,47 +278,13 @@
       + '<div class="cal-grid">' + cells + '</div>'
       + '</div>';
   }
-  /* ─── LEGEND ─── */
-  function renderLegend() {
-    var items = [
-      { dot: '#7aa89e', label: 'Ciclo escolar' },
-      { dot: '#c85555', label: 'Ex. Ordinarios' },
-      { dot: '#c89650', label: 'Ex. Extraordinarios' },
-      { dot: '#8c6ec8', label: 'Inscr. Ex. Extr.' },
-      { dot: '#50a0bc', label: 'Intersemestral' },
-      { dot: '#3c64d2', label: 'Vacaciones' },
-      { dot: '#8264b4', label: 'Inscripción / Trámites' },
-      { dot: '#64a078', label: 'Solicitud casilleros' },
-    ];
-    var swatches = items.map(function (i) {
-      return '<div class="cal-legend-item">'
-        + '<div class="cal-legend-swatch" style="background:' + i.dot + '"></div>'
-        + '<span class="cal-legend-label">' + i.label + '</span>'
-        + '</div>';
-    }).join('');
-    var extra =
-      '<div class="cal-legend-item">' +
-        '<div class="cal-legend-swatch" style="background:var(--gold2);height:2px;border-radius:99px;margin-top:4px"></div>' +
-        '<span class="cal-legend-label">Días transcurridos</span>' +
-      '</div>' +
-      '<div class="cal-legend-item">' +
-        '<div class="cal-legend-swatch" style="background:var(--gold);border-radius:50%"></div>' +
-        '<span class="cal-legend-label">Hoy</span>' +
-      '</div>';
-    return '<div class="cal-legend">'
-      + '<div class="cal-legend-title">Leyenda</div>'
-      + '<div class="cal-legend-grid">' + swatches + extra + '</div>'
-      + '</div>';
-  }
-
   /* ─── RENDER ─── */
   var MONTHS = [[2026,0],[2026,1],[2026,2],[2026,3],[2026,4],[2026,5],[2026,6],[2026,7]];
   var main = document.getElementById('cal-main');
   main.innerHTML = renderProgress()
     + '<div class="cal-months-grid">'
     + MONTHS.map(function (ym) { return renderMonth(ym[0], ym[1]); }).join('')
-    + '</div>'
-    + renderLegend();
+    + '</div>';
 
 
 })();
