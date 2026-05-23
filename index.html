@@ -4,13 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Inicio · UNAM</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/fonts/google-fonts.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
   <link rel="prefetch" href="temarios.html">
   <link rel="prefetch" href="libros.html">
@@ -55,6 +51,11 @@
   </div>
 
   <div id="dash-sem-progress"></div>
+
+  <button id="btn-install" class="dash-install-btn" style="display:none">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Instalar aplicación
+  </button>
 
   <div class="dash-pills">
     <a href="temarios.html" class="dash-pill">
@@ -408,6 +409,30 @@
 })();
 
 </script>
+<script>
+(function () {
+  let deferredPrompt = null;
+  const btn = document.getElementById('btn-install');
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    btn.style.display = 'flex';
+  });
+  btn.addEventListener('click', function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () {
+      deferredPrompt = null;
+      btn.style.display = 'none';
+    });
+  });
+  window.addEventListener('appinstalled', function () {
+    deferredPrompt = null;
+    btn.style.display = 'none';
+  });
+})();
+</script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');</script>
 </body>
 </html>
+

@@ -641,6 +641,32 @@ body {
   flex-shrink: 0;
 }
 
+/* ==================== INSTALL BUTTON ==================== */
+.dash-install-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 200px;
+  margin: 0 auto 0.75rem;
+  padding: 0.7rem 0;
+  border-radius: 99px;
+  border: 1px solid rgba(155, 191, 181, 0.35);
+  background: rgba(155, 191, 181, 0.1);
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.dash-install-btn:hover {
+  background: rgba(155, 191, 181, 0.18);
+  border-color: rgba(155, 191, 181, 0.55);
+}
+
 /* ==================== BLACK HOLE ==================== */
 .bh-container {
   flex: 1;
