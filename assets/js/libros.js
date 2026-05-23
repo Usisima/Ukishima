@@ -273,7 +273,22 @@ const R = {
     const main = document.getElementById('lib-main');
     const q = S.query.trim().toLowerCase();
     if (!q) {
-      main.innerHTML = `<div class="search-results"><div class="search-empty"><strong>Buscar</strong>Escribe para buscar libros, autores o notas.</div></div>`;
+      const allBooks = LIBRARY.flatMap(subj =>
+        subj.books.map(b => ({ book: b, subject: subj.subject, color: subj.color }))
+      ).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
+      const chevronSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
+      main.innerHTML = `<div class="search-results">
+        <div class="search-result-group-label">${allBooks.length} libros</div>
+        ${allBooks.map(({ book: b, subject, color }) => `
+          <div class="search-book-card" onclick="Nav.go('book','${esc(b.id)}')">
+            <div class="search-book-cover">${coverDiv(color, b.title)}</div>
+            <div class="search-book-info">
+              <div class="search-book-title">${esc(b.title)}</div>
+              <div class="search-book-subject">${esc(b.author)}</div>
+            </div>
+            ${chevronSvg}
+          </div>`).join('')}
+      </div>`;
       return;
     }
 
@@ -758,6 +773,16 @@ const Nav = {
   if (hash.startsWith('#libro/')) {
     const id = hash.replace('#libro/', '');
     if (id) { S.view = 'book'; S.bookId = id; }
+  } else if (hash.startsWith('#libro-mat/')) {
+    const parts = hash.slice('#libro-mat/'.length).split('/');
+    const matId = parts[0], bkIdx = parseInt(parts[1] || '0');
+    if (matId) {
+      for (const subj of LIBRARY) {
+        if (subj.matId === matId && subj.books[bkIdx]) {
+          S.view = 'book'; S.bookId = subj.books[bkIdx].id; break;
+        }
+      }
+    }
   } else if (hash === '#favs') {
     S.view = 'favs';
   } else if (hash === '#search') {

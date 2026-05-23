@@ -1,4 +1,10 @@
 // ==================== DOM HELPERS ====================
+const OPT_POOL_MAP = [
+  ['opt_BI_',   OPTATIVAS_BLOQUE_I],
+  ['opt_BII_',  OPTATIVAS_BLOQUE_II],
+  ['opt_BIII_', OPTATIVAS_BLOQUE_III],
+];
+
 function findMat(id) {
   for (const sem of CURRICULUM) {
     for (const m of sem.materias) {
@@ -11,6 +17,12 @@ function findMat(id) {
         const opt = getOptSlot(sem.semestre, i);
         return opt ? { ...enrichOptativa(opt), id } : null;
       }
+    }
+  }
+  for (const [prefix, pool] of OPT_POOL_MAP) {
+    if (id.startsWith(prefix)) {
+      const idx = parseInt(id.slice(prefix.length));
+      if (!isNaN(idx) && pool[idx]) return { ...enrichOptativa(pool[idx]), id };
     }
   }
   return null;
@@ -86,18 +98,91 @@ function rerenderOptSlot(semNum, slotIdx) {
   container.innerHTML = renderOptativaSlotContent(sem, slotIdx);
 }
 
+// ==================== VIEW STATE ====================
+let TEM_VIEW = 'tronco';
+let TEM_QUERY = '';
+
+function katexRoot(root) {
+  if (typeof renderMathInElement === 'undefined') return;
+  try {
+    renderMathInElement(root, {
+      delimiters: [
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true },
+      ],
+      throwOnError: false,
+    });
+  } catch(e) {}
+}
+
+function stagger(root) {
+  root.querySelectorAll('.card').forEach((card, i) => {
+    card.style.animationDelay = `${Math.min(i * 38, 480)}ms`;
+  });
+}
+
+function renderView(root, view, query) {
+  TEM_VIEW = view;
+  const searchBar = document.getElementById('tem-search-bar');
+  if (searchBar) searchBar.style.display = view === 'search' ? 'flex' : 'none';
+  document.querySelectorAll('.tem-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.view === view);
+  });
+  if (view === 'tronco') {
+    root.innerHTML = CURRICULUM.map(renderSemesterTronco).filter(Boolean).join('');
+  } else if (view === 'optativas') {
+    root.innerHTML = renderOptativasView();
+  } else {
+    TEM_QUERY = query !== undefined ? query : TEM_QUERY;
+    root.innerHTML = renderSearchResults(TEM_QUERY);
+  }
+  stagger(root);
+  katexRoot(root);
+}
+
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   if (!root) return;
 
-  root.innerHTML = CURRICULUM.map(renderSemester).join('');
+  renderView(root, 'tronco');
   updateGlobalBadge();
 
-  // Staggered card entrance
-  root.querySelectorAll('.card').forEach((card, i) => {
-    card.style.animationDelay = `${Math.min(i * 38, 480)}ms`;
-  });
+  // ── Tab switching ────────────────────────────────────
+  const temTabs = document.getElementById('tem-tabs');
+  if (temTabs) {
+    temTabs.addEventListener('click', e => {
+      const tab = e.target.closest('[data-view]');
+      if (!tab) return;
+      renderView(root, tab.dataset.view);
+      if (tab.dataset.view === 'search') {
+        const inp = document.getElementById('tem-search-input');
+        if (inp) setTimeout(() => inp.focus(), 60);
+      }
+    });
+  }
+
+  // ── Search input ─────────────────────────────────────
+  const searchInput = document.getElementById('tem-search-input');
+  const searchClear = document.getElementById('tem-search-clear');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      TEM_QUERY = searchInput.value;
+      if (searchClear) searchClear.style.display = TEM_QUERY ? 'flex' : 'none';
+      root.innerHTML = renderSearchResults(TEM_QUERY);
+      stagger(root);
+      katexRoot(root);
+    });
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        TEM_QUERY = '';
+        searchClear.style.display = 'none';
+        root.innerHTML = renderSearchResults('');
+        searchInput.focus();
+      });
+    }
+  }
 
   // ==================== CLICK EVENTS ====================
   root.addEventListener('click', e => {
@@ -155,12 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const subsecTag = e.target.closest('[data-scroll-to]');
     if (subsecTag) {
       const id = subsecTag.dataset.scrollTo;
-      const card = document.getElementById(`card-${id}`);
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        card.classList.add('open', 'highlight-pulse');
-        setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
-      }
+      const needSwitch = TEM_VIEW !== 'tronco';
+      if (needSwitch) renderView(root, 'tronco');
+      setTimeout(() => {
+        const card = document.getElementById(`card-${id}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.add('open', 'highlight-pulse');
+          setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
+        }
+      }, needSwitch ? 60 : 0);
       return;
     }
 

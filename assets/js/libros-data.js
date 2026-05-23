@@ -90,7 +90,7 @@ const PDF = {
 const LIBRARY = [
   {
     subject: "Álgebra Superior I",
-    matId: "alg_sup_1",
+    matId: "algebra_superior_1",
     color: "linear-gradient(135deg,#061412,#0f2920)",
     books: [
       {
@@ -112,7 +112,7 @@ const LIBRARY = [
 
   {
     subject: "Álgebra Superior II",
-    matId: "alg_sup_2",
+    matId: "algebra_superior_2",
     color: "linear-gradient(135deg,#0a0612,#180e2a)",
     books: [
       {
@@ -134,7 +134,7 @@ const LIBRARY = [
 
   {
     subject: "Cálculo Diferencial e Integral I",
-    matId: "cal_1",
+    matId: "calculo_1",
     color: "linear-gradient(135deg,#070d1a,#0e1f3a)",
     books: [
       {
@@ -177,7 +177,7 @@ const LIBRARY = [
 
   {
     subject: "Geometría Analítica I",
-    matId: "geom_anal_1",
+    matId: "geo_analitica_1",
     color: "linear-gradient(135deg,#120a1a,#271540)",
     books: [
       {
@@ -213,7 +213,7 @@ const LIBRARY = [
 
   {
     subject: "Geometría Analítica II",
-    matId: "geom_anal_2",
+    matId: "geo_analitica_2",
     color: "linear-gradient(135deg,#1a0e26,#301845)",
     books: [
       {
@@ -249,7 +249,7 @@ const LIBRARY = [
 
   {
     subject: "Álgebra Lineal I",
-    matId: "alg_lin_1",
+    matId: "algebra_lineal_1",
     color: "linear-gradient(135deg,#0a1a0e,#133322)",
     books: [
       {
@@ -299,7 +299,7 @@ const LIBRARY = [
 
   {
     subject: "Cálculo Diferencial e Integral II",
-    matId: "cal_2",
+    matId: "calculo_2",
     color: "linear-gradient(135deg,#070d1a,#0e1f3a)",
     books: [
       {
@@ -342,7 +342,7 @@ const LIBRARY = [
 
   {
     subject: "Ecuaciones Diferenciales I",
-    matId: "ec_dif",
+    matId: "ecuaciones_diferenciales_1",
     color: "linear-gradient(135deg,#0d0a07,#2a1e0e)",
     books: [
       {
@@ -378,7 +378,7 @@ const LIBRARY = [
 
   {
     subject: "Análisis Matemático I",
-    matId: "analisis_1",
+    matId: "analisis_matematico_1",
     color: "linear-gradient(135deg,#0a1209,#162519)",
     books: [
       {
@@ -539,7 +539,7 @@ const LIBRARY = [
 
   {
     subject: "Álgebra Moderna I",
-    matId: "alg_mod_1",
+    matId: "algebra_moderna_1",
     color: "linear-gradient(135deg,#110714,#250e2e)",
     books: [
       {

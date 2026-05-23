@@ -31,6 +31,27 @@
         <span class="global-badge" id="global-pct">0%</span>
     </header>
 
+  <!-- ── TABS BAR ──────────────────────────── -->
+  <div class="tem-tabs-bar">
+    <div class="tem-tabs" id="tem-tabs">
+      <button class="tem-tab active" data-view="tronco">Tronco Común</button>
+      <button class="tem-tab" data-view="optativas">Optativas</button>
+      <button class="tem-tab" data-view="search">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+        Buscar
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SEARCH BAR ─────────────────────────── -->
+  <div class="tem-search-bar" id="tem-search-bar" style="display:none">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+    <input type="text" id="tem-search-input" placeholder="Buscar materias, subtemas…" autocomplete="off" spellcheck="false">
+    <button id="tem-search-clear" class="tem-search-clear" style="display:none" aria-label="Limpiar">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
     <div class="container" id="root"></div>
 
     <nav class="bottom-nav">
@@ -60,20 +81,6 @@
     <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var root = document.getElementById('root');
-      if (root && window.renderMathInElement) {
-        renderMathInElement(root, {
-          delimiters: [
-            { left: '\\(', right: '\\)', display: false },
-            { left: '\\[', right: '\\]', display: true }
-          ],
-          throwOnError: false
-        });
-      }
-    });
-  </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');</script>
 </body>
 </html>

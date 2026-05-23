@@ -227,7 +227,144 @@ function renderOptativaSlot(sem, slotIdx) {
   </div>`;
 }
 
-// ==================== SEMESTER SECTION ====================
+// ==================== TRONCO COMÚN — simplified renderers ====================
+function renderTemaItemTronco(tema, i) {
+  const subtemas = (tema.subtemas || []).map(s => `<div class="subtema">${s}</div>`).join('');
+  return `<div class="tema-item">
+    <div class="tema-head">
+      <div class="tema-head-left">
+        <span class="tema-num">${tema.num || i + 1}</span>
+        <span class="tema-name">${tema.name}</span>
+      </div>
+      <div class="tema-meta"><span class="tema-hrs-badge">${tema.horas}h</span></div>
+    </div>
+    <div class="tema-subtemas">${subtemas}</div>
+  </div>`;
+}
+
+function renderCardBodyTronco(mat) {
+  const temaItems = (mat.temario || []).map((t, i) => renderTemaItemTronco(t, i)).join('');
+  const bibButtons = (mat.bibBasicas || []).map((bib, i) => {
+    const url = `libros.html#libro-mat/${mat.id}/${i}`;
+    const parts = bib.name.split('—').map(s => s.trim());
+    const authorPart = parts[0] || bib.name;
+    const titlePart  = parts[1] || '';
+    return `<a class="bib-btn" href="${url}">
+      <span class="bib-btn-dot"></span>
+      <span class="bib-btn-name"><b>${authorPart}</b>${titlePart ? ' — ' + titlePart : ''}</span>
+      <span class="bib-btn-arrow">→</span>
+    </a>`;
+  }).join('');
+  const compBib = renderCompBib(mat.id, mat.bibComp);
+  return `<div class="card-body-tronco">
+    <div class="tronco-temario-section">
+      ${temaItems || '<div class="empty-card">Sin temario registrado</div>'}
+    </div>
+    ${bibButtons || compBib ? `<div class="tronco-bib-section">
+      <div class="tronco-sec-label">Bibliografía</div>
+      ${bibButtons}
+      ${compBib}
+    </div>` : ''}
+    ${renderSubsecuentes(mat.subsecuentes)}
+  </div>`;
+}
+
+function renderCardTronco(mat) {
+  const iconSrc = mat.icon || 'assets/images/d0.jpg';
+  return `<div class="card" id="card-${mat.id}">
+    <div class="card-head" data-toggle="${mat.id}">
+      <div class="card-icon"><img src="${iconSrc}" alt="${mat.name}" onerror="this.src='assets/images/d0.jpg'"></div>
+      <div class="card-info">
+        <div class="card-name">${mat.name}</div>
+        <div class="card-meta">
+          <span class="meta-pill">Clave <b>${mat.clave || '—'}</b></span>
+          <span class="meta-pill"><b>${mat.creditos}</b> créditos</span>
+          ${mat._tag ? `<span class="meta-pill meta-tag">${mat._tag}</span>` : ''}
+        </div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    ${renderCardBodyTronco(mat)}
+  </div>`;
+}
+
+// ==================== SEMESTER SECTION (tronco — no optativa slots, no progress) ====================
+function renderSemesterTronco(sem) {
+  if (!sem.materias.length) return '';
+  const cards = sem.materias.map(renderCardTronco).join('');
+  return `<div class="semester" id="sem-${sem.semestre}">
+    <div class="sem-header">
+      <span class="sem-title">${sem.titulo}</span>
+    </div>
+    <div class="sem-grid">${cards}</div>
+  </div>`;
+}
+
+// ==================== OPTATIVAS VIEW ====================
+function renderOptativasView() {
+  const BLOQUES = [
+    { key: 'BI',   num: 'I',   pool: OPTATIVAS_BLOQUE_I,   desc: 'Semestres 2, 3 y 4', creds: 40 },
+    { key: 'BII',  num: 'II',  pool: OPTATIVAS_BLOQUE_II,  desc: 'Semestres 5 y 6',    creds: 40 },
+    { key: 'BIII', num: 'III', pool: OPTATIVAS_BLOQUE_III, desc: 'Semestres 7 y 8',    creds: 80 },
+  ];
+  return BLOQUES.map(b => {
+    const cards = b.pool.map((opt, i) => {
+      const mat = { ...enrichOptativa(opt), id: `opt_${b.key}_${i}` };
+      return renderCardTronco(mat);
+    }).join('');
+    return `<div class="opt-bloque-section">
+      <div class="opt-bloque-head">
+        <span class="opt-bloque-title">Bloque ${b.num}</span>
+        <span class="opt-bloque-badge">${b.creds} créditos</span>
+      </div>
+      <div class="opt-bloque-sub">${b.desc}</div>
+      <div class="sem-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+// ==================== SEARCH RESULTS ====================
+const _SRCH_POOLS = [
+  { key: 'BI',   pool: OPTATIVAS_BLOQUE_I },
+  { key: 'BII',  pool: OPTATIVAS_BLOQUE_II },
+  { key: 'BIII', pool: OPTATIVAS_BLOQUE_III },
+];
+
+function _allSearchMats() {
+  const fixed = CURRICULUM.flatMap(s =>
+    s.materias.map(m => ({ ...m, _tag: 'Sem. ' + s.semestre }))
+  );
+  const BLOQUE_NAMES = ['I', 'II', 'III'];
+  const opts = _SRCH_POOLS.flatMap(({ key, pool }, bi) =>
+    pool.map((opt, i) => ({
+      ...enrichOptativa(opt),
+      id: `opt_${key}_${i}`,
+      _tag: 'Bloque ' + BLOQUE_NAMES[bi],
+    }))
+  );
+  return [...fixed, ...opts].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+}
+
+function renderSearchResults(query) {
+  const q = (query || '').trim().toLowerCase();
+  if (!q) {
+    const all = _allSearchMats();
+    return '<div class="sem-grid">' + all.map(renderCardTronco).join('') + '</div>';
+  }
+  const words = q.split(/\s+/);
+  function hit(text) {
+    const t = (text || '').toLowerCase();
+    return words.every(w => t.includes(w));
+  }
+  const matches = _allSearchMats().filter(mat =>
+    hit(mat.name) ||
+    (mat.temario || []).some(t => hit(t.name) || (t.subtemas || []).some(s => hit(s)))
+  );
+  if (!matches.length) return '<div class="search-empty">Sin resultados</div>';
+  return '<div class="sem-grid">' + matches.map(renderCardTronco).join('') + '</div>';
+}
+
+// ==================== SEMESTER SECTION (full — with optativa slots) ====================
 function renderSemester(sem) {
   const pct = getSemPct(sem);
   const fixedCredits = sem.materias.reduce((s, m) => s + m.creditos, 0);
