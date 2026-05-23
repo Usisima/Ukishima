@@ -705,3 +705,11 @@ body {
 }
 
 .header-right { display: flex; align-items: center; gap: 0.5rem; }
+
+.dash-version {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  color: var(--ink3);
+  font-weight: 400;
+}

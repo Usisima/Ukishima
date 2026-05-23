@@ -22,7 +22,7 @@
     <div class="header-logo">Ж</div>
     <div class="header-divider"></div>
     <div class="header-text">
-      <div class="header-title">Matemáticas</div>
+      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v52</span></div>
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
@@ -432,7 +432,16 @@
   });
 })();
 </script>
-<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+  caches.keys().then(function(keys) {
+    var k = keys.find(function(k) { return k.startsWith('ukishima-'); });
+    var el = document.getElementById('dash-version');
+    if (el && k) el.textContent = '· ' + k.replace('ukishima-', '');
+  });
+}
+</script>
 </body>
 </html>
 
