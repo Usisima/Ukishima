@@ -141,24 +141,22 @@ body {
 
 /* ==================== SEMESTER ==================== */
 .semester {
-  margin-top: 2.5rem;
+  margin-top: 0.5rem;
 }
 
 .sem-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
-  padding: 0 0.2rem;
+  padding: 1.25rem 0.2rem 0.6rem;
 }
 
 .sem-title {
   font-family: 'Playfair Display', serif;
-  font-size: 0.78rem;
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--ink);
+  line-height: 1.25;
 }
 
 .sem-credits-badge {
@@ -216,7 +214,6 @@ body {
   border-radius: var(--r);
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border);
-  backdrop-filter: blur(16px);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   transition: border-color var(--ease), box-shadow var(--ease);
@@ -1253,39 +1250,46 @@ body {
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px) saturate(150%);
   border-bottom: 1px solid var(--border);
-  padding: 0 1.2rem;
+  padding: 0.5rem 1.2rem;
 }
 
 .tem-tabs {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   max-width: 600px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .tem-tab {
   flex: 1;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 0.72rem 0.5rem;
-  cursor: pointer;
-  color: var(--ink3);
-  border: none;
+  justify-content: center;
+  padding: 0.38rem 0;
+  border-radius: 99px;
+  border: 1px solid var(--border);
   background: transparent;
-  border-bottom: 2px solid transparent;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: color 0.2s, border-color 0.2s;
+  color: var(--ink3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
-  white-space: nowrap;
+  letter-spacing: 0.01em;
+  text-align: center;
 }
 
+.tem-tab:hover { border-color: var(--border2); color: var(--ink2); }
+
 .tem-tab.active {
+  background: var(--teal-dim);
+  border-color: rgba(155, 191, 181, 0.35);
   color: var(--gold);
-  border-bottom-color: var(--gold);
 }
 
 /* ==================== SEARCH BAR (TEMARIOS) ==================== */
@@ -1396,23 +1400,21 @@ body {
 }
 
 /* ==================== OPTATIVAS VIEW ==================== */
-.opt-bloque-section { margin-top: 2.5rem; }
+.opt-bloque-section { margin-top: 0.5rem; }
 
 .opt-bloque-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 0.3rem;
-  padding: 0 0.2rem;
+  padding: 1.25rem 0.2rem 0.6rem;
 }
 
 .opt-bloque-title {
   font-family: 'Playfair Display', serif;
-  font-size: 0.78rem;
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--ink);
+  line-height: 1.25;
 }
 
 .opt-bloque-badge {
