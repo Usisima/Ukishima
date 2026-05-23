@@ -11,7 +11,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; overscroll-behavior: none; }
+html { height: 100%; overscroll-behavior: none; background: #000; }
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
