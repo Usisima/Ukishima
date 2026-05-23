@@ -3,6 +3,16 @@
 /* Suppress Chrome's native PWA install banner on all pages (index.html shows its own button) */
 window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); });
 
+/* Redirect browser users to index.html — solo la app instalada accede a las demás páginas */
+(function () {
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
+  var path = window.location.pathname;
+  var isIndex = path === '/' || path === '' || path.endsWith('/index.html') || path.endsWith('/');
+  if (!isStandalone && !isIndex) {
+    window.location.replace('./index.html');
+  }
+})();
+
 /* Reset pinch-zoom to 1× on every page load */
 (function () {
   var vp = document.querySelector('meta[name="viewport"]');

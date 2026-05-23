@@ -708,6 +708,56 @@ body {
 
 .header-right { display: flex; align-items: center; gap: 0.5rem; }
 
+/* ==================== BROWSER PROMPT ==================== */
+.dash-browser-prompt {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  background: radial-gradient(ellipse 110% 120% at 50% 50%, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  animation: pillsSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dash-browser-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.dash-browser-sub {
+  font-size: 0.82rem;
+  color: var(--ink2);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.dash-install-btn--big {
+  width: 230px;
+  font-size: 0.9rem;
+  padding: 0.85rem 0;
+  background: rgba(155, 191, 181, 0.15);
+  border-color: rgba(155, 191, 181, 0.5);
+}
+
+.dash-browser-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink3);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
 .dash-version {
   font-family: 'DM Mono', monospace;
   font-size: 0.65rem;
