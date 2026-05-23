@@ -24,7 +24,7 @@
     <div class="header-logo">Ж</div>
     <div class="header-divider"></div>
     <div class="header-text">
-      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v54</span></div>
+      <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v55</span></div>
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
@@ -144,6 +144,8 @@
 (function () {
   const pre = document.getElementById('bh-art');
   if (!pre) return;
+
+  function init() {
 
   // Fill screen width exactly: COLS capped at 160, font size computed to fill W perfectly
   const _W   = window.innerWidth;
@@ -408,6 +410,9 @@
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
     requestAnimationFrame(tick);
   });
+
+  } // end init
+  requestAnimationFrame(init);
 })();
 
 </script>
