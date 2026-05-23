@@ -224,15 +224,8 @@
       var br = (!fR && !fB) ? '4px' : '0';
       var bl = (!fL && !fB) ? '4px' : '0';
 
-      var SD = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0';
-      var semBg = '';
-      if (d.semStart && bg)
-        semBg = '<div style="'+SD+';background:'+bg+';clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%,28% 50%)"></div>';
-      if (d.semEnd && bg)
-        semBg = '<div style="'+SD+';background:'+bg+';clip-path:polygon(0% 0%,72% 0%,100% 50%,72% 100%,0% 100%)"></div>';
-
       var st = [];
-      if (bg && !semBg) st.push('background:' + bg);
+      if (bg) st.push('background:' + bg);
       if (fL || fR || fT || fB) st.push('border-radius:' + tl + ' ' + tr + ' ' + br + ' ' + bl);
 
       // Vacaciones: dotted border + connectivity border-radius (eliminates corner zurcos)
@@ -264,7 +257,6 @@
         trmHl = '<div style="position:absolute;left:0;right:0;height:14px;top:50%;transform:translateY(-50%);background:rgba(72,80,210,0.28);border-radius:'+hlRad+';z-index:1;pointer-events:none"></div>';
       }
       cells += '<div class="' + cls + '"' + styleAttr + '>'
-        + semBg
         + trmHl
         + '<span class="day-num">' + d.day + '</span>'
         + '</div>';
