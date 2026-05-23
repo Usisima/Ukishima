@@ -1236,3 +1236,40 @@ body {
 .tema-checkbox.popping {
   animation: checkPop 0.32s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
+
+/* ── THEME TOGGLE ── */
+.header-right { display: flex; align-items: center; gap: 0.5rem; }
+.theme-toggle {
+  background: none; border: none;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--ink3); padding: 0;
+  transition: color 0.2s; flex-shrink: 0; border-radius: 50%;
+}
+.theme-toggle:hover { color: var(--gold); }
+.theme-toggle svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun  { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+
+/* ── LIGHT MODE ── */
+:root[data-theme="light"] {
+  --bg:      #f3f9f7;
+  --border:  rgba(50,110,95,0.18);
+  --border2: rgba(50,110,95,0.32);
+  --ink:     #0b1e1b;
+  --ink2:    rgba(11,30,27,0.65);
+  --ink3:    rgba(11,30,27,0.40);
+  --gold:    #1f7060;
+  --gold2:   #155548;
+}
+[data-theme="light"] .header {
+  background: rgba(243,249,247,0.92);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .bottom-nav { background: rgba(243,249,247,0.96); }
+[data-theme="light"] .mat-card { background: rgba(50,110,95,0.05); }
+[data-theme="light"] .tema-item { background: rgba(50,110,95,0.04); }
+[data-theme="light"] .tema-checkbox { background: rgba(50,110,95,0.10); border-color: rgba(50,110,95,0.30); }
+[data-theme="light"] #stars-bg-pre { opacity: 0.05; mix-blend-mode: multiply; }

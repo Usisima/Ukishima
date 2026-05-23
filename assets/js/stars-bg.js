@@ -45,12 +45,96 @@
     starSz[i] = Math.min(4, Math.floor(rand() * rand() * 5.5));
   }
 
-  let last = null, elapsed = 0;
+  // Shooting stars
+  const shoots = [];
+  let nextShootMs = 400 + Math.random() * 600;
+  const S_CH = ['0', '-', '-', '.', '.', '`'];
+  const S_LT = [100, 85, 68, 50, 32, 16];
+
+  function spawnShoot(elapsedMs) {
+    const spd = 220 + Math.random() * 160;
+    const d   = Math.random();
+    let x, y, vx, vy;
+    if (d < 0.11) {                              // izq → der, casi plano
+      x = -8; y = Math.floor(Math.random() * ROWS * 0.85);
+      vx = spd; vy = spd * (0.04 + Math.random() * 0.07);
+    } else if (d < 0.22) {                       // der → izq, casi plano
+      x = COLS + 8; y = Math.floor(Math.random() * ROWS * 0.85);
+      vx = -spd; vy = spd * (0.04 + Math.random() * 0.07);
+    } else if (d < 0.33) {                       // izq → der, diagonal arriba
+      x = -8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
+      vx = spd; vy = -spd * (0.07 + Math.random() * 0.12);
+    } else if (d < 0.44) {                       // der → izq, diagonal arriba
+      x = COLS + 8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
+      vx = -spd; vy = -spd * (0.07 + Math.random() * 0.12);
+    } else if (d < 0.55) {                       // arriba → abajo-der
+      x = Math.floor(Math.random() * COLS * 0.65); y = -3;
+      vx = spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
+    } else if (d < 0.63) {                       // arriba → abajo-izq
+      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = -3;
+      vx = -spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
+    } else if (d < 0.71) {                       // abajo → arriba-der
+      x = Math.floor(Math.random() * COLS * 0.65); y = ROWS + 3;
+      vx = spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
+    } else if (d < 0.79) {                       // abajo → arriba-izq
+      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = ROWS + 3;
+      vx = -spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
+    } else if (d < 0.89) {                       // diagonal empinada der
+      x = Math.floor(Math.random() * COLS * 0.5); y = -3;
+      vx = spd * 0.35; vy = spd * 0.52;
+    } else {                                     // diagonal empinada izq
+      x = Math.floor(COLS * 0.5 + Math.random() * COLS * 0.5); y = -3;
+      vx = -spd * 0.35; vy = spd * 0.52;
+    }
+    const r2 = Math.random();
+    const len = r2 < 0.20 ? 4  + Math.floor(Math.random() * 5)
+              : r2 < 0.65 ? 9  + Math.floor(Math.random() * 8)
+              : r2 < 0.88 ? 17 + Math.floor(Math.random() * 7)
+              :              24 + Math.floor(Math.random() * 6);
+    const spread = 1.3 + Math.random() * 2.0;
+    const bri    = 0.28 + Math.random() * 0.80;
+    shoots.push({ x, y, vx, vy, len, spread, bri });
+    nextShootMs = elapsedMs + 500 + Math.random() * 800;
+  }
+
+  let last = null, elapsed = 0, lastRender = 0;
+  const FRAME_MS = 1000 / 30; // 30 fps cap
 
   function tick(ts) {
     if (last !== null) elapsed += ts - last;
     last = ts;
+
+    requestAnimationFrame(tick);
+
+    if (ts - lastRender < FRAME_MS) return;
+    lastRender = ts;
+
     const t = elapsed / 1000;
+
+    // Spawn
+    if (elapsed > nextShootMs) spawnShoot(elapsed);
+
+    // Update positions + build overlay map
+    const sMap = {};
+    for (let i = shoots.length - 1; i >= 0; i--) {
+      const s = shoots[i];
+      s.x += s.vx * (FRAME_MS / 1000);
+      s.y += s.vy * (FRAME_MS / 1000);
+      if (s.x > COLS + 14 || s.x < -14 || s.y > ROWS + 5 || s.y < -5) { shoots.splice(i, 1); continue; }
+      const spd = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      const ux = s.vx / spd, uy = s.vy / spd;
+      for (let t2 = 0; t2 < s.len; t2++) {
+        const cx = Math.round(s.x - ux * t2 * s.spread);
+        const cy = Math.round(s.y - uy * t2);
+        if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) {
+          const lit = Math.min(100, Math.round(S_LT[Math.min(t2, S_LT.length - 1)] * s.bri / 5) * 5);
+          sMap[cy * COLS + cx] = {
+            ch: S_CH[Math.min(t2, S_CH.length - 1)],
+            co: `hsl(210,25%,${lit}%)`,
+          };
+        }
+      }
+    }
 
     let html = '';
     for (let r = 0; r < ROWS; r++) {
@@ -70,6 +154,10 @@
           }
         }
 
+        // Shooting star overrides star field
+        const shot = sMap[idx];
+        if (shot) { ch = shot.ch; color = shot.co; }
+
         if (color === rc) {
           buf += ch;
         } else {
@@ -81,7 +169,6 @@
     }
 
     pre.innerHTML = html;
-    requestAnimationFrame(tick);
   }
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(tick));

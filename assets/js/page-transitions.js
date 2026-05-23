@@ -1,4 +1,14 @@
 /* page-transitions.js — cross-page fade out before navigation */
+
+/* Reset pinch-zoom to 1× on every page load */
+(function () {
+  var vp = document.querySelector('meta[name="viewport"]');
+  if (!vp) return;
+  var base = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+  vp.content = base + ', maximum-scale=1';
+  setTimeout(function () { vp.content = base; }, 300);
+})();
+
 (function () {
   document.addEventListener('click', function (e) {
     const a = e.target.closest('a[href]');

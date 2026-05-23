@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════
    libros.js  —  Bibliografía · UNAM FC
    ═══════════════════════════════════════════════ */
 
@@ -191,7 +191,7 @@ const R = {
         return `
         <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
           <div class="note-header">
-            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt=""></div>
+            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt="" loading="lazy" decoding="async"></div>
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
               <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}${chevron}</div>

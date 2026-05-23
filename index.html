@@ -1,11 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Inicio · UNAM</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="assets/css/dashboard.css">
+  <link rel="prefetch" href="temarios.html">
+  <link rel="prefetch" href="libros.html">
+  <link rel="preload" as="script" href="assets/js/data.js">
+  <script type="speculationrules">
+    {"prerender":[{"source":"list","urls":["temarios.html","libros.html"]}]}
+  </script>
 </head>
 <body>
 
@@ -18,21 +28,47 @@
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
+  <span class="global-badge" id="header-pct">—%</span>
 </header>
 
+<div class="bh-container">
 <div class="bh-wrap">
   <pre class="bh-art" id="bh-art" aria-hidden="true"></pre>
 </div>
 
-<div class="dash-pills">
-  <a href="temarios.html" class="dash-pill">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-    Temarios
-  </a>
-  <a href="libros.html" class="dash-pill">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-    Bibliografía
-  </a>
+<div class="dash-bottom">
+  <div class="dash-statsrow">
+    <div class="dash-stat-card">
+      <span class="dash-stat-val" id="hs-mats">—</span>
+      <span class="dash-stat-key">Materias</span>
+    </div>
+    <div class="dash-stat-card">
+      <span class="dash-stat-val" id="hs-creds">—</span>
+      <span class="dash-stat-key">Créditos</span>
+    </div>
+    <div class="dash-stat-card">
+      <span class="dash-stat-val" id="hs-pct">—</span>
+      <span class="dash-stat-key">Avance</span>
+    </div>
+  </div>
+
+  <div id="dash-sem-progress"></div>
+
+  <div class="dash-pills">
+    <a href="temarios.html" class="dash-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Temarios
+    </a>
+    <a href="libros.html" class="dash-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Bibliografía
+    </a>
+    <a href="calendario.html" class="dash-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendario
+    </a>
+  </div>
+</div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -49,10 +85,55 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
     <span>Libros</span>
   </a>
+  <a href="calendario.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>Calendario</span>
+  </a>
 </nav>
 
 <script src="assets/js/page-transitions.js"></script>
 <script src="assets/js/stars-bg.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/state.js"></script>
+<script>
+(function () {
+  const allMats = CURRICULUM.flatMap(function(s) { return s.materias; });
+  const total   = allMats.length;
+  const done    = allMats.filter(function(m) { return isComplete(m); }).length;
+  const earned  = allMats.filter(function(m) { return isComplete(m); })
+                         .reduce(function(s, m) { return s + m.creditos; }, 0);
+  const pct     = getGlobalPct();
+
+  document.getElementById('hs-mats').textContent  = done + ' / ' + total;
+  document.getElementById('hs-creds').textContent = earned;
+  document.getElementById('hs-pct').textContent   = pct + '%';
+  document.getElementById('header-pct').textContent = pct + '%';
+
+  // Semester progress strip
+  (function () {
+    const FIRST = new Date(2026, 1, 3);
+    const LAST  = new Date(2026, 4, 29);
+    const now   = new Date(); now.setHours(0,0,0,0);
+    const MSHRT = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    const total   = Math.round((LAST - FIRST) / 86400000);
+    const elapsed = Math.max(0, Math.min(total, Math.round((now - FIRST) / 86400000)));
+    const spct    = Math.min(100, Math.round(elapsed / total * 100));
+    const remain  = Math.max(0, total - elapsed);
+    const fmt = d => d.getDate() + ' ' + MSHRT[d.getMonth()] + ' ' + d.getFullYear();
+    document.getElementById('dash-sem-progress').innerHTML =
+      '<div class="dash-sem-row">' +
+        '<div class="dash-sem-bar-wrap">' +
+          '<div class="dash-sem-bar" style="width:' + spct + '%"></div>' +
+        '</div>' +
+        '<span class="dash-sem-today">' + spct + '% · ' + remain + 'd</span>' +
+      '</div>' +
+      '<div class="dash-sem-meta">' +
+        '<span class="dash-sem-date">3 feb 2026</span>' +
+        '<span class="dash-sem-today dash-sem-hoy">' + fmt(now) + '</span>' +
+        '<span class="dash-sem-date">29 may 2026</span>' +
+      '</div>';  })();
+})();
+</script>
 <script>
 
 (function () {
@@ -73,7 +154,7 @@
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  const CY = Math.max(5, Math.round(wrapH / 2 / lineH));
+  const CY = Math.max(5, Math.round(wrapH * 0.36 / lineH));
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
@@ -84,10 +165,10 @@
 
   // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue }
   const RINGS  = [
-    { rc: 0.24,  w: 0.090, hue: 46, off: 0.7 },
-    { rc: 0.455, w: 0.085, hue: 36, off: 2.4 },
-    { rc: 0.645, w: 0.060, hue: 25, off: 4.0 },
-    { rc: 0.880, w: 0.060, hue: 16, off: 5.6 },
+    { rc: 0.24,  w: 0.090, hue: 315, off: 0.7 },  // rosa-lavanda interior
+    { rc: 0.455, w: 0.085, hue: 275, off: 2.4 },  // violeta-lavanda
+    { rc: 0.645, w: 0.060, hue: 225, off: 4.0 },  // azul medio
+    { rc: 0.880, w: 0.060, hue: 195, off: 5.6 },  // azul cian exterior
   ];
   const BASE_RC = 0.45;
 
@@ -129,13 +210,96 @@
     }))
   );
 
-  let elapsed = 0, last = null;
+  // Shooting stars
+  const shoots = [];
+  let nextShootMs = 400 + Math.random() * 600;
+  const S_CH = ['0', '-', '-', '.', '.', '`'];
+  const S_LT = [96, 80, 62, 44, 28, 14];
+
+  function spawnShoot(elapsedMs) {
+    const spd = 220 + Math.random() * 160;
+    const d   = Math.random();
+    let x, y, vx, vy;
+    if (d < 0.11) {                              // izq → der, casi plano
+      x = -8; y = Math.floor(Math.random() * ROWS * 0.85);
+      vx = spd; vy = spd * (0.04 + Math.random() * 0.07);
+    } else if (d < 0.22) {                       // der → izq, casi plano
+      x = COLS + 8; y = Math.floor(Math.random() * ROWS * 0.85);
+      vx = -spd; vy = spd * (0.04 + Math.random() * 0.07);
+    } else if (d < 0.33) {                       // izq → der, diagonal arriba
+      x = -8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
+      vx = spd; vy = -spd * (0.07 + Math.random() * 0.12);
+    } else if (d < 0.44) {                       // der → izq, diagonal arriba
+      x = COLS + 8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
+      vx = -spd; vy = -spd * (0.07 + Math.random() * 0.12);
+    } else if (d < 0.55) {                       // arriba → abajo-der
+      x = Math.floor(Math.random() * COLS * 0.65); y = -3;
+      vx = spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
+    } else if (d < 0.63) {                       // arriba → abajo-izq
+      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = -3;
+      vx = -spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
+    } else if (d < 0.71) {                       // abajo → arriba-der
+      x = Math.floor(Math.random() * COLS * 0.65); y = ROWS + 3;
+      vx = spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
+    } else if (d < 0.79) {                       // abajo → arriba-izq
+      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = ROWS + 3;
+      vx = -spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
+    } else if (d < 0.89) {                       // diagonal empinada der
+      x = Math.floor(Math.random() * COLS * 0.5); y = -3;
+      vx = spd * 0.35; vy = spd * 0.52;
+    } else {                                     // diagonal empinada izq
+      x = Math.floor(COLS * 0.5 + Math.random() * COLS * 0.5); y = -3;
+      vx = -spd * 0.35; vy = spd * 0.52;
+    }
+    const r2 = Math.random();
+    const len = r2 < 0.20 ? 4  + Math.floor(Math.random() * 5)
+              : r2 < 0.65 ? 9  + Math.floor(Math.random() * 8)
+              : r2 < 0.88 ? 17 + Math.floor(Math.random() * 7)
+              :              24 + Math.floor(Math.random() * 6);
+    const spread = 1.3 + Math.random() * 2.0;
+    const bri    = 0.28 + Math.random() * 0.80;
+    shoots.push({ x, y, vx, vy, len, spread, bri });
+    nextShootMs = elapsedMs + 500 + Math.random() * 800;
+  }
+
+  let elapsed = 0, last = null, lastRender = 0;
+  const FRAME_MS = 1000 / 30; // 30 fps cap
 
   function tick(ts) {
     if (last !== null) elapsed += ts - last;
     last = ts;
+
+    requestAnimationFrame(tick);
+    if (ts - lastRender < FRAME_MS) return;
+    lastRender = ts;
+
     const phase = (elapsed / PERIOD) * 2 * Math.PI;
     const t_sec = elapsed / 1000;
+
+    // Spawn shooting star
+    if (elapsed > nextShootMs) spawnShoot(elapsed);
+
+    // Update + build overlay
+    const sMap = {};
+    for (let i = shoots.length - 1; i >= 0; i--) {
+      const s = shoots[i];
+      s.x += s.vx * (FRAME_MS / 1000);
+      s.y += s.vy * (FRAME_MS / 1000);
+      if (s.x > COLS + 14 || s.x < -14 || s.y > ROWS + 5 || s.y < -5) { shoots.splice(i, 1); continue; }
+      const spd = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      const ux = s.vx / spd, uy = s.vy / spd;
+      for (let t2 = 0; t2 < s.len; t2++) {
+        const cx = Math.round(s.x - ux * t2 * s.spread);
+        const cy = Math.round(s.y - uy * t2);
+        if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) {
+          const lit = Math.min(100, Math.round(S_LT[Math.min(t2, S_LT.length - 1)] * s.bri / 5) * 5);
+          sMap[cy * COLS + cx] = {
+            ch: S_CH[Math.min(t2, S_CH.length - 1)],
+            co: `hsl(195,45%,${lit}%)`,
+          };
+        }
+      }
+    }
 
     let html = '';
 
@@ -187,35 +351,39 @@
         const showScatter = !showDisk && !showRing && sd >= 0.78 && scatterB > 0.42;
         const inVoid      = sd < 0.78;
 
+        const idx = r * COLS + c;
         let ch, color;
         if (showDisk) {
           ch = lv(diskB);
           const dN = Math.max(0, Math.cos(diskRelA));
-          const h  = Math.round((diskHue + dN * 12) / 5) * 5;
-          const l  = Math.round((14 + dN * 66) / 5) * 5;
-          color = `hsl(${h},90%,${l}%)`;
+          const h  = Math.round((diskHue + dN * 14) / 5) * 5;
+          const l  = Math.round((22 + dN * 44) / 5) * 5;   // 22–66%, sin blancos
+          color = `hsl(${h},95%,${l}%)`;
         } else if (showRing) {
           ch = lv(ringB);
-          const l = Math.round((38 + ringT * 54) / 5) * 5;
-          const s = Math.round((78 - ringT * 58) / 10) * 10;
-          color = `hsl(265,${s}%,${l}%)`;
+          const l = Math.round((30 + ringT * 32) / 5) * 5;  // 30–62%, sin blancos
+          const s = Math.round((90 - ringT * 40) / 10) * 10;
+          color = `hsl(280,${s}%,${l}%)`;
         } else if (showScatter) {
           ch = lv(scatterB * 0.44);
-          const sl = Math.round((8 + scatterB * 22) / 5) * 5;
-          color = `hsl(28,55%,${sl}%)`;
+          const sl = Math.round((12 + scatterB * 28) / 5) * 5; // más rango
+          color = `hsl(200,75%,${sl}%)`;                        // azul claro descomposición
         } else if (sd >= 0.78) {
-          const idx = r * COLS + c;
           if (starB[idx] > 0) {
             const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
             if (sb > 0.14) {
               ch    = STAR_CH[starSz[idx]];
-              const lit = Math.round((30 + sb * 55) / 5) * 5;
-              color = `hsl(0,0%,${lit}%)`;
+              const lit = Math.round((38 + sb * 58) / 5) * 5;  // 38–96%, más luminosas
+              color = `hsl(210,18%,${lit}%)`;                   // azul-blanco frío
             } else { ch = ' '; color = null; }
           } else { ch = ' '; color = null; }
         } else {
           ch = ' '; color = null;
         }
+
+        // Shooting star overrides star field (not the void)
+        const shot = sMap[idx];
+        if (shot && sd >= 0.78) { ch = shot.ch; color = shot.co; }
 
         if (color === runColor) {
           runChars += ch;
@@ -230,7 +398,6 @@
     }
 
     pre.innerHTML = html;
-    requestAnimationFrame(tick);
   }
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
@@ -239,5 +406,6 @@
 })();
 
 </script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');</script>
 </body>
 </html>
