@@ -419,7 +419,7 @@ body {
 
 .tema-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.7rem;
   padding: 0.75rem 0.9rem;
   cursor: default;
@@ -435,7 +435,7 @@ body {
   flex: 1;
   display: flex;
   gap: 0.6rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .tema-num {
@@ -448,7 +448,6 @@ body {
   border-radius: 6px;
   color: var(--gold);
   flex-shrink: 0;
-  margin-top: 1px;
   letter-spacing: 0.05em;
 }
 
