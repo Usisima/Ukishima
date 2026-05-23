@@ -136,7 +136,7 @@ body {
 .container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 0 1.2rem 3.5rem;
+  padding: 0.5rem 1.2rem 3.5rem;
 }
 
 /* ==================== SEMESTER ==================== */
@@ -148,7 +148,7 @@ body {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: 1.25rem 0.2rem 0.6rem;
+  padding: 0.75rem 0.2rem 0.6rem;
 }
 
 .sem-title {
@@ -1320,6 +1320,8 @@ body {
 }
 
 #tem-search-input::placeholder { color: var(--ink3); }
+#tem-search-input::-webkit-search-cancel-button { display: none; }
+#tem-search-input::-webkit-search-decoration { display: none; }
 
 .tem-search-clear {
   background: none;
@@ -1404,9 +1406,9 @@ body {
 
 .opt-bloque-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 0.2rem 0.6rem;
+  padding: 0.75rem 0.2rem 0.6rem;
 }
 
 .opt-bloque-title {
@@ -1525,12 +1527,17 @@ body {
 }
 
 /* ==================== OPTATIVAS BLOQUE SEM LABEL ==================== */
+.opt-bloque-head-left {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
 .opt-bloque-sem-label {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--ink3);
-  padding: 0.5rem 0.2rem 0.3rem;
 }

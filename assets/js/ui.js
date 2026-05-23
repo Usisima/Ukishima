@@ -277,9 +277,9 @@ function renderCardTronco(mat) {
       <div class="card-info">
         <div class="card-name">${mat.name}</div>
         <div class="card-meta">
+          ${mat._tag ? `<span class="meta-pill meta-tag">${mat._tag}</span>` : ''}
           <span class="meta-pill">Clave <b>${mat.clave || '—'}</b></span>
           <span class="meta-pill"><b>${mat.creditos}</b> créditos</span>
-          ${mat._tag ? `<span class="meta-pill meta-tag">${mat._tag}</span>` : ''}
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -291,10 +291,12 @@ function renderCardTronco(mat) {
 // ==================== SEMESTER SECTION (tronco — no optativa slots, no progress) ====================
 function renderSemesterTronco(sem) {
   if (!sem.materias.length) return '';
+  const totalCreds = sem.materias.reduce((s, m) => s + (m.creditos || 0), 0);
   const cards = sem.materias.map(renderCardTronco).join('');
   return `<div class="semester" id="sem-${sem.semestre}">
     <div class="sem-header">
       <span class="sem-title">${sem.titulo}</span>
+      <span class="sem-credits-badge">${totalCreds} créditos</span>
     </div>
     <div class="sem-grid">${cards}</div>
   </div>`;
@@ -303,9 +305,9 @@ function renderSemesterTronco(sem) {
 // ==================== OPTATIVAS VIEW ====================
 function renderOptativasView() {
   const BLOQUES = [
-    { key: 'BI',   num: 'I',   pool: OPTATIVAS_BLOQUE_I,   desc: 'Semestres 2, 3 y 4', creds: 40 },
-    { key: 'BII',  num: 'II',  pool: OPTATIVAS_BLOQUE_II,  desc: 'Semestres 5 y 6',    creds: 40 },
-    { key: 'BIII', num: 'III', pool: OPTATIVAS_BLOQUE_III, desc: 'Semestres 7 y 8',    creds: 80 },
+    { key: 'BI',   num: 'I',   pool: OPTATIVAS_BLOQUE_I,   semLabel: 'Semestre 2 · 3 · 4', creds: 40 },
+    { key: 'BII',  num: 'II',  pool: OPTATIVAS_BLOQUE_II,  semLabel: 'Semestre 5 · 6',      creds: 40 },
+    { key: 'BIII', num: 'III', pool: OPTATIVAS_BLOQUE_III, semLabel: 'Semestre 7 · 8',      creds: 80 },
   ];
   return BLOQUES.map(b => {
     const cards = b.pool.map((opt, i) => {
@@ -314,10 +316,12 @@ function renderOptativasView() {
     }).join('');
     return `<div class="opt-bloque-section">
       <div class="opt-bloque-head">
-        <span class="opt-bloque-title">Bloque ${b.num}</span>
+        <div class="opt-bloque-head-left">
+          <span class="opt-bloque-title">Bloque ${b.num}</span>
+          <span class="opt-bloque-sem-label">${b.semLabel}</span>
+        </div>
         <span class="opt-bloque-badge">${b.creds} créditos</span>
       </div>
-      <div class="opt-bloque-sub">${b.desc}</div>
       <div class="sem-grid">${cards}</div>
     </div>`;
   }).join('');
@@ -346,19 +350,21 @@ function _allSearchMats() {
 }
 
 function renderSearchResults(query) {
-  const q = (query || '').trim().toLowerCase();
+  function norm(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+  const q = norm((query || '').trim());
   if (!q) {
     const all = _allSearchMats();
     return '<div class="sem-grid">' + all.map(renderCardTronco).join('') + '</div>';
   }
   const words = q.split(/\s+/);
   function hit(text) {
-    const t = (text || '').toLowerCase();
+    const t = norm(text);
     return words.every(w => t.includes(w));
   }
   const matches = _allSearchMats().filter(mat =>
-    hit(mat.name) ||
-    (mat.temario || []).some(t => hit(t.name) || (t.subtemas || []).some(s => hit(s)))
+    hit(mat.name) || hit(mat.clave)
   );
   if (!matches.length) return '<div class="search-empty">Sin resultados</div>';
   return '<div class="sem-grid">' + matches.map(renderCardTronco).join('') + '</div>';
