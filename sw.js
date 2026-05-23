@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v22';
+const CACHE = 'ukishima-v23';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -15,6 +15,7 @@ const SHELL = [
   './assets/css/calendario.css',
   './assets/js/page-transitions.js',
   './assets/js/stars-bg.js',
+  './assets/js/theme.js',
   './assets/js/data.js',
   './assets/js/state.js',
   './assets/js/ui.js',
