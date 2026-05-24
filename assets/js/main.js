@@ -153,7 +153,7 @@ const TemDisc = {
       const opacity = Math.max(0.04, 1 - Math.abs(theta) * 0.9);
       const isAct  = i === active;
       buf.push(
-        `<div class="disc-item is-ch${isAct ? ' is-active' : ''}" data-i="${i}" ` +
+        `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" data-i="${i}" ` +
         `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
         `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
       );
