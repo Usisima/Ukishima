@@ -194,14 +194,15 @@
   const ROWS = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  // Equal outer gaps: A = (wrapH − contentH − gap) / 2
-  // → header→BH = A, BH→content = gap (8%), content_bottom→nav = A
-  const _dash     = document.getElementById('dash-bottom');
-  const _contentH = _dash ? _dash.getBoundingClientRect().height : 0;
-  const _gap      = Math.round(wrapH * 0.08);
-  const _A        = Math.max(lineH * 4, Math.round((wrapH - _contentH - _gap) / 2));
-  const CY        = Math.max(5, Math.round(_A / lineH));
-  if (_dash) _dash.style.top = (_A + _gap) + 'px';
+  // Content block pinned near bottom nav with fixed gap
+  // BH center floats just above the content block
+  const _dash      = document.getElementById('dash-bottom');
+  const _contentH  = _dash ? _dash.getBoundingClientRect().height : 0;
+  const _gapBottom = 14;                         // px between content bottom and nav
+  const _gapBH     = Math.round(wrapH * 0.07);  // px between BH center and content top
+  const _contentTop = wrapH - _gapBottom - _contentH;
+  const CY = Math.max(5, Math.round((_contentTop - _gapBH) / lineH));
+  if (_dash) _dash.style.top = _contentTop + 'px';
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
