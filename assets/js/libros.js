@@ -519,7 +519,7 @@ const Disc = {
       const headerEl = subjEl.querySelector('.lib-subject-header');
       const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
       const trunc = name.length > 26 ? name.slice(0, 25) + '…' : name;
-      this.secs.push({ label: trunc, el: headerEl, isCh: true, subjEl });
+      this.secs.push({ label: trunc, el: headerEl, isCh: false, subjEl });
     });
   },
 
