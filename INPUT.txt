@@ -1,0 +1,1947 @@
+════════════════════════════════════════════════════════════════
+  ARCHIVO DE ENTRADA — Ukishima
+  Pega aquí los datos que quieras que Claude procese.
+════════════════════════════════════════════════════════════════
+
+Puedes pegar aquí:
+  • Planes de estudio (para las tarjetas de temarios)
+  • Bibliografía de materias optativas (para LIBRARY_OPT)
+  • Cualquier otro contenido que quieras agregar al proyecto
+
+────────────────────────────────────────────────────────────────
+  DATOS:
+────────────────────────────────────────────────────────────────
+DISEÑO DE SISTEMAS DIGITALES
+CLAVE: 0574
+SEMESTRE: V
+CRÉDITOS: 10
+ÁREA: CIENCIAS DE LA COMPUTACIÓN
+Requisitos: Introducción a Ciencias de la
+Computación II
+HORAS POR CLASE
+CLASES POR SEMANA
+HORAS POR SEMESTRE
+TEÓRICA: 1
+TEÓRICA: 5
+TEÓRICA: 64
+TEÓRICO-PRÁCTICAS: 2
+TEÓRICO-PRÁCTICAS: 1
+TEÓRICO-PRÁCTICAS: 32
+Objetivos generales:
+Este curso introduce sistemas digitales, sus modelos matemáticos y su
+realización en hardware. Los temas incluyen elementos lógicos, técnicas de
+minimización, organización de sistemas de memoria y arquitectura,
+interfases y comunicación de datos y arquitecturas alternativas incluyendo
+multiprocesadores y máquinas hipercubo.
+Temario:
+I. Lógica Digital 17 horas
+La idea de bloques simples para la construcción de sistemas,
+implementados en diferentes tecnologías. Consideraciones físicas
+tales como retrasos (delays), abanicos de entrada y salida (fan-in,
+fan-out). El uso de un dispositivo de escala media de integración
+(MSI) (un dispositivo lógico programable PLD) para implementar
+funciones complejas en un solo chip. Tipos comunes de flipflops.
+Representación de circuitos síncronos secuenciales y su
+operación, descritos a través de diagramas de estado y tablas.
+Operación cronometrada y efectos de corrimiento de acarreo,
+dispositivos MSI y su uso para lograr muchas de las funciones
+lógicas básicas. Interconexión de unidades grandes.
+I.1 Elementos lógicos básicos y teoría de conmutación;
+minimización e implementación de funciones
+I.2 Propagación de retardos y peligros
+I.3 Tecnologías; tipos de flipflops
+I.4 Dispositivos (demultiplexores, multiplexores, decodificadores,
+codificadores, sumadores, restadores, comparadores, registros
+de corrimiento, contadores, dispositivos tipo PLD)
+I.5 Memorias (ROM, PROM, EPROM, EAROM, RAM)
+I.6 Análisis y síntesis de circuitos síncronos; circuitos síncronos vs.
+circuitos asíncronos
+II. Sistemas Digitales 9 horas
+La transferencia de información de un dispositivo de almacenaje a
+otro y los medios para controlar el flujo de los datos. Las
+funciones electrónicas de dispositivos de tres estados, las
+estructuras de bus y los conceptos de control de datos. Diversas
+maneras para describir diseños
+II.1 Notación para la transferencia entre registros, condicional e
+incondicional
+II.2 Máquinas algorítmicas de estados, redes de conducción
+(steering) y señales de transferencia de carga
+II.3 Tres estados y estructuras de bus
+II.4 Iteración, descendente/ascendente, divide y vencerás
+II.5 Descomposición, balances, economías
+II.6 Diagramas de bloque, diagramas de tiempo, lenguaje de
+transferencia
+III. Organización y arquitectura de sistemas de memoria 18 horas
+Consideraciones respecto a la implementación física de grandes
+sistemas de memoria, junto con las técnicas de almacenamiento y
+chequeo de datos. Conceptos generales de memoria virtual,
+memoria caché y las consecuencias de las arquitecturas
+multiprocesa-dor/multicaché. Discusión detallada del proceso de
+Acceso directo a memoria (DMA) así como las técnicas para el
+manejo de fallas y de aquellos factores que afectan la
+confiabilidad.
+III.1 Sistemas de almacenamiento y su tecnología
+III.2 Codificación, compresión de información, integridad de la
+información
+III.3 Asignación de espacio, jerarquías
+III.4 Organización de la memoria central, operación del bus, tiempos
+para los ciclos de selección y direccionamiento
+III.5 Memoria caché, lectura/escritura
+III.6 Memoria virtual
+III.7 Sistemas que utilizan bus, control, DMA
+III.8 Manejo de fallas, confiabilidad
+IV. Interfases y comunicación 8 horas
+Control de entrada y salida y cómo se logra. Técnicas para el
+manejo de interrupciones
+IV.1 Métodos de control de entrada y salida, interrupciones
+IV.2 Reconocimiento de la interrupción
+IV.3 Sincronización, ciclo abierto, de saludo (handshake)
+IV.4 Almacenamiento externo, organización física y manejadores
+V. Arquitecturas alternas 8 horas
+Comparación de máquinas de stack, vectoriales, de
+multiprocesadores, hipercubos, RISC y CISC. Introducción al tema
+general de computadoras paralelas
+V.1 Comparaciones
+V.2 CISC, RISC
+V.3 Arquitecturas paralelas (VLIW, SISD, MISD, SIMD, MIMD)
+V.4 Acoplamiento apretado
+Bibliografía:
+Básica:
+· Mano, M. M., Digital Design, Second edition, Prentice Hall Inc., 1991
+Complementaria:
+· Tanenbaum, A. S., Structured Computer Organization, 3rd. Edition, PrenticeHall International, 1990
+· Hall, D. V., Microprocessors And Interfacing, Programming and Hardware,
+McGraw-Hill International Editions, Computer Science Series, 1986.
+· Sandige, R. S., Modern Digital Design, McGraw-Hill, 1990.
+· Spruth, W., The Design of a Microprocessor, Springer-Verlag, 1989.
+══════════════════════════
+
+MECÁNICA VECTORIAL
+________________________________________________________________________
+CLAVE: 0228 MODALIDAD: Curso
+SEGUNDO SEMESTRE CARÁCTER: Obligatorio
+CRÉDITOS: 12 REQUISITOS: Física Contemporánea, Cálculo
+Diferencial e Integral I, Geometría Analítica I.
+________________________________________________________________________
+HORAS POR CLASE TEÓRICAS: 2
+HORAS POR SEMANA TEÓRICAS: 6
+HORAS POR SEMESTRE TEÓRICAS: 96
+________________________________________________________________________
+Objetivos
+Iniciar al estudiante en el conocimiento de la mecánica clásica, empleando una
+herramienta matemática de mayor profundidad y formalismo. Enseñar los principios
+básicos en los que se fundamenta la física, tales como las leyes de conservación, y su
+utilización.
+Metodología de la enseñanza
+Este curso teórico, se toma en paralelo con el de Laboratorio de Mecánica, con el fin de
+ofrecer una enseñanza teórico experimental de la materia. El temario representa el
+mínimo a cubrir. Éste debe ser complementado por cada profesor con los ejemplos y
+demostraciones que le parezcan más adecuados, según su experiencia personal.
+Evaluación del curso
+Mediante exámenes y tareas.
+Temario
+1. INTRODUCCIÓN 2 hrs.
+1.1 El objeto de estudio de la mecánica.
+1.2 Las variables básicas de descripción en la mecánica. Sistemas de unidades.
+1.3 Medición de distancias pequeñas, medianas y grandes; medición de ángulos;
+medición de tiempos y masas.
+1.4 Características generales de los procedimientos de medición; precisión,
+exactitud e incertidumbre experimental.
+2. VECTORES 4 hrs.
+2.1 Álgebra vectorial.
+2.2 Los vectores como lenguaje de la mecánica.
+3. CINEMÁTICA 12 hrs.
+31 Movimiento rectilíneo: velocidad y aceleración.
+3.2 Representación vectorial de la velocidad y la aceleración en movimiento
+rectilíneo.
+3.3 Movimiento curvilíneo: velocidad y aceleración.
+3.4 Movimiento bajo aceleración constante.
+3.5 Componentes tangenciales y normales de la aceleración.
+3.6 Movimiento circular: aceleración angular.
+1
+3.7 Movimiento curvilíneo general.
+4. DINÁMICA DE UNA PARTÍCULA 14 hrs.
+4.1 La ley de la inercia. Primera ley de Newton.
+4.2 Principio de conservación del momento lineal.
+4.3 Segunda y tercera leyes de Newton: concepto de fuerza.
+4.4 Fricción.
+4.5 Sistemas de masa variable.
+4.6 Momento angular y torca.
+4.7 Fuerzas centrales.
+5. RELATIVIDAD GALILEANA 12 hrs.
+5.1 Velocidad relativa.
+5.2 Movimiento traslacional relativo uniforme.
+5.3 Movimiento rotacional relativo uniforme.
+5.4 Movimiento relativo a la Tierra.
+6. TRABAJO Y ENERGÍA 14 hrs.
+6.1 Trabajo.
+6.2 Potencia.
+6.3 Energía cinética.
+6.4 Trabajo de una fuerza constante en magnitud y dirección.
+6.5 Energía potencial, concepto de potencial.
+6.6 Conservación de energía de una partícula.
+6.7 Conservación en el trabajo mecánico.
+6.10 Movimiento bajo fuerzas conservativas.
+6.11 Fuerzas no conservativas, disipación de energía.
+7. DINÁMICA DE UN SISTEMA DE PARTÍCULAS 12 hrs.
+7.1 Definiciones de masa total, momento total y centro de masa.
+7.2 Movimiento del centro de masa de un sistema de partículas.
+7.3 Masa reducida.
+7.4 Momento angular de un sistema de partículas.
+7.5 Energía cinética de un sistema de partículas.
+7.6 Conservación de energía de un sistema de partículas.
+8. DINÁMICA DEL CUERPO RÍGIDO 10 hrs.
+8.1 Momento angular de un cuerpo rígido.
+8.2 Cálculo del momento de inercia.
+8.3 Ecuación de movimiento para la rotación de un cuerpo rígido.
+8.4 Energía cinética de rotación.
+8.5 Movimiento giroscópico (revisión somera).
+9. MOVIMIENTO OSCILATORIO 8 hrs.
+9.1 Cinemática y dinámica del oscilador armónico simple.
+9.2 Péndulos simple y compuesto.
+9.3 Superposición de dos movimientos armónicos simples (coherencia e
+incoherencia).
+10. INTERACCIÓN GRAVITATORIA 10 hrs.
+10.1 Gravedad.
+2
+10.2 La ley gravitacional de Newton.
+10.3 Fuerza gravitacional de una masa esférica.
+10.4 Masas inercial y gravitacional.
+10.5 Energía potencial gravitacional.
+10.6 Movimiento general bajo la fuerza gravitacional.
+10.7 Leyes de Kepler.
+10.8 Principio de equivalencia.
+Bibliografía básica
+• Alonso, M., Finn, J.E., Física, Addison Wesley Iberoamericana, México, (1999).
+• Douglas Giancoli, Physics for Scientists & Engineers, 3rd edition, Prentice Hall,
+(2000).
+• Halliday, D., Resnick, R., Walker, J., Fundamentals of physics, 5th edition, John
+Wiley & Sons, Inc., N.Y., USA, (1997).
+• Kittel, Ch, Knight, W. D., and Ruderman, M. A., Mecánica, Berkeley physics
+course, Volumen 1, Reverté, (1989).
+• Ohanian, H.C. y J.T. Markert, Física para ingeniería y ciencias, Vol. 1. Mc Graw
+Hill-Interamericana, 3ª edición. México, (2009).
+• Serway, R. A. y J. W. Jewett, Jr., Física (Volúmen I). 6ª edición, Thompson
+Complementaria, México, (2005).
+Bibliografía complementaria
+• French, A.P., Newtonian Mechanics (M.I.T. Introductory Physics Series), W.W.
+Norton & Co., (1971).
+• Feynman, Richard P., Leighton, R. B. and Sands, M., The Feynman Lectures on
+Physics, Volume I: Mechanics, Radiation, and Heat, (1964).
+3
+
+INTRODUCCIÓN A CIENCIAS DE LA COMPUTACIÓN I
+CLAVE: 0224
+SEMESTRE: II
+CRÉDITOS: 10
+ÁREA: CIENCIAS DE LA COMPUTACIÓN
+Requisitos:Álgebra Superior I
+Matemáticas Discretas
+HORAS POR CLASE
+CLASES POR SEMANA
+HORAS POR SEMESTRE
+TEÓRICA: 1
+TEÓRICA: 4
+TEÓRICA: 64
+TEÓRICO-PRÁCTICAS: 2
+TEÓRICO-PRÁCTICAS: 1
+TEÓRICO-PRÁCTICAS: 32
+Objetivos generales:
+Este curso introduce la metodología de diseño de software utilizando para ello un
+lenguaje moderno de programación. Se introduce a los estudiantes al proceso de
+diseño e implementación de un programa que resuelva un problema algorítmico. Se
+cubren tipos de datos y se introducen algunos métodos de búsqueda y
+ordenamiento para motivar los aspectos metodológicos. Se cubren estructuras de
+control, tipos de datos y abstracción de procedimientos. El curso introduce también
+la historia y el impacto social de la computación y la naturaleza de la propiedad
+intelectual.
+El acceso a un laboratorio dedicado es de primordial importancia para llevar a cabo
+adecuadamente este curso.
+Temario:
+I. Conceptos fundamentales en métodos para la solución de problemas 23 horas
+Introducción a las ideas básicas de programación y solución
+algorítmica de problemas, utilizando los principios de diseño
+descendente, refinamientos sucesivos y abstracción de
+procedimientos. Estructuras de control, tipos de datos y convenciones
+de entrada y salida básicos.
+I.1 Abstracción de procedimientos; parámetros
+I.2 Estructuras de control: selección, iteración, recursividad
+I.3 Tipos de datos (i.e. números, cadenas, booleanos) y sus usos en
+la solución de problemas
+I.4 El proceso de diseño de programas; desde la especificación hasta
+la instrumentación; refinamientos sucesivos; representación
+gráfica
+II. Introducción a un lenguaje de programación 9 horas
+Introducción a las características sintácticas y de ejecución de un
+lenguaje de programación moderno, junto con su uso en la
+construcción y ejecución de programas completos que resuelven
+problemas algorítmicos sencillos.
+II.1 Declaración de tipos básicos
+II.2 Operadores aritméticos y de asignación
+II.3 Enunciados condicionales
+II.4 Iteraciones y recursividad
+II.5 Procedimientos, funciones y parámetros
+II.6 Arreglos y registros
+II.7 Estructura general de un programa
+III.Representación de datos a nivel de la máquina 4 horas
+Representaciones básicas de datos numéricos y no numéricos
+directamente en la máquina
+III.1 Representación de datos numéricos, esto es binario, octal,
+hexadecimal, punto fijo, complemento a 1 y a 2, con signo,
+punto flotante, decimal, BCD, XS3
+III.2 Datos no numéricos como alfanuméricos, ASCII, ISO
+IV.Representación de tipos de datos 4 horas
+Tipos de datos elementales y estructurados. Creación de tipos de
+datos definidos por el usuario y sus aplicaciones.
+IV.1 Selección y representación de tipos de datos elementales:
+enteros, reales, booleanos, carácter.
+IV.2 Especificación y representación de tipos de datos estructurados:
+arreglos, registros, conjuntos.
+V. Algoritmos recursivos 8 horas
+Introducción a los fundamentos y usos de algoritmos
+recursivos en el proceso de solución de problemas
+V.1 Introducción a algoritmos recursivos
+V.2 Conexión con la inducción matemática
+V.3 Comparación entre algoritmos recursivos e iterativos
+VI.Búsquedas y Ordenamientos lineales 8 horas
+Comparación de algunos algoritmos para búsquedas y
+ordenamientos lineales. Se hará una presentación informal de los
+problemas de complejidad con énfasis en la contraposición entre
+espacio requerido y tiempo de ejecución.
+VI.1 Algoritmos de ordenamiento de selección e inserción en arreglos
+y a través de apuntadores, con asignación dinámica de memoria.;
+complejidad en el tiempo y el espacio; mejor y peor casos
+VI.2 Búsqueda lineal, búsqueda binaria y árboles binarios de
+búsqueda; complejidad en el tiempo y el espacio; mejor y peor
+casos
+VII. Contexto histórico y social de la computación 4 horas
+Introducción a un contexto social mayor en el cual la
+disciplina de computación existe, con énfasis en la manera en que
+la disciplina interacciona y sirve los intereses de la sociedad.
+VII.1 Contexto social e histórico de la computación
+VII.2 Definición de su área de estudio y actividades profesionales
+VII.3 Similitudes y diferencias con otras disciplinas científicas y
+profesionales
+VII.4 Uso, mal uso y límites de la tecnología computacional
+VII.5 Responsabilidades sociales (seguridad y privacía)
+VII.6 Tipos de riesgos: errores latentes, seguridad, privacía, mal uso,
+etc.
+Bibliografía:
+Básica:
+· Tucker, A.B.;Bernat, A.;Bradley, W.J.; Cupper, R.D.,Fundamentals of Computing, I:
+Logic, Problem Solving, Programs and Computers, Second Edition, McGrawHill, 1994.
+· Warfords, S.J.,Comnputer Science, D.C. Heath and Company, 1991.
+Complementaria:
+· Ledgard H. with Tauer J., Professional Software, Software Engineering
+Concepts, Vol. I, Addison-Wesley Publishing Company, 1987.
+· Ledgard H. with Tauer J., Professional Software, Programming Practice, Vol. II,
+Addison-Wesley Publishing Company, 1987.
+· Naur, P., A Human Activity, ACM Press, Addison-Wesley Publishing Company,
+1992.
+· Salmon, W. I., Structures And Abstractions, An Introduction to Computer
+Science with Pascal, Richard D. Irwin, Inc., 1991.
+· Warnier, J. D., Logical Construction Of Systems, Van Nostrand Reinhold
+Company, 1981.
+· Loren, H., Introduction To Computer Architecture And Organization, 2nd.
+Edition, John Wiley & Sons, Inc., 1989.
+══════════════════════════
+
+ELECTROMAGNETISMO I
+_______________________________________________________________
+CLAVE: 0419 MODALIDAD: Curso
+CUARTO SEMESTRE CARÁCTER: Obligatorio
+CRÉDITOS: 12 REQUISITOS: Mecánica Vectorial, Cálculo Diferencial e
+Integra I, Cálculo Diferencial e Integral II, Cálculo
+Diferencial e Integral III
+_______________________________________________________________
+HORAS POR CLASE TEÓRICAS: 2
+HORAS POR SEMANA TEÓRICAS: 6
+HORAS POR SEMESTRE TEÓRICAS: 96
+Objetivos
+A partir de la descripción de resultados experimentales sobre los fenómenos
+electromagnéticos se identifican los conceptos clave, se formulan los principios básicos,
+se desarrollan métodos de análisis y se estudian sus aplicaciones.
+Metodología de la enseñanza
+La temática del curso es desarrollada por el profesor. Dado que existe un curso de
+Laboratorio de Electromagnetismo, se recomienda que el profesor de teoría y el del
+laboratorio estén en constante comunicación de forma que se pueda desarrollar un curso
+teórico-experimental.
+Se debe establecer un programa de simulaciones numéricas que permitan al estudiante
+dominar este campo.
+Evaluación d el curso
+Exámenes, tareas, lecturas y reportes de ellas.
+Temario
+1. FUERZAS ENTRE CUERPOS ELÉCTRICAMENTE CARGADOS EN REPOSO 10 hrs
+1.1 Formas de electrización. Aislantes y conductores.
+1.2 Ley de Coulomb.
+1.3 Principio de superposición.
+1.4 Campo eléctrico.
+1.5 Líneas de campo eléctrico.
+1.6 Flujo eléctrico.
+1.7 Ley de Gauss.
+1.8 Divergencia de una función vectorial.
+1.9 Teorema de Gauss y la forma diferencial de la Ley de Gauss.
+2. ENERGÍA DE CUERPOS ELÉCTRICAMENTE CARGADOS EN REPOSO 8 hrs
+2.1 Energía potencial de una carga en presencia de una distribución de cargas.
+2.2 Potencial electrostático. Superficies equipotenciales.
+2.4. Gradiente de una función escalar y obtención del campo eléctrico a partir del
+potencial eléctrico.
+2.5 Energía de una distribución de cargas.
+2.6 Densidad de energía electrostática.
+2.7 Conductores cargados.
+2.8 Condensadores. Capacitancia.
+3. CAMPOS ELECTROSTÁTICOS EN MEDIOS DIELÉCTRICOS 8 hrs
+3.1 Dieléctricos.
+3.2 Momentos de una distribución de carga.
+3.3 Momentos dipolares inducidos y permanentes.
+3.4 Polarización y susceptibilidad eléctrica. Densidades de carga libre y
+polarización.
+3.5 Ley de Gauss en medios dieléctricos.
+3.6 Desplazamiento eléctrico. Constante dieléctrica.
+3.7 Condensadores con dieléctricos.
+3.8 Densidad de energía electrostática en medios dieléctricos.
+4. CARGAS EN MOVIMIENTO 10 hrs
+4.1 Movimiento de cargas eléctricas en campos eléctricos externos.
+4.2 Corriente eléctrica y densidad de corriente.
+4.3 Ley de conservación de la carga eléctrica.
+4.4 Resistencia eléctrica. Ley de Ohm.
+4.5 Efecto Joule.
+4.6 Circuitos eléctricos. Leyes de Kirchhoff.
+4.7 Circuitos RC.
+5. INTERACCIONES ENTRE IMANES, ENTRE IMANES Y CORRIENTES Y ENTRE
+CORRIENTES 10 hrs
+5.1 Campo magnético y líneas de campo.
+5.2 Flujo de campo magnético. Ley de Gauss del magnetismo o la inexistencia
+de monopolos magnéticos.
+5.3 Momento dipolar magnético.
+5.4 Fuerza de un campo magnético sobre cargas eléctricas en movimiento.
+5.5 Torca de un campo magnético sobre un momento magnético.
+5.6 Ley de Biot - Savart.
+5.7 Ley de Ampère.
+5.8 Rotacional de una función vectorial.
+5.9 Teorema de Stokes y forma diferencial de la Ley de Ampère
+5.8 Electroimanes.
+6. CAMPOS MAGNETOSTÁTICOS EN MEDIOS MATERIALES 8 hrs
+6.1 Movimiento de cargas eléctricas en campos magnéticos y eléctricos.
+6.2 Momentos magnéticos permanentes e inducidos.
+6.3 Magnetización y susceptibilidad magnética.
+6.4 Ferromagnetismo, paramagnetismo y diamagnetismo.
+6.5 Corrientes libres y de magnetización.
+6.6 Ley de Ampère en medios materiales.
+6.7 Campo de intensidad magnética. Permeabilidad.
+6.8 Efecto Hall.
+7. INDUCCIÓN ELECTROMAGNÉTICA 10 hrs
+7.1 Ley de Lenz - Faraday - Henry.
+7.2 Forma diferencial de la Ley de Lenz - Faraday - Henry.
+7.2 Generadores y transformadores.
+7.3 Energía de un conjunto de circuitos de corriente.
+7.4 Autoinductancia e Inductancias mutuas.
+7.5 Densidad de energía magnética.
+7.6 Circuitos RL.
+7.7 Oscilaciones de un circuito LC.
+7.8 Circuitos RCL. Impedancia.
+7.9 Circuitos de corriente alterna. Transformador.
+8. ECUACIONES DE MAXWELL 6 hrs
+8.1 Ley de Ampère - Maxwell. Corriente de desplazamiento.
+8.2 Propiedades dinámicas del campo electromagnético.
+8.3 Ecuaciones de Maxwell.
+8.4 La ecuación de onda.
+9. ONDAS ELECTROMAGNÉTICAS 8 hrs
+9.1 Ondas electromagnéticas en el vacío. Superposición de ondas.
+9.2 Velocidad de propagación. Espectro electromagnético.
+9.3 Transversalidad. Polarización.
+9.4 Teorema de Poynting.
+9.5 Densidades de energía y de flujo de energía.
+9.6 Ondas electromagnéticas en medios dieléctricos.
+9.7 Índice de refracción.
+9.8 Sistemas radiantes.
+10. TEORÍA DE LA RELATIVIDAD Y ELECTRODINÁMICA 18 hrs
+10.1 Las ecuaciones de Maxwell y las transformaciones de Galileo.
+10.2 Experimento de Michelson - Morley.
+10.3 Postulados de la Teoría Especial de la Relatividad.
+10.4 Transformaciones de Lorentz.
+10.5 Algunas consecuencias de las transformaciones de Lorentz. Ejemplos y
+paradojas.
+10.6 Cinemática relativista: Adición de velocidades; efecto Doppler.
+10.7 Cuadrivectores. Tensores. Operaciones tensoriales y tensor de Faraday.
+10.8 Dinámica relativista: cuadrivectores de cantidad de movimiento- energía.
+10.9 Campo de una carga puntual en movimiento uniforme. Interdependencia del
+campo eléctrico y magnético.
+Bibliografía básica
+• Halliday, Resnick, Walker. Fundamentos de Física. Vol. II, 8ª. Edición, Grupo
+Editorial Patria, (2011).
+• Lorrain P., Corson, D.R., 1990, Electromagnetism: principles and applications,
+W.H. Freeman and Company, (1990).
+• Purcell E.M., Electricidad y Magnetismo. Berkeley Physics Course, Vol. 2, Editorial Reverté, (2001).
+• Resnick R., Halliday, D., Krane, S.K., Física, Vol. II, 5ª. edición, Compañía Edito-
+rial Continental, México. (1996).
+• Serway R. A. & Jewett J. W, Física II, 3ª. Edición, Thomson Learning, México
+(2004).
+• Serway, R. A., Electricidad y Magnetismo, Thomson Learning, México (2004).
+• Taylor and Wheeler, Space Time Physics, 1966.
+• Resnick R. Introducción a la Teoría Especial de la Relatividad, Limusa, México
+(1977).
+Bibliografía complementaria
+• Alonso, M., Finn, E.J., Física, Vol. II: Campos y ondas, AddisonWesley Iberoamericana, México (1995).
+• Ohanian H. C & Markert J. T., Física para Ingeniería y Ciencias, Vol. 2, 3ª. Edición, Mc-Graw Hill (2009).
+• Sears F. W., Zemansky M. W., Young H. D., Freedman R. A., Física Universitaria,
+Vol. 2, novena edición, Pearson Education, México (1999).
+Historia del Electromagnetismo
+• Gamow G., Biografía de la Física. Alianza Editorial. Madrid (1983).
+• Ordoñez J., Navarro V. y Sánchez Ron J . M. Historia de la Ciencia. Colección
+Austral. Editorial Espasa. Madrid (2003).
+• Segrè E. De los Rayos X a los Quarks. Folios Ediciones S. A. México (1983).
+• Whittaker E. A History of the Theories of Aether and Electricity. Dover. New
+York (1989).
+
+FENÓMENOS COLECTIVOS
+CLAVE: 0302 MODALIDAD: Curso
+TERCER SEMESTRE CARÁCTER: Obligatorio
+CRÉDITOS: 12 REQUISITOS: Mecánica Vectorial,
+Laboratorio de Mecánica Vectorial,
+Computación, Cálculo Diferencial I y II
+______________________________________________________________________
+HORAS POR CLASE TEÓRICAS: 2
+HORAS POR SEMANA TEÓRICAS: 6
+HORAS POR SEMESTRE TEÓRICAS: 96
+Objetivo
+Introducir al estudiante al análisis de los fenómenos, resultado de interacciones térmicas
+y mecánicas, que se manifiestan en sistemas macroscópicos, en los diferentes estados
+de agregación de la materia: sólido, líquido y gaseoso; tanto en condiciones de
+equilibrio como fuera de él.
+Metodología de la enseñanza
+Siendo un curso introductorio relacionado con el estudio de sistemas de muchas
+partículas es conveniente incorporar, de ser posible, experimentos demostrativos para
+ilustrar la fenomenología que se esta analizando. Asimismo, sería deseable mostrar la
+interacción entre los fenómenos térmicos, fluido-dinámicos y acústicos que se
+manifiestan como respuesta del sistema para alcanzar un estado de equilibrio.
+Evaluación del curso
+Exámenes, tareas, reportes de lectura de artículos y proyectos semestrales.
+Temario
+1. Introducción 6 hrs.
+1.1 Cuerpos deformables.
+1.2 Estados de agregación de la materia.
+1.3 Métodos de descripción de sistemas macroscópicos.
+1.4 Propiedades de las fronteras que limitan a los sistemas macroscópicos.
+1.5 Variables macroscópicas, su medición y su clasificación.
+1.6 Concepto de estado de equilibrio de un sistema macroscópico.
+2. Equilibrio termodinámico de sistemas compuestos 12 hrs.
+2.1 Ecuación de estado térmica.
+2.2 Concepto de temperatura.
+2.3 Funciones de respuesta “mecánica”, (coeficientes de dilatación, módulos
+elásticos, susceptibilidades, etc.).
+2.4 Termómetros.
+3. Estática en sistemas macroscópicos 12 hrs.
+3.1 Deformaciones.
+3.2 Principio de Pascal.
+3.3 Principio de Arquímedes.
+3.4 Fenómenos interfaciales.
+4. Cambios de un estado de equilibrio a otro (Procesos) 14 hrs.
+4.1 Concepto de trabajo.
+4.2 Concepto de calor.
+4.3 Concepto de energía interna.
+4.4 Primera Ley de la termodinámica.
+4.5 Funciones de respuesta térmica (calores específicos).
+5. Cambios “naturales” de un estado de equilibrio a otro 14 hrs.
+5.1 Segunda Ley de la termodinámica.
+5.2 Escala absoluta de temperatura.
+5.3 Conceptos de reversibilidad e irreversibilidad.
+5.4 Concepto de entropía.
+6. Mecanismos presentes en la ruta al equilibrio 14 hrs.
+6.1 Concepto de equilibrio local.
+6.2 Fenómenos de transporte.
+6.3 Principios de conservación.
+7. Oscilaciones en sistemas macroscópicos 12 hrs.
+7.1 Ecuación de onda.
+7.2 Características de una onda.
+7.3 Fenómenos ondulatorios.
+7.4 Interacción onda – sistema.
+8. Introducción a la descripción microscópica de un sistema macroscópico 12 hrs.
+8.1 Conceptos básicos de probabilidad.
+8.2 Concepto de distribución estadística.
+8.3 Distribución de velocidades de Maxwell-Boltzmann.
+8.4 Cálculo de la presión de una colección de partículas libres.
+8.5 Cálculo de la energía interna de una colección de partículas libres.
+Bibliografía básica
+• Ingard, U., Kraushaar, W.I., Introducción al estudio de la mecánica, materia y
+ondas, Reverté, S.A., México (1973).
+• G. Carmona, Termodinámica Clásica, Fac. de Ciencias-UNAM, México (2007).
+• E. Guyon, J.P. Hullin, L. Petit y C.D. Mitescu, Physical hydrodynamics, Oxford
+University Press (2001).
+• Elmore W.C., Heald M.A., Physics of Waves, Dover Publications Inc., New York,
+Schaums (1985).
+Bibliografía complementaria
+• Walker, J., The flying circus of physics, JohnWiley&Sons, New York (1974).
+• García-Colín, S. L., Introducción a la termodinámica clásica, Editorial Trillas ,
+México (2002).
+• Homsy, G.M. et al., Multimedia Fluid Mechanics, Cambridge University Press
+(2007).
+• Pérez Cruz, J.R., La termodinámica de Galileo a Gibbs, Fundación Canaria
+Orotova de Historia de la Ciencia, Tenerife (2005).
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+GEOMETR´IA MODERNA II
+SEMESTRE: Segundo al cuarto
+CLAVE: 0250
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Geometr´ıa Moderna I.
+SERIACION INDICATIVA SUBSECUENTE: ´ Seminario sobre la Ense˜nanza de las
+Matem´aticas I.
+OBJETIVO(S): Que el alumno tenga un manejo claro y ´agil de las propiedades principales
+de las circunferencias coaxiales, de la inversi´on, de la raz´on cruzada, de los polos y polares,
+mostrando que puede resolver problemas cl´asicos de geometr´ıa moderna. Los conceptos
+son b´asicos para Geometr´ıa Moderna, Proyectiva, Hiperb´olica y Anal´ıtica.
+NUM. HORAS UNIDADES TEMATICAS ´
+15 1. Circunferencias coaxiales
+1.1 Potencia de un punto con respecto a una circunferencia.
+1.2 Eje radical de dos circunferencias.
+1.3 Circunferencias ortogonales.
+1.4 Familias coaxiales.
+1.5 Circunferencia de similitud.
+1.6 Aplicaci´on al cuadril´atero completo.
+15 2. Inversi´on
+2.1 Puntos inversos con respecto a una circunferencia.
+2.2 Inversi´on de rectas y circunferencias.
+2.3 Conservaci´on de ´angulos y raz´on cruzada.
+2.4 Inversi´on de un teorema.
+2.5 Construcciones.
+1
+15 3. Polos y polares
+3.1 La polar de un punto y el polo de una recta.
+3.2 Relaciones arm´onicas.
+3.3 Principio de dualidad.
+3.4 Tri´angulo autopolar. Circunferencia polar.
+3.5 Polos y polares para c´onicas.
+3.6 Los diez problemas de Apolonio.
+15 4. Raz´on cruzada
+4.1 Raz´on cruzada para hileras y haces.
+4.2 Construcci´on del cuarto elemento dada la raz´on.
+4.3 Raz´on cruzada en la circunferencia.
+4.4 Regla de la falsa posici´on.
+4.5 Teorema de Pascal, Briandhon, Pappus.
+20 5. Introducci´on a la Geometr´ıa Hiperb´olica
+5.1 Los elementos de Euclides.
+5.2 El 5o postulado de los elementos.
+5.3 Los axiomas de la geometr´ıa hiperb´olica.
+5.4 Modelos de la geometr´ıa hiperb´olica.
+5.5 El modelo de Poincar´e del semiplano.
+5.6 La distancia en el plano hiperb´olico (y el 2o postulado).
+5.7 Mediatrices y bisectrices.
+5.8 Isometr´ıas en el plano hiperb´olico.
+5.9 Construcciones.
+BIBLIOGRAF´IA BASICA: ´
+1. Altshiller, C. N., An Introduction to the Modern Geometry of the Triangle and the
+Circle, New York: Barnes and Noble Inc., 1965.
+2. Menschkowsky, H., Non-euclidean Geometry, New York: Academic Press, 1972.
+3. Shively, L. S., Introducci´on a la Geometr´ıa Moderna, M´exico: CECSA, 1968.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Fern´andez-Rom´an, L., Jugando con el Tri´angulo Hiperb´olico, M´exico: Tesis de Licenciatura, Facultad de Ciencias, UNAM, 2001.
+2. Garc´ıa Campos, M., Geometr´ıa Hiperb´olica para Principiantes, M´exico: Tesis de
+Licenciatura, Facultad de Ciencias, UNAM, 2001.
+2
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+3
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+GEOMETR´IA PROYECTIVA (ejemplo)
+SEMESTRE: Segundo al cuarto
+CLAVE: 0251
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Superior I, C´alculo Diferencial ´
+e Integral I, Geometr´ıa Anal´ıtica II, Geometr´ıa Moderna I.
+SERIACION INDICATIVA SUBSECUENTE: ´ Ninguna.
+OBJETIVO(S): El curso de Geometr´ıa Proyectiva, adem´as de desarrollar esta rama de la
+geometr´ıa por s´ı misma, proporciona conocimientos fundamentales para la geometr´ıa algebraica y las geometr´ıas finitas as´ı como para sus aplicaciones en mec´anica cu´antica, teor´ıa
+de c´odigos, criptograf´ıa, geometr´ıa computacional y graficaci´on y visi´on computarizadas
+entre otros.
+NUM. HORAS UNIDADES TEMATICAS ´
+20 1. Geometr´ıa proyectiva sint´etica
+1.1 Proyecciones
+1.2 Modelos para el plano proyectivo real.
+1.3 Proyectividades y perspectividades. Teorema fundamental de la
+geometr´ıa proyectiva.
+1.4 Completaci´on proyectiva de planos afines.
+1.5 Planos proyectivos finitos.
+1.6 Teorema de Desargues.
+1.7 Teorema de Pascal (optativo).
+1
+15 2. Geometr´ıa proyectiva anal´ıtica
+2.1 Coordenadas homog´eneas.
+2.2 Condiciones de colinealidad.
+2.3 Ecuaciones de las c´onicas.
+2.4 Comportamiento “al infinito”.
+2.5 Geometr´ıa compleja: puntos circulares al infinito y rectas isotr´opicas.
+2.6 Teorema de Euler. Tangente a una curva.
+2.7 Polos y polares respecto a c´onicas.
+2.8 Cambios lineales de coordenadas.
+10 3. Fundamentos de la geometr´ıa proyectiva
+3.1 Axiomas para planos afines (repaso).
+3.2 Algunos sistemas axiom´aticos para planos y espacios proyectivos.
+3.3 Ret´ıcula de subespacios lineales.
+3.4 “Pappus =⇒ Desargues”.
+3.5 Teorema fundamental de la geometr´ıa proyectiva.
+3.6 Planos proyectivos sobre anillos de divisi´on y planos proyectivos
+no desarguesianos.
+15 4. Geometr´ıa proyectiva tridimensional
+4.1 Axiomatizaci´on y coordenadas homog´eneas.
+4.2 Ret´ıcula de subespacios lineales.
+4.3 Configuraciones de Reye y Bricard.
+4.4 Planos desarguesianos y espacios proyectivos de dimensiones superiores.
+4.5 Transversales a dos y tres rectas. Generaci´on de las cu´adricas.
+4.6 Transformaciones proyectivas. Cambios de coordenadas.
+4.7 Generaci´on proyectiva de las c´onicas y las cu´adricas.
+4.8 Cu´adricas en P
+3
+c
+.
+20 5. Temas selectos (escoger dos)
+5.1 Configuraciones proyectivas.
+5.2 Introducci´on a la geometr´ıa algebraica.
+5.3 Cu´adricas.
+5.4 Haces y redes de c´onicas.
+5.5 Automorfismos del plano proyectivo.
+5.6 Aplicaciones a la graficaci´on por computadora.
+5.7 Teor´ıa de c´odigos.
+5.8 Criptograf´ıa.
+2
+BIBLIOGRAF´IA BASICA: ´
+1. Baez, J. C., “The Octonians”, Bulletin of the AMS, Vol. 39, No. 2, 2002: 145–205.
+2. Beutelspacher, A., Rosenbaum, U., Projective Geometry: From Foundations to Applications, Cambridge: Cambridge University Press, 1998.
+3. Coxeter, H. S. M., Projective Geometry, New York: Springer-Verlag, 1994.
+4. Hartshorne, R., Foundations of Projective Geometry, New York: W. A. Benjamin,
+1967.
+5. Penna, M. A., Projective Geometry and its Application to Computer Graphics, New
+Jersey: Prentice-Hall, 1991.
+6. Seidenberg, A., Elementos de Geometr´ıa Proyectiva, M´exico: CECSA, 1965.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Eves, H., Estudio de las Geometr´ıas, M´exico: UTEHA, 1982.
+2. Hilbert, D., Cohn Vossen, S., Geometry and the Imagination, M´exico: V´ınculos Matem´aticos No. 150, Facultad de Ciencias, UNAM, 2000.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+3
+
+- 29 -
+UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICOLicenciatura en Ciencias de la ComputaciónFacultad de Ciencias
+Programa de la asignatura
+Denominación de la asignatura:
+Gráficas y Juegos
+Clave:
+0422
+Semestre:
+2
+Eje temático:
+Fundamentos Matemáticos
+No. Créditos: 10Carácter: Obligatoria Horas Horas por
+semanaTotal de
+Horas
+Tipo: Teórica Teoría: Práctica:
+5 0 5 80Modalidad: Curso Duración del programa: Semestral
+Asignatura con seriación obligatoria antecedente: Ninguna
+Asignatura con seriación obligatoria subsecuente: Análisis de Algoritmos; Lenguajes de Programación
+Asignatura con seriación indicativa antecedente: Álgebra Superior I
+Asignatura con seriación indicativa subsecuente: Autómatas y Lenguajes FormalesObjetivo general:
+Conocer y aplicar de forma básica de Teoría de las Gráficas y Teoría de Juegos.
+Índice temático
+Unidad Temas HorasTeóricasPrácticasI Gráficas 20 0II Árboles 10 0III Conexidad 12 0IV Recorridos Eulerianos y Hamiltonianos 9 0V Apareamientos 9 0VI Coloración de vértices 5 0VII Planaridad 5 0VIII Juegos 6 0IX Juegos tipo Nim 4 0Total de horas: 80 0Suma total de horas: 80
+- 30 -
+Contenido temático
+Unidad Tema
+I Gráficas
+I.1 Conceptos básicos.
+I.2 Isomorfismo.
+I.3 Matriz de adyacencia.
+I.4 Subgráficas.
+I.5 Clases de gráficas.
+I.6 Operaciones.
+I.7 Caminos, paseos, trayectorias y ciclos.
+I.8 Gráficas conexas.
+I.9 Gráficas bipartitas.
+II Árboles
+II.1 El problema de las vías ferroviarias.
+II.2 Árboles.
+II.3 Árboles generadores.
+III Conexidad
+ III.1 Conexidad puntual y lineal.
+III.2 Vértices de corte y puentes.
+III.3 Bloques.
+III.4 Teorema de Menger.
+IV Recorridos Eulerianos y Hamiltonianos
+IV.1 El problema de los puentes de Königsberg.
+IV.2 Gráficas Eulerianas.
+IV.3 El problema del agente viajero.
+IV.4 Gráficas Hamiltonianas.
+IV.5 Aplicaciones (la casa de los espejos, el juego de dominó, ajedrez, etc.).
+V Apareamientos
+V.1 El problema del casamiento y el problema del baile.
+V.2 Apareamientos.
+V.3 Apareamientos en gráficas bipartitas (el Teorema de Hall).
+V.4 Algoritmo Húngaro.
+V.5 Factorización.
+VI Coloración de vértices
+VI.1 El problema de los cuatro colores.
+VI.2 Coloración.
+VI.3 Número cromático.
+VII Planaridad
+VII.1 El problema de los vecinos.
+VII.2 Gráficas planas.
+VII.3 Fórmula de Euler.
+VII.4 El teorema de los cinco colores.
+- 31 -
+VIII Juegos
+VIII.1 Introducción a la Teoría de Juegos.
+VIII.2 Juegos en forma extensiva.
+VIII.3 Equilibrio de Nash.
+VIII.4 Juegos bipersonales.
+IX Juegos tipo Nim
+IX.1 Digráficas.
+IX.2 Núcleos.
+IX.3 Juegos tipo Nim.
+Bibliografía básica:
+1. Berge, C., Graphs, Amsterdam: North Holland, 1985.
+2. Bondy, J.A., Murty, U.S., Graph Theory with Applications, London: Macmillan, 1976.
+3. Chartrand, G., Introductory Graph Theory, New York: Dover Publications, Inc. 1977.
+4. Harary, F., Graph Theory, Reading, Mass.: Addison-Wesley Publishing Company. 1969.
+Bibliografía complementaria:
+1. Chartrand, G., Lesniak, L.,Graphs and Digraphs, Pacific Grove, California: Wadsworth and Brooks. 1979.
+2. Chartrand, G., Introductory Graph Theory, New York: Dover Publications, Inc. 1977.
+Sugerencias didácticas:
+Exposición oral (X)
+Exposición audiovisual ( )
+Ejercicios dentro de clase (X)
+Ejercicios fuera del aula (X)
+Seminarios ( )
+Lecturas obligatorias (X)
+Trabajo de investigación ( )
+Prácticas de taller o laboratorio ( )
+Prácticas de campo ( )
+Otras: __________________________
+Métodos de evaluación:
+Exámenes parciales (X)Examen final escrito (X)Trabajos y tareas fuera del aula(X)Exposición de seminarios por los alumnos( )Participación en clase (X)Asistencia ( )Seminario ( )Otras: _____________________________Perfil profesiográfico:
+Matemático, físico actuario o licenciado en ciencias de la computación, especialista en el área de la asignatura a juicio del comité de asignación de cursos. Con experiencia docente. 
+
+- 29 -
+UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICOLicenciatura en Ciencias de la ComputaciónFacultad de Ciencias
+Programa de la asignatura
+Denominación de la asignatura:
+Gráficas y Juegos
+Clave:
+0422
+Semestre:
+2
+Eje temático:
+Fundamentos Matemáticos
+No. Créditos: 10Carácter: Obligatoria Horas Horas por
+semanaTotal de
+Horas
+Tipo: Teórica Teoría: Práctica:
+5 0 5 80Modalidad: Curso Duración del programa: Semestral
+Asignatura con seriación obligatoria antecedente: Ninguna
+Asignatura con seriación obligatoria subsecuente: Análisis de Algoritmos; Lenguajes de Programación
+Asignatura con seriación indicativa antecedente: Álgebra Superior I
+Asignatura con seriación indicativa subsecuente: Autómatas y Lenguajes FormalesObjetivo general:
+Conocer y aplicar de forma básica de Teoría de las Gráficas y Teoría de Juegos.
+Índice temático
+Unidad Temas HorasTeóricasPrácticasI Gráficas 20 0II Árboles 10 0III Conexidad 12 0IV Recorridos Eulerianos y Hamiltonianos 9 0V Apareamientos 9 0VI Coloración de vértices 5 0VII Planaridad 5 0VIII Juegos 6 0IX Juegos tipo Nim 4 0Total de horas: 80 0Suma total de horas: 80
+- 30 -
+Contenido temático
+Unidad Tema
+I Gráficas
+I.1 Conceptos básicos.
+I.2 Isomorfismo.
+I.3 Matriz de adyacencia.
+I.4 Subgráficas.
+I.5 Clases de gráficas.
+I.6 Operaciones.
+I.7 Caminos, paseos, trayectorias y ciclos.
+I.8 Gráficas conexas.
+I.9 Gráficas bipartitas.
+II Árboles
+II.1 El problema de las vías ferroviarias.
+II.2 Árboles.
+II.3 Árboles generadores.
+III Conexidad
+ III.1 Conexidad puntual y lineal.
+III.2 Vértices de corte y puentes.
+III.3 Bloques.
+III.4 Teorema de Menger.
+IV Recorridos Eulerianos y Hamiltonianos
+IV.1 El problema de los puentes de Königsberg.
+IV.2 Gráficas Eulerianas.
+IV.3 El problema del agente viajero.
+IV.4 Gráficas Hamiltonianas.
+IV.5 Aplicaciones (la casa de los espejos, el juego de dominó, ajedrez, etc.).
+V Apareamientos
+V.1 El problema del casamiento y el problema del baile.
+V.2 Apareamientos.
+V.3 Apareamientos en gráficas bipartitas (el Teorema de Hall).
+V.4 Algoritmo Húngaro.
+V.5 Factorización.
+VI Coloración de vértices
+VI.1 El problema de los cuatro colores.
+VI.2 Coloración.
+VI.3 Número cromático.
+VII Planaridad
+VII.1 El problema de los vecinos.
+VII.2 Gráficas planas.
+VII.3 Fórmula de Euler.
+VII.4 El teorema de los cinco colores.
+- 31 -
+VIII Juegos
+VIII.1 Introducción a la Teoría de Juegos.
+VIII.2 Juegos en forma extensiva.
+VIII.3 Equilibrio de Nash.
+VIII.4 Juegos bipersonales.
+IX Juegos tipo Nim
+IX.1 Digráficas.
+IX.2 Núcleos.
+IX.3 Juegos tipo Nim.
+Bibliografía básica:
+1. Berge, C., Graphs, Amsterdam: North Holland, 1985.
+2. Bondy, J.A., Murty, U.S., Graph Theory with Applications, London: Macmillan, 1976.
+3. Chartrand, G., Introductory Graph Theory, New York: Dover Publications, Inc. 1977.
+4. Harary, F., Graph Theory, Reading, Mass.: Addison-Wesley Publishing Company. 1969.
+Bibliografía complementaria:
+1. Chartrand, G., Lesniak, L.,Graphs and Digraphs, Pacific Grove, California: Wadsworth and Brooks. 1979.
+2. Chartrand, G., Introductory Graph Theory, New York: Dover Publications, Inc. 1977.
+Sugerencias didácticas:
+Exposición oral (X)
+Exposición audiovisual ( )
+Ejercicios dentro de clase (X)
+Ejercicios fuera del aula (X)
+Seminarios ( )
+Lecturas obligatorias (X)
+Trabajo de investigación ( )
+Prácticas de taller o laboratorio ( )
+Prácticas de campo ( )
+Otras: __________________________
+Métodos de evaluación:
+Exámenes parciales (X)Examen final escrito (X)Trabajos y tareas fuera del aula(X)Exposición de seminarios por los alumnos( )Participación en clase (X)Asistencia ( )Seminario ( )Otras: _____________________________Perfil profesiográfico:
+Matemático, físico actuario o licenciado en ciencias de la computación, especialista en el área de la asignatura a juicio del comité de asignación de cursos. Con experiencia docente. 
+
+INTRODUCCIÓN A CIENCIAS DE LA COMPUTACIÓN II
+CLAVE: 0339
+SEMESTRE: III
+CRÉDITOS: 10
+ÁREA: CIENCIAS DE LA COMPUTACIÓN
+Requisitos:Introducción a Ciencias de la Computación
+I
+HORAS POR CLASE
+CLASES POR SEMANA
+HORAS POR SEMESTRE
+TEÓRICA: 1
+TEÓRICA: 4
+TEÓRICA: 64
+TEÓRICO-PRÁCTICAS: 2
+TEÓRICO-PRÁCTICAS: 1
+TEÓRICO-PRÁCTICAS: 32
+Objetivos generales:
+Este curso continúa con el desarrollo de las ideas fundamentales en el diseño y
+desarrollo de software. Se introduce a los alumnos el concepto de tipo abstracto
+de datos. Ese concepto se aplica a la implementación de varias estructuras de
+datos, incluyendo stacks, colas y árboles binarios. Se revisan algoritmos de
+búsquedas y ordenamientos que utilizan estas estructuras de datos. Otros temas
+incluyen recursividad, el ciclo de vida del software, especificación de requisitos e
+introducción a verificación de programas. También en este curso se hace una
+introducción superficial a los problemas de complejidad de algoritmos.
+Temario:
+I. Especificación, verificación y validación 8 horas
+Introducción a los métodos y técnicas para especificación, verificación
+y validación de sistemas de software.
+I.1 Tipos de especificaciones: Especificaciones operativas; especificaciones descriptivas; Construcción y uso de especificaciones.
+I.2 Verificación. Metas; enfoques, pruebas; análisis; ejecución
+simbólica; depuración.
+I.3 Lectura de código y diseño, recorridos estructurados
+II. Tipos Abstractos de datos 4 horas
+Introducción al concepto de tipo abstracto de dato (Abstract
+Data Type) y la motivación como una metodología para separar
+los detalles instrumentales de los de la aplicación.
+II.1 Conceptos involucrados
+II.2 Instrumentación de TAD (ADT) en un lenguaje de alto nivel, con
+ejemplos.
+III.Estructuras de datos básicas 20 horas
+Introducción a la definición, implementación y aplicaciones de
+las estructuras de datos básicas y operadores asociados a ellas que
+se encuentran en Ciencias de la Computación. Estas incluyen listas,
+arreglos, tablas, pilas o stacks, colas., árboles y gráficas.
+III.1 Definición de las estructuras de datos lineales. Estructuras
+secuenciales. Arreglos empacados.
+III.2 Uso de las estructuras de datos básicas
+III.3 Implementaciones contiguas y ligadas; ajuste para que
+correspondan al problema planteado, incluyendo contraposición
+entre tiempo y espacio.
+III.4 Estructuras múltiples. Búsqueda, inserción y remoción de
+elementos. Listas circulares y bidireccionales. Listas múltiples.
+IV. Estructuras de datos no lineales 8 horas
+Definición, implementación y aplicaciones de las estructuras de
+datos no lineales y operadores asociados a ellas con ejemplos
+importantes tanto en Computación como en otras áreas de las
+Matemáticas. Principalmente se verán todo tipo de estructuras
+arborescentes, así como la representación de gráficas.
+IV.1 Presentación de las estructuras no lineales. Árboles y estructuras
+arborescentes. Árboles binarios. Representación de árboles
+arbitrarios en base a árboles binarios.
+IV.2 Listas y recolección de basura. Asignación dinámica de espacio.
+V.Búsquedas y Ordenamientos 20 horas
+Comparación de distintos algoritmos para búsquedas y
+ordenamientos con énfasis en el balance entre complejidad y
+espacio versus tiempo.
+V.1 Algoritmos de ordenamiento de orden nlogn (quicksort,
+heapsort, mergesort); complejidad en el tiempo y el espacio:
+mejor y peor casos.
+V.2 Otros algoritmos de ordenamiento (Algoritmo de Shell, de
+cubetas y de radicales)
+V.3 Comparación de algoritmos
+V.4 Funciones de dispersión y resolución de colisiones.
+V.5 Algoritmos de búsqueda y manejo de árboles balanceados:
+árboles B y árboles AVL.
+V.6 Algoritmos de ordenamientos externos.
+Bibliografía:
+Básica:
+· Tucker, A.B.;Bradley, W.J.; Cupper, R.D.; Epstein, R.D.; Kelemen, C.F.,Fundamentals
+of Computing, II: Abstraction, Data Structures, and Large Software
+Systems, C++ Edition, McGraw-Hill, 1994.
+· Magidin, M., Estructuras De Datos, Editorial Trillas, 1991
+Complementaria:
+· Aho, A. V.; Hopkroft, J. E.; Ullman, J. D., Estructuras De Datos Y Algoritmos,
+Addison-Wesley Publishing Company, 1988
+· Baase, S., Computer Algorithms, Introduction to Design and Analysis, AddisonWesley Publishing Company, 1990
+· Cormen, T. H.; Leierson, C. E.; Rivest, R. L., Introduction To Algorithms,
+McGraw-Hill Book Company, 1990
+· Biggerstaff, T. J.; Perles A. J. edited by , Software Reusability, Volume I, II, ACM
+Press, Addison-Wesley Publishing Company, 1989
+· Ghezzi, C.; Jazayeri, M.; Mandrioli, D., Fundamentals Of Software Engineering,
+Prentice-Hall Inc., 1991
+· Glass, R. L., Software Conflict, Essays on the Art and Science of Software
+Engineering, Yourdon Press Computing Series, 1991
+· Gehani, N.; McGettrick, A.D. ; Editores., Software Specificatio Techniques,
+Addison-Wesley Publishing Company, 1980
+· Gries, D., Editor, Programming in the 1990
+s
+, An Introduction to the Calculation
+of Programs, Springer Verlag, 1990
+· Dijkstra, W. E. Editor, Formal Development Of Programs And Proofs, AddisonWesley Publishing Company, 1990
+══════════════════════════
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+INTRODUCCION A LA GEOMETR ´ ´IA AVANZADA
+SEMESTRE: Segundo al cuarto
+CLAVE: 0272
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Superior II, C´alculo Diferen- ´
+cial e Integral II, Geometr´ıa Anal´ıtica II.
+SERIACION INDICATIVA SUBSECUENTE: ´ Geometr´ıa Diferencial I.
+OBJETIVO(S): Lograr que el estudiante de los primeros semestres conozca la gama de
+posibilidades desarrolladas en Geometr´ıa despu´es del surgimiento del C´alculo y el Algebra ´
+Moderna, utilizando modelos, grupos de transformaciones y el concepto de espacio cociente.
+NUM. HORAS UNIDADES TEMATICAS ´
+30 1. Geometr´ıa Euclidiana
+1.1 Simetr´ıas con respecto a un punto, una recta y un plano.
+1.2 Transformaciones r´ıgidas y sus invariantes.
+1.3 Cilindros y toros.
+1.4 Subgrupos finitos de E(2) y E(3).
+1.5 Frisos y mosaicos.
+5 2. Geometr´ıa Af´ın
+2.1 Puntos de fuga y recta del horizonte vs. puntos al infinito y recta
+al infinito.
+2.2 Transformaciones afines y sus invariantes.
+30 3. Geometr´ıa Proyectiva
+3.1 El plano proyectivo real.
+3.2 El principio de realidad.
+3.3 La forma de P
+2
+(R).
+3.4 Cartas coordenadas de P
+2
+(R) y de P
+1
+(C).
+3.5 El grupo de transformaciones proyectivas; Teorema de Desargues.
+3.6 Propiedades proyectivas de las c´onicas; Teorema de Pascal.
+3.7 Polos y polares.
+3.8 Geometr´ıa el´ıptica.
+1
+15 4. Geometr´ıa Hiperb´olica
+4.1 Los modelos del plano hiperb´olico.
+4.2 Transformaciones del plano hiperb´olico.
+4.3 La red de Steiner.
+4.4 La m´etrica hiperb´olica.
+4.5 Primeros resultados en Geometr´ıa Hiperb´olica.
+4.6 Superficies con estructura hiperb´olica.
+4.7 Mosaicos.
+BIBLIOGRAF´IA BASICA: ´
+1. Birkhoff, G. D., McLane, S., A Survey of Modern Algebra, Wellesley, Massachusetts:
+A. K. Peters, 1997.
+2. Courant, R., Differential and Integral Calculus, New York: Interscience, 1957.
+3. Coxeter, H. S. M., Fundamentos de Geometr´ıa, M´exico: Limusa-Wiley, 1971.
+4. Coxeter, H. S. M., Projective Geometry, New York: Springer-Verlag, 1994.
+5. Coxeter, H. S. M., Regular Complex Polytopes, Cambridge: Cambridge University
+Press, 1991.
+6. Coxeter, H. S. M., Non-euclidean Geometry, Washington, D. C.: The Mathematical
+Association of America, 1998.
+7. Coxeter, H. S. M., Geometry Revisited, Washington, D. C.: The Mathematical Association of America, 1983.
+8. Euclides, Euclid’s Elements, New York: Dover, 1979.
+9. Eves, H., Estudio de las Geometr´ıas, M´exico: UTEHA, 1982.
+10. Fulton, W., Curvas Algebraicas, M´exico: Revert´e, 1971.
+11. Graustein, W., Introduction to Higher Geometry, New York: Macmillan, 1952.
+12. Gr¨unbaum, S., Tillings and Patterns, San Francisco: W. H. Freeman and Co., 1987.
+13. Hilbert, D., Foundations of Geometry, La Salle, Ill.: Open Court Publishing Co.,
+1971.
+14. Hilbert, D., Cohn Vossen, S., Geometry and the Imagination, M´exico: V´ınculos Matem´aticos No. 150, Facultad de Ciencias, UNAM, 2000.
+2
+15. Illanes, A., La Caprichosa Forma de Globi´on, M´exico: La ciencia para todos, 168,
+Fondo de Cultura Econ´omica, 1999.
+16. Klein, F., Le Programme d’Erlangen, Paris: Gauthier-Villard, 1974.
+17. Kline, M., Mathematical Thought from Ancient to Modern Times, Oxford: Oxford
+University Press, 1991.
+18. Lefschetz, S., Differential Equations: Geometric Theory, Pure and Applied Mathematics VI, New York: Interscience, 1957.
+19. Markushevich, A., Teor´ıa de las Funciones Anal´ıticas, Mosc´u: MIR, 1987.
+20. Martin, G., Transformation Geometry. An Introduction to Symmetry, New York:
+Springer-Verlag, 1997.
+21. Matsushima, Y., Differential Manifolds, New York: Marcel Dekker, 1972.
+22. Montesinos, J. M., Classical Tessellations and three-Manifolds, New York: SpringerVerlag, 1985.
+23. Ram´ırez-Galarza, A., Geometr´ıa Anal´ıtica: Una Introducci´on a la Geometr´ıa, M´exico: Las Prensas de Ciencias, UNAM, 1998.
+24. Ram´ırez-Galarza, A., Seade, J., Introducci´on a la Geometr´ıa Avanzada, M´exico: Las
+Prensas de Ciencias, UNAM, 2005.
+25. Ram´ırez-Galarza, A., Sienra, G., Invitaci´on a las Geometr´ıas No-euclideanas, M´exico: Las Prensas de Ciencias, UNAM, 2000.
+26. Rees, E., Notes on Geometry, Berl´ın: Springer-Verlag, 1983.
+27. Rinc´on, H., Algebra Lineal ´ , M´exico: Las Prensas de Ciencias, UNAM, 2001.
+28. Samuel, P., Projective Geometry, New York: Springer-Verlag, 1988.
+29. Springer, G., Introduction to Riemann Surfaces, Reading, Mass.: Addison-Wesley
+Publishing, 1957.
+30. Thurston, W., Three Dimensional Geometry and Topology. Vol. 1, Princeton: Princeton Mathematical Series 35, 1997.
+31. Verjovsky, A., Introducci´on a la Geometr´ıa y las Variedades Hiperb´olicas, M´exico:
+Departamento de Matem´aticas, CINVESTAV, IPN, 1982.
+32. Wolfe, H. E., Introduction to Non-euclidean Geometry, New York: Holt, Reinhert
+and Winston, 1945.
+3
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Ahlfors, L.V., Complex Analysis, New York: McGraw Hill, 1985.
+2. Bonola, R., Non-Euclidean Geometry, New York: Dover, 1955.
+3. Costa, A., G´omez, B., Arabesques and Geometry, New York: Springer Video-MATH,
+1991.
+4. Do Carmo, M. P. Differential Geometry of Curves and Surfaces in R
+3
+, New jersey:
+Prentice Hall, 1976. (Trad. Oscar Palmas, M´exico: V´ınculos Matem´aticos ´ 183, 185,
+193, 194, 197, Facultad de Ciencias, UNAM, 1991.)
+5. Dodson, C. T. J., Parker, P. E. A User’s Guide to Algebraic Topology, Boston: Kluwer
+Academic Publisher, 1997.
+6. Durero, A., “Instituciones de Geometr´ıa”, Fuentes 3, IIB, UNAM, 1987.
+7. Ernst, B., El Espejo M´agico de M. C. Escher, Koln: Taschen, 1992.
+8. Escher, M. C., The Graphic Work of M. C. Escher, Koln: Taschen, 1992.
+9. Forster, O., Lectures on Riemann Surfaces, New York: Springer-Verlag, 1991.
+10. Gonz´alez, V., Rodr´ıguez, R., Seminario de Geometr´ıa Compleja 1, Chile: Universidad de Santa Mar´ıa y Universidad de Santiago, 1983.
+11. Hirsch, M., Differential Topology, New York: Springer-Verlag, 1967.
+12. Speiser, A., Die Theorie der Gruppen von Endlicher Ordnung, Germany: Basel
+Birkhauser, 1956.
+13. Vasari, G., Vidas de los m´as Excelentes Pintores, Escultores y Arquitectos, M´exico:
+Nuestros cl´asicos 74, UNAM, 1996.
+14. Yaglom, I., Feliz Klein and Sophus Lie, Evolution of the Idea of Symmetry in the
+Nineteenth Century, Boston: Birkh¨auser, 1988.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+4
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+5
+
+MATEMÁTICAS DISCRETAS
+CLAVE: 0416
+SEMESTRE: I
+CRÉDITOS: 10
+ÁREA: CIENCIAS DE LA COMPUTACIÓN
+Requisitos:Ninguno
+HORAS POR CLASE
+CLASES POR SEMANA
+HORAS POR SEMESTRE
+TEÓRICA: 1
+TEÓRICA: 4
+TEÓRICA: 64
+TEÓRICO-PRÁCTICAS: 2
+TEÓRICO-PRÁCTICAS: 1
+TEÓRICO-PRÁCTICAS: 32
+Objetivos generales:
+Este curso da a los estudiantes una introducción al área de las matemáticas finitas,
+poniendo especial énfasis en teoría de algoritmos, gráficas, álgebra de Boole,
+inducción y recursión.
+Temario:
+I. Lógica Formal, demostraciones y análisis de algoritmos 18 horas
+Familiarizar al estudiante con los sistemas formales que se
+utilizan en lógica proposicional y de predicados. Determinar el
+valor de verdad de una expresión en Cálculo Proposicional.
+Determinar el valor de verdad en alguna interpretación de una
+expresión en la Lógica proposicional. Construir fórmulas en
+Lógica proposicional y de predicados para mostrar la validez de
+argumentos escritos en lenguaje natural. Matemáticamente
+demostrar la correctez de algoritmos que utilizan asignación y
+enunciados condicionales.
+I.1 Enunciados, representaciones simbólicas y tautologías.
+I.2 Cuantificadores, predicados y validez.
+I.3 Lógica proposicional.
+I.4 Lógica de predicados.
+I.5 Programación lógica y pruebas de correctez.
+I.6 Técnicas de demostración.
+I.7 Inducción.
+I.8 Recursión y relaciones de recurrencia.
+I.8 Análisis de algoritmos y más pruebas de correctez.
+II. Relaciones y gráficas dirigidas u orientadas 17 horas
+El estudiante deberá ser capaz de entender y utilizar los términos
+asociados con gráficas, gráficas dirigidas y árboles. Trabajar con
+el concepto de isomorfismo en gráficas. Trazar gráficas completas
+simples y gráficas bipartitas completas. Conocer y manejar la
+fórmula de Euler para gráficas conexas en el plano. Entender el
+papel de gráficas específicas como son la Ky y la K3,3 con gráficas
+en el plano.
+II.1 Conjuntos producto y particiones
+II.2 Relaciones y gráficas dirigidas
+II.3 Trayectorias en las relaciones y en las gráficas dirigidas
+II.4 Propiedades de las relaciones
+II.5 Representación por computadora de relaciones y gráficas
+dirigidas
+II.6 Manipulación de las relaciones
+II.7 Conectividad y el algoritmo de Warshall
+III. Funciones 12 horas
+Se revisará la noción de función, un tipo especial de relación. Se
+estudiarán sus propiedades básicas y luego se explicarán algunos
+tipos especiales de funciones. Se dará primordial importancia a
+las funciones en cuanto a las gráficas dirigidas y finalmente se
+revisarán secuencias de números que surgen frecuentemente en
+matemáticas.
+III.1 Funciones en gráficas
+III.2 Permutaciones
+III.3 Números Especiales: de Stirling, Eulerianos, Armónicos, Series
+Armónicas, Números de Bernoulli, de Fibonacci.
+IV.Orden, relaciones y estructuras 5 horas
+Se estudiarán los conjuntos parcialmente ordenados, incluyendo
+latices y álgebras booleanas. El manejo adecuado de estas
+estructuras es importante en la teoría de conjuntos, al álgebra,
+clasificaciones (ordenamientos) y búsquedas, y en especial para el
+caso de las álgebras booleanas, en la construcción de
+representaciones lógicas de circuitos de computadora.
+IV.1 Conjuntos parcialmente ordenados
+IV.2 Elementos extremos de los conjuntos parcialmente ordenados
+IV.3 Latices
+IV.4 Álgebras de Boole
+IV.5 Implementación de las funciones booleanas
+V. Árboles y lenguajes 4 horas
+En este tema se posibilita al estudiante en el manejo de una de las
+estructuras más comunes en las Ciencias de la Computación, que
+son los árboles (gráficas dirigidas). Estas relaciones son esenciales
+para la construcción de bases de datos, compiladores de
+lenguajes, programación lógica, inteligencia artificial, por
+mencionar sólo algunas de las áreas en las que se presentan.
+V.1 Árboles
+V.2 Árboles etiquetados
+V.3 Lenguajes
+V.4 Representación de gramáticas y lenguajes especiales
+V.5 Análisis de un árbol
+V.6 Árboles no dirigidos
+VI.Problemas de coloración 4 horas
+Se muestran en este tema problemas combionatorios relacionados con la
+coloración.
+Bibliografía:
+Básica:
+· Gersting, J. L., Mathematical Structures For Computer Science, 3rd. Edition,
+Computer Science Press, W. H. Freeman and Company, 1993.
+· Gries, D.; Schneider, F.B.,A Logical Approach to Discrete Math, Texts and
+Monographs in Computer Science, Springer-Verlag, 1994.
+Complementaria:
+· Kolman, B.; Busby R. C., Estructuras De Matemáticas Discretas Para La
+Computación, Prentice Hall Hispanoamericana S.A., 1986.
+· Ince, D. C., An Introduction To Discrete Mathematics And Formal System
+Specification, Clarendon Press, Oxford, 1988
+· Kalmanson, K., An Introduction To Discrete Mathematics And Its Applications,
+Addison-Wesley Publishing Company, 1986.
+· Yandl, A. L., Finite Mathematics, Brooks/Cole Publishing Company, 1991
+· Townsend, M., Discrete Mathematics: Applied Combinatorics And Graph
+Theory, Benjamin-Cummings, 1987
+· Graham, R. L.; Knuth, D. E.; Parashnik, O., Concrete Mathematics, A Foundation
+For Computer Science, Addison-Wesley Publishing Company, 1989
+══════════════════════════
+
+MATEMÁTICAS DISCRETAS
+CLAVE: 0416
+SEMESTRE: I
+CRÉDITOS: 10
+ÁREA: CIENCIAS DE LA COMPUTACIÓN
+Requisitos:Ninguno
+HORAS POR CLASE
+CLASES POR SEMANA
+HORAS POR SEMESTRE
+TEÓRICA: 1
+TEÓRICA: 4
+TEÓRICA: 64
+TEÓRICO-PRÁCTICAS: 2
+TEÓRICO-PRÁCTICAS: 1
+TEÓRICO-PRÁCTICAS: 32
+Objetivos generales:
+Este curso da a los estudiantes una introducción al área de las matemáticas finitas,
+poniendo especial énfasis en teoría de algoritmos, gráficas, álgebra de Boole,
+inducción y recursión.
+Temario:
+I. Lógica Formal, demostraciones y análisis de algoritmos 18 horas
+Familiarizar al estudiante con los sistemas formales que se
+utilizan en lógica proposicional y de predicados. Determinar el
+valor de verdad de una expresión en Cálculo Proposicional.
+Determinar el valor de verdad en alguna interpretación de una
+expresión en la Lógica proposicional. Construir fórmulas en
+Lógica proposicional y de predicados para mostrar la validez de
+argumentos escritos en lenguaje natural. Matemáticamente
+demostrar la correctez de algoritmos que utilizan asignación y
+enunciados condicionales.
+I.1 Enunciados, representaciones simbólicas y tautologías.
+I.2 Cuantificadores, predicados y validez.
+I.3 Lógica proposicional.
+I.4 Lógica de predicados.
+I.5 Programación lógica y pruebas de correctez.
+I.6 Técnicas de demostración.
+I.7 Inducción.
+I.8 Recursión y relaciones de recurrencia.
+I.8 Análisis de algoritmos y más pruebas de correctez.
+II. Relaciones y gráficas dirigidas u orientadas 17 horas
+El estudiante deberá ser capaz de entender y utilizar los términos
+asociados con gráficas, gráficas dirigidas y árboles. Trabajar con
+el concepto de isomorfismo en gráficas. Trazar gráficas completas
+simples y gráficas bipartitas completas. Conocer y manejar la
+fórmula de Euler para gráficas conexas en el plano. Entender el
+papel de gráficas específicas como son la Ky y la K3,3 con gráficas
+en el plano.
+II.1 Conjuntos producto y particiones
+II.2 Relaciones y gráficas dirigidas
+II.3 Trayectorias en las relaciones y en las gráficas dirigidas
+II.4 Propiedades de las relaciones
+II.5 Representación por computadora de relaciones y gráficas
+dirigidas
+II.6 Manipulación de las relaciones
+II.7 Conectividad y el algoritmo de Warshall
+III. Funciones 12 horas
+Se revisará la noción de función, un tipo especial de relación. Se
+estudiarán sus propiedades básicas y luego se explicarán algunos
+tipos especiales de funciones. Se dará primordial importancia a
+las funciones en cuanto a las gráficas dirigidas y finalmente se
+revisarán secuencias de números que surgen frecuentemente en
+matemáticas.
+III.1 Funciones en gráficas
+III.2 Permutaciones
+III.3 Números Especiales: de Stirling, Eulerianos, Armónicos, Series
+Armónicas, Números de Bernoulli, de Fibonacci.
+IV.Orden, relaciones y estructuras 5 horas
+Se estudiarán los conjuntos parcialmente ordenados, incluyendo
+latices y álgebras booleanas. El manejo adecuado de estas
+estructuras es importante en la teoría de conjuntos, al álgebra,
+clasificaciones (ordenamientos) y búsquedas, y en especial para el
+caso de las álgebras booleanas, en la construcción de
+representaciones lógicas de circuitos de computadora.
+IV.1 Conjuntos parcialmente ordenados
+IV.2 Elementos extremos de los conjuntos parcialmente ordenados
+IV.3 Latices
+IV.4 Álgebras de Boole
+IV.5 Implementación de las funciones booleanas
+V. Árboles y lenguajes 4 horas
+En este tema se posibilita al estudiante en el manejo de una de las
+estructuras más comunes en las Ciencias de la Computación, que
+son los árboles (gráficas dirigidas). Estas relaciones son esenciales
+para la construcción de bases de datos, compiladores de
+lenguajes, programación lógica, inteligencia artificial, por
+mencionar sólo algunas de las áreas en las que se presentan.
+V.1 Árboles
+V.2 Árboles etiquetados
+V.3 Lenguajes
+V.4 Representación de gramáticas y lenguajes especiales
+V.5 Análisis de un árbol
+V.6 Árboles no dirigidos
+VI.Problemas de coloración 4 horas
+Se muestran en este tema problemas combionatorios relacionados con la
+coloración.
+Bibliografía:
+Básica:
+· Gersting, J. L., Mathematical Structures For Computer Science, 3rd. Edition,
+Computer Science Press, W. H. Freeman and Company, 1993.
+· Gries, D.; Schneider, F.B.,A Logical Approach to Discrete Math, Texts and
+Monographs in Computer Science, Springer-Verlag, 1994.
+Complementaria:
+· Kolman, B.; Busby R. C., Estructuras De Matemáticas Discretas Para La
+Computación, Prentice Hall Hispanoamericana S.A., 1986.
+· Ince, D. C., An Introduction To Discrete Mathematics And Formal System
+Specification, Clarendon Press, Oxford, 1988
+· Kalmanson, K., An Introduction To Discrete Mathematics And Its Applications,
+Addison-Wesley Publishing Company, 1986.
+· Yandl, A. L., Finite Mathematics, Brooks/Cole Publishing Company, 1991
+· Townsend, M., Discrete Mathematics: Applied Combinatorics And Graph
+Theory, Benjamin-Cummings, 1987
+· Graham, R. L.; Knuth, D. E.; Parashnik, O., Concrete Mathematics, A Foundation
+For Computer Science, Addison-Wesley Publishing Company, 1989
+══════════════════════════
+
+ UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO
+ Facultad de Ciencias
+
+ Plan de estudios de la Licenciatura en Actuaría
+Probabilidad I
+Clave
+0625
+Semestre
+3
+Créditos
+10
+Área
+Campo de
+conocimiento Probabilidad y Estadística
+Etapa Básica
+Modalidad
+Curso ( X ) Taller ( ) Lab ( ) Sem ( )
+Tipo T ( X ) P ( ) T/P ( )
+Carácter
+Obligatorio ( X ) Optativo ( )
+Obligatorio E ( ) Optativo E ( )
+Horas
+Semana Semestre
+Teóricas 5 Teóricas 80
+Prácticas 0 Prácticas 0
+Total 5 Total 80
+Seriación
+Ninguna ( )
+Obligatoria ( )
+Asignatura antecedente
+Asignatura subsecuente
+Indicativa ( X )
+Asignatura antecedente Cálculo Diferencial e Integral II
+Asignatura subsecuente Probabilidad II
+Matemáticas Actuariales del Seguro de Personas I
+Objetivos generales:
+ Conocer los conceptos básicos de la Probabilidad Matemática.
+ Saber ilustrar sobre cómo una gran variedad de problemas que surgen en diferentes actividades, se pueden
+modelar y resolver utilizando la teoría de Probabilidad.
+Objetivos específicos:
+ Explicar las diferentes interpretaciones de la probabilidad, así como algunos conceptos y resultados
+elementales.
+ Comprender lo que es una variable aleatoria. Estudiar el concepto de función de distribución y
+densidad. Explicar la naturaleza y características de algunas importantes familias de distribuciones.
+ Comprender los conceptos de esperanza, momentos y función generadora de momentos.
+ Explicar teoremas límite para variables aleatorias discretas. Leyes de los grandes números, el teorema
+del límite central y algunas aplicaciones.
+Índice temático
+Tema
+Horas
+semestre
+Teóricas Prácticas
+1 Espacio de Probabilidad 15 0
+2 Variables Aleatorias y Funciones de Distribución 30 0
+3 Momentos de Variables Aleatorias 30 0
+4
+Teoremas límite para sucesiones de variables
+aleatorias discretas 5 0
+Total 80
+Contenido Temático
+Tema y subtemas
+1 Espacio de Probabilidad
+1.1 Espacio muestral, eventos y su interpretación.
+1.2 Panorama histórico de la probabilidad, interpretación frecuentista,
+definición clásica, probabilidad geométrica.
+1.3 Definición axiomática de probabilidad (sin énfasis en sigma-álgebras).
+1.4 Propiedades de la probabilidad.
+1.5 Probabilidad condicional e independencia.
+1.6 Fórmulas de la probabilidad total y de Bayes.
+1.7 Teorema de continuidad de la probabilidad.
+1.8 Simulación de ejemplos elementales para ilustrar la interpretación
+ frecuentista.
+2 Variables Aleatorias y Funciones de Distribución
+2.1 Definición de variable aleatoria.
+2.2 Función de distribución y sus propiedades.
+2.3 Variables aleatorias discretas como familias paramétricas y su
+interpretación; funciones de masa o densidad, incluyendo los ejemplos:
+Bernoulli, Binomial, Poisson, Uniforme, Geométrica, Binomial
+negativa, Hipergeométrica y modelos donde éstas aparecen.
+Familias paramétricas discretas y su interpretación.
+2.4 Variables aleatorias continuas (o absolutamente continuas) y funciones
+de densidad. Familias paramétricas, incluyendo los ejemplos:
+Uniforme, Normal, Exponencial, Gamma, Cauchy, Beta,
+Weibul, Pareto, Frechet, Gumbel, Logística, Gausiana inversa y
+modelos donde éstas aparecen.
+2.5 Función de distribución de funciones de variables aleatorias.
+2.6 Simulación de variables aleatorias.
+3 Momentos de Variables Aleatorias
+3.1 Esperanza, varianza y propiedades. La esperanza minimiza la distancia
+ cuadrática.
+3.2 Momentos de variables aleatorias.
+3.3 Esperanza de funciones de una variable aleatoria.
+3.4 Desigualdades, incluyendo las de Tchebyshev, Jensen, Markov,
+ Chernoff.
+3.5 Funciones Generadoras:
+Función generadora de momentos, función generadora de
+momentos factoriales (para variables aleatorias con valores en
+los naturales) y aplicaciones.
+4 Teoremas límite para sucesiones de variables aleatorias discretas
+4.1 Aproximación Poisson a la Binomial.
+4.2 Vectores aleatorios, funciones de densidad y de distribución; conjunta
+ y marginales.
+4.3 Sumas de variables aleatorias independientes.
+4.4 Enunciado de algunos teoremas límite: Leyes de los Grandes Números,
+Teorema de Límite Central.
+4.5 Demostración de la ley débil de los grandes números.
+4.6 Teorema de Límite Central para la distribución Bernoulli (Teorema de
+De Movire-Laplace).
+4.7 Contrastar los resultados teóricos con los obtenidos por simulación.
+Estrategias didácticas Evaluación del aprendizaje
+Exposición ( X ) Exámenes parciales ( X )
+Trabajo en equipo ( X ) Examen final ( X )
+Lecturas ( X ) Trabajos y tareas ( X )
+Trabajo de investigación ( ) Presentación de tema ( X )
+Prácticas (taller o laboratorio) ( X ) Participación en clase ( )
+Prácticas de campo ( ) Asistencia ( )
+Aprendizaje por proyectos ( ) Rúbricas ( )
+Aprendizaje basado en problemas ( X ) Portafolios ( )
+Casos de enseñanza ( ) Listas de cotejo ( )
+Otras (especificar) Otras (especificar)
+Perfil profesiográfico
+Título o grado Egresado de la licenciatura en Matemáticas, Actuaría o alguna otra carrera afín.
+Es deseable que cuente con un posgrado en el área.
+Experiencia docente Con experiencia docente en el área.
+Otra característica
+Bibliografía básica:
+ Feller, W. (1968). An introduction to probability theory and its applications, Volumen I. New York:
+John Wiley & Sons Inc.
+ Gnedenko, B. V. (1975). The theory of probability. Chelsea.
+ Hoel, P. G., Port, S. C., Stone, C. J. (1971). Introduction to probability theory. Houghton Mifflin
+Company.
+ Mood, A. M., Graybill, F. A., Boes, D. C. (1974). Introduction to the theory of Statistics (3a ed.).
+McGraw-Hill.
+ Ross, S. (1997). A first course in probability theory (5a
+ed.). Prentice Hall.
+ Casella, G. & Berger, R. L. (2002). Statistical inference. Thomson Learning, la Universidad de
+Michigan.
+ Stirzaker, D.R. (2003). Elementary Probability (2a
+ed.). Cambridge University Press.
+Bibliografía complementaria:
+ Ash, R. B. (1970). Basic Probability Theory. New York: John Wiley & Sons Inc.
+ Casella, G. & Berger, R. L. (2002). Statistical inference. Thomson Learning, la Universidad de
+Michigan.
+ Chung, K. L. (2001). A Course in Probability Theory (2
+a
+ed.). Academic Press.
+ Chung, K. L. (1974). Elementary probability theory with stochastic processes (3
+a
+ed.). SpringerVerlag, New York.
+ Grimmet G. R. & Stirzaker, D. R. (2001). Probability and Random Processes (3
+a
+ed.). Oxford
+University Press.
+ Grinstead, S. (1997). Introduction to probability. American Mathematical Soc.
+ Gut, A. (2009). An intermediate course in Probability, Springer Texts in Statistics (2
+a
+ed.). New
+York: Springer.
+ Isaac, R. (1995). The Pleasures of Probability. Springer-Verlag.
+ Resnick, S. I. (1999). A Probability Path. Birkhauser. Boston.
+ Rincón, L. (2007). Curso Intermedio de Probabilidad. México: Imprenta de la Facultad de Ciencias
+UNAM.
+ Ross, S. M. (2007). Introduction to probability modelsm (9
+a
+ed.). Academic Press.
+ Weaver, W. (1963). Lady Luck: The Theory of Probability. Dover.
+ Stirzaker,D. R. (1999). Probability and Random Processes. Cambridge University Press, Cambridge.
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+TEOR´IA DE LOS NUMEROS I ´
+SEMESTRE: Segundo al cuarto
+CLAVE: 0764
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Superior II, C´alculo Diferen- ´
+cial e Integral I, Geometr´ıa Anal´ıtica I.
+SERIACION INDICATIVA SUBSECUENTE: ´ Teor´ıa de los N´umeros II.
+OBJETIVO(S): Introducir al alumno a los conceptos y resultados fundamentales de la
+Teor´ıa de los N´umeros.
+NUM. HORAS UNIDADES TEMATICAS ´
+25 1. Divisibilidad
+1.1 Principio de inducci´on matem´atica.
+1.2 Algoritmo de la divisi´on.
+1.3 N´umeros primos y compuestos.
+1.4 M´aximo com´un divisor.
+1.5 Ecuaciones diofantinas lineales.
+1.6 Teorema fundamental de la aritm´etica.
+1.7 Suma de divisores. N´umero de divisores.
+1.8 N´umeros perfectos, de Mersenne, de Fermat.
+1.9 Funci´on d de Euler.
+1.10 Funci´on W, F´ormula de inversi´on de M¨obius.
+25 2. Teor´ıa de congruencias
+2.1 Propiedades b´asicas de congruencias.
+2.2 Sistemas completos y reducidos de residuos m´odulo m.
+2.3 Teoremas de Euler, de Fermat, de Wilson.
+2.4 Congruencias lineales. Ecuaciones diofantinas.
+2.5 Teorema chino del Residuo.
+2.6 Sistemas de congruencias lineales.
+2.7 Congruencias cuadr´aticas.
+1
+10 3. Aplicaciones de la teor´ıa de congruencias
+3.1 Criptograf´ıa.
+3.2 Pr´acticas de C´omputo. Algoritmos.
+20 4. Reciprocidad cuadr´atica
+4.1 Residuos cuadr´aticos.
+4.2 Reciprocidad cuadr´atica.
+4.3 Los s´ımbolos de Jacobi y de Legendre.
+4.4 M´etodo de descenso infinito.
+4.5 Suma de tres o cuatro cuadrados.
+4.6 Suma de dos cuadrados.
+4.7 Ternas pitag´oricas.
+4.8 Teorema de Fermat.
+4.9 Curvas el´ıpticas.
+BIBLIOGRAF´IA BASICA: ´
+1. Andrews, G., Number Theory, New York: Dover, 2000.
+2. Goldman, J., The Queen of Mathematics. A Historically Motivated, Welleslay Massachusetts: A. K. Peters, 1998.
+3. Jones, G., Jones, M., Elementary Number Theory, New York: Springer Verlag, 2001.
+4. Koshy, T., Elementary Number Theory with Applications, San Diego: Harcourt/Academic Press, 2002.
+5. Nathanson, M., Elementary Methods in Number Theory, New York: Springer Verlag,
+2000.
+6. Niven, I., Zuckerman, H., Montgomery, H. , An Introduction to the Theory of Numbers, New York: J. Wiley, 1991.
+7. Pineda R. M., Aritm´etica y Teor´ıa de Grupos, M´exico: UAM-Iztapalapa, 1995.
+8. Vinogradov, I., Fundamentos de la Teor´ıa de los N´umeros, Mosc´u: MIR, 1977.
+2
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Dickson, L., History of the Theory of Numbers, Providence, Rhode Island: American
+Mathematical Society: Chelsea, 1999.
+2. Hardy G., Wright, E., An Introduction to the Theory of Number, Oxford: Clarendon
+Press, 1979.
+3. Koblitz, N., A Course in Number Theory and Cryptography, New York: Springer
+Verlag, 1994.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+3
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+TEOR´IA DE LOS NUMEROS II ´
+SEMESTRE: Segundo al cuarto
+CLAVE: 0777
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Teor´ıa de los N´umeros I.
+SERIACION INDICATIVA SUBSECUENTE: ´ Ninguna.
+OBJETIVO(S): Presentar una parte de la Teor´ıa de los N´umeros, que son los n´umeros
+p-´adicos y su gran aplicaci´on a Ecuaciones Diofantinas.
+NUM. HORAS UNIDADES TEMATICAS ´
+6 1. Polinomios en n variedades con coeficientes en Zp
+1.1 Congruencia de polinomios.
+1.2 Equivalencia de polinomios.
+1.3 Teorema sobre el n´umero de soluciones en Zp de un polinomio en
+n variables con coeficientes en Z.
+1.4 Formas cuadr´aticas m´odulo un primo.
+20 2. N´umeros p-´adicos
+2.1 Enteros p-´adicos.
+2.2 El dominio de los enteros p-´adicos.
+2.3 El campo de cocientes (n´umeros p-´adicos) de los enteros p-´adicos.
+2.4 Convergencia en el campo de los n´umeros p-´adicos.
+18 3. Caracterizaci´on axiom´atica de los n´umeros p-´adicos
+3.1 Campos m´etricos.
+3.2 M´etricas del campo de los n´umeros racionales.
+8 4. Congruencias y enteros p-´adicos
+4.1 Congruencias y ecuaciones en el anillo de los enteros p-´adicos.
+4.2 Sobre la solubilidad de algunas congruencias.
+10 5. Formas cuadr´aticas con coeficientes p-´adicos
+5.1 Cuadrados en el campo de los n´umeros p-´adicos.
+5.2 Representaci´on de cero por formas cuadr´aticas p-´adicas.
+1
+10 6. Teorema de Hasse Minkowski
+8 7. Una introducci´on a la Teor´ıa de las Valuaciones
+BIBLIOGRAF´IA BASICA: ´
+1. Bachman, G. Introduction to p-adic Numbers and Valuation Theory, New York: Academic Press, 1964.
+2. Borevich, Z. I., Shafarevich, I. R., Number Theory, New York: Academic Press, 1966.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Niven, I., Zuckerman, H., Introducci´on a la Teor´ıa de los N´umeros, M´exico: Limusa,
+1969.
+2. Robert, A., A Course in p-adic Analysis. Graduate Text in Mathematicas, New
+York: Springer, 2000.
+3. Weiss, E., Algebraic Number Theory, New York: Dover, 1998.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+2
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+CONJUNTOS Y LOGICA ´
+SEMESTRE: Segundo a cuarto
+CLAVE: 0271
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Superior I ´ .
+SERIACION INDICATIVA SUBSECUENTE: ´ Logica Matem´atica I, Teor´ıa de los Conjuntos I.
+OBJETIVO(S): Introducir al alumno al lenguaje y los conceptos de la Teor´ıa de los Conjuntos y de la L´ogica Matem´atica, que sirven como base en la construcci´on de las teor´ıas
+matem´aticas.
+Aprender a reconocer las estructura l´ogica de los enunciados matem´aticos mediante la
+introducci´on de la simbolog´ıa adecuada, incluyendo conectivos, cuantificadores e igualdad.
+Hacer claro el concepto de demostraci´on y distinguir los diferentes m´etodos de demostraci´on
+de uso com´un en matem´aticas. Diferenciar entre mostrar y demostrar.
+Entender la idea de descubrir o inventar una demostraci´on y tener la certeza y claridad
+acerca de cu´ando se ha logrado una demostraci´on y cu´ando no. Distinguir entre los elementos heur´ısticos y formales que intervienen en la actividad matem´atica; es decir, distinguir
+entre una demostraci´on y el proceso de su descubrimiento.
+Preparar al alumno para que adquiera pr´actica en c´omo hacer demostraciones, siguiendo
+el proceso heur´ıstico de algunos ejemplos de demostraciones particulares. Asimismo, lograr
+que el alumno adquiera habilidad para encontrar contraejemplos para enunciados falsos.
+En ambos casos, mostrar que “l´ogica” e “intuici´on com´un” no siempre coinciden.
+1
+NUM. HORAS UNIDADES TEMATICAS ´
+25 1. Conjuntos
+1.1 Noci´on de conjunto. Noci´on de pertenencia a un conjunto. Notaci´on.
+1.2 Relaciones entre conjuntos: ∪, ∩, \, ⊂. Uni´on e intersecci´on generalizadas.
+1.3 Diagramas de Venn y diagramas de Euler. Representaci´on de
+operaciones.
+1.4 Relaciones: pares ordenados y productos cartesianos, dominio y
+codominio, imagen o rango de una relaci´on. Operaciones con relaciones: inversa de una relaci´on, composici´on de relaciones. Relaciones de
+orden sobre un conjunto: Conjunto Parcialmente Ordenado (COPO),
+Conjunto Totalmente Ordenado (COTO), Conjunto Bien Ordenado
+(COBO), Conjunto Densamente Ordenado (CODO), Cotas (m´aximo,
+m´ınimo, maximales, . . .). Qu´e afirma el Lema de Zorn.
+1.5 Relaciones de equivalencia y particiones. El conjunto cociente
+m´odulo una relaci´on de equivalencia.
+1.6 Funciones. Dominio y Codominio, Rango o Imagen. Igualdad de
+funciones, funci´on constante, gr´afica de una funci´on. Funciones inyectivas, suprayectivas y biyectivas. Inversa de una funci´on, funciones
+invertibles, composici´on de funciones.
+1.7 Cardinalidad. Equipotencia de dos conjuntos. Teorema de Cantor,
+conjuntos finitos y conjuntos infinitos. Conjuntos numerables y no
+numerables (N,Z, Q, R).
+1.8 Inducci´on y Recursi´on. Inducci´on finita y segundo principio de
+Inducci´on. Principio del no descenso infinito. Principio del Buen Orden.
+2
+25 2. Elementos de l´ogica
+2.1 Forma l´ogica de un enunciado.
+2.2 Simbolizaci´on de enunciados simples. Letras proposicionales y
+conectivos l´ogicos. Sinonimia de conectivos:
+1. A implica B; si A entonces B; B, si A; A s´olo si B; A es
+suficiente para B; B es necesaria para A.
+2. A o B; A a menos que B; A o B o ambos.
+3. A y B; A pero B; ambos: A y B.
+4. no A; no es el caso que A; A, no.
+2.3 Simbolizaci´on de argumentos simples.
+2.4 Simbolizaci´on de enunciados tomando en consideraci´on la estructura sujeto-predicado: predicados, constantes, variables y cuantificaciones:
+1. Existe . . . / hay un . . . / para alg´un . . . / hay al menos un . . . /
+2. Para todos . . . / para cada uno . . . / para cualquiera. . . /.
+Ejemplos y m´as ejemplos de traducciones de enunciados (de contenido matem´atico y de contenido no matem´atico).
+2.5 Criterios de verdad: criterios de verdad de conectivos, cuantificadores e igualdad y analizar a partir de ellos la verdad de cualquier
+enunciado m´as complejo.
+2.6 Equivalencias l´ogicas elementales. Negaci´on de una conjunci´on, de
+una disyunci´on, de una implicaci´on, de un bicondicional. Negaci´on de
+cuantificadores universales y existenciales. Rec´ıproca y contrapuesta
+de una implicaci´on. Leyes distributivas. Optativo: uso de reglas de
+instanciaci´on y generalizaci´on, universal y existencial.
+20 3. An´alisis de argumentos y m´etodos de prueba
+3.1 Relaci´on entre las premisas y la conclusi´on de un argumento.
+Distinci´on entre verdad de proposiciones y validez de argumentos.
+¿Qu´e quiere decir que “A se sigue de H1, . . . , Hn”?
+3.2 M´etodos de prueba directos: especialmente de condicionales y de
+disyunciones. Prueba por casos, por vacuidad. Pruebas indirectas:
+por contraposici´on, por reducci´on al absurdo.
+3.3 Prueba de una equivalencia m´ultiple por implicaciones simples.
+Combinaci´on de los distintos m´etodos. Pruebas por inducci´on.
+3
+10 4. Heur´ısticas
+4.1 Algunas ideas acerca del proceso de descubrimiento o heur´ıstica
+de una demostraci´on: La idea de reducci´on de un problema a otro.
+La idea de representaci´on de un ´area de conocimiento en otra. El
+m´etodo progresivo-regresivo.
+BIBLIOGRAF´IA BASICA: ´
+1. Amor, J. A., Sobre un Curso de An´alisis L´ogico, M´exico: Educaci´on Matem´atica,
+Vol. 6 No. 2, Grupo Editorial Iberoam´erica, 1994.
+2. Badesa, C., Jan´e I., Jansana, R., Elementos de L´ogica Formal, Ariel 1998.
+3. Fern´andez, M., Preisser, A., Segura, L. F., Torres, Y., L´ogica Elemental, M´exico:
+Universidad Aut´onoma Metropolitana, 1996.
+4. Lipschutz, Teor´ıa de Conjuntos y Temas Afines, serie Schaums McGraw-Hill.
+5. Solow, D., C´omo Entender y Hacer Demostraciones en Matem´aticas, M´exico: Limusa, 1987.
+6. Sominski, I. S., El M´etodo de la Inducci´on Matem´atica, M´exico: Limusa, 1990.
+7. Zubieta, G., Manual de L´ogica para Estudiantes de Matem´aticas, M´exico: Trillas,
+1977.
+8. Zubieta, G., Taller de L´ogica Matem´atica, M´exico: McGraw-Hill, 1993.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Amor J. A., “Paradojas, intuici´on y l´ogica”, Revista Ciencias, Facultad de Ciencias,
+UNAM, No. 29, 1993.
+2. Carroll, L., El Juego de la L´ogica y otros Escritos, Madrid: Alianza, 2002.
+3. Mart´ınez Gallardo, V., Introducci´on al An´alisis L´ogico: del Lenguaje Natural al Lenguaje Anal´ıtico, M´exico: Tesis UNAM, 1987.
+4. National Council of Teachers of Mathematics, L´ogica, Temas de Matem´aticas No.
+12, M´exico: Trillas 1975.
+4
+5. National Council of Teachers of Mathematics, Sugerencias para Resolver Problemas,
+Temas de Matem´aticas No. 17, M´exico: Trillas 1970.
+6. Polya, G., C´omo Plantear y Resolver Problemas, M´exico: Trillas, 1965.
+7. Quine, W., Russell’s Paradox and Others, USA: The Technology Review, 1941.
+8. Smullyan, R. M., Alicia en el Pa´ıs de las Adivinanzas, Madrid: Catedra, 1986.
+9. Smullyan, R. M., ¿C´omo se Llama este Libro?, Madrid: Colecci´on Teorema, Ediciones C´atedra, 1978.
+10. Torres Torija, Planteo y Resoluci´on de Problemas, M´exico: Trillas, 1979.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+5 
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+ALGEBRA MODERNA II ´
+SEMESTRE: Quinto o sexto
+CLAVE: 0002
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Moderna I, C´alculo Diferen- ´
+cial e Integral IV.
+SERIACION INDICATIVA SUBSECUENTE: ´ Algebra Moderna III, Geometr´ıa Alge- ´
+braica I.
+OBJETIVO(S): Introducir al alumno a la teor´ıa general de anillos, campos y Teor´ıa de
+Galois.
+NUM. HORAS UNIDADES TEMATICAS ´
+40 1. Anillos
+1.1 Definici´on y ejemplos. Clases especiales de anillos. Propiedades
+b´asicas.
+1.2 Subanillos, ideales y anillos cociente.
+1.3 Homomorfismos de anillos.
+1.4 El campo de cocientes de un anillo entero.
+1.5 Anillos Euclidianos, principales y de factorizaci´on ´unica.
+1.6 Anillos de polinomios.
+40 2. Campos y Teor´ıa de Galois
+2.1 Extensiones de campos. Grado de una extensi´on.
+2.2 Construcciones con regla y comp´as.
+2.3 Campos de descomposici´on y extensiones normales.
+2.4 Extensiones separables.
+2.5 El teorema fundamental de la Teor´ıa de Galois.
+2.6 Soluciones por radicales.
+2.7 Campos finitos.
+1
+BIBLIOGRAF´IA BASICA: ´
+1. Fraleigh, J.B., Algebra Abstracta ´ , M´exico: Sistemas T´ecnicos de Edici´on, 1988.
+2. Herstein, I.N., Algebra Moderna ´ , M´exico: Editorial Trillas, 1970.
+3. Stewart, I., Galois Theory, Florida: Chapman and Hall, 2004.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Artin, E., Modern Higher Algebra Galois Theory, New York: Courant Institute of
+Mathematical Sciences, 1947.
+2. MacLane, S., Birkhoff, G., Algebra, Providence, Rhode Island: American Mathematical Society, 1999.
+3. Rotman, J.J., A First Course in Abstract Algebra, Upper Saddle River, New Jersey:
+Prentice Hall, 2000.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+2
+
+
+UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
+FACULTAD DE CIENCIAS
+CARRERA DE MATEMATICO ´
+CONJUNTOS CONVEXOS
+SEMESTRE: Segundo al cuarto
+CLAVE: 0088
+HORAS A LA SEMANA/SEMESTRE
+TEORICAS ´ PRACTICAS ´ CREDITOS ´
+5/80 0 10
+CARACTER: ´ OPTATIVO.
+MODALIDAD: CURSO.
+SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Superior II, C´alculo Diferen- ´
+cial e Integral II, Geometr´ıa Anal´ıtica II.
+SERIACION INDICATIVA SUBSECUENTE: ´ Ninguna.
+OBJETIVO(S): Mostrar que la matem´atica surge, se descubre y evoluciona conjuntando
+diversas ´areas de las matem´aticas. En este caso la geometr´ıa, el c´alculo y la combinatoria
+se unen para introducir al alumno en el estudio de las figuras convexas planas y espaciales,
+deduciendo las principales propiedades y caracter´ısticas. Al final el alumno deber´a manejar
+los conceptos de plano soporte, puntos extremos, envolvente convexa, as´ı como el di´ametro,
+el ancho, el volumen y la superficie de una figura convexa. Tambi´en deber´a poder generar
+figuras convexas a partir de otras.
+NUM. HORAS UNIDADES TEMATICAS ´
+20 1. Propiedades elementales
+1.1 Hiperplanos soporte.
+1.2 Funci´on soporte.
+1.3 Teoremas de Separaci´on.
+1.4 Puntos extremos y Teorema de Krein-Milman.
+15 2. Teorema de Helly
+2.1 Teoremas de Radon, Helly y Carath´eodory.
+2.2 Aplicaciones.
+10 3. Suma de Minkowski
+20 4. Figuras de ancho constante
+4.1 Definici´on y caracterizaciones.
+4.2 Ejemplos.
+4.3 Completez.
+1
+15 5. Volumen, superficie y curvatura media
+5.1 Teoremas de aproximaci´on.
+5.2 Simetrizaci´on de Steiner.
+5.3 Problemas isoperim´etricos.
+BIBLIOGRAF´IA BASICA: ´
+1. Benson, R., Euclidean Geometry and Convexity, New York: McGraw-Hill, 1966.
+2. Boltianski, V., Golberg, I., Divisi´on de Figuras en Partes Menores, Mosc´u: MIR,
+1973.
+3. Kazarinoff, N., Geometric Inequalities, Washington, D.C.: The Mathematical Association of America, New Math. Library Vol. 4, 1961.
+4. Hadwiger, H., Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos, M´exico:
+Aportaciones Matem´aticas. Sociedad Matem´atica Mexicana, Textos 10, 1998. (Traducci´on de Luis Montejano Peimbert.)
+5. Hadwiger, H., Debrunner, H., Combinatorial Geometry in the Plane, New York: Holt,
+Reinhart and Winston, 1964.
+6. Yaglom, I., Boltianski, V., Convex Figures, New York: Holt, Reinhart and Winston,
+1961.
+BIBLIOGRAF´IA COMPLEMENTARIA:
+1. Montejano, L., Cuerpos de Ancho Constante, M´exico: Ediciones Cient´ıficas Universitarias, UNAM-FCE, 1998.
+SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
+exposiciones.
+SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
+caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
+PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
+la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
+de cursos.
+2
