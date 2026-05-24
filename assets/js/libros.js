@@ -478,8 +478,8 @@ const A = {
   })(),
 };
 
-/* ── NAVIGATION ───────────────────────────────── */
-const _DiscRemoved = {
+/* ── DISC SCRUBBER ────────────────────────────── */
+const Disc = {
   secs:   [],
   rot:    0,
   isOpen: false,
@@ -802,6 +802,10 @@ const Nav = {
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
+    /* disc scrubber visibility */
+    Disc.mode = 'book';
+    Disc.setVisible(S.view === 'book');
+
     /* scroll: to note if deep-link, else to top */
     if (S.noteKey) {
       const key = S.noteKey;
@@ -825,6 +829,7 @@ const Nav = {
 /* ── INIT ─────────────────────────────────────── */
 (function init() {
   history.scrollRestoration = 'manual';
+  Disc.init();
   /* handle initial URL hash */
   const hash = location.hash;
   if (hash.startsWith('#libro/')) {
