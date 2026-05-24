@@ -115,18 +115,18 @@ const TemDisc = {
         bloqEl.querySelectorAll('.card').forEach(card => {
           const name = card.querySelector('.card-name')?.textContent.trim() || '';
           const target = card.querySelector('.card-head') || card;
-          this.secs.push({ label: name.length > 40 ? name.slice(0, 39) + '…' : name, el: target, isCh: false });
+          this.secs.push({ label: name, el: target, isCh: false });
         });
       });
     } else {
       document.querySelectorAll('.semester').forEach(semEl => {
         const headEl = semEl.querySelector('.sem-header');
         const raw = headEl?.querySelector('.sem-title')?.textContent.trim() || '';
-        this.secs.push({ label: raw.length > 40 ? raw.slice(0, 39) + '…' : raw, el: headEl, isCh: true });
+        this.secs.push({ label: raw, el: headEl, isCh: true });
         semEl.querySelectorAll('.card').forEach(card => {
           const name = card.querySelector('.card-name')?.textContent.trim() || '';
           const target = card.querySelector('.card-head') || card;
-          this.secs.push({ label: name.length > 40 ? name.slice(0, 39) + '…' : name, el: target, isCh: false });
+          this.secs.push({ label: name, el: target, isCh: false });
         });
       });
     }

@@ -520,11 +520,11 @@ const Disc = {
         const num   = chEl.querySelector('.chapter-num')?.textContent.trim()   || '';
         const title = chEl.querySelector('.chapter-title')?.textContent.trim() || '';
         const raw   = num ? `${num}. ${title}` : title;
-        this.secs.push({ label: raw.length > 40 ? raw.slice(0, 39) + '…' : raw, el: head, isCh: true });
+        this.secs.push({ label: raw, el: head, isCh: true });
       }
       chEl.querySelectorAll('.note-sublabel').forEach(sub => {
         const t = sub.textContent.trim();
-        this.secs.push({ label: t.length > 40 ? t.slice(0, 39) + '…' : t, el: sub, isCh: false });
+        this.secs.push({ label: t, el: sub, isCh: false });
       });
     });
   },
@@ -534,7 +534,7 @@ const Disc = {
     document.querySelectorAll('.lib-subject-section').forEach(subjEl => {
       const headerEl = subjEl.querySelector('.lib-subject-header');
       const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
-      const trunc = name.length > 40 ? name.slice(0, 39) + '…' : name;
+      const trunc = name;
       this.secs.push({ label: trunc, el: headerEl, isCh: false, subjEl });
     });
   },
