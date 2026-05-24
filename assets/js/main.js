@@ -519,12 +519,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // offsetTop acumulado: posición absoluta en el documento, no depende del scroll actual
         let absTop = 0, el = card;
         while (el) { absTop += el.offsetTop; el = el.offsetParent; }
-        // Inline styles overridean keyframes: la card es visible de inmediato
-        // y no parpadea cuando se quita highlight-pulse (que reactiva cardSlideIn)
-        card.style.opacity = '1';
-        card.style.transform = 'none';
+        // Saltar animación de entrada al estado final (CSS anim tiene prioridad sobre inline styles)
+        card.getAnimations().forEach(a => a.finish());
         card.classList.add('open', 'highlight-pulse');
-        setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
+        setTimeout(() => {
+          card.classList.remove('highlight-pulse');
+          // Al quitar highlight-pulse el browser puede reiniciar cardSlideIn;
+          // lo terminamos antes del siguiente paint
+          requestAnimationFrame(() => card.getAnimations().forEach(a => a.finish()));
+        }, 1600);
         window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
       };
 
