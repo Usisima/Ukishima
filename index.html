@@ -33,7 +33,8 @@
 
 <div class="bh-container">
 <div class="bh-wrap">
-  <pre class="bh-art" id="bh-art" aria-hidden="true"></pre>
+  <pre class="bh-art" id="bh-stars" aria-hidden="true"></pre>
+  <pre class="bh-art" id="bh-art"   aria-hidden="true"></pre>
 </div>
 
 <!-- Prompt para navegador (no instalada) -->
@@ -171,7 +172,8 @@
 <script>
 
 (function () {
-  const pre = document.getElementById('bh-art');
+  const pre      = document.getElementById('bh-art');
+  const preStars = document.getElementById('bh-stars');
   if (!pre) return;
 
   function init() {
@@ -183,6 +185,11 @@
   pre.style.fontSize   = `${fsPx.toFixed(3)}px`;
   pre.style.width      = '100%';
   pre.style.overflowX  = 'hidden';
+  if (preStars) {
+    preStars.style.fontSize  = pre.style.fontSize;
+    preStars.style.width     = '100%';
+    preStars.style.overflowX = 'hidden';
+  }
 
   // Available height: subtract header and nav from viewport
   const lineH    = fsPx * 1.6;
@@ -203,6 +210,11 @@
   const _contentTop = wrapH - _gapBottom - _contentH;
   const CY = Math.max(5, Math.round((_contentTop - _gapBH) / lineH));
   if (_dash) _dash.style.top = _contentTop + 'px';
+
+  // Exact BH center → CSS custom property → power-on animation from correct origin
+  const _bhCyPct = (CY * lineH / wrapH * 100).toFixed(1) + '%';
+  pre.style.setProperty('--bh-cy', _bhCyPct);
+  pre.classList.add('bh-on');
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
@@ -349,11 +361,12 @@
       }
     }
 
-    let html = '';
+    let html = '', htmlStars = '';
 
     for (let r = 0; r < ROWS; r++) {
-      if (r > 0) html += '\n';
-      let runColor = null, runChars = '';
+      if (r > 0) { html += '\n'; htmlStars += '\n'; }
+      let bhColor = null, bhChars = '';
+      let stColor = null, stChars = '';
 
       for (let c = 0; c < COLS; c++) {
         const { sd, sa, dd, da } = meta[r][c];
@@ -400,53 +413,62 @@
         const inVoid      = sd < 0.78;
 
         const idx = r * COLS + c;
-        let ch, color;
+
+        // ── BH disc layer ──────────────────────────────────────────────
+        let ch = ' ', color = null;
         if (showDisk) {
           ch = lv(diskB);
           const dN = Math.max(0, Math.cos(diskRelA));
           const h  = Math.round((diskHue + dN * 14) / 5) * 5;
-          const l  = Math.round((22 + dN * 44) / 5) * 5;   // 22–66%, sin blancos
+          const l  = Math.round((22 + dN * 44) / 5) * 5;
           color = `hsl(${h},95%,${l}%)`;
         } else if (showRing) {
           ch = lv(ringB);
-          const l = Math.round((30 + ringT * 32) / 5) * 5;  // 30–62%, sin blancos
+          const l = Math.round((30 + ringT * 32) / 5) * 5;
           const s = Math.round((90 - ringT * 40) / 10) * 10;
           color = `hsl(280,${s}%,${l}%)`;
         } else if (showScatter) {
           ch = lv(scatterB * 0.44);
-          const sl = Math.round((12 + scatterB * 28) / 5) * 5; // más rango
-          color = `hsl(200,75%,${sl}%)`;                        // azul claro descomposición
-        } else if (sd >= 0.78) {
+          const sl = Math.round((12 + scatterB * 28) / 5) * 5;
+          color = `hsl(200,75%,${sl}%)`;
+        }
+        // void & non-disc cells → space (transparent, page bg shows through)
+
+        if (color === bhColor) { bhChars += ch; }
+        else {
+          if (bhChars) html += bhColor ? `<span style="color:${bhColor}">${bhChars}</span>` : bhChars;
+          bhColor = color; bhChars = ch;
+        }
+
+        // ── Stars layer (always visible) ───────────────────────────────
+        let sch = ' ', scolor = null;
+        if (!showDisk && !showRing && !showScatter && !inVoid) {
           if (starB[idx] > 0) {
             const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
             if (sb > 0.14) {
-              ch    = STAR_CH[starSz[idx]];
-              const lit = Math.round((38 + sb * 58) / 5) * 5;  // 38–96%, más luminosas
-              const op  = (0.3 + sb * 0.7).toFixed(2);         // opacidad 0.3–1.0 según brillo
-              color = `hsla(210,18%,${lit}%,${op})`;            // azul-blanco frío
-            } else { ch = ' '; color = null; }
-          } else { ch = ' '; color = null; }
-        } else {
-          ch = ' '; color = null;
+              sch = STAR_CH[starSz[idx]];
+              const lit = Math.round((38 + sb * 58) / 5) * 5;
+              const op  = (0.3 + sb * 0.7).toFixed(2);
+              scolor = `hsla(210,18%,${lit}%,${op})`;
+            }
+          }
+          const shot = sMap[idx];
+          if (shot) { sch = shot.ch; scolor = shot.co; }
         }
 
-        // Shooting star overrides star field (not the void)
-        const shot = sMap[idx];
-        if (shot && sd >= 0.78) { ch = shot.ch; color = shot.co; }
-
-        if (color === runColor) {
-          runChars += ch;
-        } else {
-          if (runChars) html += runColor ? `<span style="color:${runColor}">${runChars}</span>` : runChars;
-          runColor = color;
-          runChars = ch;
+        if (scolor === stColor) { stChars += sch; }
+        else {
+          if (stChars) htmlStars += stColor ? `<span style="color:${stColor}">${stChars}</span>` : stChars;
+          stColor = scolor; stChars = sch;
         }
       }
 
-      if (runChars) html += runColor ? `<span style="color:${runColor}">${runChars}</span>` : runChars;
+      if (bhChars) html     += bhColor ? `<span style="color:${bhColor}">${bhChars}</span>` : bhChars;
+      if (stChars) htmlStars += stColor ? `<span style="color:${stColor}">${stChars}</span>` : stChars;
     }
 
     pre.innerHTML = html;
+    if (preStars) preStars.innerHTML = htmlStars;
   }
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {

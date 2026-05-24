@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(git *)",
+      "PowerShell(Remove-Item .git\\index *)"
+    ]
+  }
+}
