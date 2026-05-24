@@ -490,7 +490,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.58rem;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.84) 0%, rgba(0,0,0,0.74) 60%, rgba(0,0,0,0.28) 100%);
+  background: none;
   animation: pillsSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: 0.08s;
 }
