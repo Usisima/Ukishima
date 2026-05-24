@@ -111,6 +111,12 @@
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
   function isHol(d)  { return HOLIDAYS.some(function (h) { return sd(h, d); }); }
+
+  /* ─── NO-CLASS PERIODS (within semester, no teal fill) ─── */
+  var NO_CLASS = [
+    { s: new Date(2026,2,30), e: new Date(2026,3,5) }, // Semana Santa
+  ];
+  function isNoClass(d) { return NO_CLASS.some(function(r){ return d >= r.s && d <= r.e; }); }
   function getEvs(d) {
     return RANGES
       .filter(function (r) { return d >= r.start && d <= r.end; })
@@ -174,7 +180,7 @@
         isT:     sd(date, today),
         hol:     isHol(date),
         inSem:   inSem,
-        fillKey: traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
+        fillKey: isNoClass(date) ? '' : traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
         evKey:   topEv ? topEv.key : '',
         evRgb:   topEv ? topEv.rgb : '',
         trmKey:  (topEv && TRM[topEv.key]) ? topEv.key : '',
