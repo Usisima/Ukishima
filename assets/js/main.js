@@ -144,6 +144,14 @@ const TemDisc = {
     const active = Math.round(this._clamp(this.rot));
     const buf = [];
 
+    // ── Arc guide (dashed circle) ────────────────────────────────
+    buf.push(
+      `<svg style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible" aria-hidden="true">` +
+      `<circle cx="${(W + L).toFixed(0)}" cy="${cy.toFixed(0)}" r="${R}" ` +
+      `fill="none" stroke="rgba(155,191,181,0.13)" stroke-width="1" stroke-dasharray="2 8" stroke-linecap="round"/>` +
+      `</svg>`
+    );
+
     // ── Selector needle ─────────────────────────────────────────
     const armLen = R - L - 36; // needle tip reaches center-item position
     buf.push(
