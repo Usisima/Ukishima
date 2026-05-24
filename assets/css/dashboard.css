@@ -720,25 +720,22 @@ body {
 }
 
 #bh-art.bh-on {
-  animation: bh-power-on 2.2s linear both;
+  animation: bh-power-on 2.4s linear both;
 }
 
 @keyframes bh-power-on {
-  /* Centro: aparece rápido */
+  /* Centro: se prende rápido */
   0% {
     opacity: 0;
-    clip-path: circle(0% at 50% var(--bh-cy));
-    animation-timing-function: cubic-bezier(0, 0.9, 0.25, 1);
+    animation-timing-function: cubic-bezier(0, 0.88, 0.2, 1);
   }
-  /* Centro encendido — anillo empieza más lento */
-  28% {
-    opacity: 0.9;
-    clip-path: circle(8% at 50% var(--bh-cy));
-    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  /* Anillo: sube despacio hasta el final */
+  26% {
+    opacity: 0.88;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.65, 1);
   }
   100% {
     opacity: 1;
-    clip-path: circle(160% at 50% var(--bh-cy));
   }
 }
 
