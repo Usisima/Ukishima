@@ -453,47 +453,37 @@ const A = {
     if (!scroll) return;
     const cards = [...scroll.querySelectorAll(':scope > .book-card')];
 
-    if (adding) {
-      // FLIP — snapshot current visual positions (forces reflow read)
-      const snap = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
+    // FLIP — snapshot positions before reorder
+    const snap = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
 
-      // Reorder DOM, jump scroll to front
-      const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
-        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-      const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
-        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-      [...favs, ...rest].forEach(c => scroll.appendChild(c));
-      scroll.scrollLeft = 0;
+    // Reorder DOM
+    const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
+      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+    const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
+      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+    [...favs, ...rest].forEach(c => scroll.appendChild(c));
+    if (adding) scroll.scrollLeft = 0; // jump to front only when adding
 
-      // Invert — read new positions (forces reflow), apply offsets
-      const newLefts = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
+    // Invert — measure new positions, place cards back visually
+    const newLefts = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
+    cards.forEach(c => {
+      const dx = snap.get(c) - newLefts.get(c);
+      if (Math.abs(dx) < 1) return;
+      c.style.transition = 'none';
+      c.style.transform  = `translateX(${dx}px)`;
+    });
+
+    // Play — animate every moved card to its new position
+    requestAnimationFrame(() => requestAnimationFrame(() => {
       cards.forEach(c => {
-        const dx = snap.get(c) - newLefts.get(c);
-        if (Math.abs(dx) < 1) return;
-        c.style.transition = 'none';
-        c.style.transform  = `translateX(${dx}px)`;
+        if (!c.style.transform) return;
+        c.style.transition = 'transform 0.52s cubic-bezier(0.22,1,0.36,1)';
+        c.style.transform  = 'translateX(0)';
+        c.addEventListener('transitionend', () => {
+          c.style.transition = c.style.transform = '';
+        }, { once: true });
       });
-
-      // Play — animate to final position
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        cards.forEach(c => {
-          if (!c.style.transform) return;
-          c.style.transition = 'transform 0.52s cubic-bezier(0.22,1,0.36,1)';
-          c.style.transform  = 'translateX(0)';
-          c.addEventListener('transitionend', () => {
-            c.style.transition = c.style.transform = '';
-          }, { once: true });
-        });
-      }));
-
-    } else {
-      // Un-fav: reorder without animation
-      const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
-        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-      const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
-        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-      [...favs, ...rest].forEach(c => scroll.appendChild(c));
-    }
+    }));
   },
 
   toggleFavNote(key, btn) {

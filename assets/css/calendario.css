@@ -322,7 +322,7 @@ body {
 /* Weekend */
 .cal-cell.wknd .day-num { color: var(--ink3); }
 
-/* Holiday */
+/* Holiday — amber number + strikethrough on any month */
 .cal-cell.hol .day-num {
   text-decoration: line-through;
   color: #c8a84b;
@@ -338,6 +338,8 @@ body {
 
 /* Out-of-semester days: dim number, no border */
 .cal-cell.out-sem .day-num { color: var(--ink3); opacity: 0.45; }
+/* Holidays outside semester still get amber (higher specificity wins) */
+.cal-cell.hol.out-sem .day-num { color: #c8a84b; opacity: 0.65; }
 
 /* Today */
 .cal-cell.today-cell .day-num {
@@ -391,6 +393,8 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.32rem 0.6rem;
+  margin: 0.4rem 0 0.2rem;
+  padding: 0 0.1rem;
 }
 
 .cal-legend-item {

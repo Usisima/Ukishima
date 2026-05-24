@@ -278,15 +278,13 @@
       { color: '#c89650', label: 'Días inhábiles' },
       { color: '#c85555', label: 'Exámenes finales' },
     ];
-    return '<div class="cal-legend">'
-      + '<div class="cal-legend-grid">'
+    return '<div class="cal-legend-grid">'
       + items.map(function (item) {
           return '<div class="cal-legend-item">'
             + '<div class="cal-legend-swatch" style="background:' + item.color + '"></div>'
             + '<span class="cal-legend-label">' + item.label + '</span>'
             + '</div>';
         }).join('')
-      + '</div>'
       + '</div>';
   }
 
