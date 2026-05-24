@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v110';
+const CACHE = 'ukishima-v111';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -135,23 +135,24 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Stale-while-revalidate: serve cache instantly, refresh in background
+// Cache-first: serve from cache if present; fetch+cache on miss only.
+// Background revalidation is intentionally removed — stale CDN responses
+// were overwriting correctly-installed files with old content.
+// New files enter the cache only when the SW version is bumped (above).
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
-  // Cross-origin (Google Fonts, CDN) — network only, no cache
+  // Cross-origin — network only, no cache
   if (url.origin !== self.location.origin) return;
 
   e.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(e.request);
-      const networkFetch = fetch(e.request)
-        .then(res => {
-          if (res.ok) cache.put(e.request, res.clone());
-          return res;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
+      if (cached) return cached;
+      // Cache miss: fetch, store, return
+      const res = await fetch(e.request);
+      if (res.ok) cache.put(e.request, res.clone());
+      return res;
     })
   );
 });
