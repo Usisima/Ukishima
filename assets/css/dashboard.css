@@ -563,9 +563,15 @@ body {
   margin-bottom: 0.28rem;
 }
 
+@keyframes sem-bar-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .dash-sem-bar-wrap {
   flex: 1;
-  height: 4px;
+  height: 5px;
   background: rgba(255,255,255,0.07);
   border-radius: 99px;
   overflow: hidden;
@@ -573,9 +579,17 @@ body {
 
 .dash-sem-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--gold2), var(--gold));
   border-radius: 99px;
   position: relative;
+  background: linear-gradient(
+    270deg,
+    #b06aff, #7c4dff, #3d9bff, #00d4c8, #3d9bff, #7c4dff, #b06aff
+  );
+  background-size: 300% 300%;
+  animation: sem-bar-flow 4s ease infinite;
+  box-shadow:
+    0 0 6px 1px rgba(130, 80, 255, 0.55),
+    0 0 14px 2px rgba(0, 200, 200, 0.30);
 }
 
 .dash-sem-bar::after {
@@ -584,11 +598,13 @@ body {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 5px 2px rgba(155,191,181,0.55);
+  background: #c084fc;
+  box-shadow:
+    0 0 6px 2px rgba(192, 132, 252, 0.8),
+    0 0 12px 4px rgba(130, 80, 255, 0.45);
 }
 
 .dash-sem-meta {
