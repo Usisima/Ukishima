@@ -711,32 +711,12 @@ body {
   background: transparent;
 }
 
-/* BH disc layer — clip-path power-on triggered by JS */
+/* BH disc layer — JS-driven opacity fade-in (see tick loop) */
 #bh-art {
   position: absolute;
   top: 0; left: 0;
   background: transparent;
-  --bh-cy: 35%;
-}
-
-#bh-art.bh-on {
-  animation: bh-power-on 2.4s linear both;
-}
-
-@keyframes bh-power-on {
-  /* Centro: se prende rápido */
-  0% {
-    opacity: 0;
-    animation-timing-function: cubic-bezier(0, 0.88, 0.2, 1);
-  }
-  /* Anillo: sube despacio hasta el final */
-  26% {
-    opacity: 0.88;
-    animation-timing-function: cubic-bezier(0.45, 0, 0.65, 1);
-  }
-  100% {
-    opacity: 1;
-  }
+  opacity: 0;
 }
 
 .bh-art {

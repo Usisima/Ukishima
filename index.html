@@ -321,7 +321,9 @@
     nextShootMs = elapsedMs + 3500 + Math.random() * 4500;
   }
 
-  let elapsed = 0, last = null, lastRender = 0, firstTick = true;
+  let elapsed = 0, last = null, lastRender = 0;
+  let bhOpacity = 0, bhFaded = false;
+  const FADE_MS = 2400; // total opacity ramp duration
   const FRAME_MS = 1000 / 30; // 30 fps cap
 
   function tick(ts) {
@@ -468,7 +470,13 @@
 
     pre.innerHTML = html;
     if (preStars) preStars.innerHTML = htmlStars;
-    if (firstTick) { firstTick = false; pre.classList.add('bh-on'); }
+    // JS-driven opacity fade-in: fast rise to 0.88 in first 26%, slow to 1 after
+    if (!bhFaded) {
+      const t = Math.min(1, elapsed / FADE_MS);
+      bhOpacity = t < 0.26 ? (t / 0.26) * 0.88 : 0.88 + ((t - 0.26) / 0.74) * 0.12;
+      pre.style.opacity = bhOpacity.toFixed(3);
+      if (t >= 1) { pre.style.opacity = '1'; bhFaded = true; }
+    }
   }
 
   requestAnimationFrame(tick);
