@@ -174,7 +174,7 @@
         isT:     sd(date, today),
         hol:     isHol(date),
         inSem:   inSem,
-        fillKey: isHol(date) ? 'hol' : traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
+        fillKey: traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
         evKey:   topEv ? topEv.key : '',
         evRgb:   topEv ? topEv.rgb : '',
         trmKey:  (topEv && TRM[topEv.key]) ? topEv.key : '',
@@ -215,8 +215,7 @@
       if (d.fillKey === 'exord') { fT = false; fB = false; }
 
       // Background
-      var bg = d.fillKey === 'hol'    ? 'rgba(200,150,80,0.32)'
-             : d.fillKey === 'traced' ? 'rgba(155,191,181,0.30)'
+      var bg = d.fillKey === 'traced' ? 'rgba(155,191,181,0.30)'
              : d.fillKey === 'insem'  ? 'rgba(155,191,181,0.07)'
              : d.fillKey === 'exord'  ? 'rgba(160,60,90,0.18)'
              : '';
@@ -280,7 +279,6 @@
       { color: '#c85555', label: 'Exámenes finales' },
     ];
     return '<div class="cal-legend">'
-      + '<div class="cal-legend-title">Referencias</div>'
       + '<div class="cal-legend-grid">'
       + items.map(function (item) {
           return '<div class="cal-legend-item">'

@@ -1611,6 +1611,14 @@ body {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
   background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.72) 32%);
+  transform-origin: right 50%;
+}
+@keyframes tem-disc-open {
+  from { transform: scale(0.82); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+#tem-disc-wrap.disc-opening {
+  animation: tem-disc-open 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 #tem-disc-wrap::before,
 #tem-disc-wrap::after {

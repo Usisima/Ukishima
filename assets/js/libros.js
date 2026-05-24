@@ -440,6 +440,7 @@ const R = {
 /* ── ACTIONS ──────────────────────────────────── */
 const A = {
   toggleFavBook(id, btn) {
+    const adding = !S.favBooks.has(id);
     toggleFavBook(id);
     const faved = isFavBook(id);
     btn.blur();
@@ -451,11 +452,48 @@ const A = {
     const scroll = btn.closest('.lib-book-scroll');
     if (!scroll) return;
     const cards = [...scroll.querySelectorAll(':scope > .book-card')];
-    const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
-      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-    const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
-      .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
-    [...favs, ...rest].forEach(c => scroll.appendChild(c));
+
+    if (adding) {
+      // FLIP — snapshot current visual positions (forces reflow read)
+      const snap = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
+
+      // Reorder DOM, jump scroll to front
+      const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
+        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+      const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
+        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+      [...favs, ...rest].forEach(c => scroll.appendChild(c));
+      scroll.scrollLeft = 0;
+
+      // Invert — read new positions (forces reflow), apply offsets
+      const newLefts = new Map(cards.map(c => [c, c.getBoundingClientRect().left]));
+      cards.forEach(c => {
+        const dx = snap.get(c) - newLefts.get(c);
+        if (Math.abs(dx) < 1) return;
+        c.style.transition = 'none';
+        c.style.transform  = `translateX(${dx}px)`;
+      });
+
+      // Play — animate to final position
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        cards.forEach(c => {
+          if (!c.style.transform) return;
+          c.style.transition = 'transform 0.52s cubic-bezier(0.22,1,0.36,1)';
+          c.style.transform  = 'translateX(0)';
+          c.addEventListener('transitionend', () => {
+            c.style.transition = c.style.transform = '';
+          }, { once: true });
+        });
+      }));
+
+    } else {
+      // Un-fav: reorder without animation
+      const favs = cards.filter(c => S.favBooks.has(c.dataset.bookId))
+        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+      const rest = cards.filter(c => !S.favBooks.has(c.dataset.bookId))
+        .sort((a, b) => +a.dataset.origIdx - +b.dataset.origIdx);
+      [...favs, ...rest].forEach(c => scroll.appendChild(c));
+    }
   },
 
   toggleFavNote(key, btn) {
@@ -670,7 +708,12 @@ _currentIdx() {
       document.addEventListener('touchmove', this._blockFn, { passive: false });
     }
     const wrap = document.getElementById('bk-disc-wrap');
-    if (wrap) wrap.style.display = 'block';
+    if (wrap) {
+      wrap.style.display = 'block';
+      wrap.classList.remove('disc-opening');
+      void wrap.offsetWidth; // force reflow → restart animation
+      wrap.classList.add('disc-opening');
+    }
     document.getElementById('bk-disc-btn')?.classList.add('is-open');
     this._render();
   },
@@ -683,7 +726,10 @@ _currentIdx() {
       this._blockFn = null;
     }
     const wrap = document.getElementById('bk-disc-wrap');
-    if (wrap) wrap.style.display = 'none';
+    if (wrap) {
+      wrap.style.display = 'none';
+      wrap.classList.remove('disc-opening');
+    }
     document.getElementById('bk-disc-btn')?.classList.remove('is-open');
   },
 

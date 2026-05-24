@@ -254,7 +254,12 @@ const TemDisc = {
       document.addEventListener('touchmove', this._blockFn, { passive: false });
     }
     const wrap = document.getElementById('tem-disc-wrap');
-    if (wrap) wrap.style.display = 'block';
+    if (wrap) {
+      wrap.style.display = 'block';
+      wrap.classList.remove('disc-opening');
+      void wrap.offsetWidth; // force reflow → restart animation
+      wrap.classList.add('disc-opening');
+    }
     document.getElementById('tem-disc-btn')?.classList.add('is-open');
     this._render();
   },
@@ -267,7 +272,10 @@ const TemDisc = {
       this._blockFn = null;
     }
     const wrap = document.getElementById('tem-disc-wrap');
-    if (wrap) wrap.style.display = 'none';
+    if (wrap) {
+      wrap.style.display = 'none';
+      wrap.classList.remove('disc-opening');
+    }
     document.getElementById('tem-disc-btn')?.classList.remove('is-open');
   },
 
