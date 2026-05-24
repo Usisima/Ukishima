@@ -98,6 +98,191 @@ function rerenderOptSlot(semNum, slotIdx) {
   container.innerHTML = renderOptativaSlotContent(sem, slotIdx);
 }
 
+// ==================== DISC SCRUBBER (temarios) ====================
+const TemDisc = {
+  secs: [], rot: 0, isOpen: false,
+  R: 480, LEDGE: 330, STEP: 0.11, SPEED: 4.5,
+
+  reset() { this.secs = []; this.rot = 0; },
+
+  build() {
+    this.secs = [];
+    const isOpt = TEM_VIEW === 'optativas';
+    const els = isOpt
+      ? document.querySelectorAll('.opt-bloque-head')
+      : document.querySelectorAll('.semester .sem-header');
+    els.forEach(el => {
+      const sel = isOpt ? '.opt-bloque-title' : '.sem-title';
+      const raw = el.querySelector(sel)?.textContent.trim() || '';
+      this.secs.push({ label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw, el, isCh: true });
+    });
+  },
+
+  _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
+
+  _render() {
+    const wrap = document.getElementById('tem-disc-wrap');
+    if (!wrap) return;
+    const W = window.innerWidth, H = window.innerHeight;
+    const R = this.R, L = this.LEDGE, S = this.STEP;
+    const btnRect = document.getElementById('tem-disc-btn')?.getBoundingClientRect();
+    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : H / 2;
+    const active = Math.round(this._clamp(this.rot));
+    const buf = [];
+    this.secs.forEach((sec, i) => {
+      const theta = (i - this.rot) * S;
+      const arcX  = W + L - R * Math.cos(theta);
+      const arcY  = cy + R * Math.sin(theta);
+      if (arcY < -40 || arcY > H + 40) return;
+      const rightDist = W - arcX;
+      const maxW   = Math.max(50, Math.min(W - 14, arcX - 8));
+      const opacity = Math.max(0.04, 1 - Math.abs(theta) * 0.9);
+      const isAct  = i === active;
+      buf.push(
+        `<div class="disc-item is-ch${isAct ? ' is-active' : ''}" data-i="${i}" ` +
+        `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
+        `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
+      );
+    });
+    wrap.innerHTML = buf.join('');
+  },
+
+  _snapTo(target, cb) {
+    const go = () => {
+      const diff = target - this.rot;
+      if (Math.abs(diff) < 0.02) { this.rot = target; this._render(); cb?.(); return; }
+      this.rot += diff * 0.22;
+      this._render();
+      requestAnimationFrame(go);
+    };
+    go();
+  },
+
+  scrollTo(i) {
+    const sec = this.secs[i];
+    if (!sec?.el) return;
+    const hH = document.querySelector('.header')?.offsetHeight      || 0;
+    const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+    const top = sec.el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  },
+
+  _currentIdx() {
+    const btnRect = document.getElementById('tem-disc-btn')?.getBoundingClientRect();
+    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
+    let best = 0, bestD = Infinity;
+    this.secs.forEach((s, i) => {
+      if (!s.el) return;
+      const d = Math.abs(s.el.getBoundingClientRect().top - cy);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
+  },
+
+  _blockFn: null,
+
+  open() {
+    if (!this.secs.length) this.build();
+    if (!this.secs.length) return;
+    this.rot = this._currentIdx();
+    this.isOpen = true;
+    if (!this._blockFn) {
+      this._blockFn = e => e.preventDefault();
+      document.addEventListener('touchmove', this._blockFn, { passive: false });
+    }
+    const wrap = document.getElementById('tem-disc-wrap');
+    if (wrap) wrap.style.display = 'block';
+    document.getElementById('tem-disc-btn')?.classList.add('is-open');
+    this._render();
+  },
+
+  close() {
+    this.isOpen = false;
+    if (this._blockFn) {
+      document.removeEventListener('touchmove', this._blockFn);
+      this._blockFn = null;
+    }
+    const wrap = document.getElementById('tem-disc-wrap');
+    if (wrap) wrap.style.display = 'none';
+    document.getElementById('tem-disc-btn')?.classList.remove('is-open');
+  },
+
+  setVisible(v) {
+    const btn = document.getElementById('tem-disc-btn');
+    if (!btn) return;
+    if (v) {
+      this.build();
+      requestAnimationFrame(() => {
+        btn.style.display = this.secs.length ? 'flex' : 'none';
+      });
+    } else {
+      btn.style.display = 'none';
+      this.close();
+    }
+  },
+
+  init() {
+    const btn  = document.getElementById('tem-disc-btn');
+    const wrap = document.getElementById('tem-disc-wrap');
+    if (!btn) return;
+    let startY = 0, startRot = 0, dragging = false;
+    let _tmm = null, _tmu = null;
+    const _detach = () => {
+      if (_tmm) { document.removeEventListener('touchmove', _tmm); _tmm = null; }
+      if (_tmu) { document.removeEventListener('touchend',  _tmu); _tmu = null; }
+    };
+    const onStart = (y) => {
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return;
+      if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
+      dragging = true; startY = y; startRot = this.rot;
+      _detach();
+      _tmm = e => {
+        e.preventDefault();
+        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
+        this._render();
+      };
+      _tmu = () => {
+        _detach();
+        if (!dragging) return;
+        dragging = false;
+        const t = Math.round(this._clamp(this.rot));
+        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+      };
+      document.addEventListener('touchmove', _tmm, { passive: false });
+      document.addEventListener('touchend',  _tmu, { passive: false });
+    };
+    btn.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+    btn.addEventListener('touchcancel', () => { _detach(); if (dragging) { dragging = false; this.close(); } });
+    if (wrap) {
+      wrap.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientY); }, { passive: false });
+      wrap.addEventListener('touchcancel', () => { _detach(); if (dragging) { dragging = false; this.close(); } });
+    }
+    const onMD = e => {
+      e.preventDefault();
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return;
+      if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
+      let sy = e.clientY, sr = this.rot;
+      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
+      const mu = () => {
+        document.removeEventListener('mousemove', mm);
+        document.removeEventListener('mouseup',   mu);
+        const t = Math.round(this._clamp(this.rot));
+        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+      };
+      document.addEventListener('mousemove', mm);
+      document.addEventListener('mouseup',   mu);
+    };
+    btn.addEventListener('mousedown', onMD);
+    if (wrap) wrap.addEventListener('mousedown', onMD);
+    document.addEventListener('touchstart', e => {
+      if (!this.isOpen || dragging) return;
+      if (!wrap?.contains(e.target) && !btn.contains(e.target)) this.close();
+    }, { passive: true });
+  },
+};
+
 // ==================== VIEW STATE ====================
 let TEM_VIEW = 'tronco';
 let TEM_QUERY = '';
@@ -139,6 +324,8 @@ function renderView(root, view, query) {
   document.documentElement.scrollTop = 0;
   stagger(root);
   katexRoot(root);
+  TemDisc.reset();
+  requestAnimationFrame(() => TemDisc.setVisible(view === 'tronco' || view === 'optativas'));
 }
 
 // ==================== INIT ====================
@@ -397,4 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  TemDisc.init();
 });

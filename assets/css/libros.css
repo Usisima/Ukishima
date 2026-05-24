@@ -1388,3 +1388,11 @@ body {
 .disc-item.is-active.is-ch  { font-size: 12px; }
 .disc-item.is-active.is-sub { font-size: 10px; }
 
+@keyframes bookHighlight {
+  0%, 100% { box-shadow: none; }
+  25%       { box-shadow: 0 0 0 2px rgba(155,191,181,0.8), 0 0 18px rgba(155,191,181,0.25); }
+}
+.lib-book-highlight {
+  animation: bookHighlight 1.2s ease;
+}
+

@@ -483,16 +483,22 @@ const A = {
 /* ── DISC SCRUBBER ────────────────────────────── */
 const Disc = {
   secs:   [],
-  rot:    0,      // float index of centered item
+  rot:    0,
   isOpen: false,
-  R:      480,    // disc radius (px)
-  LEDGE:  330,    // disc center offset past right screen edge (px)
-  STEP:   0.11,   // radians between adjacent items (~6.3°)
-  SPEED:  4.5,    // drag speed multiplier
+  mode:   'book',  // 'book' | 'home'
+  R:      480,
+  LEDGE:  330,
+  STEP:   0.11,
+  SPEED:  4.5,
 
   reset() { this.secs = []; this.rot = 0; },
 
   build() {
+    if (this.mode === 'home') { this._buildHome(); return; }
+    this._buildBook();
+  },
+
+  _buildBook() {
     this.secs = [];
     document.querySelectorAll('.chapter-item').forEach(chEl => {
       const head = chEl.querySelector('.chapter-head');
@@ -505,6 +511,21 @@ const Disc = {
       chEl.querySelectorAll('.note-sublabel').forEach(sub => {
         const t = sub.textContent.trim();
         this.secs.push({ label: t.length > 24 ? t.slice(0, 23) + '…' : t, el: sub, isCh: false });
+      });
+    });
+  },
+
+  _buildHome() {
+    this.secs = [];
+    document.querySelectorAll('.lib-subject-section').forEach(subjEl => {
+      const headerEl = subjEl.querySelector('.lib-subject-header');
+      const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
+      const trunc = name.length > 26 ? name.slice(0, 25) + '…' : name;
+      this.secs.push({ label: trunc, el: headerEl, isCh: true, subjEl });
+      subjEl.querySelectorAll('.book-card').forEach(card => {
+        const title = card.querySelector('.book-card-title')?.textContent.trim() || '';
+        const t2 = title.length > 24 ? title.slice(0, 23) + '…' : title;
+        this.secs.push({ label: t2, el: card, isCh: false, subjEl });
       });
     });
   },
@@ -560,6 +581,7 @@ const Disc = {
   },
 
   scrollTo(i) {
+    if (this.mode === 'home') { this._scrollToHome(i); return; }
     const sec = this.secs[i];
     if (!sec?.el) return;
     const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
@@ -568,12 +590,33 @@ const Disc = {
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
+  _scrollToHome(i) {
+    const sec = this.secs[i];
+    if (!sec?.el || !sec.subjEl) return;
+    const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
+    const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+    const subjTop = sec.subjEl.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+    window.scrollTo({ top: Math.max(0, subjTop), behavior: 'smooth' });
+    if (!sec.isCh) {
+      setTimeout(() => {
+        const carousel = sec.subjEl.querySelector('.lib-book-scroll');
+        if (!carousel) return;
+        const cRect = carousel.getBoundingClientRect();
+        const eRect = sec.el.getBoundingClientRect();
+        carousel.scrollTo({ left: Math.max(0, carousel.scrollLeft + eRect.left - cRect.left - 12), behavior: 'smooth' });
+        sec.el.classList.add('lib-book-highlight');
+        setTimeout(() => sec.el.classList.remove('lib-book-highlight'), 1200);
+      }, 350);
+    }
+  },
+
 _currentIdx() {
     const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
     const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
     let best = 0, bestD = Infinity;
     this.secs.forEach((s, i) => {
       if (!s.el) return;
+      if (this.mode === 'home' && !s.isCh) return;
       const d = Math.abs(s.el.getBoundingClientRect().top - cy);
       if (d < bestD) { bestD = d; best = i; }
     });
@@ -612,6 +655,7 @@ _currentIdx() {
     const btn = document.getElementById('bk-disc-btn');
     if (!btn) return;
     if (v) {
+      this.build();
       requestAnimationFrame(() => {
         btn.style.display = this.secs.length ? 'flex' : 'none';
       });
@@ -739,7 +783,10 @@ const Nav = {
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
-    Disc.setVisible(S.view === 'book');
+    const _prevMode = Disc.mode;
+    Disc.mode = S.view === 'home' ? 'home' : 'book';
+    if (Disc.mode !== _prevMode) { Disc.secs = []; Disc.rot = 0; }
+    Disc.setVisible(S.view === 'book' || S.view === 'home');
 
     /* scroll: to note if deep-link, else to top */
     if (S.noteKey) {
