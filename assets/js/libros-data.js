@@ -138,6 +138,26 @@ const PDF = {
   // ── Matemáticas Discretas (optativa, Bloque I) ──
   md_b1:  { title: "Mathematical Structures For Computer Science — Gersting", driveId: "" },
   md_b2:  { title: "A Logical Approach to Discrete Math — Gries & Schneider", driveId: "" },
+  // ── Probabilidad I (optativa, Bloque I) ──
+  prob1_b1: { title: "An Introduction to Probability Theory and its Applications Vol. I — Feller", driveId: "" },
+  prob1_b2: { title: "The Theory of Probability — Gnedenko", driveId: "" },
+  prob1_b3: { title: "Introduction to Probability Theory — Hoel, Port & Stone", driveId: "" },
+  prob1_b4: { title: "Introduction to the Theory of Statistics — Mood, Graybill & Boes", driveId: "" },
+  prob1_b5: { title: "A First Course in Probability Theory — Ross", driveId: "" },
+  prob1_b6: { title: "Statistical Inference — Casella & Berger", driveId: "" },
+  prob1_b7: { title: "Elementary Probability — Stirzaker", driveId: "" },
+  // ── Teoría de los Números I (optativa, Bloque I) ──
+  tn1_b1:  { title: "Number Theory — Andrews", driveId: "" },
+  tn1_b2:  { title: "The Queen of Mathematics — Goldman", driveId: "" },
+  tn1_b3:  { title: "Elementary Number Theory — Jones & Jones", driveId: "" },
+  tn1_b4:  { title: "Elementary Number Theory with Applications — Koshy", driveId: "" },
+  tn1_b5:  { title: "Elementary Methods in Number Theory — Nathanson", driveId: "" },
+  tn1_b6:  { title: "An Introduction to the Theory of Numbers — Niven, Zuckerman & Montgomery", driveId: "" },
+  tn1_b7:  { title: "Aritmética y Teoría de Grupos — Pineda R.M.", driveId: "" },
+  tn1_b8:  { title: "Fundamentos de la Teoría de los Números — Vinogradov", driveId: "" },
+  // ── Teoría de los Números II (optativa, Bloque I) ──
+  tn2_b1:  { title: "Introduction to p-adic Numbers and Valuation Theory — Bachman", driveId: "" },
+  tn2_b2:  { title: "Number Theory — Borevich & Shafarevich", driveId: "" },
   // ── Álgebra Moderna II (optativa, Bloque II) ──
   am2_b1: { title: "Álgebra Abstracta — Fraleigh", driveId: "" },
   am2_b2: { title: "Álgebra Moderna — Herstein", driveId: "" },
@@ -990,6 +1010,44 @@ const LIBRARY_OPT = [
     books: [
       { id: "md_b1", title: "Mathematical Structures For Computer Science", author: "J.L. Gersting",      edition: "3ª ed. W.H. Freeman, 1993",     chapters: [] },
       { id: "md_b2", title: "A Logical Approach to Discrete Math",          author: "D. Gries & F.B. Schneider", edition: "Springer-Verlag, 1994", chapters: [] },
+    ]
+  },
+  {
+    subject: "Probabilidad I",
+    matId:   "probabilidad_1",
+    color:   "linear-gradient(135deg,#0e0a06,#261c10)",
+    books: [
+      { id: "prob1_b1", title: "An Introduction to Probability Theory and its Applications Vol. I", author: "W. Feller",                         edition: "Wiley, 1968",                     chapters: [] },
+      { id: "prob1_b2", title: "The Theory of Probability",                                        author: "B.V. Gnedenko",                      edition: "Chelsea, 1975",                   chapters: [] },
+      { id: "prob1_b3", title: "Introduction to Probability Theory",                               author: "P.G. Hoel, S.C. Port & C.J. Stone",  edition: "Houghton Mifflin, 1971",          chapters: [] },
+      { id: "prob1_b4", title: "Introduction to the Theory of Statistics",                         author: "A.M. Mood, F.A. Graybill & D.C. Boes", edition: "3ª ed. McGraw-Hill, 1974",      chapters: [] },
+      { id: "prob1_b5", title: "A First Course in Probability Theory",                             author: "S. Ross",                            edition: "5ª ed. Prentice Hall, 1997",      chapters: [] },
+      { id: "prob1_b6", title: "Statistical Inference",                                            author: "G. Casella & R.L. Berger",           edition: "Thomson Learning, 2002",          chapters: [] },
+      { id: "prob1_b7", title: "Elementary Probability",                                           author: "D.R. Stirzaker",                     edition: "2ª ed. Cambridge University Press, 2003", chapters: [] },
+    ]
+  },
+  {
+    subject: "Teoría de los Números I",
+    matId:   "teoria_numeros_1",
+    color:   "linear-gradient(135deg,#0e0c06,#241e0c)",
+    books: [
+      { id: "tn1_b1", title: "Number Theory",                              author: "G. Andrews",                                edition: "Dover, 2000",                chapters: [] },
+      { id: "tn1_b2", title: "The Queen of Mathematics",                   author: "J. Goldman",                                edition: "A.K. Peters, 1998",          chapters: [] },
+      { id: "tn1_b3", title: "Elementary Number Theory",                   author: "G. Jones & J. Jones",                       edition: "Springer-Verlag, 2001",      chapters: [] },
+      { id: "tn1_b4", title: "Elementary Number Theory with Applications", author: "T. Koshy",                                  edition: "Harcourt/Academic Press, 2002", chapters: [] },
+      { id: "tn1_b5", title: "Elementary Methods in Number Theory",        author: "M. Nathanson",                              edition: "Springer-Verlag, 2000",      chapters: [] },
+      { id: "tn1_b6", title: "An Introduction to the Theory of Numbers",   author: "I. Niven, H. Zuckerman & H. Montgomery",    edition: "J. Wiley, 1991",             chapters: [] },
+      { id: "tn1_b7", title: "Aritmética y Teoría de Grupos",              author: "R.M. Pineda",                               edition: "UAM-Iztapalapa, 1995",       chapters: [] },
+      { id: "tn1_b8", title: "Fundamentos de la Teoría de los Números",    author: "I. Vinogradov",                             edition: "MIR, 1977",                  chapters: [] },
+    ]
+  },
+  {
+    subject: "Teoría de los Números II",
+    matId:   "teoria_numeros_2",
+    color:   "linear-gradient(135deg,#080c0a,#101e14)",
+    books: [
+      { id: "tn2_b1", title: "Introduction to p-adic Numbers and Valuation Theory", author: "G. Bachman",                    edition: "Academic Press, 1964",  chapters: [] },
+      { id: "tn2_b2", title: "Number Theory",                                       author: "Z.I. Borevich & I.R. Shafarevich", edition: "Academic Press, 1966", chapters: [] },
     ]
   },
   // ── Bloque II ─────────────────────────────────────────────────────

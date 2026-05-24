@@ -362,18 +362,54 @@ const OPT_DATA = {
   },
   "Probabilidad I": {
     temario: [
-      { num: "1", name: "Espacios de probabilidad", horas: 15, subtemas: ["Experimentos aleatorios y espacio muestral", "Álgebra de eventos. Axiomas de probabilidad", "Probabilidad condicional. Independencia", "Regla de la multiplicación. Ley de la probabilidad total", "Fórmula de Bayes"] },
-      { num: "2", name: "Variables aleatorias discretas", horas: 18, subtemas: ["Definición y función de masa de probabilidad", "Función de distribución acumulada", "Esperanza matemática y varianza", "Distribuciones: Bernoulli, Binomial, Geométrica, Poisson", "Función generadora de momentos"] },
-      { num: "3", name: "Variables aleatorias continuas", horas: 18, subtemas: ["Función de densidad de probabilidad", "Función de distribución acumulada", "Esperanza y varianza", "Distribuciones: Uniforme, Exponencial, Normal, Gamma, Beta"] },
-      { num: "4", name: "Vectores aleatorios", horas: 15, subtemas: ["Distribución conjunta, marginal y condicional", "Independencia de variables aleatorias", "Covarianza y correlación", "Suma de variables aleatorias independientes"] },
-      { num: "5", name: "Convergencia y leyes límite", horas: 14, subtemas: ["Ley de los grandes números", "Teorema central del límite", "Aproximación normal a la binomial"] }
+      { num: "1", name: "Espacio de Probabilidad",                   horas: 15, subtemas: ["Espacio muestral, eventos e interpretaciones (frecuentista, clásica, geométrica)", "Definición axiomática de probabilidad. Propiedades", "Probabilidad condicional e independencia", "Fórmulas de probabilidad total y de Bayes", "Teorema de continuidad. Simulación de ejemplos elementales"] },
+      { num: "2", name: "Variables Aleatorias y Funciones de Distribución", horas: 30, subtemas: ["Definición de variable aleatoria. Función de distribución y propiedades", "V.A. discretas: Bernoulli, Binomial, Poisson, Uniforme, Geométrica, Binomial negativa, Hipergeométrica", "V.A. continuas: Uniforme, Normal, Exponencial, Gamma, Cauchy, Beta, Weibull, Pareto, Fréchet, Gumbel, Logística, Gaussiana inversa", "Función de distribución de funciones de variables aleatorias", "Simulación de variables aleatorias"] },
+      { num: "3", name: "Momentos de Variables Aleatorias",           horas: 30, subtemas: ["Esperanza, varianza y propiedades. La esperanza minimiza la distancia cuadrática", "Momentos de variables aleatorias. Esperanza de funciones", "Desigualdades: Tchebyshev, Jensen, Markov, Chernoff", "Función generadora de momentos y función generadora de momentos factoriales"] },
+      { num: "4", name: "Teoremas límite para variables aleatorias discretas", horas: 5, subtemas: ["Aproximación Poisson a la Binomial", "Vectores aleatorios: densidades conjunta, marginal y condicional", "Sumas de variables aleatorias independientes", "Leyes de los Grandes Números y Teorema de Límite Central (enunciado)", "Demostración de la ley débil. Teorema de De Moivre-Laplace"] }
     ],
     bibBasicas: [
-      { name: "Feller, W. — An Introduction to Probability Theory and Its Applications, Vol. I. Wiley, 1968.", caps: ["Espacios de probabilidad", "Variables aleatorias discretas", "Variables aleatorias continuas", "Vectores aleatorios", "Leyes límite"] },
-      { name: "Chung, K.L. — A Course in Probability Theory. Academic Press, 2001.", caps: ["Probabilidad", "Variables aleatorias", "Distribuciones", "Independencia", "Convergencia"] }
+      { name: "Feller, W. — An Introduction to Probability Theory and its Applications, Vol. I. Wiley, 1968.", caps: ["Espacio de Probabilidad", "Variables Aleatorias", "Momentos", "Teoremas límite"] },
+      { name: "Gnedenko, B.V. — The Theory of Probability. Chelsea, 1975.", caps: ["Espacio de Probabilidad", "Variables Aleatorias", "Momentos"] },
+      { name: "Hoel, P.G.; Port, S.C.; Stone, C.J. — Introduction to Probability Theory. Houghton Mifflin, 1971.", caps: ["Espacio de Probabilidad", "Variables Aleatorias", "Momentos", "Teoremas límite"] },
+      { name: "Ross, S. — A First Course in Probability Theory. 5ª ed. Prentice Hall, 1997.", caps: ["Espacio de Probabilidad", "Variables Aleatorias", "Momentos", "Teoremas límite"] },
+      { name: "Stirzaker, D.R. — Elementary Probability. 2ª ed. Cambridge University Press, 2003.", caps: ["Espacio de Probabilidad", "Variables Aleatorias", "Momentos"] }
     ],
-    bibComp: ["Ross, S. — A First Course in Probability. Prentice Hall, 2010.", "Billingsley, P. — Probability and Measure. Wiley, 1995."],
+    bibComp: ["Mood, A.M.; Graybill, F.A.; Boes, D.C. — Introduction to the Theory of Statistics. 3ª ed. McGraw-Hill, 1974.", "Casella, G.; Berger, R.L. — Statistical Inference. Thomson Learning, 2002.", "Chung, K.L. — A Course in Probability Theory. 2ª ed. Academic Press, 2001.", "Rincón, L. — Curso Intermedio de Probabilidad. FC-UNAM, 2007."],
     subsecuentes: ["Probabilidad II", "Estadística I", "Procesos Estocásticos I"]
+  },
+  "Teoría de los Números I": {
+    temario: [
+      { num: "1", name: "Divisibilidad",                        horas: 25, subtemas: ["Principio de inducción matemática. Algoritmo de la división", "Números primos y compuestos. Máximo común divisor", "Ecuaciones diofantinas lineales. Teorema fundamental de la aritmética", "Suma y número de divisores. Números perfectos, de Mersenne, de Fermat", "Función φ de Euler. Función ω. Fórmula de inversión de Möbius"] },
+      { num: "2", name: "Teoría de congruencias",               horas: 25, subtemas: ["Propiedades básicas. Sistemas completos y reducidos de residuos", "Teoremas de Euler, Fermat y Wilson", "Congruencias lineales. Ecuaciones diofantinas", "Teorema Chino del Residuo. Sistemas de congruencias lineales", "Congruencias cuadráticas"] },
+      { num: "3", name: "Aplicaciones de la teoría de congruencias", horas: 10, subtemas: ["Criptografía. Algoritmos de cómputo"] },
+      { num: "4", name: "Reciprocidad cuadrática",              horas: 20, subtemas: ["Residuos cuadráticos. Reciprocidad cuadrática", "Los símbolos de Jacobi y de Legendre", "Método de descenso infinito. Suma de cuadrados", "Ternas pitagóricas. Teorema de Fermat", "Curvas elípticas"] }
+    ],
+    bibBasicas: [
+      { name: "Andrews, G. — Number Theory. Dover, 2000.", caps: ["Divisibilidad", "Congruencias", "Reciprocidad cuadrática"] },
+      { name: "Jones, G.; Jones, M. — Elementary Number Theory. Springer-Verlag, 2001.", caps: ["Divisibilidad", "Congruencias", "Reciprocidad cuadrática"] },
+      { name: "Koshy, T. — Elementary Number Theory with Applications. Harcourt/Academic Press, 2002.", caps: ["Divisibilidad", "Congruencias", "Aplicaciones", "Reciprocidad cuadrática"] },
+      { name: "Niven, I.; Zuckerman, H.; Montgomery, H. — An Introduction to the Theory of Numbers. J. Wiley, 1991.", caps: ["Divisibilidad", "Congruencias", "Reciprocidad cuadrática"] },
+      { name: "Vinogradov, I. — Fundamentos de la Teoría de los Números. MIR, 1977.", caps: ["Divisibilidad", "Congruencias", "Reciprocidad cuadrática"] }
+    ],
+    bibComp: ["Goldman, J. — The Queen of Mathematics. A.K. Peters, 1998.", "Nathanson, M. — Elementary Methods in Number Theory. Springer-Verlag, 2000.", "Dickson, L. — History of the Theory of Numbers. AMS Chelsea, 1999.", "Hardy, G.; Wright, E. — An Introduction to the Theory of Numbers. Clarendon Press, 1979.", "Koblitz, N. — A Course in Number Theory and Cryptography. Springer-Verlag, 1994."],
+    subsecuentes: ["Teoría de los Números II"]
+  },
+  "Teoría de los Números II": {
+    temario: [
+      { num: "1", name: "Polinomios en n variables con coeficientes en Z_p", horas:  6, subtemas: ["Congruencia y equivalencia de polinomios", "Número de soluciones en Z_p de un polinomio en n variables", "Formas cuadráticas módulo un primo"] },
+      { num: "2", name: "Números p-ádicos",                                  horas: 20, subtemas: ["Enteros p-ádicos. El dominio de los enteros p-ádicos", "El campo de cocientes (números p-ádicos)", "Convergencia en el campo de los números p-ádicos"] },
+      { num: "3", name: "Caracterización axiomática de los números p-ádicos", horas: 18, subtemas: ["Campos métricos", "Métricas del campo de los números racionales"] },
+      { num: "4", name: "Congruencias y enteros p-ádicos",                   horas:  8, subtemas: ["Congruencias y ecuaciones en el anillo de los enteros p-ádicos", "Solubilidad de algunas congruencias"] },
+      { num: "5", name: "Formas cuadráticas con coeficientes p-ádicos",      horas: 10, subtemas: ["Cuadrados en el campo de los números p-ádicos", "Representación de cero por formas cuadráticas p-ádicas"] },
+      { num: "6", name: "Teorema de Hasse-Minkowski",                        horas: 10, subtemas: [] },
+      { num: "7", name: "Introducción a la Teoría de las Valuaciones",       horas:  8, subtemas: [] }
+    ],
+    bibBasicas: [
+      { name: "Bachman, G. — Introduction to p-adic Numbers and Valuation Theory. Academic Press, 1964.", caps: ["Números p-ádicos", "Caracterización axiomática", "Congruencias y enteros p-ádicos", "Teoría de las Valuaciones"] },
+      { name: "Borevich, Z.I.; Shafarevich, I.R. — Number Theory. Academic Press, 1966.", caps: ["Polinomios en Z_p", "Números p-ádicos", "Formas cuadráticas p-ádicas", "Hasse-Minkowski"] }
+    ],
+    bibComp: ["Niven, I.; Zuckerman, H. — Introducción a la Teoría de los Números. Limusa, 1969.", "Robert, A. — A Course in p-adic Analysis. Springer, 2000.", "Weiss, E. — Algebraic Number Theory. Dover, 1998."],
+    subsecuentes: []
   },
   "Probabilidad II": {
     temario: [
