@@ -101,7 +101,7 @@ function rerenderOptSlot(semNum, slotIdx) {
 // ==================== DISC SCRUBBER (temarios) ====================
 const TemDisc = {
   secs: [], rot: 0, isOpen: false,
-  R: 580, LEDGE: 430, STEP: 0.11, SPEED: 4.5,
+  R: 580, LEDGE: 430, STEP: 0.07, SPEED: 4.5,
 
   reset() { this.secs = []; this.rot = 0; },
 
