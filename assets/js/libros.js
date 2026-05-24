@@ -803,8 +803,8 @@ const Nav = {
     if (S.view === 'favs')   R.favs();
 
     /* disc scrubber visibility */
-    Disc.mode = 'book';
-    Disc.setVisible(S.view === 'book');
+    Disc.mode = S.view === 'home' ? 'home' : 'book';
+    Disc.setVisible(S.view === 'book' || S.view === 'home');
 
     /* scroll: to note if deep-link, else to top */
     if (S.noteKey) {
