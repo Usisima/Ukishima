@@ -48,6 +48,7 @@
 
 <div class="dash-bottom" id="dash-bottom">
   <p class="dash-page-title">Matemáticas UNAM</p>
+  <div class="dash-title-divider"></div>
   <div class="dash-statsrow">
     <div class="dash-stat-card">
       <span class="dash-stat-val" id="hs-mats">—</span>
@@ -193,13 +194,12 @@
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  // Equal-gap layout: A = (wrapH − contentH) / 3
-  // Header→BH center = A, BH center→content top = A, content bottom→nav = A
+  // Symmetric outer gaps: header→BH center = content bottom→nav = A
+  const CY = Math.max(5, Math.round(wrapH * 0.36 / lineH));
   const _dash    = document.getElementById('dash-bottom');
   const _contentH = _dash ? _dash.offsetHeight : 0;
-  const _A = (wrapH - _contentH) / 3;
-  const CY = Math.max(5, Math.round(_A / lineH));
-  if (_dash) _dash.style.top = Math.round(1.55 * _A) + 'px';
+  const _A = CY * lineH; // = header→BH center distance
+  if (_dash) _dash.style.top = Math.round(wrapH - _A - _contentH) + 'px';
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest

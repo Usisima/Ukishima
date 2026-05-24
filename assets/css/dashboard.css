@@ -507,6 +507,13 @@ body {
   text-align: center;
 }
 
+/* Divider below page title */
+.dash-title-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(155,191,181,0.22) 30%, rgba(155,191,181,0.22) 70%, transparent);
+  margin: 0 0.4rem;
+}
+
 /* Stats row */
 .dash-statsrow {
   display: flex;
