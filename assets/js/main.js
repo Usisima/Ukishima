@@ -144,23 +144,6 @@ const TemDisc = {
     const active = Math.round(this._clamp(this.rot));
     const buf = [];
 
-    // ── Disc rings ──────────────────────────────────────────────
-    [
-      { r: 350, w: 1,   a: 0.09 },
-      { r: 420, w: 2.5, a: 0.17 },
-      { r: 458, w: 1.5, a: 0.11 },
-      { r: 505, w: 1,   a: 0.07 },
-      { r: 720, w: 0.5, a: 0.04 },
-    ].forEach(({ r, w, a }) => {
-      const lx = W + L - r;
-      if (lx >= W) return;
-      buf.push(
-        `<div style="position:absolute;left:${lx.toFixed(0)}px;top:${(cy - r).toFixed(0)}px;` +
-        `width:${r * 2}px;height:${r * 2}px;border-radius:50%;` +
-        `border:${w}px solid rgba(180,210,205,${a});pointer-events:none;z-index:0;"></div>`
-      );
-    });
-
     // ── Selector needle ─────────────────────────────────────────
     const armLen = 92; // tip aligns with ante-penultimate ring (r=458, LEDGE=330): 458-330-36=92
     buf.push(
