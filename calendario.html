@@ -174,7 +174,7 @@
         isT:     sd(date, today),
         hol:     isHol(date),
         inSem:   inSem,
-        fillKey: traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
+        fillKey: isHol(date) ? 'hol' : traced ? 'traced' : inSem ? 'insem' : (evs.length && evs.filter(function(e){return e.key==='exord';})[0] && dow < 6) ? 'exord' : '',
         evKey:   topEv ? topEv.key : '',
         evRgb:   topEv ? topEv.rgb : '',
         trmKey:  (topEv && TRM[topEv.key]) ? topEv.key : '',
@@ -215,7 +215,8 @@
       if (d.fillKey === 'exord') { fT = false; fB = false; }
 
       // Background
-      var bg = d.fillKey === 'traced' ? 'rgba(155,191,181,0.30)'
+      var bg = d.fillKey === 'hol'    ? 'rgba(200,150,80,0.32)'
+             : d.fillKey === 'traced' ? 'rgba(155,191,181,0.30)'
              : d.fillKey === 'insem'  ? 'rgba(155,191,181,0.07)'
              : d.fillKey === 'exord'  ? 'rgba(160,60,90,0.18)'
              : '';
@@ -275,8 +276,8 @@
     var items = [
       { color: '#7aa89e', label: 'Días del semestre' },
       { color: '#3c64d2', label: 'Periodo vacacional' },
-      { color: '#c89650', label: 'Ex. Extraordinarios' },
-      { color: '#c85555', label: 'Ex. Ordinarios' },
+      { color: '#c89650', label: 'Días inhábiles' },
+      { color: '#c85555', label: 'Exámenes finales' },
     ];
     return '<div class="cal-legend">'
       + '<div class="cal-legend-title">Referencias</div>'
