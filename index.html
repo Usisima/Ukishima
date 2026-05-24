@@ -491,6 +491,29 @@
 })();
 </script>
 <script>
+// Typewriter para el título principal
+(function () {
+  var el = document.querySelector('.dash-page-title');
+  if (!el) return;
+  var text = el.textContent;
+  el.textContent = '';
+  // cursor
+  var cur = document.createElement('span');
+  cur.className = 'tw-cursor';
+  el.after(cur);
+  var i = 0;
+  function tick() {
+    el.textContent = text.slice(0, ++i);
+    if (i < text.length) {
+      setTimeout(tick, 60);
+    } else {
+      setTimeout(function () { cur.remove(); }, 900);
+    }
+  }
+  setTimeout(tick, 420);
+})();
+</script>
+<script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
   caches.keys().then(function(keys) {

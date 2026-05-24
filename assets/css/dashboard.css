@@ -507,6 +507,18 @@ body {
   text-align: center;
 }
 
+/* Typewriter cursor */
+.tw-cursor::after {
+  content: '|';
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  color: var(--ink2);
+  animation: tw-blink 0.65s step-end infinite;
+}
+@keyframes tw-blink {
+  50% { opacity: 0; }
+}
+
 /* Divider below page title */
 .dash-title-divider {
   height: 1px;
