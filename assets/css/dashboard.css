@@ -584,13 +584,13 @@ body {
   position: relative;
   background: linear-gradient(
     270deg,
-    #b06aff, #7c4dff, #3d9bff, #00d4c8, #3d9bff, #7c4dff, #b06aff
+    #0ad3fa, #c74d97, #e20c75, #c74d97, #0ad3fa
   );
   background-size: 300% 300%;
   animation: sem-bar-flow 4s ease infinite;
   box-shadow:
-    0 0 6px 1px rgba(130, 80, 255, 0.55),
-    0 0 14px 2px rgba(0, 200, 200, 0.30);
+    0 0 6px 1px rgba(226, 12, 117, 0.55),
+    0 0 14px 2px rgba(10, 211, 250, 0.30);
 }
 
 .dash-sem-bar::after { display: none; }
