@@ -383,6 +383,29 @@ body {
   margin: 0 1.2rem;
 }
 
+/* ── SECTION DIVIDER (Obligatorias / Optativas) ── */
+.lib-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.4rem 1.2rem 0.6rem;
+}
+
+.lib-section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+
+.lib-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--ink3);
+  white-space: nowrap;
+}
+
 /* ── BOOK DETAIL VIEW ────────────────────────── */
 .book-detail {
   padding: 1.2rem 1.2rem 0.5rem;
@@ -1409,6 +1432,17 @@ body {
   color: rgba(255,255,255,0.62);
   padding-left: 8px;
 }
+.disc-item.is-sect {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(155, 191, 181, 0.38);
+  pointer-events: none;
+  font-style: normal;
+  font-weight: 500;
+}
+
 .disc-item.is-active {
   color: #fff;
   font-weight: 600;

@@ -789,9 +789,20 @@ const LIBRARY = [
   },
 ];
 
+/* ══════════════════════════════════════════════════════════════════════
+   LIBRARY_OPT — Bibliografía de materias optativas
+   Misma estructura que LIBRARY: { subject, matId, color, books:[...] }
+   Se agregan conforme llega la bibliografía de cada optativa.
+   ══════════════════════════════════════════════════════════════════════ */
+const LIBRARY_OPT = [
+  // ── Bloque I ──────────────────────────────────────────────────────
+  // ── Bloque II ─────────────────────────────────────────────────────
+  // ── Bloque III ────────────────────────────────────────────────────
+];
+
 /* ── Función auxiliar para buscar libro por id ── */
 function findBook(id) {
-  for (const subj of LIBRARY) {
+  for (const subj of [...LIBRARY, ...LIBRARY_OPT]) {
     const b = subj.books.find(bk => bk.id === id);
     if (b) return { book: b, subject: subj.subject, color: subj.color };
   }
@@ -800,7 +811,7 @@ function findBook(id) {
 
 /* ── Lista plana de todos los libros ─────────── */
 function allBooks() {
-  return LIBRARY.flatMap(s => s.books.map(b => ({
+  return [...LIBRARY, ...LIBRARY_OPT].flatMap(s => s.books.map(b => ({
     ...b, subject: s.subject, color: s.color
   })));
 }

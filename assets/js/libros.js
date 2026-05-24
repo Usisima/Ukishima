@@ -134,17 +134,19 @@ const R = {
   /* ── HOME: list subjects with horizontal book scroll ── */
   home() {
     const main = document.getElementById('lib-main');
-    if (!LIBRARY.length) {
+    const hasOpt = LIBRARY_OPT && LIBRARY_OPT.length > 0;
+    if (!LIBRARY.length && !hasOpt) {
       main.innerHTML = `<div class="lib-empty"><div class="lib-empty-icon">📚</div><p>No hay libros disponibles.</p></div>`;
       return;
     }
-    main.innerHTML = LIBRARY.map((subj, si) => {
-      // Render favorites first within each subject, preserving original index for reordering
+
+    const renderSubj = (subj, si, isOpt) => {
       const ordered = subj.books
         .map((b, i) => ({ b, i }))
         .sort((a, b) => (isFavBook(a.b.id) ? 0 : 1) - (isFavBook(b.b.id) ? 0 : 1) || a.i - b.i);
+      const list = isOpt ? LIBRARY_OPT : LIBRARY;
       return `
-        <div class="lib-subject-section" style="animation-delay:${si * 0.04}s">
+        <div class="lib-subject-section${isOpt ? ' is-opt' : ''}" style="animation-delay:${si * 0.04}s">
           <div class="lib-subject-header">
             <div class="lib-subject-name">${esc(subj.subject)}</div>
             <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
@@ -152,9 +154,23 @@ const R = {
           <div class="lib-book-scroll">
             ${ordered.map(({ b, i }) => R._bookCard(b, subj.color, i)).join('')}
           </div>
-          ${si < LIBRARY.length - 1 ? '<div class="subject-divider"></div>' : ''}
+          ${si < list.length - 1 ? '<div class="subject-divider"></div>' : ''}
         </div>`;
-    }).join('');
+    };
+
+    let html = LIBRARY.map((subj, si) => renderSubj(subj, si, false)).join('');
+
+    if (hasOpt) {
+      html += `
+        <div class="lib-section-divider">
+          <div class="lib-section-line"></div>
+          <span class="lib-section-label">Optativas</span>
+          <div class="lib-section-line"></div>
+        </div>`;
+      html += LIBRARY_OPT.map((subj, si) => renderSubj(subj, LIBRARY.length + si, true)).join('');
+    }
+
+    main.innerHTML = html;
   },
 
   _bookCard(b, color, idx = 0) {
@@ -559,12 +575,25 @@ const Disc = {
 
   _buildHome() {
     this.secs = [];
-    document.querySelectorAll('.lib-subject-section').forEach(subjEl => {
+    const hasOpt = !!document.querySelector('.lib-subject-section.is-opt');
+
+    // ── Tronco Común label ─────────────────────────────────────────
+    this.secs.push({ label: 'Tronco Común', el: null, isCh: false, isSect: true });
+    document.querySelectorAll('.lib-subject-section:not(.is-opt)').forEach(subjEl => {
       const headerEl = subjEl.querySelector('.lib-subject-header');
       const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
-      const trunc = name;
-      this.secs.push({ label: trunc, el: headerEl, isCh: false, subjEl });
+      this.secs.push({ label: name, el: headerEl, isCh: false, subjEl });
     });
+
+    // ── Optativas label ────────────────────────────────────────────
+    if (hasOpt) {
+      this.secs.push({ label: 'Optativas', el: null, isCh: false, isSect: true });
+      document.querySelectorAll('.lib-subject-section.is-opt').forEach(subjEl => {
+        const headerEl = subjEl.querySelector('.lib-subject-header');
+        const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
+        this.secs.push({ label: name, el: headerEl, isCh: false, subjEl });
+      });
+    }
   },
 
   _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
@@ -624,7 +653,7 @@ const Disc = {
         `<div style="position:absolute;right:${tickR.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
         `width:${tickW}px;height:${tickH}px;background:${tickC};` +
         `transform:translateY(-50%);pointer-events:none;z-index:3;border-radius:1px;"></div>` +
-        `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" ` +
+        `<div class="disc-item${sec.isSect ? ' is-sect' : sec.isCh ? ' is-ch' : ' is-sub'}${isAct && !sec.isSect ? ' is-active' : ''}" ` +
         `data-i="${i}" ` +
         `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
         `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
