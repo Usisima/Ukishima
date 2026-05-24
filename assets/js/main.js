@@ -507,17 +507,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetView = id.startsWith('opt_B') ? 'optativas' : 'tronco';
       const needSwitch = TEM_VIEW !== targetView;
       if (needSwitch) renderView(root, targetView);
-      setTimeout(() => {
+
+      const doScroll = () => {
         const card = document.getElementById(`card-${id}`);
-        if (card) {
-          const hH = document.querySelector('.header')?.offsetHeight      || 0;
-          const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
-          const top = card.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
-          card.classList.add('open', 'highlight-pulse');
-          setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
-          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-        }
-      }, needSwitch ? 60 : 0);
+        if (!card) return;
+        const hH = document.querySelector('.header')?.offsetHeight      || 0;
+        const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+        // offsetTop acumulado: posición absoluta en el documento, no depende del scroll actual
+        let absTop = 0, el = card;
+        while (el) { absTop += el.offsetTop; el = el.offsetParent; }
+        card.classList.add('open', 'highlight-pulse');
+        setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
+        window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
+      };
+
+      // double rAF: deja que el render se estabilice antes de calcular posición
+      if (needSwitch) {
+        requestAnimationFrame(() => requestAnimationFrame(doScroll));
+      } else {
+        doScroll();
+      }
       return;
     }
 
