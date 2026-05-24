@@ -107,15 +107,29 @@ const TemDisc = {
 
   build() {
     this.secs = [];
-    const isOpt = TEM_VIEW === 'optativas';
-    const els = isOpt
-      ? document.querySelectorAll('.opt-bloque-head')
-      : document.querySelectorAll('.semester .sem-header');
-    els.forEach(el => {
-      const sel = isOpt ? '.opt-bloque-title' : '.sem-title';
-      const raw = el.querySelector(sel)?.textContent.trim() || '';
-      this.secs.push({ label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw, el, isCh: true });
-    });
+    if (TEM_VIEW === 'optativas') {
+      document.querySelectorAll('.opt-bloque-section').forEach(bloqEl => {
+        const headEl = bloqEl.querySelector('.opt-bloque-head');
+        const raw = headEl?.querySelector('.opt-bloque-title')?.textContent.trim() || '';
+        this.secs.push({ label: raw, el: headEl, isCh: true });
+        bloqEl.querySelectorAll('.card').forEach(card => {
+          const name = card.querySelector('.card-name')?.textContent.trim() || '';
+          const target = card.querySelector('.card-head') || card;
+          this.secs.push({ label: name.length > 24 ? name.slice(0, 23) + '…' : name, el: target, isCh: false });
+        });
+      });
+    } else {
+      document.querySelectorAll('.semester').forEach(semEl => {
+        const headEl = semEl.querySelector('.sem-header');
+        const raw = headEl?.querySelector('.sem-title')?.textContent.trim() || '';
+        this.secs.push({ label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw, el: headEl, isCh: true });
+        semEl.querySelectorAll('.card').forEach(card => {
+          const name = card.querySelector('.card-name')?.textContent.trim() || '';
+          const target = card.querySelector('.card-head') || card;
+          this.secs.push({ label: name.length > 24 ? name.slice(0, 23) + '…' : name, el: target, isCh: false });
+        });
+      });
+    }
   },
 
   _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },

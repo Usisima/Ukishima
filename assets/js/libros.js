@@ -522,11 +522,6 @@ const Disc = {
       const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
       const trunc = name.length > 26 ? name.slice(0, 25) + '…' : name;
       this.secs.push({ label: trunc, el: headerEl, isCh: true, subjEl });
-      subjEl.querySelectorAll('.book-card').forEach(card => {
-        const title = card.querySelector('.book-card-title')?.textContent.trim() || '';
-        const t2 = title.length > 24 ? title.slice(0, 23) + '…' : title;
-        this.secs.push({ label: t2, el: card, isCh: false, subjEl });
-      });
     });
   },
 
@@ -597,26 +592,22 @@ const Disc = {
     const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
     const subjTop = sec.subjEl.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
     window.scrollTo({ top: Math.max(0, subjTop), behavior: 'smooth' });
-    if (!sec.isCh) {
-      setTimeout(() => {
-        const carousel = sec.subjEl.querySelector('.lib-book-scroll');
-        if (!carousel) return;
-        const cRect = carousel.getBoundingClientRect();
-        const eRect = sec.el.getBoundingClientRect();
-        carousel.scrollTo({ left: Math.max(0, carousel.scrollLeft + eRect.left - cRect.left - 12), behavior: 'smooth' });
-        sec.el.classList.add('lib-book-highlight');
-        setTimeout(() => sec.el.classList.remove('lib-book-highlight'), 1200);
-      }, 350);
-    }
   },
 
 _currentIdx() {
     const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
     const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
+    if (this.mode === 'home') {
+      let best = 0;
+      this.secs.forEach((s, i) => {
+        if (!s.el) return;
+        if (s.el.getBoundingClientRect().top <= cy) best = i;
+      });
+      return best;
+    }
     let best = 0, bestD = Infinity;
     this.secs.forEach((s, i) => {
       if (!s.el) return;
-      if (this.mode === 'home' && !s.isCh) return;
       const d = Math.abs(s.el.getBoundingClientRect().top - cy);
       if (d < bestD) { bestD = d; best = i; }
     });
