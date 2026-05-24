@@ -725,7 +725,7 @@ body {
 }
 
 @keyframes bh-power-on {
-  0%   { opacity: 0; clip-path: circle(0%   at 50% var(--bh-cy)); }
+  0%   { opacity: 0; clip-path: circle(1%   at 50% var(--bh-cy)); }
   100% { opacity: 1; clip-path: circle(160% at 50% var(--bh-cy)); }
 }
 
