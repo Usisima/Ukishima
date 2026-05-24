@@ -711,12 +711,22 @@ body {
   background: transparent;
 }
 
-/* BH disc layer — JS-driven opacity fade-in (see tick loop) */
+/* BH disc layer — clip-path power-on triggered by JS */
 #bh-art {
   position: absolute;
   top: 0; left: 0;
   background: transparent;
-  opacity: 0;
+  --bh-cy: 35%;
+}
+
+#bh-art.bh-on {
+  animation: bh-power-on 2.2s cubic-bezier(0.4, 0, 0.55, 1) both;
+}
+
+@keyframes bh-power-on {
+  0%   { opacity: 0;    clip-path: circle(0%   at 50% var(--bh-cy)); }
+  45%  { opacity: 0.12; clip-path: circle(8%   at 50% var(--bh-cy)); }
+  100% { opacity: 1;    clip-path: circle(160% at 50% var(--bh-cy)); }
 }
 
 .bh-art {
