@@ -726,10 +726,6 @@ const Nav = {
       t.classList.toggle('active', t.dataset.view === S.view);
     });
 
-    /* back button */
-    const backBtn = document.getElementById('lib-back-btn');
-    backBtn.style.display = S.view === 'book' ? 'flex' : 'none';
-
     /* search bar */
     const searchBar = document.getElementById('lib-search-bar');
     searchBar.style.display = S.view === 'search' ? 'flex' : 'none';
@@ -801,11 +797,6 @@ const Nav = {
     document.getElementById('lib-search-input').value = '';
     document.getElementById('lib-search-clear').style.display = 'none';
     Nav.go(v);
-  });
-
-  /* back button */
-  document.getElementById('lib-back-btn').addEventListener('click', () => {
-    history.back();
   });
 
   /* browser back/forward */
