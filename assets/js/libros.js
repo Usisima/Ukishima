@@ -501,7 +501,7 @@ const Disc = {
   isOpen: false,
   mode:   'book',  // 'book' | 'home'
   R:      580,
-  LEDGE:  430,
+  LEDGE:  460,
   STEP:   0.07,
   SPEED:  4.5,
 
