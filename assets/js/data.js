@@ -546,6 +546,51 @@ const OPT_DATA = {
     ],
     bibComp: ["Graham, R.L.; Knuth, D.E.; Patashnik, O. — Concrete Mathematics. Addison-Wesley, 1994.", "Lovász, L.; Pelikán, J.; Vesztergombi, K. — Discrete Mathematics: Elementary and Beyond. Springer, 2003."],
     subsecuentes: ["Teoría de las Gráficas I", "Análisis de Algoritmos I", "Teoría de la Computación", "Combinatoria"]
+  },
+
+  // ── Introducción a Ciencias de la Computación I (0224) ─────────────────
+  "Introducción a Ciencias de la Computación I": {
+    temario: [
+      { num: "I",   name: "Conceptos fundamentales en métodos para la solución de problemas", horas: 23, subtemas: ["Abstracción de procedimientos; parámetros", "Estructuras de control: selección, iteración, recursividad", "Tipos de datos (números, cadenas, booleanos) y sus usos en la solución de problemas", "El proceso de diseño de programas; desde la especificación hasta la instrumentación", "Refinamientos sucesivos; representación gráfica"] },
+      { num: "II",  name: "Introducción a un lenguaje de programación",                       horas:  9, subtemas: ["Declaración de tipos básicos", "Operadores aritméticos y de asignación", "Enunciados condicionales", "Iteraciones y recursividad", "Procedimientos, funciones y parámetros", "Arreglos y registros", "Estructura general de un programa"] },
+      { num: "III", name: "Representación de datos a nivel de la máquina",                    horas:  4, subtemas: ["Representación de datos numéricos: binario, octal, hexadecimal, punto fijo, complemento a 1 y a 2, punto flotante, decimal, BCD, XS3", "Datos no numéricos: alfanuméricos, ASCII, ISO"] },
+      { num: "IV",  name: "Representación de tipos de datos",                                 horas:  4, subtemas: ["Selección y representación de tipos de datos elementales: enteros, reales, booleanos, carácter", "Especificación y representación de tipos de datos estructurados: arreglos, registros, conjuntos"] },
+      { num: "V",   name: "Algoritmos recursivos",                                            horas:  8, subtemas: ["Introducción a algoritmos recursivos", "Conexión con la inducción matemática", "Comparación entre algoritmos recursivos e iterativos"] },
+      { num: "VI",  name: "Búsquedas y ordenamientos lineales",                               horas:  8, subtemas: ["Algoritmos de ordenamiento de selección e inserción en arreglos y a través de apuntadores; complejidad en tiempo y espacio; mejor y peor casos", "Búsqueda lineal, búsqueda binaria y árboles binarios de búsqueda; complejidad en tiempo y espacio"] },
+      { num: "VII", name: "Contexto histórico y social de la computación",                    horas:  4, subtemas: ["Contexto social e histórico de la computación. Actividades profesionales", "Similitudes y diferencias con otras disciplinas científicas", "Uso, mal uso y límites de la tecnología computacional", "Responsabilidades sociales: seguridad y privacidad. Tipos de riesgos"] }
+    ],
+    bibBasicas: [
+      { name: "Tucker, A.B.; Bernat, A.; Bradley, W.J.; Cupper, R.D. — Fundamentals of Computing I: Logic, Problem Solving, Programs and Computers. 2ª ed. McGraw-Hill, 1994.", caps: ["Métodos para la solución de problemas", "Lenguaje de programación", "Tipos de datos", "Algoritmos recursivos", "Búsquedas y ordenamientos"] },
+      { name: "Warford, S.J. — Computer Science. D.C. Heath and Company, 1991.", caps: ["Lenguaje de programación", "Representación de datos", "Algoritmos"] }
+    ],
+    bibComp: ["Ledgard, H.; Tauer, J. — Professional Software, Vol. I: Software Engineering Concepts. Addison-Wesley, 1987.", "Ledgard, H.; Tauer, J. — Professional Software, Vol. II: Programming Practice. Addison-Wesley, 1987.", "Naur, P. — A Human Activity. ACM Press/Addison-Wesley, 1992."],
+    subsecuentes: ["Introducción a Ciencias de la Computación II"]
+  },
+
+  // ── Mecánica Vectorial (0228) ───────────────────────────────────────────
+  "Mecánica Vectorial": {
+    temario: [
+      { num: "1",  name: "Introducción",                            horas:  2, subtemas: ["El objeto de estudio de la mecánica", "Las variables básicas de descripción. Sistemas de unidades", "Medición de distancias, ángulos, tiempos y masas", "Precisión, exactitud e incertidumbre experimental"] },
+      { num: "2",  name: "Vectores",                                horas:  4, subtemas: ["Álgebra vectorial", "Los vectores como lenguaje de la mecánica"] },
+      { num: "3",  name: "Cinemática",                              horas: 12, subtemas: ["Movimiento rectilíneo: velocidad y aceleración", "Representación vectorial de la velocidad y la aceleración", "Movimiento curvilíneo: velocidad y aceleración", "Movimiento bajo aceleración constante", "Componentes tangenciales y normales de la aceleración", "Movimiento circular: aceleración angular", "Movimiento curvilíneo general"] },
+      { num: "4",  name: "Dinámica de una partícula",               horas: 14, subtemas: ["La ley de la inercia. Primera ley de Newton", "Principio de conservación del momento lineal", "Segunda y tercera leyes de Newton: concepto de fuerza", "Fricción", "Sistemas de masa variable", "Momento angular y torca", "Fuerzas centrales"] },
+      { num: "5",  name: "Relatividad Galileana",                   horas: 12, subtemas: ["Velocidad relativa", "Movimiento traslacional relativo uniforme", "Movimiento rotacional relativo uniforme", "Movimiento relativo a la Tierra"] },
+      { num: "6",  name: "Trabajo y energía",                       horas: 14, subtemas: ["Trabajo. Potencia. Energía cinética", "Trabajo de una fuerza constante en magnitud y dirección", "Energía potencial: concepto de potencial", "Conservación de energía de una partícula", "Movimiento bajo fuerzas conservativas", "Fuerzas no conservativas: disipación de energía"] },
+      { num: "7",  name: "Dinámica de un sistema de partículas",    horas: 12, subtemas: ["Masa total, momento total y centro de masa", "Movimiento del centro de masa", "Masa reducida", "Momento angular de un sistema de partículas", "Energía cinética y conservación de energía de un sistema de partículas"] },
+      { num: "8",  name: "Dinámica del cuerpo rígido",              horas: 10, subtemas: ["Momento angular de un cuerpo rígido", "Cálculo del momento de inercia", "Ecuación de movimiento para la rotación de un cuerpo rígido", "Energía cinética de rotación", "Movimiento giroscópico (revisión somera)"] },
+      { num: "9",  name: "Movimiento oscilatorio",                  horas:  8, subtemas: ["Cinemática y dinámica del oscilador armónico simple", "Péndulo simple y péndulo compuesto", "Superposición de dos movimientos armónicos simples: coherencia e incoherencia"] },
+      { num: "10", name: "Interacción gravitatoria",                horas: 10, subtemas: ["Gravedad. La ley gravitacional de Newton", "Fuerza gravitacional de una masa esférica", "Masas inercial y gravitacional", "Energía potencial gravitacional", "Movimiento general bajo la fuerza gravitacional", "Leyes de Kepler. Principio de equivalencia"] }
+    ],
+    bibBasicas: [
+      { name: "Alonso, M.; Finn, J.E. — Física. Addison Wesley Iberoamericana, 1999.", caps: ["Vectores", "Cinemática", "Dinámica", "Trabajo y energía", "Oscilaciones", "Gravitación"] },
+      { name: "Giancoli, D. — Physics for Scientists & Engineers. 3ª ed. Prentice Hall, 2000.", caps: ["Cinemática", "Dinámica", "Trabajo y energía", "Oscilaciones", "Gravitación"] },
+      { name: "Halliday, D.; Resnick, R.; Walker, J. — Fundamentals of Physics. 5ª ed. John Wiley & Sons, 1997.", caps: ["Cinemática", "Dinámica", "Trabajo y energía", "Sistema de partículas", "Cuerpo rígido", "Oscilaciones", "Gravitación"] },
+      { name: "Kittel, Ch.; Knight, W.D.; Ruderman, M.A. — Mecánica (Berkeley Physics Course, Vol. 1). Reverté, 1989.", caps: ["Vectores", "Cinemática", "Dinámica", "Conservación de energía", "Oscilaciones"] },
+      { name: "Ohanian, H.C.; Markert, J.T. — Física para ingeniería y ciencias, Vol. 1. 3ª ed. McGraw-Hill, 2009.", caps: ["Cinemática", "Dinámica", "Trabajo y energía", "Oscilaciones"] },
+      { name: "Serway, R.A.; Jewett, J.W. — Física, Vol. I. 6ª ed. Thomson, 2005.", caps: ["Cinemática", "Dinámica", "Trabajo y energía", "Sistema de partículas", "Cuerpo rígido", "Oscilaciones", "Gravitación"] }
+    ],
+    bibComp: ["French, A.P. — Newtonian Mechanics (M.I.T. Introductory Physics Series). W.W. Norton, 1971.", "Feynman, R.P.; Leighton, R.B.; Sands, M. — The Feynman Lectures on Physics, Vol. I: Mechanics, Radiation, and Heat. 1964."],
+    subsecuentes: ["Mecánica Analítica"]
   }
 };
 
