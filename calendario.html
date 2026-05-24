@@ -270,10 +270,32 @@
       + '<div class="cal-grid">' + cells + '</div>'
       + '</div>';
   }
+  /* ─── LEGEND ─── */
+  function renderLegend() {
+    var items = [
+      { color: '#7aa89e', label: 'Días del semestre' },
+      { color: '#3c64d2', label: 'Periodo vacacional' },
+      { color: '#c89650', label: 'Ex. Extraordinarios' },
+      { color: '#c85555', label: 'Ex. Ordinarios' },
+    ];
+    return '<div class="cal-legend">'
+      + '<div class="cal-legend-title">Referencias</div>'
+      + '<div class="cal-legend-grid">'
+      + items.map(function (item) {
+          return '<div class="cal-legend-item">'
+            + '<div class="cal-legend-swatch" style="background:' + item.color + '"></div>'
+            + '<span class="cal-legend-label">' + item.label + '</span>'
+            + '</div>';
+        }).join('')
+      + '</div>'
+      + '</div>';
+  }
+
   /* ─── RENDER ─── */
   var MONTHS = [[2026,0],[2026,1],[2026,2],[2026,3],[2026,4],[2026,5],[2026,6],[2026,7]];
   var main = document.getElementById('cal-main');
   main.innerHTML = renderProgress()
+    + renderLegend()
     + '<div class="cal-months-grid">'
     + MONTHS.map(function (ym) { return renderMonth(ym[0], ym[1]); }).join('')
     + '</div>';

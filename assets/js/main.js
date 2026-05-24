@@ -248,6 +248,7 @@ const TemDisc = {
     if (!this.secs.length) return;
     this.rot = this._currentIdx();
     this.isOpen = true;
+    document.documentElement.style.overflow = 'hidden'; // freeze page scroll
     if (!this._blockFn) {
       this._blockFn = e => e.preventDefault();
       document.addEventListener('touchmove', this._blockFn, { passive: false });
@@ -260,6 +261,7 @@ const TemDisc = {
 
   close() {
     this.isOpen = false;
+    document.documentElement.style.overflow = ''; // restore scroll
     if (this._blockFn) {
       document.removeEventListener('touchmove', this._blockFn);
       this._blockFn = null;
