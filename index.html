@@ -193,7 +193,13 @@
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  const CY = Math.max(5, Math.round(wrapH * 0.36 / lineH));
+  // Equal-gap layout: A = (wrapH − contentH) / 3
+  // Header→BH center = A, BH center→content top = A, content bottom→nav = A
+  const _dash    = document.getElementById('dash-bottom');
+  const _contentH = _dash ? _dash.offsetHeight : 0;
+  const _A = (wrapH - _contentH) / 3;
+  const CY = Math.max(5, Math.round(_A / lineH));
+  if (_dash) _dash.style.top = Math.round(2 * _A) + 'px';
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
