@@ -134,12 +134,6 @@ const TemDisc = {
 
   _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
 
-  _groove(v) {
-    const n = Math.round(v);
-    const d = v - n;
-    return this._clamp(n + d * (1 - 0.80 * Math.exp(-8 * d * d)));
-  },
-
   _render() {
     const wrap = document.getElementById('tem-disc-wrap');
     if (!wrap) return;
@@ -150,24 +144,22 @@ const TemDisc = {
     const active = Math.round(this._clamp(this.rot));
     const buf = [];
 
-    // ── Vinyl disc ──────────────────────────────────────────────
-    const dlx = (W + L - 560).toFixed(0);
-    const dty = (cy - 560).toFixed(0);
-    const msk = 'linear-gradient(to right,transparent 8%,white 20%)';
-    buf.push(
-      `<div style="position:absolute;left:${dlx}px;top:${dty}px;` +
-      `width:1120px;height:1120px;border-radius:50%;overflow:hidden;pointer-events:none;z-index:0;` +
-      `-webkit-mask-image:${msk};mask-image:${msk};` +
-      `background:` +
-      `radial-gradient(circle at 50% 50%,transparent 62.50%,rgba(175,215,205,.14) 62.50%,rgba(175,215,205,.14) 62.86%,transparent 62.86%),` +
-      `radial-gradient(circle at 50% 50%,transparent 75.00%,rgba(175,215,205,.18) 75.00%,rgba(175,215,205,.18) 75.54%,transparent 75.54%),` +
-      `radial-gradient(circle at 50% 50%,transparent 81.79%,rgba(175,215,205,.11) 81.79%,rgba(175,215,205,.11) 82.14%,transparent 82.14%),` +
-      `radial-gradient(circle at 50% 50%,transparent 90.18%,rgba(175,215,205,.07) 90.18%,rgba(175,215,205,.07) 90.45%,transparent 90.45%),` +
-      `radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 60.71%,transparent 60.71%),` +
-      `repeating-radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 0px,rgba(6,10,8,.72) 6.3px,rgba(175,215,205,.052) 6.3px,rgba(175,215,205,.052) 7px),` +
-      `radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 100%);` +
-      `"></div>`
-    );
+    // ── Disc rings ──────────────────────────────────────────────
+    [
+      { r: 350, w: 1,   a: 0.09 },
+      { r: 420, w: 2.5, a: 0.17 },
+      { r: 458, w: 1.5, a: 0.11 },
+      { r: 505, w: 1,   a: 0.07 },
+      { r: 720, w: 0.5, a: 0.04 },
+    ].forEach(({ r, w, a }) => {
+      const lx = W + L - r;
+      if (lx >= W) return;
+      buf.push(
+        `<div style="position:absolute;left:${lx.toFixed(0)}px;top:${(cy - r).toFixed(0)}px;` +
+        `width:${r * 2}px;height:${r * 2}px;border-radius:50%;` +
+        `border:${w}px solid rgba(180,210,205,${a});pointer-events:none;z-index:0;"></div>`
+      );
+    });
 
     // ── Selector needle ─────────────────────────────────────────
     const armLen = 92; // tip aligns with ante-penultimate ring (r=458, LEDGE=330): 458-330-36=92
@@ -203,14 +195,11 @@ const TemDisc = {
   },
 
   _snapTo(target, cb) {
-    let vel = 0;
     const go = () => {
-      vel = (vel + (target - this.rot) * 0.20) * 0.70;
-      this.rot += vel;
+      const diff = target - this.rot;
+      if (Math.abs(diff) < 0.02) { this.rot = target; this._render(); cb?.(); return; }
+      this.rot += diff * 0.22;
       this._render();
-      if (Math.abs(target - this.rot) < 0.008 && Math.abs(vel) < 0.005) {
-        this.rot = target; this._render(); cb?.(); return;
-      }
       requestAnimationFrame(go);
     };
     go();
@@ -312,7 +301,7 @@ const TemDisc = {
       _detach();
       _tmm = e => {
         e.preventDefault();
-        this.rot = this._groove(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
+        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
         this._render();
       };
       _tmu = () => {
@@ -337,7 +326,7 @@ const TemDisc = {
       if (!this.secs.length) return;
       if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
       let sy = e.clientY, sr = this.rot;
-      const mm = ev => { this.rot = this._groove(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
+      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
       const mu = () => {
         document.removeEventListener('mousemove', mm);
         document.removeEventListener('mouseup',   mu);
