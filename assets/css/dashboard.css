@@ -702,6 +702,13 @@ body {
   width: 100%;
   user-select: none;
   pointer-events: none;
+  animation: bh-power-on 2s cubic-bezier(0.4, 0, 0.55, 1) 0.1s both;
+}
+
+@keyframes bh-power-on {
+  0%   { clip-path: circle(0%   at 50% 35%); }
+  45%  { clip-path: circle(8%   at 50% 35%); }
+  100% { clip-path: circle(160% at 50% 35%); }
 }
 
 .bh-art {
