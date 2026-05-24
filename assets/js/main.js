@@ -504,14 +504,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const subsecTag = e.target.closest('[data-scroll-to]');
     if (subsecTag) {
       const id = subsecTag.dataset.scrollTo;
-      const needSwitch = TEM_VIEW !== 'tronco';
-      if (needSwitch) renderView(root, 'tronco');
+      const targetView = id.startsWith('opt_B') ? 'optativas' : 'tronco';
+      const needSwitch = TEM_VIEW !== targetView;
+      if (needSwitch) renderView(root, targetView);
       setTimeout(() => {
         const card = document.getElementById(`card-${id}`);
         if (card) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const hH = document.querySelector('.header')?.offsetHeight      || 0;
+          const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+          const top = card.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
           card.classList.add('open', 'highlight-pulse');
           setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
+          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
         }
       }, needSwitch ? 60 : 0);
       return;

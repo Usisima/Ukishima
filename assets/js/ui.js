@@ -85,6 +85,9 @@ function renderSubsecuentes(subsecuentes) {
   if (!subsecuentes || !subsecuentes.length) return '';
   const nameToId = {};
   CURRICULUM.forEach(s => s.materias.forEach(m => { nameToId[m.name] = m.id; }));
+  // Include optativas from all blocks
+  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III]]
+    .forEach(([key, pool]) => pool.forEach((opt, i) => { nameToId[opt.name] = `opt_${key}_${i}`; }));
   const tags = subsecuentes.map(name => {
     const id = nameToId[name];
     const cls = id ? 'subsec-tag' : 'subsec-tag no-link';
