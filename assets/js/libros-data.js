@@ -1087,36 +1087,6 @@ const LIBRARY_OPT = [
       { id: "am2_b3", title: "Galois Theory",                        author: "I. Stewart",      edition: "Chapman and Hall, 2004",             chapters: [] },
     ]
   },
-  // ── Introducción a Ciencias de la Computación I (optativa) ───────────
-  {
-    subject: "Introducción a Ciencias de la Computación I",
-    matId:   "icc1",
-    color:   "linear-gradient(135deg,#081218,#142430)",
-    books: [
-      { id: "icc1_b1", title: "Fundamentals of Computing I: Logic, Problem Solving, Programs and Computers", author: "A.B. Tucker; A. Bernat; W.J. Bradley; R.D. Cupper", edition: "2ª ed. McGraw-Hill, 1994",         chapters: [] },
-      { id: "icc1_b2", title: "Computer Science",                                                            author: "S.J. Warford",                                    edition: "D.C. Heath and Company, 1991",        chapters: [] },
-      { id: "icc1_b3", title: "Professional Software, Vol. I: Software Engineering Concepts",                author: "H. Ledgard; J. Tauer",                            edition: "Addison-Wesley, 1987",               chapters: [] },
-      { id: "icc1_b4", title: "Professional Software, Vol. II: Programming Practice",                        author: "H. Ledgard; J. Tauer",                            edition: "Addison-Wesley, 1987",               chapters: [] },
-      { id: "icc1_b5", title: "A Human Activity",                                                            author: "P. Naur",                                         edition: "ACM Press/Addison-Wesley, 1992",      chapters: [] },
-    ]
-  },
-
-  // ── Mecánica Vectorial (optativa) ─────────────────────────────────────
-  {
-    subject: "Mecánica Vectorial",
-    matId:   "mecanica_vectorial",
-    color:   "linear-gradient(135deg,#181008,#302018)",
-    books: [
-      { id: "mv_b1", title: "Física",                                      author: "M. Alonso; J.E. Finn",         edition: "Addison Wesley Iberoamericana, 1999",  chapters: [] },
-      { id: "mv_b2", title: "Physics for Scientists & Engineers",           author: "D. Giancoli",                  edition: "3ª ed. Prentice Hall, 2000",           chapters: [] },
-      { id: "mv_b3", title: "Fundamentals of Physics",                      author: "D. Halliday; R. Resnick; J. Walker", edition: "5ª ed. John Wiley & Sons, 1997",  chapters: [] },
-      { id: "mv_b4", title: "Mecánica (Berkeley Physics Course, Vol. 1)",   author: "Ch. Kittel; W.D. Knight; M.A. Ruderman", edition: "Reverté, 1989",              chapters: [] },
-      { id: "mv_b5", title: "Física para ingeniería y ciencias, Vol. 1",    author: "H.C. Ohanian; J.T. Markert",   edition: "3ª ed. McGraw-Hill, 2009",            chapters: [] },
-      { id: "mv_b6", title: "Física, Vol. I",                               author: "R.A. Serway; J.W. Jewett",     edition: "6ª ed. Thomson, 2005",                chapters: [] },
-      { id: "mv_b7", title: "Newtonian Mechanics (M.I.T. Physics Series)",  author: "A.P. French",                  edition: "W.W. Norton, 1971",                   chapters: [] },
-    ]
-  },
-
   // ── Bloque III ────────────────────────────────────────────────────
 ];
 

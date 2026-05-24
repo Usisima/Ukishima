@@ -925,11 +925,21 @@ const Nav = {
     if (id) { S.view = 'book'; S.bookId = id; }
   } else if (hash.startsWith('#libro-mat/')) {
     const parts = hash.slice('#libro-mat/'.length).split('/');
-    const matId = parts[0], bkIdx = parseInt(parts[1] || '0');
-    if (matId) {
+    const rawId = decodeURIComponent(parts[0]);
+    const bkIdx = parseInt(parts[1] || '0');
+    if (rawId) {
+      // Tronco común — buscar por matId en LIBRARY
       for (const subj of LIBRARY) {
-        if (subj.matId === matId && subj.books[bkIdx]) {
+        if (subj.matId === rawId && subj.books[bkIdx]) {
           S.view = 'book'; S.bookId = subj.books[bkIdx].id; break;
+        }
+      }
+      // Optativas — buscar por nombre o matId en LIBRARY_OPT
+      if (S.view !== 'book') {
+        for (const subj of LIBRARY_OPT) {
+          if ((subj.subject === rawId || subj.matId === rawId) && subj.books[bkIdx]) {
+            S.view = 'book'; S.bookId = subj.books[bkIdx].id; break;
+          }
         }
       }
     }

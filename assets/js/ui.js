@@ -248,7 +248,9 @@ function renderTemaItemTronco(tema, i) {
 function renderCardBodyTronco(mat) {
   const temaItems = (mat.temario || []).map((t, i) => renderTemaItemTronco(t, i)).join('');
   const bibButtons = (mat.bibBasicas || []).map((bib, i) => {
-    const url = `libros.html#libro-mat/${mat.id}/${i}`;
+    // Optativas usan el nombre como clave (el id posicional opt_BI_N no existe en libros-data)
+    const libKey = mat.id.startsWith('opt_') ? encodeURIComponent(mat.name) : mat.id;
+    const url = `libros.html#libro-mat/${libKey}/${i}`;
     const parts = bib.name.split('—').map(s => s.trim());
     const authorPart = parts[0] || bib.name;
     const titlePart  = parts[1] || '';
