@@ -471,7 +471,9 @@
     if (preStars) preStars.innerHTML = htmlStars;
   }
 
-  requestAnimationFrame(tick);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    requestAnimationFrame(tick);
+  });
 
   } // end init
   requestAnimationFrame(init);

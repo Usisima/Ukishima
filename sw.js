@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v115';
+const CACHE = 'ukishima-v116';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -118,18 +118,9 @@ const SHELL = [
 ];
 
 self.addEventListener('install', e => {
-  // cache:'reload' bypasses browser HTTP cache so CDN stale responses
-  // cannot overwrite correctly-built SW caches with old files
   e.waitUntil(
     caches.open(CACHE)
-      .then(cache =>
-        Promise.all(
-          SHELL.map(url =>
-            fetch(new Request(url, { cache: 'reload' }))
-              .then(res => { if (res.ok) return cache.put(url, res); })
-          )
-        )
-      )
+      .then(c => c.addAll(SHELL))
       .then(() => self.skipWaiting())
   );
 });
