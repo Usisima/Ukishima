@@ -563,14 +563,12 @@ body {
   margin-bottom: 0.28rem;
 }
 
-/* ::before es 3× el ancho de la barra con 3 ciclos idénticos.
-   translateX(0 → -33.333%): mueve exactamente 1 ciclo hacia la izquierda;
-   inicio y fin son visualmente idénticos → loop perfecto sin glitch.
-   El gradiente está invertido (e20c75→0ad3fa) para que el movimiento
-   izquierda del contenedor se perciba como flujo izquierda→derecha. */
+/* Gradiente SIMÉTRICO (palíndromo): empieza y termina en cian → sin hard-stop en la costura.
+   Elemento 200%: 2 ciclos idénticos. translateX(0 → -50%) = exactamente 1 ciclo.
+   Contenido al inicio [0-50%] ≡ contenido al final [50-100%] → loop invisible. */
 @keyframes sem-bar-flow {
   from { transform: translateX(0); }
-  to   { transform: translateX(-33.333%); }
+  to   { transform: translateX(-50%); }
 }
 
 .dash-sem-bar-wrap {
@@ -595,18 +593,19 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 300%;
+  width: 200%;
   height: 100%;
-  /* 3 ciclos idénticos invertidos: mueve físico izq = flujo visual izq→der */
+  /* Onda simétrica: cian(0) → morado → rosa → morado → cian(50%) → morado → rosa → morado → cian(100%)
+     g(0%) = g(50%) = g(100%) = cian → sin hard-stop, loop matemáticamente invisible */
   background: linear-gradient(90deg,
-    #e20c75  0%,
-    #c74d97 13.333%,
-    #0ad3fa 33.333%,
-    #e20c75 33.333%,
-    #c74d97 46.666%,
-    #0ad3fa 66.666%,
-    #e20c75 66.666%,
-    #c74d97 79.999%,
+    #0ad3fa  0%,
+    #c74d97 12.5%,
+    #e20c75 25%,
+    #c74d97 37.5%,
+    #0ad3fa 50%,
+    #c74d97 62.5%,
+    #e20c75 75%,
+    #c74d97 87.5%,
     #0ad3fa 100%
   );
   animation: sem-bar-flow 10s linear infinite;
