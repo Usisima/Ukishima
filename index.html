@@ -226,13 +226,13 @@
   // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue, off }
   // Edita hue para cambiar colores: 0°=rojo 60°=amarillo 120°=verde 180°=cian 240°=azul 300°=magenta
   const RINGS = [
-    { rc: 0.24,  w: 0.090, hue: 220, off: 0.7 },  // esfera interna   — azul profundo
-    { rc: 0.455, w: 0.085, hue: 205, off: 2.4 },  // anillo interior  — azul medio
-    { rc: 0.645, w: 0.060, hue: 190, off: 4.0 },  // transición       — cian frío
-    { rc: 0.880, w: 0.060, hue: 210, off: 5.6 },  // anillo exterior  — azul claro
+    { rc: 0.24,  w: 0.090, hue:   0, off: 0.7 },  // esfera interna   — rojo puro
+    { rc: 0.455, w: 0.085, hue:  12, off: 2.4 },  // anillo interior  — rojo-naranja
+    { rc: 0.645, w: 0.060, hue:  28, off: 4.0 },  // transición       — naranja
+    { rc: 0.880, w: 0.060, hue:  45, off: 5.6 },  // anillo exterior  — ámbar
   ];
-  const RING_HUE    = 195;  // anillo fotónico  — cian
-  const SCATTER_HUE = 200;  // partículas/scatter — azul-cian
+  const RING_HUE    =   5;  // anillo fotónico  — rojo
+  const SCATTER_HUE =  35;  // partículas/scatter — naranja
   const BASE_RC = 0.45;
 
   const STAR_CH   = ['.', 'o', 'o', 'O', '0'];
