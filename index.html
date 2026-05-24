@@ -47,7 +47,13 @@
 </div>
 
 <div class="dash-bottom" id="dash-bottom">
-  <p class="dash-page-title">Matemáticas UNAM</p>
+  <svg class="dash-page-title" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-label="Matemáticas UNAM">
+    <text x="50%" y="1.15em" text-anchor="middle"
+          font-family="'Playfair Display',serif" font-weight="900"
+          font-size="1.18rem" letter-spacing="-0.01em"
+          class="dash-write-text">Matemáticas UNAM</text>
+  </svg>
   <div class="dash-title-divider"></div>
   <div class="dash-statsrow">
     <div class="dash-stat-card">
@@ -488,29 +494,6 @@
     if (btn)       btn.style.display       = 'none';
     if (btnPrompt) btnPrompt.style.display  = 'none';
   });
-})();
-</script>
-<script>
-// Typewriter para el título principal
-(function () {
-  var el = document.querySelector('.dash-page-title');
-  if (!el) return;
-  var text = el.textContent;
-  el.textContent = '';
-  // cursor
-  var cur = document.createElement('span');
-  cur.className = 'tw-cursor';
-  el.after(cur);
-  var i = 0;
-  function tick() {
-    el.textContent = text.slice(0, ++i);
-    if (i < text.length) {
-      setTimeout(tick, 60);
-    } else {
-      setTimeout(function () { cur.remove(); }, 900);
-    }
-  }
-  setTimeout(tick, 420);
 })();
 </script>
 <script>
