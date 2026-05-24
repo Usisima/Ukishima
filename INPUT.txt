@@ -1,4 +1,4 @@
-════════════════════════════════════════════════════════════════
+﻿════════════════════════════════════════════════════════════════
   ARCHIVO DE ENTRADA — Ukishima
   Pega aquí los datos que quieras que Claude procese.
 ════════════════════════════════════════════════════════════════
@@ -1415,1022 +1415,535 @@ BIBLIOGRAFÍA COMPLEMENTARIA:
   NUEVOS DATOS — pega debajo de esta línea:
 ────────────────────────────────────────────────────────────────
 
-UNIVERSIDAD NACIONAL AUTONO ´ MA DE MEXIC ´ O
-FACULTAD DE CIENCIAS
-CARRERA DE MATEMATIC ´ O
-ANAL´ ISIS DE ALGORITMOS I
-SEMESTRE: Quinto o Sexto
-CLAVE: 0414
-HORAS A LA SEMANA/SEMESTRE
-TEOR´ ICAS PRACTI ´ CAS CREDITOS ´
-4/64 2/32 10
-CARACTE ´ R: OPTATIVO.
-MODALIDAD: CURSO.
-SERIACION´ INDICATIVA ANTECEDENTE: Introduccion´ a Ciencias de la Computacion´ II, Probabilidad I.
-SERIACION´ INDICATIVA SUBSECUENTE: Teor´ıa de la Computaci´on.
-OBJETIVO(S): El alumno conocer´a los conceptos de complejidad, justificaci´on, an´alisis
-y diseno˜ de algoritmos. Para desarrollar estos temas se revisan algoritmos de bus ´ queda,
-ordenamiento y algoritmos que involucran graficas. ´ Se discuten clases de complejidad,
-revisando con detalle la Clase de los Problemas NP.
-NUM. HORAS UNIDADES TEMATIC ´ AS
-15 1. Conceptos b´asicos
-1.1 Problemas y algoritmos.
-1.2 Tipos de problemas.
-1.3 Complejidad.
-1.4 M´odelos de c´omputo.
-15 2. Justificaci´on de algoritmod
-2.1 Introducci´on matem´atica.
-2.2 Algoritmos iterativos.
-2.3 Algoritmos recursivos.
-12 3. Diseno˜ de algoritmos
-24 4. Algoritmos que involucran secuencias y conjuntos
-4.1 Arb ´ oles binarios.
-4.2 Busquedas. ´
-4.3 Ordenamientos.
-4.4 Cota m´ınima de ordenamiento.
-109
-15 5. Algoritmos para teor´ıa de gr´aficas
-5.1 Arb ´ oles generadores.
-5.2 Arb ´ oles generadores de peso m´ınimo.
-5.3 Ruta m´as corta.
-5.4 Teor´ıa de redes.
-15 6. La clase de los problemas NP-completos
-6.1 Introducci´on.
-6.2 Algoritmos determin´ısticos y algoritmos no determin´ısticos.
-6.3 Teor´ıa de los problemas NP-completos.
-6.4 Teorema de Cook.
-6.5 T´ecnicas para determinar problemas NP-C.
-6.6 Ejemplos de problemas NP-completos.
-6.7 Algoritmos de aproximaci´on.
-BIBLIOGRAF´IA BASICA: ´
-1. Chartran, G., Oellermannd, O. R., Applied and Algorithmic Graph Theory, Singapore: McGraw-Hill, Inc., 1993.
-2. Cormen, T. H., Leierson, C. E., Riverst, R. L., Introduction to Algorithms, New
-York: McGraw-Hill Book Co., 1990.
-3. Flamig, B., Practical Algorithms in C++, New York: J. Wiley, 1995.
-4. Hoare, C. A. R., “An Axiomatic Basis for Computer Programming”, Comm. of the
-ACM, No. 12, 1969: 576–583.
-5. Knuth, D. E., The Art of Computer Programing, Vol. I: Fundamental Algorithms,
-Reading, Mass.: Addison Wesley , 1973.
-6. Kingston, J., Algorithms and Data Structures: Design, Correctness and Analysis,
-Australia: Addison Wesley Co., 1990.
-7. Manber, U., Introduction to Algorithms. A Creative Approach, Reading, Mass.:
-Addison-Wesley Publishing Co., USA, 1989.
-8. Mehlhorn, K., Data Structures and Algorithms. Vol I Sorting and Searching, Berlin:
-Springer-Verlag, Monographs on Theorical Computer Science, 1984.
-9. Neapolitan, R., Naimipour, K., Foundations of Algorithms, Sudbury, Mass.: Jones
-and Bartlett, 1998.
-110
-10. Rawlins, G. J. E., Compared to What? An Introduction to the Analysis of Algorithms,
-New York: Computer Science Press, USA 1991.
-11. Skeina, S. S., The Algorithms Design Manual, New York: Springer Verlag, 1998.
-12. Weiss, M. A., Data Structures and Algorithms Analysis in C++, Reading, Mass.:
-Addison-Wesley, 1999.
-BIBLIOGRAF´IA COMPLEMENTARIA:
-1. Collins, W. J., Data Structures. An Object Oriented Approach, Reading, Mass.: Addison Wesley Co, 1992.
-SUGERENCIAS DIDACTI ´ CAS: Lograr la participaci´on activa de los alumnos mediante
-exposiciones.
-SUGERENCIA PARA LA EVALUACION´ DE LA ASIGNATURA: Adem´as de las calificaciones en ex´amenes y tareas se tomara´ en cuenta la participaci´on del alumno.
-PERFIL PROFESIOGRAFICO: ´ Matem´atico, f´ısico, actuario o licenciado en ciencias de
-la computaci´on, especialista en el a´rea de la asignatura a juicio del comit´e de asignaci´on
-de cursos.
-111
 
-UNIVERSIDAD NACIONAL AUTONO ´ MA DE MEXIC ´ O
-FACULTAD DE CIENCIAS
-CARRERA DE MATEMATIC ´ O
-ANAL´ ISIS DE ALGORITMOS I
-SEMESTRE: Quinto o Sexto
-CLAVE: 0414
-HORAS A LA SEMANA/SEMESTRE
-TEOR´ ICAS PRACTI ´ CAS CREDITOS ´
-4/64 2/32 10
-CARACTE ´ R: OPTATIVO.
-MODALIDAD: CURSO.
-SERIACION´ INDICATIVA ANTECEDENTE: Introduccion´ a Ciencias de la Computacion´ II, Probabilidad I.
-SERIACION´ INDICATIVA SUBSECUENTE: Teor´ıa de la Computaci´on.
-OBJETIVO(S): El alumno conocer´a los conceptos de complejidad, justificaci´on, an´alisis
-y diseno˜ de algoritmos. Para desarrollar estos temas se revisan algoritmos de bus ´ queda,
-ordenamiento y algoritmos que involucran graficas. ´ Se discuten clases de complejidad,
-revisando con detalle la Clase de los Problemas NP.
-NUM. HORAS UNIDADES TEMATIC ´ AS
-15 1. Conceptos b´asicos
-1.1 Problemas y algoritmos.
-1.2 Tipos de problemas.
-1.3 Complejidad.
-1.4 M´odelos de c´omputo.
-15 2. Justificaci´on de algoritmod
-2.1 Introducci´on matem´atica.
-2.2 Algoritmos iterativos.
-2.3 Algoritmos recursivos.
-12 3. Diseno˜ de algoritmos
-24 4. Algoritmos que involucran secuencias y conjuntos
-4.1 Arb ´ oles binarios.
-4.2 Busquedas. ´
-4.3 Ordenamientos.
-4.4 Cota m´ınima de ordenamiento.
-109
-15 5. Algoritmos para teor´ıa de gr´aficas
-5.1 Arb ´ oles generadores.
-5.2 Arb ´ oles generadores de peso m´ınimo.
-5.3 Ruta m´as corta.
-5.4 Teor´ıa de redes.
-15 6. La clase de los problemas NP-completos
-6.1 Introducci´on.
-6.2 Algoritmos determin´ısticos y algoritmos no determin´ısticos.
-6.3 Teor´ıa de los problemas NP-completos.
-6.4 Teorema de Cook.
-6.5 T´ecnicas para determinar problemas NP-C.
-6.6 Ejemplos de problemas NP-completos.
-6.7 Algoritmos de aproximaci´on.
-BIBLIOGRAF´IA BASICA: ´
-1. Chartran, G., Oellermannd, O. R., Applied and Algorithmic Graph Theory, Singapore: McGraw-Hill, Inc., 1993.
-2. Cormen, T. H., Leierson, C. E., Riverst, R. L., Introduction to Algorithms, New
-York: McGraw-Hill Book Co., 1990.
-3. Flamig, B., Practical Algorithms in C++, New York: J. Wiley, 1995.
-4. Hoare, C. A. R., “An Axiomatic Basis for Computer Programming”, Comm. of the
-ACM, No. 12, 1969: 576–583.
-5. Knuth, D. E., The Art of Computer Programing, Vol. I: Fundamental Algorithms,
-Reading, Mass.: Addison Wesley , 1973.
-6. Kingston, J., Algorithms and Data Structures: Design, Correctness and Analysis,
-Australia: Addison Wesley Co., 1990.
-7. Manber, U., Introduction to Algorithms. A Creative Approach, Reading, Mass.:
-Addison-Wesley Publishing Co., USA, 1989.
-8. Mehlhorn, K., Data Structures and Algorithms. Vol I Sorting and Searching, Berlin:
-Springer-Verlag, Monographs on Theorical Computer Science, 1984.
-9. Neapolitan, R., Naimipour, K., Foundations of Algorithms, Sudbury, Mass.: Jones
-and Bartlett, 1998.
-110
-10. Rawlins, G. J. E., Compared to What? An Introduction to the Analysis of Algorithms,
-New York: Computer Science Press, USA 1991.
-11. Skeina, S. S., The Algorithms Design Manual, New York: Springer Verlag, 1998.
-12. Weiss, M. A., Data Structures and Algorithms Analysis in C++, Reading, Mass.:
-Addison-Wesley, 1999.
-BIBLIOGRAF´IA COMPLEMENTARIA:
-1. Collins, W. J., Data Structures. An Object Oriented Approach, Reading, Mass.: Addison Wesley Co, 1992.
-SUGERENCIAS DIDACTI ´ CAS: Lograr la participaci´on activa de los alumnos mediante
-exposiciones.
-SUGERENCIA PARA LA EVALUACION´ DE LA ASIGNATURA: Adem´as de las calificaciones en ex´amenes y tareas se tomara´ en cuenta la participaci´on del alumno.
-PERFIL PROFESIOGRAFICO: ´ Matem´atico, f´ısico, actuario o licenciado en ciencias de
-la computaci´on, especialista en el a´rea de la asignatura a juicio del comit´e de asignaci´on
-de cursos.
-111
+════════════════════════════════════════════════════════════════
+  ANÁLISIS DE ALGORITMOS I  |  Clave: 0414  |  Área: CC
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 4/64 + Prácticas 2/32 = 96 h
+Seriación ant.: Introducción a Ciencias de la Computación II, Probabilidad I
+Seriación sub.: Teoría de la Computación
 
-UNIVERSIDAD NACIONAL AUTONO ´ MA DE MEXIC ´ O
-FACULTAD DE CIENCIAS
-CARRERA DE MATEMATIC ´ O
-ARQUITECTURA DE COMPUTADORAS
-SEMESTRE: Quinto o sexto
-CLAVE: 0605
-HORAS A LA SEMANA/SEMESTRE
-TEOR´ ICAS PRACTI ´ CAS CREDITOS ´
-4/64 2/32 10
-CARACTE ´ R: OPTATIVO.
-MODALIDAD: CURSO.
-SERIACION´ INDICATIVA ANTECEDENTE: Diseno˜ de Sistemas Digitales.
-SERIACION´ INDICATIVA SUBSECUENTE: Sistemas Operativos.
-OBJETIVO(S): Al terminar el curso el alumno poseer´a un conocimiento general de los
-problemas intr´ınsecos del diseno˜ de una arquitectura de computadora, conocera´ las diferentes alternativas de soluci´on para los problemas mencionados y los distintos paradigmas
-que las engendran, conocer´a los mecanismos utilizados para cuantificar el desempeno˜ de los
-diversos componentes de una arquitectura y su costo, conocer´a los diversos componentes
-de una arquitectura funcional y las relaciones entre ellos, comprendera´ la relaci´on entre el
-hardware, sus caracter´ısticas y estructura y el software de sistema y su desempeno˜ .
-NUM. HORAS UNIDADES TEMATIC ´ AS
-10 1. Medidas de desempeno˜ y principios cuantitativos de
-diseno˜ de computadoras
-1.1 Tendencias tecnol´ogicas, de costo y de uso de las computadoras.
-1.2 Labores del disenado ˜ r de computadoras, relaci´on costo-beneficio.
-1.3 Medidas de desempeno, ˜ benchmarks, criterios de evaluaci´on.
-10 2. Organizacion´ de una computadora
-2.1 Concepto de arquitectura de Von Neumann, componentes fundamentales.
-2.2 Etapas de ejecuci´on de instrucci´on.
-10 3. El conjunto de instrucciones, diseno˜ y caracter´ıstica
-3.1 Clasificaci´on de arquitecturas del conjunto de instrucciones.
-3.2 Operandos, tipos y tamano. ˜
-3.3 Modos de direccionamiento.
-3.4 Formatos de instrucci´on.
-3.5 La relaci´on entre el diseno˜ del conjunto de instrucciones y el
-compilador.
-116
-6 4. Organizacion funcional
-4.1 Ruta de datos, unidades funcionales.
-4.2 Sena˜ les de control.
-4.3 Unidades de control, alternativas de diseno˜ (microprogramadas
-vs. alambradas, organizaci´on horizontal y vertical).
-10 5. Pipeline
-5.1 Concepto de pipeline y de paralelismo a nivel de instrucci´on.
-5.2 Revisi´on del ciclo de ejecuci´on de instrucci´on.
-5.3 Caracter´ısticas de diseno˜ que facilitan el pipeline.
-5.4 Hazards, su clasificaci´on y m´etodos de soluci´on.
-5.5 Medidas de desempeno˜ del pipeline.
-10 6. La jerarqu´ıa de memoria
-6.1 Organizacion de la memoria, relaci´on costo-desempeno. ˜
-6.2 Memorias cache, esquemas de colocaci´on de bloque, mapeo de
-direcciones.
-6.3 Pol´ıticas de reemplazo, de manejo de escritura y de fallos de
-escritura en cache.
-6.4 Medidas de desempeno˜ de memoria cache.
-10 7. Entrada/Salida, canales
-7.1 Esquemas de manejo de entrada salida, interrupciones.
-7.2 Canales (buses), canales s´ıncronos y as´ıncronos, bus-master y
-arbitraje.
-7.3 Dispositivos de almacenamiento externo, discos, medidas de desempeno˜ en discos, alternativas de diseno˜ de controladores, detecci´on
-y correcci´on de errores.
-7.4 Acceso directo a memoria.
-7.5 Relaci´on entre el sistema de E/S y el sistema operativo, impacto
-en el desempeno. ˜
-10 8. Sistemas de multiprocesadores
-8.1 La clasificaci´on de Flynn (SISD, SIMD, MIMD, MISD).
-8.2 Comunicaci´on entre procesadores.
-8.3 Arquitecturas de memoria centralizada compartida.
-8.4 Arquitecturas de memoria distribuida compartida.
-8.5 Sincronizaci´on.
-8.6 Coherencia de caches.
-8.7 Clusters, sistemas de paso de mensajes, despachadores de procesos.
-117
-20 9. Tendencias en arquitecturas modernas
-9.1 Arquitecturas superescalares.
-9.2 Esquemas de predicci´on de salto.
-9.3 Prefetch.
-9.4 Arquitecturas VLIW, ruteo de instrucciones, construcci´on de bundles.
-BIBLIOGRAF´IA BASICA: ´
-1. Hennessy, J. L., Patterson, D. A., Computer Architecture: A Quantitative Approach,
-3a edici´on, San Francisco, California: Morgan Kaufmann, 2003.
-BIBLIOGRAF´IA COMPLEMENTARIA:
-1. Hamacher, V. C., Vranesic, Z., Zaky, S., Computer Organization, 5a. edici´on, New
-York: McGraw Hill, 2002.
-2. Mano, M., Kime, C. R., Logic and Computer Design Fundamentals, 2a edici´on, New
-Jersey: Prentice Hall, 2000.
-3. Murdocca, M. J., Heuring, V. P., Principles of Computer Architecture, New Jersey:
-Prentice Hall, 2000.
-4. Patterson, D., Hennessy, J.Computer Organization and Design: The Hardware Software Interface, San Francisco, California: Morgan Kaufmann, 1998.
-5. Tanenbaum, A.S. Structured Computer Organization, 4a. edici´on, New Jersey: Prentice Hall, 1999.
-6. Stallings, W. Computer Organization and Architecture: Designing for Performance,
-New Jersey: Prentice Hall, 1999.
-SUGERENCIAS DIDACTI ´ CAS: Lograr la participaci´on activa de los alumnos mediante
-exposiciones.
-SUGERENCIA PARA LA EVALUACION´ DE LA ASIGNATURA: Adem´as de las calificaciones en ex´amenes y tareas se tomara´ en cuenta la participaci´on del alumno.
-PERFIL PROFESIOGRAFICO: ´ Matem´atico, f´ısico, actuario o licenciado en ciencias de
-la computaci´on, especialista en el a´rea de la asignatura a juicio del comit´e de asignaci´on
-de cursos.
-118
+Objetivos: El alumno conocerá los conceptos de complejidad, justificación,
+análisis y diseño de algoritmos. Se revisan algoritmos de búsqueda,
+ordenamiento y algoritmos que involucran gráficas. Se discuten clases de
+complejidad, revisando con detalle la Clase de los Problemas NP.
 
-UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO
-Facultad de Ciencias
-Plan de estudios de la Licenciatura en
-Matemáticas
-Cálculo de Variaciones
-Clave
-0083
-Semestre
-5 o 6
-Créditos
-10
-Área de
-concentración
-Campo de
-conocimiento
-Etapa V y VI
-Modalidad
-Curso ( X ) Taller ( ) Lab ( ) Sem ( )
-Tipo T ( ) P ( ) T/P ( X )
-Carácter
-Obligatorio ( ) Optativo ( X )
-Obligatorio E ( ) Optativo E ( )
-Horas
-Semana Semestre
-Teóricas 5 Teóricas 80
-Prácticas 0 Prácticas 0
-Total 5 Total 80
-Seriación
-Ninguna ( )
-Obligatoria ( )
-Asignatura antecedente
-Asignatura subsecuente
-Indicativa ( X )
-Asignatura antecedente Algebra Lineal II, Análisis Matemático I, Ecuaciones Diferenciales
-I
-Asignatura subsecuente Ecuaciones Diferenciales Parciales II
-Objetivo general:
-El objetivo de este curso es introducir al estudiante en las técnicas de localizar puntos críticos en
-espacios de dimensión infinita. Estas herramientas son indispensables para entender las
-formulaciones variacionales de las mecánicas en la Física tales como los principios de mínima
-acción que dan pie a las ecuaciones de Euler–Lagrange. Utilizando elementos del Cálculo
-Diferencial e Integral, Ecuaciones Diferencias Ordinarias, y Ecuaciones Parciales, es posible
-adentrar al estudiante en las técnicas del Cálculo de Variaciones.
-.
-Índice temático
-Tema
-Horas
-semestre
-Teóricas Prácticas
-1 Introducción 10 0
-2 Calculo en espacios de funciones 20 0
-3 Condiciones necesarias 20 0
-4 Cambio de variables, Hamilton-Jacobi. 15 0
-5 Condiciones suficientes. 15 0
-Subtotal 80 0
-Total 80
-Contenido Temático
-Tema y subtemas
-1 Introducción.
-1.1 Ejemplos y problemas.
-2 Cálculo en espacios de funciones.
-2.1 Funcionales, espacios de funciones, derivadas de un funcional y extremos.
-3 Condiciones necesarias.
-3.1 Ecuación de Euler-Lagrange, integral primera, más funciones, más variables,
- frontera libre, problemas con discontinuidades, multiplicadores de Lagrange,
- problemas isoperimétricos.
-4 Cambio de variables, Hamilton-Jacobi.
-4.1 Coordenadas Lagrangianas, principio de mínima acción, teorema de Noether,
- ecuación de Hamilton-Jacobi.
-5 Condiciones suficientes.
-5.1 Extremos débiles, fuertes, puntos conjugados, campos centrales.
-Estrategias didácticas Evaluación del aprendizaje
-Exposición ( X ) Exámenes parciales ( X )
-Trabajo en equipo ( ) Examen final ( X )
-Lecturas ( ) Trabajos y tareas ( X )
-Trabajo de investigación ( ) Presentación de tema ( )
-Prácticas (taller o laboratorio) ( X ) Participación en clase ( X )
-Prácticas de campo ( ) Asistencia ( )
-Aprendizaje por proyectos ( X ) Rúbricas ( )
-Aprendizaje basado en problemas ( X ) Portafolios ( )
-Casos de enseñanza ( X ) Listas de cotejo ( )
-Otras (especificar) Otras (especificar)
-Perfil profesiográfico
-Título o grado Matemático, físico, actuario o licenciado en ciencias de la computación.
-Experiencia docente
-Otra característica Especialista en el área de la asignatura a juicio del comité de asignación
-de cursos
-Bibliografía básica:
- Courant, R., Hilbert, D., Methods of Mathematical Physics, Vol. I, New York: Wiley
-Interscience, 1953
- Ize, J., Cálculo de Variaciones, Serie FENOMEC Vol. 3, México: UNAM.
- Troutman, J.L., Variational Calculus with Elementary Convexity, New York: Springer,
-1983
-Bibliografía complementaria:
- Bliss, G.A., Lectures on the Calculus of Variations, Chicago: University of Chicago, 1957.
- Caratheodory, C., Calculus of variations and PDE’s of the first order, New York: Chelsea,
-1982
- Bolza, O., Lectures on the Calculus of Variations, New York: Chelsea, 1973.
-Courant, R., Calculus of variations, New York: University, 1957.
- El’sgol’c, L.E., Ecuaciones diferenciales y cálculo variacional, Moscú: MIR, 1977
- Gelfand, I.M., Fomin, S.V., Calculus of Variations, New Jersey: Prentice Hall, 1963
- Mikhlin, S. C., Variational Methods in Mathematical Physics, New York: Pergamon, 1964
+TEMARIO:
+15 h  1. Conceptos básicos
+      1.1 Problemas y algoritmos
+      1.2 Tipos de problemas
+      1.3 Complejidad
+      1.4 Modelos de cómputo
 
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 83
-ECONOMÍA I
-CLAVE:
-SEMESTRE: 6
-CRÉDITOS: 10
-SECTOR: BÁSICO
-ÁREA: CIENCIAS SOCIALES
-SERIACIÓN:
-ASIGNATURA PRECEDENTE INDICATIVA: Cálculo Diferencial e Integral IV.
-ASIGNATURA SUBSECUENTE INDICATIVA: Optativas.
-HORAS POR CLASE
-CLASES POR SEMANA
-HORAS POR SEMESTRE
-TEÓRICA: 1
-TEÓRICA: 5
-TEÓRICA: 80
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-Objetivos generales: Al final del curso el alumno:
-• Estará capacitado en el conocimiento de los principios generales de la Economía, tales como el proceso
-económico, producto e ingreso nacional, teoría de la producción, del consumidor y del costo.
-• Conocerá y aplicará los principales métodos utilizados en la Economía.
-Tema 1. Introducción 5 horas
-El alumno comprenderá los conceptos, objetivos y métodos de la Economía general.
-1.1 El problema económico.
-1.2 La ciencia de la Economía.
-1.3 Metodología de la Economía.
-1.4 Organización de la actividad económica.
-Tema 2. Teoría del consumidor 15 horas
-El alumno entenderá y analizará el comportamiento del consumidor.
-2.1 Preferencias y restricción económica.
-2.2 Elección y demanda.
-2.3 Estática comparativa.
-2.4 Elección intertemporal.
-2.5 Elección bajo incertidumbre.
-Tema 3. Teoría de la producción 15 horas
-El alumno conocerá y explicará el comportamiento de la firma.
-3.1 Tecnología.
-3.2 Costos.
-3.3 Maximización de beneficios.
-3.4 Oferta.
-3.5 Equilibrio de mercado.
-Tema 4. Mercados imperfectos 5 horas
-El alumno comprenderá el comportamiento de la firma distinto del de competencia perfecta.
-4.1 Monopolio y monopsonio.
-4.2 Oligopolio.
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 84
-Tema 5. Equilibrio general y bienestar 10 horas
-El alumno analizará el comportamiento de los agentes en conjunto para llegar al equilibrio así como algunos
-elementos para maximizar el bienestar.
-5.1 Intercambio puro.
-5.2 Intercambio con producción.
-5.3 Bienestar.
-Tema 6. Introducción a la macroeconomía 5 horas
-El alumno conocerá los conceptos básicos para el estudio de los agentes agregados.
-6.1 Los problemas macroeconómicos básicos.
-6.2 Las variables en macroeconomía.
-6.3 Determinación del ingreso
-6.4 Inflación
-6.5 Desempleo
-6.6 Fluctuaciones económicas
-Tema 7. El modelo IS-LM 15 horas
-El alumno comprenderá el modelo básico de la macroeconomía, para obtener la oferta y demanda agregadas.
-7.1 Oferta y demanda agregada.
-7.2 El modelo IS-LM.
-7.3 La curva de Phillips.
-Tema 8. Política macroeconómica y crecimiento 10 horas
-El alumno explicará y analizará algunas políticas económicas de distintas escuelas, y será introducido en los modelos
-de crecimiento.
-8.1 Política macroeconómica.
-8.2 Teoría de los ciclos económicos reales.
-8.3 Crecimiento económico (modelo de Solow).
-Bibliografía básica:
-• Blaug, Mark. Teoría económica en retrospección. México. FCE. 1985.
-• Dornbusch, R. y S. Fisher. Macroeconomía. España. McGraw-Hill. 1991.
-• Hall, R. y J. Taylor. Macroeconomía. España. Antoni Bosch Editor. 1991.
-• Bibliografía complementaria:
-• Mas-Colell, A. et al. Microeconomic Theory. USA. Oxford University Press. 1995.
-• Varian, Hal. Microeconomic Analysis. USA. W. W. Norton & Co. 1992.
-• Varian, Hal. Economía Intermedia. Un enfoque moderno. España. Antoni Bosch Editor. 1992.
-Sugerencias didácticas:
-Se recomiendan tareas regulares en las cuales el alumno aplique el material visto en clase y esté obligado a
-revisar diversas fuentes bibliográficas para que amplíe sus conocimientos con diferentes enfoques. Asimiso se
-sugiere el análisis de casos prácticos.
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 85
-Forma de evaluación:
-Se recomiendan de 3 a 4 exámenes parciales y un examen final, así como la realización de tareas sobre los temas
-vistos en clase para reforzar los conocimientos teóricos adquiridos.
-Perfil profesiográfico:
-Egresado preferentemente de las licenciaturas en Economía, Actuaría o alguna afín y deberá tener experiencia
-docente en el área y conocimientos en Microeconomía e Introducción a la Macroeconomía. 
+15 h  2. Justificación de algoritmos
+      2.1 Introducción matemática
+      2.2 Algoritmos iterativos
+      2.3 Algoritmos recursivos
 
-UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
-FACULTAD DE CIENCIAS
-CARRERA DE MATEMATICO ´
-ECUACIONES DIFERENCIALES II
-SEMESTRE: Quinto o sexto
-CLAVE: 0163
-HORAS A LA SEMANA/SEMESTRE
-TEORICAS ´ PRACTICAS ´ CREDITOS ´
-5/80 0 10
-CARACTER: ´ OPTATIVO.
-MODALIDAD: CURSO.
-SERIACION INDICATIVA ANTECEDENTE: ´ An´alisis Matem´atico I, Ecuaciones Diferenciales I, Variable Compleja I.
-SERIACION INDICATIVA SUBSECUENTE: ´ Biolog´ıa Matem´atica I, Ecuaciones Diferenciales III.
-OBJETIVO(S): Este curso tiene como objetivo extender los conocimiento del estudiante
-en el tema de la Teor´ıa Cualitativa de las Ecuaciones Diferenciales y elementos de Teor´ıa
-Asint´otica. El prop´osito es iniciar al estudiante en el estudio de ecuaciones diferenciales no
-lineales, lineales con coeficientes peri´odicos y en problemas con condiciones a la frontera.
-En este curso se hace un ´enfasis especial en el estudio de las ecuaciones diferenciales en el
-plano.
-NUM. HORAS UNIDADES TEMATICAS ´
-10 1. Introducci´on y motivaci´on al tema de Teor´ıa Cualitativa
-1.1 Problemas de mec´anica cl´asica: oscilaciones, problema de fuerzas
-centrales, circuitos no lineales, etc.
-1.2 Problemas de ciencias de la vida: modelos de poblaciones de varias especies, epidemiolog´ıa, modelos fisiol´ogicos, modelos de cin´etica
-qu´ımica, etc.
-10 2. Teoremas fundamentales
-2.1 Teorema de existencia y unicidad, continuidad y diferenciabilidad
-ante variaci´on de par´ametros y condiciones iniciales.
-2.2 Problemas con valores a la frontera.
-2.3 Teorema de existencia y unicidad para un sistema de n ecuaciones
-lineales.
-2.4 Equivalencia topol´ogica de ecuaciones diferenciales lineales.
-1
-10 3. Sistemas lineales, teor´ıa de Floquet
-3.1 Soluci´on general del problema homog´eneo de ecuaciones diferenciales lineales, matriz fundamental.
-3.2 Clasificaci´on de los puntos fijos en el plano y en m´as dimensiones.
-3.3 Sistemas lineales con coeficientes peri´odicos, teorema de Floquet,
-estudio de la ecuaci´on de Mathieu y el problema de estabilidad (Lenguas de Arnold).
-10 4. Teor´ıa cualitativa en el plano
-4.1 Orbitas y curvas soluci´on de las ecuaciones diferenciales en cam- ´
-pos vectoriales en el plano, clasificaci´on de puntos fijos.
-4.2 ´Indice de puntos fijos y ´orbitas peri´odicas en el plano.
-4.3 Conjuntos l´ımites: α y ω l´ımites, criterio de Bendixon.
-4.4 Teorema de Poincar´e–Bendixon.
-4.5 Oscilaciones autosostenidad, ecuaci´on de Van der Pol.
-10 5. Teor´ıa de estabilidad
-5.1 Estabilidad de Lyapunov, estabilidad orbital, estabilidad global.
-5.2 Teorema de Grobmann-Hartman para puntos atractores.
-10 6. Oscilaciones no lineales y Teor´ıa de Perturbaciones
-6.1 Din´amica no lineal en el plano: puntos fijos, conexiones homocl´ınicas y heterocl´ınicas. Ejemplos: ecuaciones del p´endulo, ecuaci´on de
-Duffing.
-6.2 M´etodo de Promedios: oscilador no lineal perturbado y resonancias no lineales.
-6.3 Bifurcaciones elementales.
-8 7. Sistemas conservativos (optativo)
-7.1 Sistemas mec´anicos, ecuaciones de Lagrange y de Hamilton. Teorema de Liouville.
-7.2 Oscilaciones no lineales, m´etodo de Poincar´e–Lindstedt. Teorema
-de Liouville.
-6 8. Flujo global en el plano (optativo)
-8.1 Proyecci´on del plano en la esfera.
-8.2 Proyecci´on en el horizonte.
-8.3 ´Indice de puntos fijos en el infinito y descripci´on global del flujo.
-6 9. Problemas con valores a la frontera (optativo)
-9.1 Introducci´on a la teor´ıa de Sturm–Liouville.
-2
-BIBLIOGRAF´IA BASICA: ´
-1. Brauer, F. , Nohel, J. A., The Qualitative Theory of Ordinary Differential Equations.
-An Introduction, New York: Dover Pub., 1989.
-2. Hirsch, M. W., Smale, S., Differential Equations, Dynamical Systems and Linear
-Algebra, New York: Academic Press, 1974.
-3. Jordan, D. W., Smith, P., Nonlinear Ordinary Differential Equations, Oxford: Oxford Univ. Press, 1994.
-4. Verhulst, F., Nonlinear Differential Equation and Dynamical Systems, New York:
-Springer–Verlag, 1980.
-BIBLIOGRAF´IA COMPLEMENTARIA:
-1. Arnold, V.I., Ordinary Differential Equations, 3rd, New York: Springer-Verlag, 1991.
-2. Arrowsmith, D. K., Place, C. M., Dynamical Systems, Differential Equations, Maps
-and Chaotic Behaviour, New York: Chapman and Hall, 1998.
-3. Cronin, J., Differential Equations, Introduction and Qualitative Theory, New York:
-M. Dekker, 1985.
-4. Hale, J., Kocak, H., Dynamics and Bifurcations, New York: Springer–Verlag, 1991.
-5. Perko, L., Differential Equations and Dinamical Systems, Text in Applied Maths.,
-New York: Springer–Verlag, 1990.
-SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
-exposiciones.
-SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
-caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
-PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
-la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
-de cursos.
-3
+12 h  3. Diseño de algoritmos
 
-ELECTROMAGNETISMO II
-_____________________________________________________________________________________
-CLAVE: 0609 MODALIDAD: Curso
-SÉPTIMO SEMESTRE CARÁCTER: Obligatorio
-CRÉDITOS: 12 REQUISITOS: Electromagnetismo I, Optica, Mecánica
-Analítica, Ecuaciones Diferenciales I, Variable
-Compleja, Matemáticas Avanzadas de la Física
-_____________________________________________________________________________________
-HORAS POR CLASE TEÓRICAS: 2
-HORAS POR SEMANA TEÓRICAS: 6
-HORAS POR SEMESTRE TEÓRICAS: 96
-_____________________________________________________________________________________
-Objetivos
-Familiarizar al estudiante con la teoría electromagnética destacando la descripción matemática unificada de
-los fenómenos eléctricos y magnéticos, en el vacío y en medios materiales. Reconocer las propiedades
-dinámicas del campo electromagnético incluyendo las leyes de conservación correspondientes, como
-consecuencia de las leyes del campo y de las relaciones constitutivas. Estudiar diversas situaciones de
-electrostática, magnetostática y electromagnetismo, incluyendo sistemas de radiación, y sus aplicaciones.
-Metodología de la enseñanza
-El curso consistirá en la exposición teórica de los temas por el profesor, frente al pizarrón, aunque se pueden
-dejar lecturas de artículos científicos como material informativo complementario.
-Se debe establecer un programa de simulaciones numéricas que permitan al estudiante dominar este campo.
-Evaluación del curso
-Mediante exámenes, tareas y eventuales reportes de lecturas complementarias.
-Temario
-1. EL CAMPO ELECTROSTÁTICO EN EL VACÍO 6 hrs
-1.1 Ley de Coulomb.
-1.2 Principio de superposición.
-1.3 El campo de intensidad eléctrica.
-1.4 Ley de Gauss en sus formas integral, diferencial y de condiciones de frontera.
-1.5 Carácter conservativo del campo electrostático y su expresión en formas integral, diferencial y de
-condiciones de frontera.
-1.6 El campo de potencial electrostático.
-1.7 Ecuaciones de Poisson y de Laplace.
-1.8 Densidad de energía y tensor de esfuerzos de Maxwell en el campo electrostático.
-2. MÉTODOS DE SOLUCIÓN DE PROBLEMAS DE ELECTROSTÁTICA 9 HRS
-2.1 El teorema de unicidad y su aplicación a problemas de condiciones de frontera de Dirichlet y de
-Neumann.
-2.2 La función de Green y sus características para condiciones de frontera de Dirichlet y de
-Neumann.
-2.3 Método de imágenes.
-2.4  Método de funciones analíticas de variable compleja para problemas bidimensionales.
-2.5 Método de solución usando funciones armónicas en coordenadas cartesianas, cilíndricas y
-esféricas.
-2.6 El desarrollo multipolar.
-3. EL CAMPO ELECTROSTÁTICO EN MEDIOS DIELÉCTRICOS 9 hrs
-3.1 Momentos dipolares permanentes e inducidos. Polarizabilidad.
-3.2 Polarización y susceptibilidad eléctrica.
-3.3 Cargas libres y cargas de polarización.
-3.4 LEy de Gauss en medios dieléctricos.
-3.5 El campo de desplazamiento eléctrico. Permeabilidad eléctrica y dieléctrica.
-3.6 Problemas de electrostática en presencia de dieléctricos y conductores, incluyendo
-condensadores.
-3.7 Ecuaciones de Clausius­Mossotti, Langevin y Debye.
-3.8 Densidad de energía y tensor de esfuerzos de Maxwell en presencia de dieléctricos.
-4. EL CAMPO MAGNETOSTÁTICO EN EL VACÍO 8 hrs
-4.1 Fuerza de Lorentz sobre cargas en movimiento y sobre elementos de corriente. El campo de
-inducción magnética.
-4.2 Ley de Biot y Savart. Corrientes estacionarias y campos magnéticos asociados.
-4.3 Ley circuital de Ampère en sus formas integral, diferencial y de condiciones de frontera.
-4.4 No existencia de monopolos magnéticos. Carácter solenoidal del campo magnetostático y su
-expresión en formas integral, diferencial y de condiciones de frontera.
-4.5 El campo de potencial vectorial magnético. Transformaciones de norma. Su significado físico
-como potencial de cantidad de movimiento y de energía por unidad de carga y de velocidad.
-4.6 Norma transversal. Ecuación de Poisson. Forma integral.
-4.7 Desarrollo multipolar. Torcas, fuerzas y energías de momentos dipolares.
-5. EL CAMPO MAGNETOSTÁTICO EN MEDIOS PERMEABLES 8 hrs
-5.1 Diamagnetos, paramagnetos y ferromagnetos.
-5.2 Momentos magnéticos dipolares inducidos y permanentes.
-5.3 Magnetización.
-5.4 Corrientes libres y corrientes de magnetización.
-5.5 Ley de Ampère en medios permeables.
-5.6 El campo de intensidad magnética. Susceptibilidad magnética y permeabilidad magnética.
-5.7 Ferromagnetismo. Histéresis.
-6. INDUCCIÓN ELECTROMAGNÉTICA 6 hrs
-6.1 Fuerza electromotriz.
-6.2 Inducción electromagnética. Ley de Faraday­Lenz­Henry en sus formas fenomenológica,
-integral, diferencial y de condiciones de frontera.
-6.3 Inductancia. Inductancia mutua y autoinductancia.
-6.4 Energía almacenada en un sistema de solenoides con corrientes estacionarias.
-6.5 Densidad de energía y tensor de esfuerzos de Maxwell en el campo magnetostático.
-7. ECUACIONES DE MAXWELL Y PROPIEDADES DINÁMICAS DEL CAMPO 
-ELECTROMAGNÉTICO 10 hrs
-7.1 Ley de Gauss eléctrica y magnética para fuentes y campos variables en el tiempo.
-7.2 Ley de Faraday­Lenz­Henry.
-7.3 Conservación de carga eléctrica. Corriente de desplazamiento. Ley de Ampère­Maxwell.
-7.4 Potenciales vectorial y escalar. Transformaciones de norma.
-7.5 Norma transversal o de Coulomb. Ecuaciones de onda y de Poisson.
-7.6 Norma de Lorentz. Ecuaciones de onda de los potenciales.
-7.7 Ecuaciones de onda para los campos de fuerza.
-7.8 Teorema de Poynting. Densidad de energía del campo electromagnético y vector de Poyting.
-7.9 Balance de cantidad de movimiento. Densidad de cantidad de movimiento y tensor de esfuerzos
-de Maxwell en el campo electromagnético.
-7.10 Modificaciones en presencia de medios dieléctricos y permeables, y de conductores.
-8. ONDAS ELECTROMAGNÉTICAS PLANAS 10 hrs
-8.1 En el vacío: velocidades de fase y de transporte de energía; transversalidad y polarización 
-(lineal, circular, elíptica).
-8.2 En medios dieléctricos: índice de refracción; velocidades de fase y de transporte de energía;
-birefringencia.
-8.3 Al pasar de un medio a otro, separados por una frontera plana: leyes de reflexión y refracción
-(ley de Snell); ecuaciones de Fresnel; efectos de polarización; reflexión total interna; ondas
-evanescentes.
-8.4 En medios conductores: atenuación y profundidad de la piel; efectos de disipación.
-8.5 En plasmas: conductividad de un gas ionizado; frecuencia de plasma.
-9. ONDAS ELECTROMAGNÉTICAS CONFINADAS 6 hrs
-9.1 Guías de onda: ondas transversales electromagnéticas; ondas transversales eléctricas y
-transversales magnéticas; transmisión y atenuación; fibras ópticas.
-9.2 Cavidades de resonancia: paralelepípedo rectángulo; cilindro; valor Q.
-10. SISTEMAS RADIANTES 10 hrs
-10.1 Plano con corrientes oscilantes como fuente de ondas planas.
-10.2 Línea con corrientes oscilantes como fuente de ondas cilíndricas.
-10.3 Solenoide recto con corrientes oscilantes como fuente de ondas cilíndricas.
-10.4 Función de Green retardada.
-10.5 Dipolo de Hertz eléctrico y magnético.
-10.6 Antenas.
-10.7 Partículas cargadas aceleradas.
-10.8 Potenciales y campos de Liènard­Wiechert.
-11. DESCRIPCIÓN COVARIANTE DE LA ELECTRODINÁMICA 10 hrs
-11.1 Teoría de la relatividad. Cinemática y dinámica relativista.
-11.2. Espacio­tiempo de Minkowski. Cuadriescalares, cuadrivectores y cuadritensores.
-11.3 Cuadrivector de densidad de corriente y densidad de carga. Ecuación de continuidad.
-11.4 Cuadrivector de potencial. Condición de norma de Lorentz. Ecuación de onda.
-11.5 Densidad de energía de interacción de fuentes distribuidas en presencia del campo de potencial
-electromagnético. Acoplamiento mínimo.
-11.6 Cuadritensor de campo electromagnético. Invariantes asociados y sus aplicaciones.
-11.7 Cuadritensor de esfuerzos, densidad de cantidad de movimiento, vector de Poynting y densidad
-de energía. Ecuaciones de conservación de cantidad de movimiento­energía.
-Bibliografía básica
-Reitz, J.R., Milford, F.J., Christy, R.W., 1979, Foundations of electromagnetic theory, Addison­Wesley 
-Pub. Co., Reading, Mass, USA.
-Lorrain, P., Corson, D.R., 1970, Electromagnetic fields and waves, W.H. Freeman and Company, San
-Francisco, USA.
-Jelimenko, O.D., 1966, Electricity and magnetism, Appleton Century Cooft Meredith Corporation, N.Y.,
-USA.
-Vanderlinde, J., Classical elctromagnetic theory, 1993, John Wiley & Sons, Inc. New York, USA.
-Cook, D.M., 1975, The theory of the electromagnetic field, Prentice­Hall, Inc. Englewoods Cliffs, New 
-York, USA.
-Wangsness, R.K., 1979, Electromagnetic fields, John Wiley & Sons, Inc. New York, USA.
-Clemow, P.C., 1973, An introduction to electromagnetic theory, Cambridge University Press, USA.
-Bibliografía complementaria
-Hauser, W., 1971, Introduction to the principles of electromagnetism, Addison­Wesley 
-Pub. Co., Reading, Mass, USA.
-Shadowitz, A., 1988, The electromagnetic field, Dover Publications Inc., New York, USA.
-Griffiths, D.J., 1989, Introduction to electrodynamics, Prentice­Hall, Inc. Englewoods Cliffs, New 
-York, USA.
-Heald, M.A., Marion, J.B., 1995, Classical electromagnetic radiation, Saunders College Publishing, USA.
+24 h  4. Algoritmos que involucran secuencias y conjuntos
+      4.1 Árboles binarios
+      4.2 Búsquedas
+      4.3 Ordenamientos
+      4.4 Cota mínima de ordenamiento
 
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Quinto Semestre 70
-ESTADÍSTICA I
-CLAVE:
-SEMESTRE: 5
-CRÉDITOS: 10
-SECTOR: BÁSICO
-ÁREA: PROBABILIDAD Y ESTADÍSTICA
-SERIACIÓN:
-ASIGNATURA PRECEDENTE INDICATIVA: Probabilidad II y Cálculo
-Diferencial e Integral IV.
-ASIGNATURA SUBSECUENTE INDICATIVA: Estadística II, Matemáticas
-Actuariales del Seguro de Daños y Demografía I.
-HORAS POR CLASE
-CLASES POR SEMANA
-HORAS POR SEMESTRE
-TEÓRICA: 1
-TEÓRICA: 5
-TEÓRICA: 80
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-Objetivos generales: Al finalizar el curso el alumno:
-• Comprenderá los principios básicos de la Estadística, y la relación de ésta con la Probabilidad.
-• Conocerá y aplicará los objetivos y las herramientas necesarias para el análisis exploratorio de datos
-estadísticos.
-• Identificará los principios sobre los cuales se basa la estimación paramétrica, en particular los métodos para
-obtener estimadores y los criterios para medirlos, así como su aplicación.
-• Conocerá los métodos básicos para hacer estimaciones paramétricas por intervalos.
-• Aplicará los conceptos relacionados con la elaboración de pruebas de hipótesis estadísticas.
-Tema 1. Introducción 5 horas
-Explicará lo que es la Estadística y su relación con la Probabilidad, así como algunas definiciones básicas.
-1.1 ¿Qué es la Estadística?
-1.2 ¿Qué es la Probabilidad?
-1.3 Relación entre la Estadística y la Probabilidad.
-1.4 El papel de la Estadística en la investigación.
-1.5 Conceptos de población, censo y muestra.
-1.6 El proceso de análisis estadístico.
-1.7 Datos, variables y escalas de medición.
-Tema 2. Análisis exploratorio de datos 20 horas
-Reconocerá y aplicará algunos métodos utilizados para la descripción estadística de datos.
-2.1 Tablas de frecuencias.
-2.2 Métodos gráficos.
-2.3 Medidas descriptivas para datos sin agrupar.
-2.4 Medidas descriptivas para datos agrupados.
-Tema 3. Estimación puntual 25 horas
-Discutirá el problema de la estimación de parámetros y las principales propiedades de los estimadores.
-3.1 Estadísticas y estimadores.
-3.2 Métodos de construcción de estimadores.
- - Momentos.
- - Máxima verosimilitud.
- - Otros métodos.
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Quinto Semestre 71
-3.3 Criterios de evaluación de estimadores.
- - Insesgamiento.
- - Varianza mínima.
- - Error cuadrático medio.
- - Consistencia.
-3.4 Suficiencia.
- - Estadísticas suficientes.
- - Estadísticas suficientes minimales.
- - El teorema de Factorización.
-3.5 Estimación insesgada.
- - Cota inferior de Cramér-Rao.
- - Suficiencia y completez.
-3.6 Propiedades asintóticas de los estimadores de máxima verosimilitud.
-Tema 4. Estimación por intervalo 10 horas
-Comprenderá el problema de la estimación de parámetros sobre un intervalo y las principales propiedades de esta
-clase de estimadores.
-4.1 Intervalo aleatorio.
-4.2 Intervalo de confianza.
-4.3 Métodos para construir un intervalo de confianza.
- - Método pivotal.
- - Método general.
-4.4 Intervalo basado en muestras grandes.
-Tema 5. Pruebas de hipótesis 20 horas
-Entenderá los principales conceptos relacionados con la prueba de hipótesis estadísticas.
-5.1 Hipótesis estadística.
-5.2 Hipótesis simple y compuesta.
-5.3 Región crítica.
-5.4 Errores tipo I y II.
-5.5 Lema de Neyman-Pearson.
-5.6 Función potencia.
-5.7 Prueba uniformemente más potente.
-5.8 Prueba del cociente de verosimilitud.
-5.9 Distribución asintótica de algunas estadísticas de prueba.
-Bibliografía básica:
-• Canavos, G. C. Probabilidad y Estadística: Aplicaciones y Métodos. México. McGraw-Hill. 1987.
-• Casella, G. and Berger, R. L. Statistical Inference. California. Wadsworth. 1990.
-• Degroot, M. H. Probability and Statistics. Massachusetts. Addison Wesley. 1986.
-• Hogg, R. V. and Craig, A. T. Introduction to Mathematical Statistics. 5th edition. New Jersey. Prentice-Hall.
-1995.
-• Larsen, R. J. and Marx, M. L. An Introduction to Mathematical Statistics and its Applications. USA.
-Englewood Cliffs-Prentice-Hall. 1986.
-• Lindgren, B. W. Statistical Theory. New York. Macmillan Publishing. 1976.
-• Mood, A. M. et al. Introduction to the Theory of Statistics. New York. McGraw-Hill. 1974.
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Quinto Semestre 72
-• Tukey, J. W. Exploratory Data Analysis. Massachusetts. Addison Wesley. 1977.
-Bibliografía complentaria:
-• Johnson, Norman Lloyd Statistics, an intermediate text book, Cambridge eng. : Pub. for the institute of actuaries
-and the Faculty of Actuaries at the University press, 1951-1953
-Sitios WEB:
-• Chance Magazine, http://gopher.enews.com :2100/11/magazines/alphabetic/af/chance
-• The Probability Web, http://www.mats.uq.oz.an/pkp/probweb.html
-Sugerencias didácticas:
-Se recomienda el uso de paquetes estadísticos como el SPSS, Statistica o SPlus para el análisis y modelación de
-los datos.
-Es recomendable que se impartan clases en el laboratorio de cómputo para que el alumno aprenda a usar al
-menos uno de estos paquetes.
-Asimismo se sugiere que, al final del curso, el alumno haga un análisis completo de un conjunto de datos y
-presente los resultados de manera oral y escrita.
-Forma de evaluación:
-Se recomiendan de 3 a 4 exámenes parciales y un examen final, así como la realización de tareas sobre los temas
-vistos en clase para reforzar los conocimientos teóricos adquiridos.
-Perfil profesiográfico:
-Egresado de las licenciaturas en Matemáticas, Actuaría o alguna afín con experiencia docente en el área y
-conocimientos en el análisis de datos, estimación paramétrica y pruebas de hipótesis. 
+15 h  5. Algoritmos para teoría de gráficas
+      5.1 Árboles generadores
+      5.2 Árboles generadores de peso mínimo
+      5.3 Ruta más corta
+      5.4 Teoría de redes
 
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 89
-ESTADÍSTICA II
-CLAVE:
-SEMESTRE: 6
-CRÉDITOS: 10
-SECTOR : BÁSICO
-ÁREA: PROBABILIDAD Y ESTADÍSTICA
-SERIACIÓN:
-ASIGNATURA PRECEDENTE INDICATIVA: Estadística I.
-ASIGNATURA SUBSECUENTE INDICATIVA: Estadística III y Teoría del
-Riesgo.
-HORAS POR CLASE
-CLASES POR SEMANA
-HORAS POR SEMESTRE
-TEÓRICA: 1
-TEÓRICA: 5
-TEÓRICA: 80
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-PRÁCTICAS: 0
-Objetivos generales: Al finalizar el curso el alumno:
-• Conocerá y aplicará las principales técnicas (pruebas) de la estadística no paramétrica y su justificación.
-• Conocerá el análisis de regresión como una técnica estadística para investigar y modelar la relación entre
-variables.
-Tema 1. Estadística no paramétrica 30 horas
-El alumno explicará y aplicará los principales métodos utilizados en la estadística no paramétrica.
+15 h  6. La clase de los problemas NP-completos
+      6.1 Introducción
+      6.2 Algoritmos determinísticos y no determinísticos
+      6.3 Teoría de los problemas NP-completos
+      6.4 Teorema de Cook
+      6.5 Técnicas para determinar problemas NP-C
+      6.6 Ejemplos de problemas NP-completos
+      6.7 Algoritmos de aproximación
 
-1.1 Pruebas binomiales.
- - Prueba para proporciones.
- - Prueba para cuantiles.
- - Prueba de signos.
- - Prueba de McNemar.
- - Prueba de Cox-Stuart.
-1.2 Pruebas de rango.
- - Prueba de Mann-Witney (Prueba U).
- - Prueba de Kruskall-Wallis.
- - Prueba para la varianza de más de dos poblaciones.
-1.3 Pruebas de bondad de ajuste.
- -Prueba de la Ji-Cuadrada.
- - Prueba de Kolmogorov.
- - Prueba de Lilliefors.
- - Prueba exponencial.
- - Estadísticas más usadas en la bondad de ajuste.
-1.4 Tablas de contingencia.
- - Prueba de independencia.
- - Prueba de proporciones.
- - Prueba de la mediana.
-Tema 2. Análisis de Regresión 50 horas
-El alumno conocerá los modelos de regresión, sus alcances, limitaciones, sus fundamentos matemáticos y
-aplicaciones usando paquetes de cómputo estadístico.
-2.1 Panorama de los modelos de regresión y su utilización.
-2.2 El modelo de regresión lineal simple
- -Introducción
- -Estimación por mínimos cuadrados de los parámetros en el modelo
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 90
- -Teorema de Gauss-Markov
- -Propiedades de los estimadores
- -Estimación por máxima verosimilitud de los parámetros
- -Descomposición fundamental del análisis de varianza
- -Coeficiente de correlación y de determinación
- -Construcción de intervalos de confianza para los parámetros
- -Intervalo de Confianza para la respuesta media
- -Intervalo de predicción
- -Prueba de significancia global (tabla de análisis de varianza)
- -Transformaciones
- -Análisis de residuales
- -Pruebas F para carencia de ajuste
- -Forma matricial del modelo lineal simple
- -Uso y aplicación de un paquete estadístico
-2.3 El modelo de regresión lineal múltiple.
- -El modelo de regresión lineal múltiple en términos matriciales
- -Estimación de los parámetros en el modelo por mínimos cuadrados
- -Valores ajustados y residuales
- -Resultados del análisis de varianza
- -Inferencias acerca de los parámetros del modelo de regresión
- -Inferencias acerca de la respuesta media
- -Predicción de nuevas observaciones
- -Gráficas de residuales y otros diagnósticos
- -Pruebas de hipótesis acerca de los coeficientes en regresión múltiple
- -Formulación matricial de la prueba lineal general
- -Coeficientes de determinación parcial
- -Multicolinealidad y sus efectos
-2.4 Selección de modelos
- -Métodos de selección de variables.
- -Uso y aplicación de un paquete estadístico
-Bibliografía básica:
-• Brodsky, B. and Dharkovsky B., Nonparametric methods in change-point problems. Kluwer Academic.
-1993.
-• Conover, W. J. Practical Nonparametric statistics. Second Edition. USA. Wiley & Sons. 1980.
-• Daniel, W. Applied Nonparametric Statistics. Second Edition. USA. PWS Kent. 1990.
-• Gibbons, J.D. and Chakraborti, S. Nonparametric Statistical Inference. Fourth Edition. Marcel Dekker,Inc.
-New York. 2003
-• Chatterjee, S. and Price, B. Regression Analysis by Example. Second Edition. Wiley, New York. 1991.
-• Draper, N. and Smith, H. Applied Regression Analysis. Second Edition, Wiley, New York. 1981.
-• Montgomery, D.C. and Peck, E.A., and Vining G.G. Introduction to Linear Regression Analysis. Third
-Edition. John Wiley and Sons, Inc. New York. 2001.
-• Neter, J., Wasserman, W. and Kutner, M.H. Applied Linear Statistical Models. Third Edition. Irwin, Boston,
-Ma. 1990.
-Plan de Estudios de la Licenciatura de Actuaría
-Materias de Sexto Semestre 91
-Bibliografia complementaria:
-• Everitt, B.S. The Analysis of Contingency Tables. Chapman and Hall, London. 1977.
-• Neave, H.R. and Worthington. Distibution-Free Tests. Unwin Hyman, London. 1988.
-• Rawlings, J.O.; Applied Regression Analysis, a Research Tool, Wadswortg&Brooks, USA, 1988.
-Sugerencias didácticas
-Se recomienda el uso de paquetes estadísticos como el SPSS, Statistica o SPlus para el análisis y modelación de
-los datos.
-Es recomendable que se impartan clases en el laboratorio de cómputo para que el alumno aprenda a usar al
-menos uno de estos paquetes.
-Asimismo se sugiere que, al final del curso, el alumno haga un análisis completo de un conjunto de datos y
-presente los resultados de manera oral y escrita.
-Forma de evaluación:
-Se recomiendan de 3 a 4 exámenes parciales y un examen final, así como la realización de tareas sobre los temas
-vistos en clase para reforzar los conocimientos teóricos adquiridos.
-Perfil profesiográfico de quienes pueden impartir la asignatura
-Es deseable que el profesor cuente con un posgrado en Estadística o experiencia en el manejo de este tipo de
-datos. 
+BIBLIOGRAFÍA BÁSICA:
+1. Chartrand, G.; Oellermann, O.R., Applied and Algorithmic Graph Theory.
+   McGraw-Hill, 1993.
+2. Cormen, T.H.; Leiserson, C.E.; Rivest, R.L., Introduction to Algorithms.
+   McGraw-Hill, 1990.
+3. Flamig, B., Practical Algorithms in C++. Wiley, 1995.
+4. Hoare, C.A.R., "An Axiomatic Basis for Computer Programming".
+   Comm. ACM, No. 12, 1969: 576-583.
+5. Knuth, D.E., The Art of Computer Programming, Vol. I: Fundamental
+   Algorithms. Addison-Wesley, 1973.
+6. Kingston, J., Algorithms and Data Structures: Design, Correctness and
+   Analysis. Addison-Wesley, 1990.
+7. Manber, U., Introduction to Algorithms: A Creative Approach.
+   Addison-Wesley, 1989.
+8. Mehlhorn, K., Data Structures and Algorithms, Vol. I: Sorting and
+   Searching. Springer-Verlag, 1984.
+9. Neapolitan, R.; Naimipour, K., Foundations of Algorithms.
+   Jones and Bartlett, 1998.
+10. Rawlins, G.J.E., Compared to What? An Introduction to the Analysis of
+    Algorithms. Computer Science Press, 1991.
+11. Skiena, S.S., The Algorithm Design Manual. Springer-Verlag, 1998.
+12. Weiss, M.A., Data Structures and Algorithm Analysis in C++.
+    Addison-Wesley, 1999.
 
-UNIVERSIDAD NACIONAL AUTONOMA DE M ´ EXICO ´
-FACULTAD DE CIENCIAS
-CARRERA DE MATEMATICO ´
-GEOMETR´IA DIFERENCIAL I
-SEMESTRE: Quinto o sexto
-CLAVE: 0246
-HORAS A LA SEMANA/SEMESTRE
-TEORICAS ´ PRACTICAS ´ CREDITOS ´
-5/80 0 10
-CARACTER: ´ OPTATIVO.
-MODALIDAD: CURSO.
-SERIACION INDICATIVA ANTECEDENTE: ´ Algebra Lineal I, C´alculo Diferencial e ´
-Integral IV, Ecuaciones Diferenciales I, Introducci´on a la Geometr´ıa Avanzada.
-SERIACION INDICATIVA SUBSECUENTE: ´ Geometr´ıa Diferencial II, Geometr´ıa
-Riemanniana I, Geometr´ıa Sumatoria.
-OBJETIVO(S): Que el estudiante conozca los conceptos fundamentales de esta rama de
-la geometr´ıa, como los de curva y superficie diferenciables, los de geometr´ıa intr´ınseca y
-extr´ınseca de una superficie, el de curvatura de una superficie, as´ı como los principales
-resultados para la geometr´ıa local y global de una superficie.
-NUM. HORAS UNIDADES TEMATICAS ´
-15 1. Curvas en R
-3
-.
-1.1 Conceptos b´asicos: Curvas parametrizadas; curvas diferenciables;
-curvas regulares. Longitud de arco como par´ametro natural.
-1.2 Curvatura y torsi´on; f´ormulas de Frenet-Serret.
-1.3 Teorema Fundamental de la Teor´ıa Local de Curvas. Forma
-can´onica local. C´ırculo osculador.
-1.4 Ejemplos de curvas: curvas planas; curvatura con signo. Curvas en dimensiones superiores. Curvas definidas por una ecuaci´on
-F(x, y) = 0, curvas definidas por F(x, y, y0
-, y00
-, . . .) = 0.
-1.5 Temas optativos en selecci´on y profundidad: Curvas cerradas.
-Teorema de la Curva de Jordan. ´Indice de un punto respecto a una
-curva. Teorema de la rotaci´on de la tangente. Teorema de la Desigualdad Isoperim´etrica. Teorema de los Cuatro V´ertices. Clasificaci´on topol´ogica de curvas diferenciables.
-1
-30 2. Superficies en R
-3
-.
-2.1 Superficie regular en R
-3 y variedad diferenciable de dimensi´on 2.
-Enunciado del Teorema de Whitney. Sistemas de coordenadas locales. Superficie como gr´afica local; ejemplos. Superficie como imagen
-inversa de un valor regular; ejemplos. Teorema del Rango.
-2.2 Funciones diferenciables en una superficie y aplicaciones diferenciables entre superficies; ejemplos. Teorema de la Funci´on Inversa.
-Plano tangente a una superficie en un punto. Vectores tangentes como
-derivaciones de funciones.
-2.3 La primera forma fundamental. Orientabilidad. Teorema de Clasificaci´on de Superficies (enunciado). Area. ´
-30 3. La Aplicaci´on de Gauss.
-3.1 Definici´on de la Aplicaci´on de Gauss. El grado de la Aplicaci´on
-de Gauss. Curvatura normal y curvatura geod´esica. Direcciones principales, direcciones asint´oticas.
-3.2 Curvatura gaussiana. Curvatura media. Teorema Egregio y geometr´ıa intr´ınseca. Esfera osculatriz.
-3.3 F´ormulas de Mainardi-Codazzi. Teorema Fundamental de la
-Teor´ıa Local de Superficies.
-3.4 Campos tangentes. Derivada covariante. Geod´esicas. Curvas integrales con potencial y ecuaciones de la Relatividad General.
-5 4. El teorema de Gauss-Bonnet y sus consecuencias.
-4.1 Se har´a una presentaci´on descriptiva de este tema con la intenci´on
-de motivar al alumno a continuar en el estudio de esta rama.
-BIBLIOGRAF´IA BASICA: ´
-1. Do Carmo, M. P. Differential Geometry of Curves and Surfaces in R
-3
-, New Jersey:
-Prentice Hall, 1976. (Trad. Oscar Palmas, M´exico: V´ınculos Matem´aticos ´ 183, 185,
-193, 194, 197, Facultad de Ciencias, UNAM, 1991.)
-2. Hilbert, D., Cohn Vossen, S., Geometry and the Imagination, M´exico: V´ınculos Matem´aticos No. 150, Facultad de Ciencias, UNAM, 2000.
-3. O’Neill, B., Elementary Differential Geometry, San Diego: Academic Press, 1997.
-4. Pogorelov, A. V., Geometr´ıa Diferencial, Mosc´u: MIR, 1977.
-2
-BIBLIOGRAF´IA COMPLEMENTARIA:
-1. Arnold, V. I., Mathematical Methods of Classical Mechanics, New York: SpringerVerlag, 1989.
-2. Landau, L. D., Mec´anica, Barcelona: Revert´e, 1978.
-3. Milnor, J. W., Morse Theory, Princeton: Princeton University Press, 1963.
-4. Misner, C. W., Thorn, K. S., Wheeller, J. A., Gravitation, San Francisco: W. H.
-Freeman, 1973.
-5. O’Neill, B., Semi-riemannian Geometry with Applications to Relativity, New York:
-Academic, 1983.
-6. Spivak. M. A., A Comprehensive Introduction to Differential Geometry, Texas: Publish or Perish, 1999.
-SUGERENCIAS DIDACTICAS: Lograr la participaci´on activa de los alumnos mediante ´
-exposiciones.
-SUGERENCIA PARA LA EVALUACION DE LA ASIGNATURA: Adem´as de las califi- ´
-caciones en ex´amenes y tareas se tomar´a en cuenta la participaci´on del alumno.
-PERFIL PROFESIOGRAFICO: Matem´atico, f´ısico, actuario o licenciado en ciencias de ´
-la computaci´on, especialista en el ´area de la asignatura a juicio del comit´e de asignaci´on
-de cursos.
-3
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Collins, W.J., Data Structures: An Object Oriented Approach.
+   Addison-Wesley, 1992.
+
+════════════════════════════════════════════════════════════════
+  ARQUITECTURA DE COMPUTADORAS  |  Clave: 0605  |  Área: CC
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 4/64 + Prácticas 2/32 = 96 h
+Seriación ant.: Diseño de Sistemas Digitales
+Seriación sub.: Sistemas Operativos
+
+Objetivos: El alumno poseerá conocimiento general de los problemas del diseño
+de una arquitectura de computadora, conocerá las alternativas de solución y
+paradigmas, los mecanismos para cuantificar desempeño y costo, los componentes
+de una arquitectura funcional, y comprenderá la relación entre hardware y
+software de sistema.
+
+TEMARIO:
+10 h  1. Medidas de desempeño y principios cuantitativos de diseño
+      1.1 Tendencias tecnológicas, de costo y de uso de las computadoras
+      1.2 Labores del diseñador: relación costo-beneficio
+      1.3 Medidas de desempeño, benchmarks, criterios de evaluación
+
+10 h  2. Organización de una computadora
+      2.1 Concepto de arquitectura de Von Neumann; componentes fundamentales
+      2.2 Etapas de ejecución de instrucción
+
+10 h  3. El conjunto de instrucciones: diseño y características
+      3.1 Clasificación de arquitecturas del conjunto de instrucciones
+      3.2 Operandos: tipos y tamaño
+      3.3 Modos de direccionamiento
+      3.4 Formatos de instrucción
+      3.5 Relación entre el diseño del conjunto de instrucciones y el compilador
+
+ 6 h  4. Organización funcional
+      4.1 Ruta de datos y unidades funcionales
+      4.2 Señales de control
+      4.3 Unidades de control (microprogramadas vs. alambradas;
+          organización horizontal y vertical)
+
+10 h  5. Pipeline
+      5.1 Concepto de pipeline y paralelismo a nivel de instrucción
+      5.2 Revisión del ciclo de ejecución de instrucción
+      5.3 Características de diseño que facilitan el pipeline
+      5.4 Hazards: clasificación y métodos de solución
+      5.5 Medidas de desempeño del pipeline
+
+10 h  6. La jerarquía de memoria
+      6.1 Organización de la memoria: relación costo-desempeño
+      6.2 Memorias caché: esquemas de colocación, mapeo de direcciones
+      6.3 Políticas de reemplazo, manejo de escritura y fallos
+      6.4 Medidas de desempeño de memoria caché
+
+10 h  7. Entrada/Salida, canales
+      7.1 Esquemas de manejo de E/S, interrupciones
+      7.2 Canales (buses): síncronos y asíncronos, bus-master y arbitraje
+      7.3 Dispositivos de almacenamiento externo; detección y corrección
+          de errores
+      7.4 Acceso directo a memoria (DMA)
+      7.5 Relación entre el sistema de E/S y el sistema operativo
+
+10 h  8. Sistemas de multiprocesadores
+      8.1 Clasificación de Flynn (SISD, SIMD, MIMD, MISD)
+      8.2 Comunicación entre procesadores
+      8.3 Arquitecturas de memoria centralizada compartida
+      8.4 Arquitecturas de memoria distribuida compartida
+      8.5 Sincronización y coherencia de cachés
+      8.6 Clusters, sistemas de paso de mensajes
+
+20 h  9. Tendencias en arquitecturas modernas
+      9.1 Arquitecturas superescalares
+      9.2 Esquemas de predicción de salto
+      9.3 Prefetch
+      9.4 Arquitecturas VLIW: ruteo de instrucciones, construcción de bundles
+
+BIBLIOGRAFÍA BÁSICA:
+1. Hennessy, J.L.; Patterson, D.A., Computer Architecture: A Quantitative
+   Approach. 3ª ed. Morgan Kaufmann, 2003.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Hamacher, V.C.; Vranesic, Z.; Zaky, S., Computer Organization.
+   5ª ed. McGraw-Hill, 2002.
+2. Mano, M.; Kime, C.R., Logic and Computer Design Fundamentals.
+   2ª ed. Prentice Hall, 2000.
+3. Murdocca, M.J.; Heuring, V.P., Principles of Computer Architecture.
+   Prentice Hall, 2000.
+4. Patterson, D.; Hennessy, J., Computer Organization and Design:
+   The Hardware/Software Interface. Morgan Kaufmann, 1998.
+5. Tanenbaum, A.S., Structured Computer Organization.
+   4ª ed. Prentice Hall, 1999.
+6. Stallings, W., Computer Organization and Architecture: Designing for
+   Performance. Prentice Hall, 1999.
+
+════════════════════════════════════════════════════════════════
+  CÁLCULO DE VARIACIONES  |  Clave: 0083
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Álgebra Lineal II, Análisis Matemático I, Ecuaciones
+                Diferenciales I
+Seriación sub.: Ecuaciones Diferenciales Parciales II
+
+Objetivos: Introducir al estudiante en las técnicas de localizar puntos
+críticos en espacios de dimensión infinita. Herramientas indispensables para
+las formulaciones variacionales de la mecánica (principios de mínima acción,
+ecuaciones de Euler-Lagrange). Utiliza elementos de Cálculo, Ecuaciones
+Diferenciales Ordinarias y Parciales.
+
+TEMARIO:
+10 h  1. Introducción
+      1.1 Ejemplos y problemas
+
+20 h  2. Cálculo en espacios de funciones
+      2.1 Funcionales, espacios de funciones, derivadas de un funcional
+          y extremos
+
+20 h  3. Condiciones necesarias
+      3.1 Ecuación de Euler-Lagrange, integral primera, más funciones,
+          más variables, frontera libre, problemas con discontinuidades,
+          multiplicadores de Lagrange, problemas isoperimétricos
+
+15 h  4. Cambio de variables, Hamilton-Jacobi
+      4.1 Coordenadas Lagrangianas, principio de mínima acción,
+          teorema de Noether, ecuación de Hamilton-Jacobi
+
+15 h  5. Condiciones suficientes
+      5.1 Extremos débiles, fuertes, puntos conjugados, campos centrales
+
+BIBLIOGRAFÍA BÁSICA:
+· Courant, R.; Hilbert, D., Methods of Mathematical Physics, Vol. I.
+  Wiley Interscience, 1953.
+· Ize, J., Cálculo de Variaciones. Serie FENOMEC Vol. 3. UNAM.
+· Troutman, J.L., Variational Calculus with Elementary Convexity.
+  Springer, 1983.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+· Bliss, G.A., Lectures on the Calculus of Variations.
+  University of Chicago Press, 1957.
+· Carathéodory, C., Calculus of Variations and PDE's of the First Order.
+  Chelsea, 1982.
+· Bolza, O., Lectures on the Calculus of Variations. Chelsea, 1973.
+· Courant, R., Calculus of Variations. New York University, 1957.
+· El'sgol'c, L.E., Ecuaciones Diferenciales y Cálculo Variacional. MIR, 1977.
+· Gelfand, I.M.; Fomin, S.V., Calculus of Variations. Prentice Hall, 1963.
+· Mikhlin, S.C., Variational Methods in Mathematical Physics. Pergamon, 1964.
+
+════════════════════════════════════════════════════════════════
+  ECUACIONES DIFERENCIALES II  |  Clave: 0163
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Análisis Matemático I, Ecuaciones Diferenciales I,
+                Variable Compleja I
+Seriación sub.: Biología Matemática I, Ecuaciones Diferenciales III
+
+Objetivos: Extender los conocimientos del estudiante en Teoría Cualitativa
+de las Ecuaciones Diferenciales y elementos de Teoría Asintótica. Iniciar al
+estudiante en el estudio de ecuaciones diferenciales no lineales, lineales con
+coeficientes periódicos y problemas con condiciones a la frontera. Énfasis
+especial en ecuaciones diferenciales en el plano.
+
+TEMARIO:
+10 h  1. Introducción y motivación a la Teoría Cualitativa
+      1.1 Problemas de mecánica clásica: oscilaciones, fuerzas centrales,
+          circuitos no lineales
+      1.2 Problemas de ciencias de la vida: modelos de poblaciones de
+          varias especies, epidemiología, modelos fisiológicos y cinéticos
+
+10 h  2. Teoremas fundamentales
+      2.1 Existencia y unicidad, continuidad y diferenciabilidad ante
+          variación de parámetros y condiciones iniciales
+      2.2 Problemas con valores a la frontera
+      2.3 Existencia y unicidad para un sistema de n ecuaciones lineales
+      2.4 Equivalencia topológica de ecuaciones diferenciales lineales
+
+10 h  3. Sistemas lineales, teoría de Floquet
+      3.1 Solución general del problema homogéneo; matriz fundamental
+      3.2 Clasificación de los puntos fijos en el plano y en más dimensiones
+      3.3 Sistemas con coeficientes periódicos, teorema de Floquet,
+          ecuación de Mathieu y estabilidad (Lenguas de Arnold)
+
+10 h  4. Teoría cualitativa en el plano
+      4.1 Órbitas y curvas solución; clasificación de puntos fijos
+      4.2 Índice de puntos fijos y órbitas periódicas en el plano
+      4.3 Conjuntos límite: α y ω límites; criterio de Bendixon
+      4.4 Teorema de Poincaré-Bendixon
+      4.5 Oscilaciones autosostenidas; ecuación de Van der Pol
+
+10 h  5. Teoría de estabilidad
+      5.1 Estabilidad de Lyapunov, estabilidad orbital, estabilidad global
+      5.2 Teorema de Grobman-Hartman para puntos atractores
+
+10 h  6. Oscilaciones no lineales y Teoría de Perturbaciones
+      6.1 Dinámica no lineal en el plano: puntos fijos, conexiones
+          homoclínicas y heteroclínicas (péndulo, Duffing)
+      6.2 Método de Promedios: oscilador no lineal perturbado y resonancias
+      6.3 Bifurcaciones elementales
+
+ 8 h  7. Sistemas conservativos (optativo)
+      7.1 Sistemas mecánicos: ecuaciones de Lagrange y de Hamilton.
+          Teorema de Liouville
+      7.2 Oscilaciones no lineales: método de Poincaré-Lindstedt
+
+ 6 h  8. Flujo global en el plano (optativo)
+      8.1 Proyección del plano en la esfera
+      8.2 Proyección en el horizonte
+      8.3 Índice de puntos fijos en el infinito y descripción global del flujo
+
+ 6 h  9. Problemas con valores a la frontera (optativo)
+      9.1 Introducción a la teoría de Sturm-Liouville
+
+BIBLIOGRAFÍA BÁSICA:
+1. Brauer, F.; Nohel, J.A., The Qualitative Theory of Ordinary Differential
+   Equations. Dover, 1989.
+2. Hirsch, M.W.; Smale, S., Differential Equations, Dynamical Systems and
+   Linear Algebra. Academic Press, 1974.
+3. Jordan, D.W.; Smith, P., Nonlinear Ordinary Differential Equations.
+   Oxford University Press, 1994.
+4. Verhulst, F., Nonlinear Differential Equations and Dynamical Systems.
+   Springer-Verlag, 1980.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Arnold, V.I., Ordinary Differential Equations. 3ª ed. Springer-Verlag, 1991.
+2. Arrowsmith, D.K.; Place, C.M., Dynamical Systems: Differential Equations,
+   Maps and Chaotic Behaviour. Chapman and Hall, 1998.
+3. Cronin, J., Differential Equations: Introduction and Qualitative Theory.
+   M. Dekker, 1985.
+4. Hale, J.; Kocak, H., Dynamics and Bifurcations. Springer-Verlag, 1991.
+5. Perko, L., Differential Equations and Dynamical Systems.
+   Springer-Verlag, 1990.
+
+════════════════════════════════════════════════════════════════
+  GEOMETRÍA DIFERENCIAL I  |  Clave: 0246
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Álgebra Lineal I, Cálculo IV, Ecuaciones Diferenciales I,
+                Introducción a la Geometría Avanzada
+Seriación sub.: Geometría Diferencial II, Geometría Riemanniana I,
+                Geometría Sumatoria
+
+Objetivos: Que el estudiante conozca los conceptos fundamentales de la
+geometría diferencial: curva y superficie diferenciables, geometría intrínseca
+y extrínseca de una superficie, curvatura de una superficie, y los principales
+resultados de la geometría local y global de superficies.
+
+TEMARIO:
+15 h  1. Curvas en ℝ³
+      1.1 Conceptos básicos: curvas parametrizadas, diferenciables,
+          regulares. Longitud de arco como parámetro natural
+      1.2 Curvatura y torsión; fórmulas de Frenet-Serret
+      1.3 Teorema Fundamental de la Teoría Local de Curvas. Forma
+          canónica local. Círculo osculador
+      1.4 Ejemplos: curvas planas, curvatura con signo; curvas en
+          dimensiones superiores; curvas definidas por F(x,y)=0
+      1.5 Temas optativos: curvas cerradas, teorema de Jordan, índice,
+          rotación de la tangente, desigualdad isoperimétrica, cuatro
+          vértices, clasificación topológica
+
+30 h  2. Superficies en ℝ³
+      2.1 Superficie regular en ℝ³ y variedad diferenciable de dimensión 2.
+          Sistemas de coordenadas locales. Teorema del Rango
+      2.2 Funciones diferenciables en una superficie; plano tangente;
+          vectores tangentes como derivaciones
+      2.3 Primera forma fundamental. Orientabilidad. Teorema de
+          Clasificación (enunciado). Área
+
+30 h  3. La Aplicación de Gauss
+      3.1 Definición. Curvatura normal y geodésica. Direcciones
+          principales y asintóticas
+      3.2 Curvatura gaussiana y media. Teorema Egregio y geometría
+          intrínseca. Esfera osculatriz
+      3.3 Fórmulas de Mainardi-Codazzi. Teorema Fundamental de la
+          Teoría Local de Superficies
+      3.4 Campos tangentes. Derivada covariante. Geodésicas.
+          Ecuaciones de la Relatividad General
+
+ 5 h  4. El Teorema de Gauss-Bonnet y sus consecuencias
+      4.1 Presentación descriptiva introductoria para motivar el
+          estudio de la geometría diferencial global
+
+BIBLIOGRAFÍA BÁSICA:
+1. Do Carmo, M.P., Differential Geometry of Curves and Surfaces in ℝ³.
+   Prentice Hall, 1976. (Trad. Oscar Palmas, Vínculos Matemáticos 183, 185,
+   193, 194, 197, FC-UNAM, 1991.)
+2. Hilbert, D.; Cohn-Vossen, S., Geometry and the Imagination.
+   Vínculos Matemáticos No. 150, FC-UNAM, 2000.
+3. O'Neill, B., Elementary Differential Geometry. Academic Press, 1997.
+4. Pogorelov, A.V., Geometría Diferencial. MIR, 1977.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Arnold, V.I., Mathematical Methods of Classical Mechanics.
+   Springer-Verlag, 1989.
+2. Landau, L.D., Mecánica. Reverté, 1978.
+3. Milnor, J.W., Morse Theory. Princeton University Press, 1963.
+4. Misner, C.W.; Thorn, K.S.; Wheeler, J.A., Gravitation.
+   W.H. Freeman, 1973.
+5. O'Neill, B., Semi-Riemannian Geometry with Applications to Relativity.
+   Academic Press, 1983.
+6. Spivak, M.A., A Comprehensive Introduction to Differential Geometry.
+   Publish or Perish, 1999.
+
+════════════════════════════════════════════════════════════════
+  GEOMETRÍA DIFERENCIAL II  |  Clave: 0247
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Geometría Diferencial I
+Seriación sub.: Geometría Diferencial III
+
+Objetivos: Introducir conceptos relevantes en Geometría Diferencial y
+estudiar propiedades globales de una superficie.
+
+TEMARIO:
+30 h  1. Geometría intrínseca
+      1.1 Derivada covariante. Campos paralelos. Transporte paralelo
+      1.2 Geodésicas: definición, existencia y unicidad. Transformación
+          exponencial. Coordenadas normales
+
+30 h  2. Geometría global
+      2.1 Superficies completas. Teorema de Hopf-Rinow
+      2.2 Primera y segunda variaciones de la longitud de arco
+      2.3 Campos de Jacobi y puntos conjugados
+      2.4 Superficies de curvatura constante. Teorema de Hadamard
+
+20 h  3. Superficies completas con curvatura constante
+      3.1 Curvatura positiva: Teorema de Rigidez de la Esfera
+      3.2 Curvatura nula: Teorema de Massey
+      3.3 Curvatura negativa: Teorema de Hilbert
+
+BIBLIOGRAFÍA BÁSICA:
+1. Do Carmo, M.P., Differential Geometry of Curves and Surfaces in ℝ³.
+   Prentice Hall, 1976.
+2. Hilbert, D.; Cohn-Vossen, S., Geometry and the Imagination.
+   Vínculos Matemáticos No. 150, FC-UNAM, 2000.
+3. O'Neill, B., Elementary Differential Geometry. Academic Press, 1997.
+4. Pogorelov, A.V., Geometría Diferencial. MIR, 1977.
+5. Stoker, J.J., Differential Geometry. Wiley-Interscience, 1969.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Spivak, M.A., A Comprehensive Introduction to Differential Geometry.
+   Publish or Perish, 1999.
+
+════════════════════════════════════════════════════════════════
+  HISTORIA DE LAS MATEMÁTICAS I  |  Clave: 0286
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Álgebra Lineal II, Cálculo IV, Ecuaciones Diferenciales I
+Seriación sub.: Historia de las Matemáticas II
+
+Objetivos: Presentar las ideas, métodos y resultados más relevantes para la
+cultura matemática desde la antigüedad griega hasta el Renacimiento.
+
+TEMARIO:
+ 5 h  1. Matemáticas en la antigüedad
+      1.1 Las matemáticas en Babilonia y en Egipto. El papiro Rhind
+
+30 h  2. Matemáticas griegas
+      2.1 Pitágoras y los inconmensurables
+      2.2 Lógica y matemáticas en Zenón, Platón y Aristóteles
+      2.3 Euclides y los Elementos de geometría
+      2.4 Arquímedes y el método heurístico
+      2.5 La aritmética de Diofanto
+      2.6 Eudoxo y el método de exhaustión
+      2.7 Apolonio y las cónicas
+      2.8 La geometría del universo de Ptolomeo
+
+15 h  3. Matemáticas medievales y árabes
+      3.1 Las contribuciones árabes al álgebra y la trigonometría
+      3.2 La óptica geométrica
+      3.3 El Islam y la transmisión del conocimiento matemático a occidente
+      3.4 Las escuelas de ábaco y las matemáticas de los comerciantes
+
+15 h  4. El renacimiento europeo
+      4.1 Los abacistas italianos
+      4.2 La geometría de la perspectiva
+      4.3 La controversia sobre la ecuación cúbica: Tartaglia, Bombelli, Cardano
+      4.4 El álgebra de Viète y Stevin
+
+15 h  5. Las nuevas matemáticas (siglo XVII)
+      5.1 Fermat, Descartes y su arte analítico. La geometría
+      5.2 Fermat, Mersenne y el renacimiento de la teoría de los números
+      5.3 Desargues y la geometría proyectiva
+
+BIBLIOGRAFÍA BÁSICA:
+1. Artmann, B., Euclid, the Creation of Mathematics. Springer-Verlag, 1999.
+2. Bashmakova, I.; Smirnova, G., The Beginnings and Evolution of Algebra.
+   MAA, 2000.
+3. Eves, H., An Introduction to the History of Mathematics.
+   Saunders College, 1976.
+4. Katz, V., A History of Mathematics: An Introduction. Harper Collins, 1998.
+5. Kline, M., El Pensamiento Matemático de la Antigüedad a Nuestros Días.
+   3 vols. Alianza Editorial, 1992.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. Menninger, K., Number Words and Number Symbols. Dover, 1992.
+2. Nahin, P.J., An Imaginary Tale: The Story of √-1.
+   Princeton University Press, 1998.
+
+════════════════════════════════════════════════════════════════
+  HISTORIA DE LAS MATEMÁTICAS II  |  Clave: 0287
+════════════════════════════════════════════════════════════════
+Semestre: V o VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Álgebra Moderna I, Análisis Matemático I,
+                Historia de las Matemáticas I, Variable Compleja I
+Seriación sub.: Ninguna
+
+Objetivos: Presentar el desarrollo de las ideas matemáticas más relevantes
+desde el siglo XVII hasta la época contemporánea.
+
+TEMARIO:
+25 h  1. El cálculo: de los indivisibles a Newton y Leibniz
+      1.1 El método de los indivisibles: Kepler, Cavalieri, Torricelli,
+          Pascal, Barrow y Newton
+      1.2 Tangentes, áreas, volúmenes, series de potencias: Fermat,
+          Wallis, Newton, L'Hôpital
+      1.3 El cálculo diferencial e integral de Newton y Leibniz
+
+25 h  2. Análisis y álgebra en los siglos XVIII y XIX
+      2.1 La teoría analítica de los números: Euler y Gauss
+      2.2 La fundamentación del análisis: Euler, Cauchy, d'Alembert,
+          los Bernoulli
+      2.3 Galois y el desarrollo de la teoría de grupos
+      2.4 Números imaginarios y complejos
+
+10 h  3. Geometrías no euclidianas
+      3.1 Gauss, Bolyai y Lobachevsky
+
+10 h  4. Teoría de conjuntos y fundamentos de las matemáticas
+      4.1 Conjuntos y aritmética: Frege, Cantor y Dedekind
+      4.2 Intuicionismo vs. Logicismo. La crisis de los fundamentos:
+          Klein, Hilbert, Russell y Gödel
+
+10 h  5. Temas selectos de la historia de las matemáticas
+      5.1 Los inicios de la Topología
+      5.2 El último teorema de Fermat
+
+BIBLIOGRAFÍA BÁSICA:
+1. Bashmakova, I.; Smirnova, G., The Beginnings and Evolution of Algebra.
+   MAA, 2000.
+2. Boyer, C.B., The History of Calculus and its Conceptual Development.
+   Dover, 1959.
+3. Bourbaki, N., Elementos de Historia de las Matemáticas.
+   Alianza Editorial, 1969.
+4. Katz, V., A History of Mathematics: An Introduction. Harper Collins, 1998.
+5. Kline, M., El Pensamiento Matemático de la Antigüedad a Nuestros Días.
+   3 vols. Alianza Editorial, 1992.
+6. Singh, S., Fermat's Last Theorem. Fourth Estate, 1997.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+1. McLeish, J., Number. Bloomsbury, 1991.
+2. Nahin, P.J., An Imaginary Tale: The Story of √-1.
+   Princeton University Press, 1998.
+3. Sommerville, D.M., The Elements of Non-Euclidean Geometry. Dover, 1958.
+4. Stewart, I., The Problems of Mathematics.
+   Oxford University Press, 1992.

@@ -1087,6 +1087,118 @@ const LIBRARY_OPT = [
       { id: "am2_b3", title: "Galois Theory",                        author: "I. Stewart",      edition: "Chapman and Hall, 2004",             chapters: [] },
     ]
   },
+  {
+    subject: "Análisis de Algoritmos I",
+    matId:   "analisis_algoritmos_1",
+    color:   "linear-gradient(135deg,#081810,#104020)",
+    books: [
+      { id: "aa1_b1",  title: "Applied and Algorithmic Graph Theory",                              author: "G. Chartrand; O.R. Oellermann",          edition: "McGraw-Hill, 1993",        chapters: [] },
+      { id: "aa1_b2",  title: "Introduction to Algorithms",                                        author: "T.H. Cormen; C.E. Leiserson; R.L. Rivest", edition: "McGraw-Hill, 1990",       chapters: [] },
+      { id: "aa1_b3",  title: "Practical Algorithms in C++",                                       author: "B. Flamig",                              edition: "Wiley, 1995",              chapters: [] },
+      { id: "aa1_b4",  title: "The Art of Computer Programming, Vol. I: Fundamental Algorithms",  author: "D.E. Knuth",                             edition: "Addison-Wesley, 1973",     chapters: [] },
+      { id: "aa1_b5",  title: "Algorithms and Data Structures: Design, Correctness and Analysis", author: "J. Kingston",                            edition: "Addison-Wesley, 1990",     chapters: [] },
+      { id: "aa1_b6",  title: "Introduction to Algorithms: A Creative Approach",                  author: "U. Manber",                              edition: "Addison-Wesley, 1989",     chapters: [] },
+      { id: "aa1_b7",  title: "Data Structures and Algorithms, Vol. I: Sorting and Searching",    author: "K. Mehlhorn",                            edition: "Springer-Verlag, 1984",    chapters: [] },
+      { id: "aa1_b8",  title: "Foundations of Algorithms",                                        author: "R. Neapolitan; K. Naimipour",            edition: "Jones and Bartlett, 1998", chapters: [] },
+      { id: "aa1_b9",  title: "Compared to What? An Introduction to the Analysis of Algorithms",  author: "G.J.E. Rawlins",                         edition: "Computer Science Press, 1991", chapters: [] },
+      { id: "aa1_b10", title: "The Algorithm Design Manual",                                       author: "S.S. Skiena",                            edition: "Springer-Verlag, 1998",    chapters: [] },
+      { id: "aa1_b11", title: "Data Structures and Algorithm Analysis in C++",                    author: "M.A. Weiss",                             edition: "Addison-Wesley, 1999",     chapters: [] },
+      { id: "aa1_b12", title: "Data Structures: An Object Oriented Approach",                     author: "W.J. Collins",                           edition: "Addison-Wesley, 1992",     chapters: [] },
+    ]
+  },
+  {
+    subject: "Arquitectura de Computadoras",
+    matId:   "arquitectura_computadoras",
+    color:   "linear-gradient(135deg,#101010,#203040)",
+    books: [
+      { id: "ac_b1", title: "Computer Architecture: A Quantitative Approach",          author: "J.L. Hennessy; D.A. Patterson",        edition: "3ª ed. Morgan Kaufmann, 2003", chapters: [] },
+      { id: "ac_b2", title: "Computer Organization",                                   author: "V.C. Hamacher; Z. Vranesic; S. Zaky",  edition: "5ª ed. McGraw-Hill, 2002",     chapters: [] },
+      { id: "ac_b3", title: "Logic and Computer Design Fundamentals",                  author: "M. Mano; C.R. Kime",                  edition: "2ª ed. Prentice Hall, 2000",   chapters: [] },
+      { id: "ac_b4", title: "Principles of Computer Architecture",                     author: "M.J. Murdocca; V.P. Heuring",         edition: "Prentice Hall, 2000",          chapters: [] },
+      { id: "ac_b5", title: "Computer Organization and Design: The Hardware/Software Interface", author: "D. Patterson; J. Hennessy",  edition: "Morgan Kaufmann, 1998",        chapters: [] },
+      { id: "ac_b6", title: "Structured Computer Organization",                        author: "A.S. Tanenbaum",                      edition: "4ª ed. Prentice Hall, 1999",   chapters: [] },
+      { id: "ac_b7", title: "Computer Organization and Architecture: Designing for Performance", author: "W. Stallings",              edition: "Prentice Hall, 1999",          chapters: [] },
+    ]
+  },
+  {
+    subject: "Cálculo de Variaciones",
+    matId:   "calculo_variaciones",
+    color:   "linear-gradient(135deg,#100818,#201030)",
+    books: [
+      { id: "cv_b1", title: "Methods of Mathematical Physics, Vol. I",                   author: "R. Courant; D. Hilbert",    edition: "Wiley Interscience, 1953", chapters: [] },
+      { id: "cv_b2", title: "Cálculo de Variaciones (Serie FENOMEC Vol. 3)",             author: "J. Ize",                    edition: "UNAM",                     chapters: [] },
+      { id: "cv_b3", title: "Variational Calculus with Elementary Convexity",            author: "J.L. Troutman",             edition: "Springer, 1983",           chapters: [] },
+      { id: "cv_b4", title: "Calculus of Variations",                                    author: "I.M. Gelfand; S.V. Fomin",  edition: "Prentice Hall, 1963",      chapters: [] },
+      { id: "cv_b5", title: "Ecuaciones Diferenciales y Cálculo Variacional",            author: "L.E. El'sgol'c",            edition: "MIR, 1977",                chapters: [] },
+      { id: "cv_b6", title: "Lectures on the Calculus of Variations",                    author: "G.A. Bliss",                edition: "University of Chicago, 1957", chapters: [] },
+    ]
+  },
+  {
+    subject: "Ecuaciones Diferenciales II",
+    matId:   "ecuaciones_diferenciales_2",
+    color:   "linear-gradient(135deg,#081418,#102830)",
+    books: [
+      { id: "ed2_b1", title: "The Qualitative Theory of Ordinary Differential Equations",      author: "F. Brauer; J.A. Nohel",        edition: "Dover, 1989",               chapters: [] },
+      { id: "ed2_b2", title: "Differential Equations, Dynamical Systems and Linear Algebra",   author: "M.W. Hirsch; S. Smale",        edition: "Academic Press, 1974",      chapters: [] },
+      { id: "ed2_b3", title: "Nonlinear Ordinary Differential Equations",                      author: "D.W. Jordan; P. Smith",        edition: "Oxford University Press, 1994", chapters: [] },
+      { id: "ed2_b4", title: "Nonlinear Differential Equations and Dynamical Systems",         author: "F. Verhulst",                  edition: "Springer-Verlag, 1980",     chapters: [] },
+      { id: "ed2_b5", title: "Ordinary Differential Equations",                                author: "V.I. Arnold",                  edition: "3ª ed. Springer-Verlag, 1991", chapters: [] },
+      { id: "ed2_b6", title: "Dynamics and Bifurcations",                                      author: "J. Hale; H. Kocak",            edition: "Springer-Verlag, 1991",     chapters: [] },
+      { id: "ed2_b7", title: "Differential Equations and Dynamical Systems",                   author: "L. Perko",                     edition: "Springer-Verlag, 1990",     chapters: [] },
+    ]
+  },
+  {
+    subject: "Geometría Diferencial I",
+    matId:   "geometria_diferencial_1",
+    color:   "linear-gradient(135deg,#081208,#142418)",
+    books: [
+      { id: "gd1_b1", title: "Differential Geometry of Curves and Surfaces in ℝ³",      author: "M.P. Do Carmo",                       edition: "Prentice Hall, 1976",          chapters: [] },
+      { id: "gd1_b2", title: "Geometry and the Imagination (Vínculos Matemáticos 150)",  author: "D. Hilbert; S. Cohn-Vossen",          edition: "FC-UNAM, 2000",               chapters: [] },
+      { id: "gd1_b3", title: "Elementary Differential Geometry",                          author: "B. O'Neill",                          edition: "Academic Press, 1997",         chapters: [] },
+      { id: "gd1_b4", title: "Geometría Diferencial",                                     author: "A.V. Pogorelov",                      edition: "MIR, 1977",                   chapters: [] },
+      { id: "gd1_b5", title: "A Comprehensive Introduction to Differential Geometry",     author: "M.A. Spivak",                         edition: "Publish or Perish, 1999",      chapters: [] },
+      { id: "gd1_b6", title: "Mathematical Methods of Classical Mechanics",               author: "V.I. Arnold",                         edition: "Springer-Verlag, 1989",        chapters: [] },
+    ]
+  },
+  {
+    subject: "Geometría Diferencial II",
+    matId:   "geometria_diferencial_2",
+    color:   "linear-gradient(135deg,#101208,#201a08)",
+    books: [
+      { id: "gd2_b1", title: "Differential Geometry of Curves and Surfaces in ℝ³",      author: "M.P. Do Carmo",                       edition: "Prentice Hall, 1976",          chapters: [] },
+      { id: "gd2_b2", title: "Geometry and the Imagination (Vínculos Matemáticos 150)",  author: "D. Hilbert; S. Cohn-Vossen",          edition: "FC-UNAM, 2000",               chapters: [] },
+      { id: "gd2_b3", title: "Elementary Differential Geometry",                          author: "B. O'Neill",                          edition: "Academic Press, 1997",         chapters: [] },
+      { id: "gd2_b4", title: "Geometría Diferencial",                                     author: "A.V. Pogorelov",                      edition: "MIR, 1977",                   chapters: [] },
+      { id: "gd2_b5", title: "Differential Geometry",                                     author: "J.J. Stoker",                         edition: "Wiley-Interscience, 1969",     chapters: [] },
+      { id: "gd2_b6", title: "A Comprehensive Introduction to Differential Geometry",     author: "M.A. Spivak",                         edition: "Publish or Perish, 1999",      chapters: [] },
+    ]
+  },
+  {
+    subject: "Historia de las Matemáticas I",
+    matId:   "historia_matematicas_1",
+    color:   "linear-gradient(135deg,#181008,#301808)",
+    books: [
+      { id: "hm1_b1", title: "Euclid, the Creation of Mathematics",                              author: "B. Artmann",          edition: "Springer-Verlag, 1999",    chapters: [] },
+      { id: "hm1_b2", title: "The Beginnings and Evolution of Algebra",                          author: "I. Bashmakova; G. Smirnova", edition: "MAA, 2000",          chapters: [] },
+      { id: "hm1_b3", title: "An Introduction to the History of Mathematics",                    author: "H. Eves",             edition: "Saunders College, 1976",   chapters: [] },
+      { id: "hm1_b4", title: "A History of Mathematics: An Introduction",                        author: "V. Katz",             edition: "Harper Collins, 1998",     chapters: [] },
+      { id: "hm1_b5", title: "El Pensamiento Matemático de la Antigüedad a Nuestros Días (3 vols.)", author: "M. Kline",        edition: "Alianza Editorial, 1992",  chapters: [] },
+    ]
+  },
+  {
+    subject: "Historia de las Matemáticas II",
+    matId:   "historia_matematicas_2",
+    color:   "linear-gradient(135deg,#180810,#300818)",
+    books: [
+      { id: "hm2_b1", title: "The Beginnings and Evolution of Algebra",                          author: "I. Bashmakova; G. Smirnova", edition: "MAA, 2000",                chapters: [] },
+      { id: "hm2_b2", title: "The History of Calculus and its Conceptual Development",           author: "C.B. Boyer",          edition: "Dover, 1959",              chapters: [] },
+      { id: "hm2_b3", title: "Elementos de Historia de las Matemáticas",                         author: "N. Bourbaki",         edition: "Alianza Editorial, 1969",  chapters: [] },
+      { id: "hm2_b4", title: "A History of Mathematics: An Introduction",                        author: "V. Katz",             edition: "Harper Collins, 1998",     chapters: [] },
+      { id: "hm2_b5", title: "El Pensamiento Matemático de la Antigüedad a Nuestros Días (3 vols.)", author: "M. Kline",        edition: "Alianza Editorial, 1992",  chapters: [] },
+      { id: "hm2_b6", title: "Fermat's Last Theorem",                                            author: "S. Singh",            edition: "Fourth Estate, 1997",      chapters: [] },
+      { id: "hm2_b7", title: "The Elements of Non-Euclidean Geometry",                           author: "D.M. Sommerville",    edition: "Dover, 1958",              chapters: [] },
+    ]
+  },
   // ── Bloque III ────────────────────────────────────────────────────
 ];
 

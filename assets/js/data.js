@@ -591,6 +591,209 @@ const OPT_DATA = {
     ],
     bibComp: ["French, A.P. — Newtonian Mechanics (M.I.T. Introductory Physics Series). W.W. Norton, 1971.", "Feynman, R.P.; Leighton, R.B.; Sands, M. — The Feynman Lectures on Physics, Vol. I: Mechanics, Radiation, and Heat. 1964."],
     subsecuentes: ["Mecánica Analítica"]
+  },
+
+  // ── Análisis de Algoritmos I (0414) ────────────────────────────────────────
+  "Análisis de Algoritmos I": {
+    temario: [
+      { num: "1", name: "Conceptos básicos",                                     horas: 15, subtemas: ["Problemas y algoritmos", "Tipos de problemas", "Complejidad", "Modelos de cómputo"] },
+      { num: "2", name: "Justificación de algoritmos",                           horas: 15, subtemas: ["Introducción matemática", "Algoritmos iterativos", "Algoritmos recursivos"] },
+      { num: "3", name: "Diseño de algoritmos",                                  horas: 12, subtemas: [] },
+      { num: "4", name: "Algoritmos que involucran secuencias y conjuntos",      horas: 24, subtemas: ["Árboles binarios", "Búsquedas", "Ordenamientos", "Cota mínima de ordenamiento"] },
+      { num: "5", name: "Algoritmos para teoría de gráficas",                   horas: 15, subtemas: ["Árboles generadores", "Árboles generadores de peso mínimo", "Ruta más corta", "Teoría de redes"] },
+      { num: "6", name: "La clase de los problemas NP-completos",                horas: 15, subtemas: ["Introducción", "Algoritmos determinísticos y no determinísticos", "Teoría de los problemas NP-completos", "Teorema de Cook", "Técnicas para determinar problemas NP-C", "Ejemplos de problemas NP-completos", "Algoritmos de aproximación"] }
+    ],
+    bibBasicas: [
+      { name: "Chartrand, G.; Oellermann, O.R. — Applied and Algorithmic Graph Theory. McGraw-Hill, 1993.", caps: [] },
+      { name: "Cormen, T.H.; Leiserson, C.E.; Rivest, R.L. — Introduction to Algorithms. McGraw-Hill, 1990.", caps: [] },
+      { name: "Flamig, B. — Practical Algorithms in C++. Wiley, 1995.", caps: [] },
+      { name: "Hoare, C.A.R. — \"An Axiomatic Basis for Computer Programming\". Comm. ACM, No. 12, 1969.", caps: [] },
+      { name: "Knuth, D.E. — The Art of Computer Programming, Vol. I: Fundamental Algorithms. Addison-Wesley, 1973.", caps: [] },
+      { name: "Kingston, J. — Algorithms and Data Structures: Design, Correctness and Analysis. Addison-Wesley, 1990.", caps: [] },
+      { name: "Manber, U. — Introduction to Algorithms: A Creative Approach. Addison-Wesley, 1989.", caps: [] },
+      { name: "Mehlhorn, K. — Data Structures and Algorithms, Vol. I: Sorting and Searching. Springer-Verlag, 1984.", caps: [] },
+      { name: "Neapolitan, R.; Naimipour, K. — Foundations of Algorithms. Jones and Bartlett, 1998.", caps: [] },
+      { name: "Rawlins, G.J.E. — Compared to What? An Introduction to the Analysis of Algorithms. Computer Science Press, 1991.", caps: [] },
+      { name: "Skiena, S.S. — The Algorithm Design Manual. Springer-Verlag, 1998.", caps: [] },
+      { name: "Weiss, M.A. — Data Structures and Algorithm Analysis in C++. Addison-Wesley, 1999.", caps: [] }
+    ],
+    bibComp: ["Collins, W.J. — Data Structures: An Object Oriented Approach. Addison-Wesley, 1992."],
+    subsecuentes: ["Teoría de la Computación"]
+  },
+
+  // ── Arquitectura de Computadoras (0605) ────────────────────────────────────
+  "Arquitectura de Computadoras": {
+    temario: [
+      { num: "1", name: "Medidas de desempeño y principios cuantitativos de diseño",  horas: 10, subtemas: ["Tendencias tecnológicas, de costo y de uso de las computadoras", "Labores del diseñador de computadoras: relación costo-beneficio", "Medidas de desempeño, benchmarks, criterios de evaluación"] },
+      { num: "2", name: "Organización de una computadora",                            horas: 10, subtemas: ["Concepto de arquitectura de Von Neumann: componentes fundamentales", "Etapas de ejecución de instrucción"] },
+      { num: "3", name: "El conjunto de instrucciones: diseño y características",     horas: 10, subtemas: ["Clasificación de arquitecturas del conjunto de instrucciones", "Operandos: tipos y tamaño", "Modos de direccionamiento", "Formatos de instrucción", "Relación entre el diseño del conjunto de instrucciones y el compilador"] },
+      { num: "4", name: "Organización funcional",                                     horas:  6, subtemas: ["Ruta de datos y unidades funcionales", "Señales de control", "Unidades de control (microprogramadas vs. alambradas; horizontal y vertical)"] },
+      { num: "5", name: "Pipeline",                                                   horas: 10, subtemas: ["Concepto de pipeline y paralelismo a nivel de instrucción", "Revisión del ciclo de ejecución de instrucción", "Características de diseño que facilitan el pipeline", "Hazards: clasificación y métodos de solución", "Medidas de desempeño del pipeline"] },
+      { num: "6", name: "La jerarquía de memoria",                                   horas: 10, subtemas: ["Organización de la memoria: relación costo-desempeño", "Memorias caché: esquemas de colocación, mapeo de direcciones", "Políticas de reemplazo, manejo de escritura y fallos", "Medidas de desempeño de memoria caché"] },
+      { num: "7", name: "Entrada/Salida, canales",                                   horas: 10, subtemas: ["Esquemas de manejo de E/S, interrupciones", "Canales (buses): síncronos y asíncronos, bus-master y arbitraje", "Dispositivos de almacenamiento externo: discos, detección y corrección de errores", "Acceso directo a memoria (DMA)", "Relación entre el sistema de E/S y el sistema operativo"] },
+      { num: "8", name: "Sistemas de multiprocesadores",                              horas: 10, subtemas: ["Clasificación de Flynn (SISD, SIMD, MIMD, MISD)", "Comunicación entre procesadores", "Arquitecturas de memoria centralizada y distribuida compartida", "Sincronización y coherencia de cachés", "Clusters, sistemas de paso de mensajes"] },
+      { num: "9", name: "Tendencias en arquitecturas modernas",                       horas: 20, subtemas: ["Arquitecturas superescalares", "Esquemas de predicción de salto", "Prefetch", "Arquitecturas VLIW: ruteo de instrucciones, construcción de bundles"] }
+    ],
+    bibBasicas: [
+      { name: "Hennessy, J.L.; Patterson, D.A. — Computer Architecture: A Quantitative Approach. 3ª ed. Morgan Kaufmann, 2003.", caps: [] }
+    ],
+    bibComp: [
+      "Hamacher, V.C.; Vranesic, Z.; Zaky, S. — Computer Organization. 5ª ed. McGraw-Hill, 2002.",
+      "Mano, M.; Kime, C.R. — Logic and Computer Design Fundamentals. 2ª ed. Prentice Hall, 2000.",
+      "Murdocca, M.J.; Heuring, V.P. — Principles of Computer Architecture. Prentice Hall, 2000.",
+      "Patterson, D.; Hennessy, J. — Computer Organization and Design: The Hardware/Software Interface. Morgan Kaufmann, 1998.",
+      "Tanenbaum, A.S. — Structured Computer Organization. 4ª ed. Prentice Hall, 1999.",
+      "Stallings, W. — Computer Organization and Architecture: Designing for Performance. Prentice Hall, 1999."
+    ],
+    subsecuentes: ["Sistemas Operativos"]
+  },
+
+  // ── Cálculo de Variaciones (0083) ──────────────────────────────────────────
+  "Cálculo de Variaciones": {
+    temario: [
+      { num: "1", name: "Introducción",                           horas: 10, subtemas: ["Ejemplos y problemas"] },
+      { num: "2", name: "Cálculo en espacios de funciones",       horas: 20, subtemas: ["Funcionales, espacios de funciones, derivadas de un funcional y extremos"] },
+      { num: "3", name: "Condiciones necesarias",                 horas: 20, subtemas: ["Ecuación de Euler-Lagrange, integral primera, más funciones, más variables, frontera libre, problemas con discontinuidades, multiplicadores de Lagrange, problemas isoperimétricos"] },
+      { num: "4", name: "Cambio de variables, Hamilton-Jacobi",   horas: 15, subtemas: ["Coordenadas Lagrangianas, principio de mínima acción, teorema de Noether, ecuación de Hamilton-Jacobi"] },
+      { num: "5", name: "Condiciones suficientes",                horas: 15, subtemas: ["Extremos débiles, fuertes, puntos conjugados, campos centrales"] }
+    ],
+    bibBasicas: [
+      { name: "Courant, R.; Hilbert, D. — Methods of Mathematical Physics, Vol. I. Wiley Interscience, 1953.", caps: [] },
+      { name: "Ize, J. — Cálculo de Variaciones. Serie FENOMEC Vol. 3. UNAM.", caps: [] },
+      { name: "Troutman, J.L. — Variational Calculus with Elementary Convexity. Springer, 1983.", caps: [] }
+    ],
+    bibComp: [
+      "Bliss, G.A. — Lectures on the Calculus of Variations. University of Chicago Press, 1957.",
+      "Carathéodory, C. — Calculus of Variations and PDE's of the First Order. Chelsea, 1982.",
+      "Bolza, O. — Lectures on the Calculus of Variations. Chelsea, 1973.",
+      "Courant, R. — Calculus of Variations. New York University, 1957.",
+      "El'sgol'c, L.E. — Ecuaciones Diferenciales y Cálculo Variacional. MIR, 1977.",
+      "Gelfand, I.M.; Fomin, S.V. — Calculus of Variations. Prentice Hall, 1963.",
+      "Mikhlin, S.C. — Variational Methods in Mathematical Physics. Pergamon, 1964."
+    ],
+    subsecuentes: ["Ecuaciones Diferenciales Parciales II"]
+  },
+
+  // ── Ecuaciones Diferenciales II (0163) ─────────────────────────────────────
+  "Ecuaciones Diferenciales II": {
+    temario: [
+      { num: "1", name: "Introducción y motivación a la Teoría Cualitativa",      horas: 10, subtemas: ["Problemas de mecánica clásica: oscilaciones, fuerzas centrales, circuitos no lineales", "Problemas de ciencias de la vida: modelos de poblaciones, epidemiología, modelos fisiológicos y cinéticos"] },
+      { num: "2", name: "Teoremas fundamentales",                                  horas: 10, subtemas: ["Existencia y unicidad, continuidad y diferenciabilidad ante variación de parámetros y condiciones iniciales", "Problemas con valores a la frontera", "Existencia y unicidad para un sistema de n ecuaciones lineales", "Equivalencia topológica de ecuaciones diferenciales lineales"] },
+      { num: "3", name: "Sistemas lineales, teoría de Floquet",                   horas: 10, subtemas: ["Solución general del problema homogéneo, matriz fundamental", "Clasificación de los puntos fijos en el plano y en más dimensiones", "Sistemas con coeficientes periódicos, teorema de Floquet, ecuación de Mathieu y estabilidad (Lenguas de Arnold)"] },
+      { num: "4", name: "Teoría cualitativa en el plano",                          horas: 10, subtemas: ["Órbitas y curvas solución; clasificación de puntos fijos", "Índice de puntos fijos y órbitas periódicas en el plano", "Conjuntos límite: α y ω límites; criterio de Bendixon", "Teorema de Poincaré-Bendixon", "Oscilaciones autosostenidas: ecuación de Van der Pol"] },
+      { num: "5", name: "Teoría de estabilidad",                                   horas: 10, subtemas: ["Estabilidad de Lyapunov, estabilidad orbital, estabilidad global", "Teorema de Grobman-Hartman para puntos atractores"] },
+      { num: "6", name: "Oscilaciones no lineales y Teoría de Perturbaciones",     horas: 10, subtemas: ["Dinámica no lineal en el plano: puntos fijos, conexiones homoclínicas y heteroclínicas (péndulo, Duffing)", "Método de Promedios: oscilador no lineal perturbado y resonancias", "Bifurcaciones elementales"] },
+      { num: "7", name: "Sistemas conservativos (optativo)",                       horas:  8, subtemas: ["Sistemas mecánicos: ecuaciones de Lagrange y de Hamilton. Teorema de Liouville", "Oscilaciones no lineales: método de Poincaré-Lindstedt"] },
+      { num: "8", name: "Flujo global en el plano (optativo)",                    horas:  6, subtemas: ["Proyección del plano en la esfera", "Proyección en el horizonte", "Índice de puntos fijos en el infinito y descripción global del flujo"] },
+      { num: "9", name: "Problemas con valores a la frontera (optativo)",          horas:  6, subtemas: ["Introducción a la teoría de Sturm-Liouville"] }
+    ],
+    bibBasicas: [
+      { name: "Brauer, F.; Nohel, J.A. — The Qualitative Theory of Ordinary Differential Equations. Dover, 1989.", caps: [] },
+      { name: "Hirsch, M.W.; Smale, S. — Differential Equations, Dynamical Systems and Linear Algebra. Academic Press, 1974.", caps: [] },
+      { name: "Jordan, D.W.; Smith, P. — Nonlinear Ordinary Differential Equations. Oxford University Press, 1994.", caps: [] },
+      { name: "Verhulst, F. — Nonlinear Differential Equations and Dynamical Systems. Springer-Verlag, 1980.", caps: [] }
+    ],
+    bibComp: [
+      "Arnold, V.I. — Ordinary Differential Equations. 3ª ed. Springer-Verlag, 1991.",
+      "Arrowsmith, D.K.; Place, C.M. — Dynamical Systems: Differential Equations, Maps and Chaotic Behaviour. Chapman and Hall, 1998.",
+      "Cronin, J. — Differential Equations: Introduction and Qualitative Theory. M. Dekker, 1985.",
+      "Hale, J.; Kocak, H. — Dynamics and Bifurcations. Springer-Verlag, 1991.",
+      "Perko, L. — Differential Equations and Dynamical Systems. Springer-Verlag, 1990."
+    ],
+    subsecuentes: ["Biología Matemática I", "Ecuaciones Diferenciales III"]
+  },
+
+  // ── Geometría Diferencial I (0246) ─────────────────────────────────────────
+  "Geometría Diferencial I": {
+    temario: [
+      { num: "1", name: "Curvas en ℝ³",           horas: 15, subtemas: ["Conceptos básicos: curvas parametrizadas, curvas diferenciables, curvas regulares, longitud de arco como parámetro natural", "Curvatura y torsión; fórmulas de Frenet-Serret", "Teorema Fundamental de la Teoría Local de Curvas. Forma canónica local. Círculo osculador", "Ejemplos: curvas planas y curvatura con signo; curvas en dimensiones superiores; curvas definidas por F(x,y)=0", "Temas optativos: curvas cerradas, teorema de Jordan, índice, rotación de la tangente, desigualdad isoperimétrica, cuatro vértices, clasificación topológica"] },
+      { num: "2", name: "Superficies en ℝ³",      horas: 30, subtemas: ["Superficie regular en ℝ³ y variedad diferenciable de dimensión 2. Sistemas de coordenadas locales. Teorema del Rango", "Funciones y aplicaciones diferenciables en una superficie. Plano tangente. Vectores tangentes como derivaciones", "Primera forma fundamental. Orientabilidad. Teorema de clasificación (enunciado). Área"] },
+      { num: "3", name: "La Aplicación de Gauss", horas: 30, subtemas: ["Definición de la Aplicación de Gauss. Curvatura normal y geodésica. Direcciones principales y asintóticas", "Curvatura gaussiana y media. Teorema Egregio y geometría intrínseca. Esfera osculatriz", "Fórmulas de Mainardi-Codazzi. Teorema Fundamental de la Teoría Local de Superficies", "Campos tangentes. Derivada covariante. Geodésicas. Curvas integrales y ecuaciones de la Relatividad General"] },
+      { num: "4", name: "El Teorema de Gauss-Bonnet y sus consecuencias", horas: 5, subtemas: ["Presentación descriptiva introductoria para motivar el estudio de la geometría diferencial global"] }
+    ],
+    bibBasicas: [
+      { name: "Do Carmo, M.P. — Differential Geometry of Curves and Surfaces in ℝ³. Prentice Hall, 1976. (Trad. Oscar Palmas, Vínculos Matemáticos 183, 185, 193, 194, 197, FC-UNAM, 1991.)", caps: [] },
+      { name: "Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. Vínculos Matemáticos No. 150, FC-UNAM, 2000.", caps: [] },
+      { name: "O'Neill, B. — Elementary Differential Geometry. Academic Press, 1997.", caps: [] },
+      { name: "Pogorelov, A.V. — Geometría Diferencial. MIR, 1977.", caps: [] }
+    ],
+    bibComp: [
+      "Arnold, V.I. — Mathematical Methods of Classical Mechanics. Springer-Verlag, 1989.",
+      "Landau, L.D. — Mecánica. Reverté, 1978.",
+      "Milnor, J.W. — Morse Theory. Princeton University Press, 1963.",
+      "Misner, C.W.; Thorn, K.S.; Wheeler, J.A. — Gravitation. W.H. Freeman, 1973.",
+      "O'Neill, B. — Semi-Riemannian Geometry with Applications to Relativity. Academic Press, 1983.",
+      "Spivak, M.A. — A Comprehensive Introduction to Differential Geometry. Publish or Perish, 1999."
+    ],
+    subsecuentes: ["Geometría Diferencial II", "Geometría Riemanniana I", "Geometría Sumatoria"]
+  },
+
+  // ── Geometría Diferencial II (0247) ────────────────────────────────────────
+  "Geometría Diferencial II": {
+    temario: [
+      { num: "1", name: "Geometría intrínseca",                               horas: 30, subtemas: ["Derivada covariante. Campos paralelos. Transporte paralelo", "Geodésicas: definición, existencia y unicidad. Transformación exponencial. Coordenadas normales"] },
+      { num: "2", name: "Geometría global",                                   horas: 30, subtemas: ["Superficies completas. Teorema de Hopf-Rinow", "Primera y segunda variaciones de la longitud de arco", "Campos de Jacobi y puntos conjugados", "Superficies de curvatura constante. Teorema de Hadamard"] },
+      { num: "3", name: "Superficies completas con curvatura constante",      horas: 20, subtemas: ["Curvatura positiva: Teorema de Rigidez de la Esfera", "Curvatura nula: Teorema de Massey", "Curvatura negativa: Teorema de Hilbert"] }
+    ],
+    bibBasicas: [
+      { name: "Do Carmo, M.P. — Differential Geometry of Curves and Surfaces in ℝ³. Prentice Hall, 1976.", caps: [] },
+      { name: "Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. Vínculos Matemáticos No. 150, FC-UNAM, 2000.", caps: [] },
+      { name: "O'Neill, B. — Elementary Differential Geometry. Academic Press, 1997.", caps: [] },
+      { name: "Pogorelov, A.V. — Geometría Diferencial. MIR, 1977.", caps: [] },
+      { name: "Stoker, J.J. — Differential Geometry. Wiley-Interscience, 1969.", caps: [] }
+    ],
+    bibComp: ["Spivak, M.A. — A Comprehensive Introduction to Differential Geometry. Publish or Perish, 1999."],
+    subsecuentes: ["Geometría Diferencial III"]
+  },
+
+  // ── Historia de las Matemáticas I (0286) ───────────────────────────────────
+  "Historia de las Matemáticas I": {
+    temario: [
+      { num: "1", name: "Matemáticas en la antigüedad",    horas:  5, subtemas: ["Las matemáticas en Babilonia y en Egipto. El papiro Rhind"] },
+      { num: "2", name: "Matemáticas griegas",             horas: 30, subtemas: ["Pitágoras y los inconmensurables", "Lógica y matemáticas en Zenón, Platón y Aristóteles", "Euclides y los Elementos de geometría", "Arquímedes y el método heurístico", "La aritmética de Diofanto", "Eudoxo y el método de exhaustión", "Apolonio y las cónicas", "La geometría del universo de Ptolomeo"] },
+      { num: "3", name: "Matemáticas medievales y árabes", horas: 15, subtemas: ["Las contribuciones árabes al álgebra y la trigonometría", "La óptica geométrica", "El Islam y la transmisión del conocimiento matemático a occidente", "Las escuelas de ábaco y las matemáticas de los comerciantes"] },
+      { num: "4", name: "El renacimiento europeo",         horas: 15, subtemas: ["Los abacistas italianos", "La geometría de la perspectiva", "La controversia sobre la ecuación cúbica: Tartaglia, Bombelli, Cardano", "El álgebra de Viète y Stevin"] },
+      { num: "5", name: "Las nuevas matemáticas (siglo XVII)", horas: 15, subtemas: ["Fermat, Descartes y su arte analítico. La geometría", "Fermat, Mersenne y el renacimiento de la teoría de los números", "Desargues y la geometría proyectiva"] }
+    ],
+    bibBasicas: [
+      { name: "Artmann, B. — Euclid, the Creation of Mathematics. Springer-Verlag, 1999.", caps: [] },
+      { name: "Baron, M. — History of Mathematics. Pergamon Press, 1969.", caps: [] },
+      { name: "Bashmakova, I.; Smirnova, G. — The Beginnings and Evolution of Algebra. MAA, 2000.", caps: [] },
+      { name: "Eves, H. — An Introduction to the History of Mathematics. Saunders College, 1976.", caps: [] },
+      { name: "Katz, V. — A History of Mathematics: An Introduction. Harper Collins, 1998.", caps: [] },
+      { name: "Kline, M. — El Pensamiento Matemático de la Antigüedad a Nuestros Días. 3 vols. Alianza Editorial, 1992.", caps: [] }
+    ],
+    bibComp: [
+      "Menninger, K. — Number Words and Number Symbols. Dover, 1992.",
+      "Nahin, P.J. — An Imaginary Tale: The Story of √-1. Princeton University Press, 1998."
+    ],
+    subsecuentes: ["Historia de las Matemáticas II"]
+  },
+
+  // ── Historia de las Matemáticas II (0287) ──────────────────────────────────
+  "Historia de las Matemáticas II": {
+    temario: [
+      { num: "1", name: "El cálculo: de los indivisibles a Newton y Leibniz",   horas: 25, subtemas: ["El método de los indivisibles: Kepler, Cavalieri, Torricelli, Pascal, Barrow y Newton", "Tangentes, áreas, volúmenes, series de potencias: Fermat, Wallis, Newton, L'Hôpital", "El cálculo diferencial e integral de Newton y Leibniz"] },
+      { num: "2", name: "Análisis y álgebra en los siglos XVIII y XIX",         horas: 25, subtemas: ["La teoría analítica de los números: Euler y Gauss", "La fundamentación del análisis: Euler, Cauchy, d'Alembert, los Bernoulli", "Galois y el desarrollo de la teoría de grupos", "Números imaginarios y complejos"] },
+      { num: "3", name: "Geometrías no euclidianas",                            horas: 10, subtemas: ["Gauss, Bolyai y Lobachevsky"] },
+      { num: "4", name: "Teoría de conjuntos y fundamentos de las matemáticas", horas: 10, subtemas: ["Conjuntos y aritmética: Frege, Cantor y Dedekind", "Intuicionismo vs. Logicismo. La crisis de los fundamentos: Klein, Hilbert, Russell y Gödel"] },
+      { num: "5", name: "Temas selectos de la historia de las matemáticas",     horas: 10, subtemas: ["Los inicios de la Topología", "El último teorema de Fermat"] }
+    ],
+    bibBasicas: [
+      { name: "Bashmakova, I.; Smirnova, G. — The Beginnings and Evolution of Algebra. MAA, 2000.", caps: [] },
+      { name: "Boyer, C.B. — The History of Calculus and its Conceptual Development. Dover, 1959.", caps: [] },
+      { name: "Bourbaki, N. — Elementos de Historia de las Matemáticas. Alianza Editorial, 1969.", caps: [] },
+      { name: "Katz, V. — A History of Mathematics: An Introduction. Harper Collins, 1998.", caps: [] },
+      { name: "Kline, M. — El Pensamiento Matemático de la Antigüedad a Nuestros Días. 3 vols. Alianza Editorial, 1992.", caps: [] },
+      { name: "Singh, S. — Fermat's Last Theorem. Fourth Estate, 1997.", caps: [] }
+    ],
+    bibComp: [
+      "McLeish, J. — Number. Bloomsbury, 1991.",
+      "Nahin, P.J. — An Imaginary Tale: The Story of √-1. Princeton University Press, 1998.",
+      "Sommerville, D.M. — The Elements of Non-Euclidean Geometry. Dover, 1958.",
+      "Stewart, I. — The Problems of Mathematics. Oxford University Press, 1992."
+    ],
+    subsecuentes: []
   }
 };
 
