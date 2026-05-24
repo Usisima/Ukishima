@@ -184,24 +184,24 @@
   pre.style.width      = '100%';
   pre.style.overflowX  = 'hidden';
 
-  // Size to the available height — read directly from the container element
-  // so it matches exactly what CSS flex assigned (avoids window.innerHeight mismatches)
-  const lineH       = fsPx * 1.6;
-  const containerEl = pre.closest('.bh-container');
-  const wrapH       = containerEl ? containerEl.offsetHeight
-                    : window.innerHeight
-                      - (document.querySelector('.header')?.offsetHeight ?? 0)
-                      - (document.querySelector('.bottom-nav')?.offsetHeight ?? 0);
-  const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
+  // Available height: subtract header and nav from viewport
+  const lineH    = fsPx * 1.6;
+  const headerEl = document.querySelector('.header');
+  const navEl    = document.querySelector('.bottom-nav');
+  const wrapH    = window.innerHeight
+                 - (headerEl ? headerEl.getBoundingClientRect().height : 0)
+                 - (navEl    ? navEl.getBoundingClientRect().height    : 0);
+  const ROWS = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  // Symmetric outer gaps: header→BH center = content_bottom→nav = A
-  // Cap at 38% of free space so BH visual always stays above the content block
-  const _dash    = document.getElementById('dash-bottom');
-  const _contentH = _dash ? _dash.offsetHeight : 0;
-  const _A = Math.round(Math.min(wrapH * 0.36, (wrapH - _contentH) * 0.38));
-  const CY = Math.max(5, Math.round(_A / lineH));
-  if (_dash) _dash.style.top = Math.round(wrapH - _A - _contentH) + 'px';
+  // Equal outer gaps: A = (wrapH − contentH − gap) / 2
+  // → header→BH = A, BH→content = gap (8%), content_bottom→nav = A
+  const _dash     = document.getElementById('dash-bottom');
+  const _contentH = _dash ? _dash.getBoundingClientRect().height : 0;
+  const _gap      = Math.round(wrapH * 0.08);
+  const _A        = Math.max(lineH * 4, Math.round((wrapH - _contentH - _gap) / 2));
+  const CY        = Math.max(5, Math.round(_A / lineH));
+  if (_dash) _dash.style.top = (_A + _gap) + 'px';
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
