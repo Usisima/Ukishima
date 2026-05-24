@@ -75,6 +75,13 @@ const PDF = {
   alm_b1: { title: "Topics in Algebra — Herstein", driveId: "" },
   alm_b2: { title: "A First Course in Abstract Algebra — Fraleigh", driveId: "" },
   alm_b3: { title: "An Introduction to the Theory of Groups — Rotman", driveId: "" },
+  // ── Conjuntos Convexos (optativa, Bloque I) ──
+  cc_b1:  { title: "Euclidean Geometry and Convexity — Benson", driveId: "" },
+  cc_b2:  { title: "División de Figuras en Partes Menores — Boltianski & Golberg", driveId: "" },
+  cc_b3:  { title: "Geometric Inequalities — Kazarinoff", driveId: "" },
+  cc_b4:  { title: "Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos — Hadwiger", driveId: "" },
+  cc_b5:  { title: "Combinatorial Geometry in the Plane — Hadwiger & Debrunner", driveId: "" },
+  cc_b6:  { title: "Convex Figures — Yaglom & Boltianski", driveId: "" },
 };
 
 /* ──────────────────────────────────────────────
@@ -796,6 +803,19 @@ const LIBRARY = [
    ══════════════════════════════════════════════════════════════════════ */
 const LIBRARY_OPT = [
   // ── Bloque I ──────────────────────────────────────────────────────
+  {
+    subject: "Conjuntos Convexos",
+    matId:   "conjuntos_convexos",
+    color:   "linear-gradient(135deg,#081209,#142618)",
+    books: [
+      { id: "cc_b1", title: "Euclidean Geometry and Convexity",               author: "R. Benson",               edition: "McGraw-Hill, 1966",                 chapters: [] },
+      { id: "cc_b2", title: "División de Figuras en Partes Menores",          author: "V. Boltianski & I. Golberg", edition: "MIR, 1973",                      chapters: [] },
+      { id: "cc_b3", title: "Geometric Inequalities",                         author: "N. Kazarinoff",            edition: "MAA, New Math. Library Vol. 4, 1961", chapters: [] },
+      { id: "cc_b4", title: "Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos", author: "H. Hadwiger", edition: "SMM, Textos 10, UNAM, 1998",            chapters: [] },
+      { id: "cc_b5", title: "Combinatorial Geometry in the Plane",            author: "H. Hadwiger & H. Debrunner", edition: "Holt, Reinhart and Winston, 1964", chapters: [] },
+      { id: "cc_b6", title: "Convex Figures",                                 author: "I. Yaglom & V. Boltianski", edition: "Holt, Reinhart and Winston, 1961", chapters: [] },
+    ]
+  },
   // ── Bloque II ─────────────────────────────────────────────────────
   // ── Bloque III ────────────────────────────────────────────────────
 ];

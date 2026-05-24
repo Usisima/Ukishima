@@ -151,6 +151,24 @@ const OPTATIVAS_BLOQUE_III = [
 
 // ==================== DATOS ENRIQUECIDOS DE OPTATIVAS ====================
 const OPT_DATA = {
+  "Conjuntos Convexos": {
+    temario: [
+      { num: "1", name: "Propiedades elementales",         horas: 20, subtemas: ["Hiperplanos soporte", "Función soporte", "Teoremas de Separación", "Puntos extremos y Teorema de Krein-Milman"] },
+      { num: "2", name: "Teorema de Helly",                horas: 15, subtemas: ["Teoremas de Radon, Helly y Carathéodory", "Aplicaciones"] },
+      { num: "3", name: "Suma de Minkowski",               horas: 10, subtemas: [] },
+      { num: "4", name: "Figuras de ancho constante",      horas: 20, subtemas: ["Definición y caracterizaciones", "Ejemplos", "Completez"] },
+      { num: "5", name: "Volumen, superficie y curvatura media", horas: 15, subtemas: ["Teoremas de aproximación", "Simetrización de Steiner", "Problemas isoperimétricos"] }
+    ],
+    bibBasicas: [
+      { name: "Benson, R. — Euclidean Geometry and Convexity. McGraw-Hill, 1966.", caps: ["Propiedades elementales", "Teorema de Helly", "Figuras de ancho constante", "Volumen y superficie"] },
+      { name: "Hadwiger, H.; Debrunner, H. — Combinatorial Geometry in the Plane. Holt, Reinhart and Winston, 1964.", caps: ["Propiedades elementales", "Teorema de Helly", "Suma de Minkowski"] },
+      { name: "Yaglom, I.; Boltianski, V. — Convex Figures. Holt, Reinhart and Winston, 1961.", caps: ["Propiedades elementales", "Figuras de ancho constante"] },
+      { name: "Kazarinoff, N. — Geometric Inequalities. MAA, New Math. Library Vol. 4, 1961.", caps: ["Teorema de Helly", "Volumen, superficie y curvatura media"] },
+      { name: "Hadwiger, H. — Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos. SMM, Textos 10, UNAM, 1998.", caps: ["Propiedades elementales", "Figuras de ancho constante", "Suma de Minkowski"] }
+    ],
+    bibComp: ["Montejano, L. — Cuerpos de Ancho Constante. UNAM-FCE, 1998."],
+    subsecuentes: []
+  },
   "Probabilidad I": {
     temario: [
       { num: "1", name: "Espacios de probabilidad", horas: 15, subtemas: ["Experimentos aleatorios y espacio muestral", "Álgebra de eventos. Axiomas de probabilidad", "Probabilidad condicional. Independencia", "Regla de la multiplicación. Ley de la probabilidad total", "Fórmula de Bayes"] },
