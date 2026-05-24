@@ -168,7 +168,14 @@ const TemDisc = {
       const maxW = sec.isCh ? pillMaxW : Math.max(50, Math.min(W - 14, arcX - 8));
       const opacity = Math.max(0.04, 1 - Math.abs(theta) * 0.9);
       const isAct  = i === active;
+      const tickW  = sec.isCh ? 9 : 5;
+      const tickH  = sec.isCh ? 2 : 1;
+      const tickC  = `rgba(155,191,181,${(opacity * 0.85).toFixed(3)})`;
+
       buf.push(
+        `<div style="position:absolute;right:36px;top:${arcY.toFixed(1)}px;` +
+        `width:${tickW}px;height:${tickH}px;background:${tickC};` +
+        `transform:translateY(-50%);pointer-events:none;z-index:3;border-radius:1px;"></div>` +
         `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" data-i="${i}" ` +
         `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
         `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
