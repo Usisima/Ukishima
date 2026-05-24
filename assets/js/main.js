@@ -153,7 +153,7 @@ const TemDisc = {
     );
 
     // ── Selector needle ─────────────────────────────────────────
-    const armLen = R - L - 36; // needle tip reaches center-item position
+    const armLen = R - L - 48; // tip aligns with active tick mark
     buf.push(
       `<div style="position:absolute;right:36px;top:${(cy - 0.5).toFixed(0)}px;` +
       `width:${armLen}px;height:1px;` +
@@ -273,8 +273,12 @@ const TemDisc = {
     }
     const wrap = document.getElementById('tem-disc-wrap');
     if (wrap) {
-      wrap.style.display = 'none';
       wrap.classList.remove('disc-opening');
+      wrap.classList.add('disc-closing');
+      setTimeout(() => {
+        wrap.style.display = 'none';
+        wrap.classList.remove('disc-closing');
+      }, 280);
     }
     document.getElementById('tem-disc-btn')?.classList.remove('is-open');
   },
@@ -319,7 +323,7 @@ const TemDisc = {
         if (!dragging) return;
         dragging = false;
         const t = Math.round(this._clamp(this.rot));
-        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+        this._snapTo(t, () => { this.scrollTo(t); this.close(); });
       };
       document.addEventListener('touchmove', _tmm, { passive: false });
       document.addEventListener('touchend',  _tmu, { passive: false });
@@ -341,7 +345,7 @@ const TemDisc = {
         document.removeEventListener('mousemove', mm);
         document.removeEventListener('mouseup',   mu);
         const t = Math.round(this._clamp(this.rot));
-        this._snapTo(t, () => { this.scrollTo(t); setTimeout(() => this.close(), 380); });
+        this._snapTo(t, () => { this.scrollTo(t); this.close(); });
       };
       document.addEventListener('mousemove', mm);
       document.addEventListener('mouseup',   mu);

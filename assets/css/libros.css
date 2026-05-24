@@ -1354,6 +1354,14 @@ body {
 #bk-disc-wrap.disc-opening {
   animation: bk-disc-open 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+@keyframes bk-disc-close {
+  from { transform: scale(1);    opacity: 1; }
+  to   { transform: scale(0.82); opacity: 0; }
+}
+#bk-disc-wrap.disc-closing {
+  animation: bk-disc-close 0.28s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
 
 /* Top/bottom fade */
 #bk-disc-wrap::before,

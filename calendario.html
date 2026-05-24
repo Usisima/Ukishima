@@ -273,15 +273,19 @@
   /* ─── LEGEND ─── */
   function renderLegend() {
     var items = [
-      { color: '#7aa89e', label: 'Días del semestre' },
-      { color: '#3c64d2', label: 'Periodo vacacional' },
-      { color: '#c89650', label: 'Días inhábiles' },
-      { color: '#c85555', label: 'Exámenes finales' },
+      { color: '#7aa89e',                    label: 'Días del semestre'      },
+      { color: '#3c64d2', dashed: true,      label: 'Vacaciones admin.'      },
+      { color: '#4850d2',                    label: 'Trámites inscripción'   },
+      { color: '#c89650',                    label: 'Días inhábiles'         },
+      { color: '#c85555',                    label: 'Exámenes finales'       },
     ];
     return '<div class="cal-legend-grid">'
       + items.map(function (item) {
+          var sw = item.dashed
+            ? 'border:1.5px dashed ' + item.color + ';background:rgba(100,140,220,0.07);'
+            : 'background:' + item.color + ';';
           return '<div class="cal-legend-item">'
-            + '<div class="cal-legend-swatch" style="background:' + item.color + '"></div>'
+            + '<div class="cal-legend-swatch" style="' + sw + '"></div>'
             + '<span class="cal-legend-label">' + item.label + '</span>'
             + '</div>';
         }).join('')
