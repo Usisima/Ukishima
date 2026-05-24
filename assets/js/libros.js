@@ -574,17 +574,18 @@ const Disc = {
 
       if (arcY < -40 || arcY > H + 40) return;
 
-      const pillMaxW = Math.max(50, W + L - R - 8); // fixed at center — never reflows
-      const maxW = sec.isCh ? pillMaxW : Math.max(50, Math.min(W - 14, arcX - 8));
+      const fixedMaxW = Math.max(50, W + L - R - 8); // fixed at center — never reflows
+      const maxW = fixedMaxW;
       const absTh  = Math.abs(theta);
       const opacity = Math.max(0.04, 1 - absTh * 0.9);
       const isAct   = i === active;
       const tickW  = sec.isCh ? 9 : 5;
       const tickH  = sec.isCh ? 2 : 1;
       const tickC  = `rgba(155,191,181,${(opacity * 0.85).toFixed(3)})`;
+      const tickR  = Math.max(3, rightDist - tickW - 3);
 
       buf.push(
-        `<div style="position:absolute;right:36px;top:${arcY.toFixed(1)}px;` +
+        `<div style="position:absolute;right:${tickR.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
         `width:${tickW}px;height:${tickH}px;background:${tickC};` +
         `transform:translateY(-50%);pointer-events:none;z-index:3;border-radius:1px;"></div>` +
         `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" ` +
