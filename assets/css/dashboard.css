@@ -563,11 +563,13 @@ body {
   margin-bottom: 0.28rem;
 }
 
+/* ::before es 2× el ancho de la barra, 2 ciclos idénticos del degradado.
+   translateX(-50% → 0): el contenedor se desplaza a la derecha, visualmente el flujo
+   viaja de izquierda a derecha. Semáforo matemáticamente perfecto. */
 @keyframes sem-bar-flow {
-  from { background-position: 100% 50%; }
-  to   { background-position:   0% 50%; }
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
-
 
 .dash-sem-bar-wrap {
   flex: 1;
@@ -581,15 +583,27 @@ body {
   height: 100%;
   border-radius: 99px;
   position: relative;
-  background: linear-gradient(
-    270deg,
-    #0ad3fa, #c74d97, #e20c75, #c74d97, #0ad3fa
-  );
-  background-size: 300% 300%;
-  animation: sem-bar-flow 4s linear infinite;
+  overflow: hidden;
   box-shadow:
     0 0 6px 1px rgba(226, 12, 117, 0.55),
     0 0 14px 2px rgba(10, 211, 250, 0.30);
+}
+
+.dash-sem-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    #0ad3fa  0%,
+    #c74d97 20%,
+    #e20c75 40%,
+    #0ad3fa 60%,
+    #c74d97 80%,
+    #e20c75 100%
+  );
+  animation: sem-bar-flow 10s linear infinite;
 }
 
 .dash-sem-bar::after { display: none; }
@@ -744,6 +758,35 @@ body {
   color: var(--ink3);
   margin-top: 0.55rem;
   opacity: 0.5;
+}
+
+/* ── BH Palette Switcher Button ── */
+.bh-palette-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 20;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(155, 191, 181, 0.18);
+  border-radius: 8px;
+  color: rgba(232, 245, 242, 0.35);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+}
+
+.bh-palette-btn:active {
+  color: var(--gold);
+  border-color: rgba(155, 191, 181, 0.45);
+  background: rgba(0, 0, 0, 0.72);
+  transform: scale(0.92);
 }
 
 .header-right { display: flex; align-items: center; gap: 0.5rem; }

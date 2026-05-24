@@ -32,6 +32,11 @@
 </header>
 
 <div class="bh-container">
+<button id="bh-palette-btn" class="bh-palette-btn" aria-label="Cambiar paleta">
+  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+  </svg>
+</button>
 <div class="bh-wrap">
   <pre class="bh-art" id="bh-stars" aria-hidden="true"></pre>
   <pre class="bh-art" id="bh-art"   aria-hidden="true"></pre>
@@ -176,6 +181,57 @@
   const preStars = document.getElementById('bh-stars');
   if (!pre) return;
 
+  // ── Palettes ──────────────────────────────────────────────────────────────
+  const BH_PALETTES = [
+    { // 0 · Neon cosmic
+      name: 'Neon',
+      rings: [
+        { rc: 0.24,  w: 0.090, hue: 333, off: 0.7 },
+        { rc: 0.455, w: 0.085, hue: 315, off: 2.4 },
+        { rc: 0.645, w: 0.060, hue: 250, off: 4.0 },
+        { rc: 0.880, w: 0.060, hue: 189, off: 5.6 },
+      ],
+      ringHue: 305, ringBright: false,
+      scatterHue: 186,
+    },
+    { // 1 · Warm acreción
+      name: 'Acreción',
+      rings: [
+        { rc: 0.24,  w: 0.090, hue: 44,  off: 0.7 },
+        { rc: 0.455, w: 0.085, hue: 36,  off: 2.4 },
+        { rc: 0.645, w: 0.060, hue: 11,  off: 4.0 },
+        { rc: 0.880, w: 0.060, hue: 212, off: 5.6 },
+      ],
+      ringHue: 45, ringBright: false,
+      scatterHue: 206,
+    },
+    { // 2 · Realista
+      name: 'Realista',
+      rings: [
+        { rc: 0.24,  w: 0.090, hue: 42,  off: 0.7, lMax: 22 },  // horizonte: muy oscuro
+        { rc: 0.455, w: 0.085, hue: 42,  off: 2.4 },
+        { rc: 0.645, w: 0.060, hue: 33,  off: 4.0 },
+        { rc: 0.880, w: 0.060, hue: 22,  off: 5.6 },
+      ],
+      ringHue: 45, ringBright: true,  // lensing relativista: casi blanco
+      scatterHue: 211,
+    },
+  ];
+
+  let paletteIdx = Math.min(2, +(localStorage.getItem('bh-palette') || 0));
+  let PAL = BH_PALETTES[paletteIdx];
+
+  // Palette button
+  const palBtn = document.getElementById('bh-palette-btn');
+  if (palBtn) {
+    palBtn.addEventListener('click', () => {
+      paletteIdx = (paletteIdx + 1) % BH_PALETTES.length;
+      localStorage.setItem('bh-palette', paletteIdx);
+      PAL = BH_PALETTES[paletteIdx];
+    });
+  }
+  // ──────────────────────────────────────────────────────────────────────────
+
   function init() {
 
   // Fill screen width exactly: COLS capped at 160, font size computed to fill W perfectly
@@ -223,13 +279,8 @@
   const DRA = Math.max(20, Math.round(62 * _sc)), DRB = DRA * Math.cos(INC) * AR;
   const PERIOD = 4500;
 
-  // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue }
-  const RINGS  = [
-    { rc: 0.24,  w: 0.090, hue: 333, off: 0.7 },  // #e20c75 esfera interna
-    { rc: 0.455, w: 0.085, hue: 320, off: 2.4 },  // #c74d97 anillo interior
-    { rc: 0.645, w: 0.060, hue: 260, off: 4.0 },  // transicion purpura→cian
-    { rc: 0.880, w: 0.060, hue: 189, off: 5.6 },  // #0ad3fa anillo exterior
-  ];
+  // 4 Gaussian rings — driven by active palette
+  const RINGS = PAL.rings;
   const BASE_RC = 0.45;
 
   const STAR_CH   = ['.', 'o', 'o', 'O', '0'];
@@ -373,7 +424,7 @@
 
         const nearSide = r > CY;
 
-        let diskB = 0, diskRelA = 0, diskHue = 30;
+        let diskB = 0, diskRelA = 0, diskHue = 30, diskRing = null;
         for (const ring of RINGS) {
           const dt     = (dd - ring.rc) / ring.w;
           const radial = Math.exp(-dt * dt * 1.8);
@@ -385,7 +436,7 @@
             ? Math.exp(-relA * relA * 6)
             : Math.exp(-relA * relA / trailSq);
           const contrib  = radial * (0.10 + 0.90 * angular);
-          if (contrib > diskB) { diskB = contrib; diskRelA = relA; diskHue = ring.hue; }
+          if (contrib > diskB) { diskB = contrib; diskRelA = relA; diskHue = ring.hue; diskRing = ring; }
         }
 
         let ringB = 0, ringT = 0;
@@ -418,19 +469,24 @@
         let ch = ' ', color = null;
         if (showDisk) {
           ch = lv(diskB);
-          const dN = Math.max(0, Math.cos(diskRelA));
-          const h  = Math.round((diskHue + dN * 14) / 5) * 5;
-          const l  = Math.round((22 + dN * 44) / 5) * 5;
+          const dN  = Math.max(0, Math.cos(diskRelA));
+          const h   = Math.round((diskHue + dN * 14) / 5) * 5;
+          const lMx = diskRing && diskRing.lMax !== undefined ? diskRing.lMax : 66;
+          const l   = Math.round((Math.min(22, lMx) + dN * Math.max(0, lMx - 22)) / 5) * 5;
           color = `hsl(${h},95%,${l}%)`;
         } else if (showRing) {
           ch = lv(ringB);
-          const l = Math.round((30 + ringT * 32) / 5) * 5;
-          const s = Math.round((90 - ringT * 40) / 10) * 10;
-          color = `hsl(320,${s}%,${l}%)`;
+          const l = PAL.ringBright
+            ? Math.round((55 + ringT * 40) / 5) * 5
+            : Math.round((30 + ringT * 32) / 5) * 5;
+          const s = PAL.ringBright
+            ? Math.round((10 + ringT * 20) / 10) * 10
+            : Math.round((90 - ringT * 40) / 10) * 10;
+          color = `hsl(${PAL.ringHue},${s}%,${l}%)`;
         } else if (showScatter) {
           ch = lv(scatterB * 0.44);
           const sl = Math.round((12 + scatterB * 28) / 5) * 5;
-          color = `hsl(189,95%,${sl}%)`;
+          color = `hsl(${PAL.scatterHue},95%,${sl}%)`;
         }
         // void & non-disc cells → space (transparent, page bg shows through)
 
