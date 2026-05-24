@@ -194,13 +194,13 @@
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
-  // Equal 3-gap: A = (wrapH − contentH) / 3
-  // header→BH center = A, BH center→content top = A, content bottom→nav = A
+  // Symmetric outer gaps: header→BH center = content_bottom→nav = A
+  // Cap at 38% of free space so BH visual always stays above the content block
   const _dash    = document.getElementById('dash-bottom');
   const _contentH = _dash ? _dash.offsetHeight : 0;
-  const _A = Math.round((wrapH - _contentH) / 3);
+  const _A = Math.round(Math.min(wrapH * 0.36, (wrapH - _contentH) * 0.38));
   const CY = Math.max(5, Math.round(_A / lineH));
-  if (_dash) _dash.style.top = Math.round(1.62 * _A) + 'px';
+  if (_dash) _dash.style.top = Math.round(wrapH - _A - _contentH) + 'px';
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
