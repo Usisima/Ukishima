@@ -82,6 +82,35 @@ const PDF = {
   cc_b4:  { title: "Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos — Hadwiger", driveId: "" },
   cc_b5:  { title: "Combinatorial Geometry in the Plane — Hadwiger & Debrunner", driveId: "" },
   cc_b6:  { title: "Convex Figures — Yaglom & Boltianski", driveId: "" },
+  // ── Diseño de Sistemas Digitales (optativa, Bloque I) ──
+  dsd_b1: { title: "Digital Design — Mano", driveId: "" },
+  // ── Electromagnetismo I (optativa, Bloque I) ──
+  em1_b1: { title: "Fundamentos de Física Vol. II — Halliday, Resnick & Walker", driveId: "" },
+  em1_b2: { title: "Electromagnetism: Principles and Applications — Lorrain & Corson", driveId: "" },
+  em1_b3: { title: "Electricidad y Magnetismo — Purcell", driveId: "" },
+  em1_b4: { title: "Física Vol. II — Resnick, Halliday & Krane", driveId: "" },
+  em1_b5: { title: "Física II — Serway & Jewett", driveId: "" },
+  em1_b6: { title: "Electricidad y Magnetismo — Serway", driveId: "" },
+  em1_b7: { title: "Space Time Physics — Taylor & Wheeler", driveId: "" },
+  em1_b8: { title: "Introducción a la Teoría Especial de la Relatividad — Resnick", driveId: "" },
+  // ── Fenómenos Colectivos (optativa, Bloque I) ──
+  fc_b1:  { title: "Introducción al estudio de la mecánica, materia y ondas — Ingard & Kraushaar", driveId: "" },
+  fc_b2:  { title: "Termodinámica Clásica — Carmona", driveId: "" },
+  fc_b3:  { title: "Physical Hydrodynamics — Guyon, Hullin, Petit & Mitescu", driveId: "" },
+  fc_b4:  { title: "Physics of Waves — Elmore & Heald", driveId: "" },
+  // ── Conjuntos y Lógica (optativa, Bloque I) ──
+  cyl_b1: { title: "Sobre un Curso de Análisis Lógico — Amor", driveId: "" },
+  cyl_b2: { title: "Elementos de Lógica Formal — Badesa, Jané & Jansana", driveId: "" },
+  cyl_b3: { title: "Lógica Elemental — Fernández, Preisser, Segura & Torres", driveId: "" },
+  cyl_b4: { title: "Teoría de Conjuntos y Temas Afines — Lipschutz", driveId: "" },
+  cyl_b5: { title: "Cómo Entender y Hacer Demostraciones en Matemáticas — Solow", driveId: "" },
+  cyl_b6: { title: "El Método de la Inducción Matemática — Sominski", driveId: "" },
+  cyl_b7: { title: "Manual de Lógica para Estudiantes de Matemáticas — Zubieta", driveId: "" },
+  cyl_b8: { title: "Taller de Lógica Matemática — Zubieta", driveId: "" },
+  // ── Álgebra Moderna II (optativa, Bloque II) ──
+  am2_b1: { title: "Álgebra Abstracta — Fraleigh", driveId: "" },
+  am2_b2: { title: "Álgebra Moderna — Herstein", driveId: "" },
+  am2_b3: { title: "Galois Theory — Stewart", driveId: "" },
 };
 
 /* ──────────────────────────────────────────────
@@ -816,7 +845,66 @@ const LIBRARY_OPT = [
       { id: "cc_b6", title: "Convex Figures",                                 author: "I. Yaglom & V. Boltianski", edition: "Holt, Reinhart and Winston, 1961", chapters: [] },
     ]
   },
+  {
+    subject: "Conjuntos y Lógica",
+    matId:   "conjuntos_y_logica",
+    color:   "linear-gradient(135deg,#0c0812,#1c1026)",
+    books: [
+      { id: "cyl_b1", title: "Sobre un Curso de Análisis Lógico",                    author: "J.A. Amor",                        edition: "Educación Matemática, GEI, 1994", chapters: [] },
+      { id: "cyl_b2", title: "Elementos de Lógica Formal",                           author: "C. Badesa, I. Jané & R. Jansana",  edition: "Ariel, 1998",                    chapters: [] },
+      { id: "cyl_b3", title: "Lógica Elemental",                                     author: "M. Fernández, A. Preisser et al.", edition: "UAM, 1996",                      chapters: [] },
+      { id: "cyl_b4", title: "Teoría de Conjuntos y Temas Afines",                   author: "S. Lipschutz",                    edition: "Schaum-McGraw-Hill",              chapters: [] },
+      { id: "cyl_b5", title: "Cómo Entender y Hacer Demostraciones en Matemáticas",  author: "D. Solow",                        edition: "Limusa, 1987",                    chapters: [] },
+      { id: "cyl_b6", title: "El Método de la Inducción Matemática",                 author: "I.S. Sominski",                   edition: "Limusa, 1990",                    chapters: [] },
+      { id: "cyl_b7", title: "Manual de Lógica para Estudiantes de Matemáticas",     author: "G. Zubieta",                      edition: "Trillas, 1977",                   chapters: [] },
+      { id: "cyl_b8", title: "Taller de Lógica Matemática",                          author: "G. Zubieta",                      edition: "McGraw-Hill, 1993",               chapters: [] },
+    ]
+  },
+  {
+    subject: "Diseño de Sistemas Digitales",
+    matId:   "diseno_sistemas_digitales",
+    color:   "linear-gradient(135deg,#080c14,#101c2e)",
+    books: [
+      { id: "dsd_b1", title: "Digital Design", author: "M.M. Mano", edition: "2ª ed. Prentice Hall, 1991", chapters: [] },
+    ]
+  },
+  {
+    subject: "Electromagnetismo I",
+    matId:   "electromagnetismo_1",
+    color:   "linear-gradient(135deg,#14080a,#2a1014)",
+    books: [
+      { id: "em1_b1", title: "Fundamentos de Física Vol. II",                         author: "Halliday, Resnick & Walker",  edition: "8ª ed. Grupo Editorial Patria, 2011", chapters: [] },
+      { id: "em1_b2", title: "Electromagnetism: Principles and Applications",         author: "P. Lorrain & D.R. Corson",   edition: "W.H. Freeman, 1990",                 chapters: [] },
+      { id: "em1_b3", title: "Electricidad y Magnetismo",                             author: "E.M. Purcell",               edition: "Berkeley Physics Vol. 2, Reverté, 2001", chapters: [] },
+      { id: "em1_b4", title: "Física Vol. II",                                        author: "R. Resnick, D. Halliday & S.K. Krane", edition: "5ª ed. Cia. Editorial Continental, 1996", chapters: [] },
+      { id: "em1_b5", title: "Física II",                                             author: "R.A. Serway & J.W. Jewett",  edition: "3ª ed. Thomson Learning, 2004",      chapters: [] },
+      { id: "em1_b6", title: "Electricidad y Magnetismo",                             author: "R.A. Serway",                edition: "Thomson Learning, 2004",             chapters: [] },
+      { id: "em1_b7", title: "Space Time Physics",                                    author: "E.F. Taylor & J.A. Wheeler", edition: "Freeman, 1966",                      chapters: [] },
+      { id: "em1_b8", title: "Introducción a la Teoría Especial de la Relatividad",   author: "R. Resnick",                 edition: "Limusa, 1977",                       chapters: [] },
+    ]
+  },
+  {
+    subject: "Fenómenos Colectivos",
+    matId:   "fenomenos_colectivos",
+    color:   "linear-gradient(135deg,#080e12,#0e1e28)",
+    books: [
+      { id: "fc_b1", title: "Introducción al estudio de la mecánica, materia y ondas", author: "U. Ingard & W.I. Kraushaar", edition: "Reverté, 1973",               chapters: [] },
+      { id: "fc_b2", title: "Termodinámica Clásica",                                   author: "G. Carmona",                edition: "Fac. de Ciencias-UNAM, 2007", chapters: [] },
+      { id: "fc_b3", title: "Physical Hydrodynamics",                                  author: "E. Guyon, J.P. Hullin, L. Petit & C.D. Mitescu", edition: "Oxford University Press, 2001", chapters: [] },
+      { id: "fc_b4", title: "Physics of Waves",                                        author: "W.C. Elmore & M.A. Heald",  edition: "Dover Publications, 1985",    chapters: [] },
+    ]
+  },
   // ── Bloque II ─────────────────────────────────────────────────────
+  {
+    subject: "Álgebra Moderna II",
+    matId:   "algebra_moderna_2",
+    color:   "linear-gradient(135deg,#120810,#261020)",
+    books: [
+      { id: "am2_b1", title: "Álgebra Abstracta",                    author: "J.B. Fraleigh",   edition: "Sistemas Técnicos de Edición, 1988", chapters: [] },
+      { id: "am2_b2", title: "Álgebra Moderna",                      author: "I.N. Herstein",   edition: "Editorial Trillas, 1970",            chapters: [] },
+      { id: "am2_b3", title: "Galois Theory",                        author: "I. Stewart",      edition: "Chapman and Hall, 2004",             chapters: [] },
+    ]
+  },
   // ── Bloque III ────────────────────────────────────────────────────
 ];
 

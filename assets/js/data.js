@@ -151,6 +151,93 @@ const OPTATIVAS_BLOQUE_III = [
 
 // ==================== DATOS ENRIQUECIDOS DE OPTATIVAS ====================
 const OPT_DATA = {
+  "Conjuntos y Lógica": {
+    temario: [
+      { num: "1", name: "Conjuntos",                               horas: 25, subtemas: ["Noción de conjunto y pertenencia", "Operaciones: unión, intersección, diferencia, complemento", "Relaciones de orden: COPO, COTO, COBO, CODO. Lema de Zorn", "Relaciones de equivalencia y conjuntos cociente", "Funciones: inyectivas, suprayectivas, biyectivas", "Cardinalidad. Teorema de Cantor. Conjuntos numerables e innumerables", "Inducción y Recursión. Principio del Buen Orden"] },
+      { num: "2", name: "Elementos de lógica",                     horas: 25, subtemas: ["Forma lógica de un enunciado. Simbolización", "Conectivos lógicos y sinonimia de conectivos", "Cuantificadores universal y existencial", "Criterios de verdad: conectivos, cuantificadores e igualdad", "Equivalencias lógicas elementales. Negación de cuantificadores", "Recíproca y contrapuesta de una implicación"] },
+      { num: "3", name: "Análisis de argumentos y métodos de prueba", horas: 20, subtemas: ["Premisas, conclusión y validez de argumentos", "Pruebas directas: de condicionales y disyunciones", "Pruebas indirectas: por contraposición y reducción al absurdo", "Prueba de equivalencias múltiples. Pruebas por inducción"] },
+      { num: "4", name: "Heurísticas",                              horas: 10, subtemas: ["Reducción de un problema a otro", "Representación de un área en otra", "Método progresivo-regresivo"] }
+    ],
+    bibBasicas: [
+      { name: "Lipschutz, S. — Teoría de Conjuntos y Temas Afines. Schaum-McGraw-Hill.", caps: ["Conjuntos", "Relaciones", "Funciones", "Cardinalidad"] },
+      { name: "Solow, D. — Cómo Entender y Hacer Demostraciones en Matemáticas. Limusa, 1987.", caps: ["Análisis de argumentos", "Métodos de prueba"] },
+      { name: "Badesa, C.; Jané, I.; Jansana, R. — Elementos de Lógica Formal. Ariel, 1998.", caps: ["Elementos de lógica", "Análisis de argumentos"] },
+      { name: "Zubieta, G. — Taller de Lógica Matemática. McGraw-Hill, 1993.", caps: ["Elementos de lógica", "Análisis de argumentos", "Heurísticas"] }
+    ],
+    bibComp: ["Amor, J.A. — Sobre un Curso de Análisis Lógico. Educación Matemática, 1994.", "Carroll, L. — El Juego de la Lógica y otros Escritos. Alianza, 2002.", "Polya, G. — Cómo Plantear y Resolver Problemas. Trillas, 1965."],
+    subsecuentes: ["Lógica Matemática I", "Teoría de los Conjuntos I"]
+  },
+  "Diseño de Sistemas Digitales": {
+    temario: [
+      { num: "I",  name: "Lógica Digital",                                  horas: 17, subtemas: ["Elementos lógicos básicos y teoría de conmutación; minimización e implementación", "Propagación de retardos y peligros (hazards)", "Tecnologías; tipos de flipflops", "Dispositivos MSI: multiplexores, decodificadores, sumadores, registros, contadores, PLD", "Memorias: ROM, PROM, EPROM, EAROM, RAM", "Análisis y síntesis de circuitos síncronos y asíncronos"] },
+      { num: "II", name: "Sistemas Digitales",                               horas:  9, subtemas: ["Notación para transferencia entre registros (condicional e incondicional)", "Máquinas algorítmicas de estados y redes de conducción", "Dispositivos de tres estados y estructuras de bus", "Iteración, divide y vencerás; descomposición y balances", "Diagramas de bloque, de tiempo y lenguaje de transferencia"] },
+      { num: "III", name: "Organización y arquitectura de sistemas de memoria", horas: 18, subtemas: ["Sistemas de almacenamiento y su tecnología", "Codificación, compresión e integridad de la información", "Jerarquías de memoria y asignación de espacio", "Organización de memoria central, operación del bus", "Memoria caché y memoria virtual", "Sistemas con bus, control y DMA", "Manejo de fallas y confiabilidad"] },
+      { num: "IV", name: "Interfases y comunicación",                         horas:  8, subtemas: ["Métodos de control de E/S e interrupciones", "Reconocimiento de la interrupción", "Sincronización: ciclo abierto y handshake", "Almacenamiento externo y manejadores"] },
+      { num: "V",  name: "Arquitecturas alternas",                            horas:  8, subtemas: ["Comparación de arquitecturas: stack, vectoriales, multiprocesadores, hipercubo", "CISC y RISC", "Arquitecturas paralelas: VLIW, SISD, MISD, SIMD, MIMD", "Acoplamiento apretado"] }
+    ],
+    bibBasicas: [
+      { name: "Mano, M.M. — Digital Design. 2ª ed. Prentice Hall, 1991.", caps: ["Lógica Digital", "Sistemas Digitales", "Organización de memoria", "Interfases", "Arquitecturas alternas"] }
+    ],
+    bibComp: ["Tanenbaum, A.S. — Structured Computer Organization. 3ª ed. Prentice Hall, 1990.", "Hall, D.V. — Microprocessors and Interfacing. McGraw-Hill, 1986.", "Sandige, R.S. — Modern Digital Design. McGraw-Hill, 1990.", "Spruth, W. — The Design of a Microprocessor. Springer-Verlag, 1989."],
+    subsecuentes: []
+  },
+  "Electromagnetismo I": {
+    temario: [
+      { num:  "1", name: "Fuerzas entre cuerpos eléctricamente cargados en reposo", horas: 10, subtemas: ["Electrización. Aislantes y conductores", "Ley de Coulomb. Principio de superposición", "Campo eléctrico y líneas de campo", "Flujo eléctrico. Ley de Gauss", "Divergencia y forma diferencial de la Ley de Gauss"] },
+      { num:  "2", name: "Energía de cuerpos eléctricamente cargados en reposo",    horas:  8, subtemas: ["Potencial electrostático. Superficies equipotenciales", "Gradiente del potencial y obtención del campo eléctrico", "Energía y densidad de energía electrostática", "Conductores cargados. Condensadores y capacitancia"] },
+      { num:  "3", name: "Campos electrostáticos en medios dieléctricos",           horas:  8, subtemas: ["Momentos de una distribución de carga. Polarización", "Susceptibilidad eléctrica. Densidades de carga libre y de polarización", "Ley de Gauss en medios dieléctricos. Desplazamiento eléctrico", "Condensadores con dieléctricos. Densidad de energía en medios dieléctricos"] },
+      { num:  "4", name: "Cargas en movimiento",                                    horas: 10, subtemas: ["Corriente eléctrica y densidad de corriente", "Ley de conservación de la carga. Resistencia. Ley de Ohm", "Efecto Joule. Leyes de Kirchhoff. Circuitos RC"] },
+      { num:  "5", name: "Interacciones entre imanes, corrientes y cargas",         horas: 10, subtemas: ["Campo magnético. Ley de Gauss del magnetismo", "Fuerza de Lorentz. Torca sobre un momento magnético", "Ley de Biot-Savart. Ley de Ampère", "Rotacional y Teorema de Stokes. Forma diferencial de la Ley de Ampère", "Electroimanes"] },
+      { num:  "6", name: "Campos magnetostáticos en medios materiales",             horas:  8, subtemas: ["Momentos magnéticos. Magnetización y susceptibilidad", "Ferromagnetismo, paramagnetismo y diamagnetismo", "Ley de Ampère en medios materiales. Permeabilidad", "Efecto Hall"] },
+      { num:  "7", name: "Inducción electromagnética",                              horas: 10, subtemas: ["Ley de Lenz-Faraday-Henry y su forma diferencial", "Autoinductancia e inductancias mutuas. Densidad de energía magnética", "Circuitos RL, LC y RCL. Impedancia. Corriente alterna. Transformador"] },
+      { num:  "8", name: "Ecuaciones de Maxwell",                                   horas:  6, subtemas: ["Corriente de desplazamiento. Ley de Ampère-Maxwell", "Propiedades dinámicas del campo electromagnético", "Ecuaciones de Maxwell. La ecuación de onda"] },
+      { num:  "9", name: "Ondas electromagnéticas",                                 horas:  8, subtemas: ["Ondas en el vacío. Superposición. Velocidad y espectro", "Transversalidad y polarización", "Teorema de Poynting. Densidades de energía", "Ondas en medios dieléctricos. Índice de refracción. Sistemas radiantes"] },
+      { num: "10", name: "Teoría de la Relatividad y Electrodinámica",              horas: 18, subtemas: ["Ecuaciones de Maxwell y transformaciones de Galileo", "Experimento de Michelson-Morley", "Postulados de la Relatividad Especial. Transformaciones de Lorentz", "Cinemática relativista: adición de velocidades, efecto Doppler", "Cuadrivectores y tensores. Tensor de Faraday", "Dinámica relativista. Campo de una carga en movimiento uniforme"] }
+    ],
+    bibBasicas: [
+      { name: "Halliday, D.; Resnick, R.; Walker, J. — Fundamentos de Física Vol. II. 8ª ed. Grupo Editorial Patria, 2011.", caps: ["Fuerzas electrostáticas", "Potencial eléctrico", "Dieléctricos", "Circuitos", "Magnetismo", "Inducción", "Ondas EM"] },
+      { name: "Lorrain, P.; Corson, D.R. — Electromagnetism: Principles and Applications. W.H. Freeman, 1990.", caps: ["Campo eléctrico", "Magnetostática", "Inducción", "Ecuaciones de Maxwell", "Ondas EM"] },
+      { name: "Purcell, E.M. — Electricidad y Magnetismo. Berkeley Physics Vol. 2. Reverté, 2001.", caps: ["Electrostática", "Circuitos", "Magnetismo", "Ecuaciones de Maxwell"] },
+      { name: "Resnick, R.; Halliday, D.; Krane, S.K. — Física Vol. II. 5ª ed. Cia. Editorial Continental, 1996.", caps: ["Electrostática", "Magnetismo", "Inducción", "Relatividad"] },
+      { name: "Taylor, E.F.; Wheeler, J.A. — Space Time Physics. Freeman, 1966.", caps: ["Relatividad Especial", "Transformaciones de Lorentz", "Electrodinámica"] },
+      { name: "Resnick, R. — Introducción a la Teoría Especial de la Relatividad. Limusa, 1977.", caps: ["Postulados de la Relatividad", "Cinemática relativista", "Dinámica relativista"] }
+    ],
+    bibComp: ["Serway, R.A.; Jewett, J.W. — Física II. 3ª ed. Thomson Learning, 2004.", "Serway, R.A. — Electricidad y Magnetismo. Thomson Learning, 2004.", "Alonso, M.; Finn, E.J. — Física Vol. II: Campos y ondas. Addison-Wesley Iberoamericana, 1995.", "Ohanian, H.C.; Markert, J.T. — Física para Ingeniería y Ciencias Vol. 2. 3ª ed. McGraw-Hill, 2009."],
+    subsecuentes: ["Electromagnetismo II"]
+  },
+  "Fenómenos Colectivos": {
+    temario: [
+      { num: "1", name: "Introducción",                                               horas:  6, subtemas: ["Cuerpos deformables. Estados de agregación de la materia", "Métodos de descripción de sistemas macroscópicos", "Propiedades de las fronteras. Variables macroscópicas", "Concepto de estado de equilibrio"] },
+      { num: "2", name: "Equilibrio termodinámico de sistemas compuestos",           horas: 12, subtemas: ["Ecuación de estado térmica. Concepto de temperatura", "Funciones de respuesta mecánica (dilatación, módulos elásticos, susceptibilidades)", "Termómetros"] },
+      { num: "3", name: "Estática en sistemas macroscópicos",                        horas: 12, subtemas: ["Deformaciones. Principio de Pascal", "Principio de Arquímedes. Fenómenos interfaciales"] },
+      { num: "4", name: "Cambios de un estado de equilibrio a otro (Procesos)",      horas: 14, subtemas: ["Conceptos de trabajo, calor y energía interna", "Primera Ley de la Termodinámica. Calores específicos"] },
+      { num: "5", name: "Cambios naturales de un estado de equilibrio a otro",       horas: 14, subtemas: ["Segunda Ley de la Termodinámica. Escala absoluta de temperatura", "Reversibilidad e irreversibilidad. Concepto de entropía"] },
+      { num: "6", name: "Mecanismos presentes en la ruta al equilibrio",             horas: 14, subtemas: ["Concepto de equilibrio local. Fenómenos de transporte", "Principios de conservación"] },
+      { num: "7", name: "Oscilaciones en sistemas macroscópicos",                    horas: 12, subtemas: ["Ecuación de onda. Características de una onda", "Fenómenos ondulatorios. Interacción onda-sistema"] },
+      { num: "8", name: "Descripción microscópica de un sistema macroscópico",       horas: 12, subtemas: ["Conceptos básicos de probabilidad y distribución estadística", "Distribución de velocidades de Maxwell-Boltzmann", "Presión y energía interna de una colección de partículas libres"] }
+    ],
+    bibBasicas: [
+      { name: "Ingard, U.; Kraushaar, W.I. — Introducción al estudio de la mecánica, materia y ondas. Reverté, 1973.", caps: ["Introducción", "Estática", "Oscilaciones", "Descripción microscópica"] },
+      { name: "Carmona, G. — Termodinámica Clásica. Fac. de Ciencias-UNAM, 2007.", caps: ["Equilibrio termodinámico", "Primera Ley", "Segunda Ley", "Fenómenos de transporte"] },
+      { name: "Guyon, E.; Hullin, J.P.; Petit, L.; Mitescu, C.D. — Physical Hydrodynamics. Oxford University Press, 2001.", caps: ["Estática", "Fenómenos de transporte"] },
+      { name: "Elmore, W.C.; Heald, M.A. — Physics of Waves. Dover, 1985.", caps: ["Oscilaciones en sistemas macroscópicos"] }
+    ],
+    bibComp: ["Walker, J. — The Flying Circus of Physics. John Wiley & Sons, 1974.", "García-Colín, S.L. — Introducción a la termodinámica clásica. Trillas, 2002.", "Homsy, G.M. et al. — Multimedia Fluid Mechanics. Cambridge University Press, 2007."],
+    subsecuentes: []
+  },
+  "Álgebra Moderna II": {
+    temario: [
+      { num: "1", name: "Anillos",                   horas: 40, subtemas: ["Definición, ejemplos y clases especiales de anillos", "Subanillos, ideales y anillos cociente", "Homomorfismos de anillos", "El campo de cocientes de un anillo entero", "Anillos Euclidianos, principales y de factorización única (UFD)", "Anillos de polinomios"] },
+      { num: "2", name: "Campos y Teoría de Galois", horas: 40, subtemas: ["Extensiones de campos. Grado de una extensión", "Construcciones con regla y compás", "Campos de descomposición y extensiones normales", "Extensiones separables", "Teorema fundamental de la Teoría de Galois", "Soluciones por radicales. Campos finitos"] }
+    ],
+    bibBasicas: [
+      { name: "Fraleigh, J.B. — Álgebra Abstracta. Sistemas Técnicos de Edición, 1988.", caps: ["Anillos", "Campos y Teoría de Galois"] },
+      { name: "Herstein, I.N. — Álgebra Moderna. Editorial Trillas, 1970.", caps: ["Anillos", "Campos y Teoría de Galois"] },
+      { name: "Stewart, I. — Galois Theory. Chapman and Hall, 2004.", caps: ["Extensiones de campos", "Teorema fundamental de Galois", "Soluciones por radicales"] }
+    ],
+    bibComp: ["Artin, E. — Modern Higher Algebra Galois Theory. Courant Institute, 1947.", "MacLane, S.; Birkhoff, G. — Álgebra. AMS, 1999.", "Rotman, J.J. — A First Course in Abstract Algebra. Prentice Hall, 2000."],
+    subsecuentes: ["Álgebra Moderna III", "Geometría Algebraica I"]
+  },
   "Conjuntos Convexos": {
     temario: [
       { num: "1", name: "Propiedades elementales",         horas: 20, subtemas: ["Hiperplanos soporte", "Función soporte", "Teoremas de Separación", "Puntos extremos y Teorema de Krein-Milman"] },
