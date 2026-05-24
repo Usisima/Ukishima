@@ -214,7 +214,6 @@
   // Exact BH center → CSS custom property → power-on animation from correct origin
   const _bhCyPct = (CY * lineH / wrapH * 100).toFixed(1) + '%';
   pre.style.setProperty('--bh-cy', _bhCyPct);
-  pre.classList.add('bh-on');
   const AR = 0.375;
   // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
   const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
@@ -322,7 +321,7 @@
     nextShootMs = elapsedMs + 3500 + Math.random() * 4500;
   }
 
-  let elapsed = 0, last = null, lastRender = 0;
+  let elapsed = 0, last = null, lastRender = 0, firstTick = true;
   const FRAME_MS = 1000 / 30; // 30 fps cap
 
   function tick(ts) {
@@ -469,11 +468,10 @@
 
     pre.innerHTML = html;
     if (preStars) preStars.innerHTML = htmlStars;
+    if (firstTick) { firstTick = false; pre.classList.add('bh-on'); }
   }
 
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
-    requestAnimationFrame(tick);
-  });
+  requestAnimationFrame(tick);
 
   } // end init
   requestAnimationFrame(init);
