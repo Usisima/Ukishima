@@ -397,7 +397,10 @@ function renderView(root, view, query) {
     TEM_QUERY = query !== undefined ? query : TEM_QUERY;
     root.innerHTML = renderSearchResults(TEM_QUERY);
   }
+  // Reset instantáneo para no chocar con el scroll programático posterior
+  document.documentElement.style.scrollBehavior = 'auto';
   document.documentElement.scrollTop = 0;
+  document.documentElement.style.scrollBehavior = '';
   stagger(root);
   katexRoot(root);
   TemDisc.reset();
