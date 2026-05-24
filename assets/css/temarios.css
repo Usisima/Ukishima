@@ -1542,6 +1542,10 @@ body {
   color: var(--ink3);
 }
 
+/* Disable card transitions during disc-driven scroll */
+#root.disc-snap .card-body,
+#root.disc-snap .card-body-tronco { transition: none !important; }
+
 /* ── DISC SCRUBBER ────────────────────────── */
 #tem-disc-btn {
   position: fixed;

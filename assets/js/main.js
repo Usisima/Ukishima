@@ -134,6 +134,12 @@ const TemDisc = {
 
   _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
 
+  _groove(v) {
+    const n = Math.round(v);
+    const d = v - n;
+    return this._clamp(n + d * (1 - 0.80 * Math.exp(-8 * d * d)));
+  },
+
   _render() {
     const wrap = document.getElementById('tem-disc-wrap');
     if (!wrap) return;
@@ -143,6 +149,40 @@ const TemDisc = {
     const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : H / 2;
     const active = Math.round(this._clamp(this.rot));
     const buf = [];
+
+    // ── Vinyl disc ──────────────────────────────────────────────
+    const dlx = (W + L - 560).toFixed(0);
+    const dty = (cy - 560).toFixed(0);
+    const msk = 'linear-gradient(to right,transparent 8%,white 20%)';
+    buf.push(
+      `<div style="position:absolute;left:${dlx}px;top:${dty}px;` +
+      `width:1120px;height:1120px;border-radius:50%;overflow:hidden;pointer-events:none;z-index:0;` +
+      `-webkit-mask-image:${msk};mask-image:${msk};` +
+      `background:` +
+      `radial-gradient(circle at 50% 50%,transparent 62.50%,rgba(175,215,205,.14) 62.50%,rgba(175,215,205,.14) 62.86%,transparent 62.86%),` +
+      `radial-gradient(circle at 50% 50%,transparent 75.00%,rgba(175,215,205,.18) 75.00%,rgba(175,215,205,.18) 75.54%,transparent 75.54%),` +
+      `radial-gradient(circle at 50% 50%,transparent 81.79%,rgba(175,215,205,.11) 81.79%,rgba(175,215,205,.11) 82.14%,transparent 82.14%),` +
+      `radial-gradient(circle at 50% 50%,transparent 90.18%,rgba(175,215,205,.07) 90.18%,rgba(175,215,205,.07) 90.45%,transparent 90.45%),` +
+      `radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 60.71%,transparent 60.71%),` +
+      `repeating-radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 0px,rgba(6,10,8,.72) 6.3px,rgba(175,215,205,.052) 6.3px,rgba(175,215,205,.052) 7px),` +
+      `radial-gradient(circle at 50% 50%,rgba(6,10,8,.72) 100%);` +
+      `"></div>`
+    );
+
+    // ── Selector needle ─────────────────────────────────────────
+    const armLen = 92; // tip aligns with ante-penultimate ring (r=458, LEDGE=330): 458-330-36=92
+    buf.push(
+      `<div style="position:absolute;right:36px;top:${(cy - 0.5).toFixed(0)}px;` +
+      `width:${armLen}px;height:1px;` +
+      `background:linear-gradient(to left,rgba(155,191,181,0.7),rgba(155,191,181,0.04));` +
+      `pointer-events:none;z-index:4;"></div>` +
+      `<div style="position:absolute;right:${(35 + armLen).toFixed(0)}px;top:${(cy - 3.5).toFixed(0)}px;` +
+      `width:7px;height:7px;border-radius:50%;` +
+      `background:rgba(155,191,181,0.6);box-shadow:0 0 6px rgba(155,191,181,0.4);` +
+      `pointer-events:none;z-index:4;"></div>`
+    );
+
+    // ── Items ───────────────────────────────────────────────────
     this.secs.forEach((sec, i) => {
       const theta = (i - this.rot) * S;
       const arcX  = W + L - R * Math.cos(theta);
@@ -158,15 +198,19 @@ const TemDisc = {
         `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
       );
     });
+
     wrap.innerHTML = buf.join('');
   },
 
   _snapTo(target, cb) {
+    let vel = 0;
     const go = () => {
-      const diff = target - this.rot;
-      if (Math.abs(diff) < 0.02) { this.rot = target; this._render(); cb?.(); return; }
-      this.rot += diff * 0.22;
+      vel = (vel + (target - this.rot) * 0.20) * 0.70;
+      this.rot += vel;
       this._render();
+      if (Math.abs(target - this.rot) < 0.008 && Math.abs(vel) < 0.005) {
+        this.rot = target; this._render(); cb?.(); return;
+      }
       requestAnimationFrame(go);
     };
     go();
@@ -177,18 +221,33 @@ const TemDisc = {
     if (!sec?.el) return;
     const hH = document.querySelector('.header')?.offsetHeight      || 0;
     const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+    if (!sec.isCh) {
+      const card = sec.el.closest('.card');
+      if (card) {
+        const root = document.getElementById('root');
+        root.classList.add('disc-snap');
+        document.querySelectorAll('#root .card.open').forEach(c => { if (c !== card) c.classList.remove('open'); });
+        card.classList.add('open');
+        requestAnimationFrame(() => {
+          const top = sec.el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+          root.classList.remove('disc-snap');
+          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        });
+        return;
+      }
+    }
     const top = sec.el.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
   _currentIdx() {
-    const btnRect = document.getElementById('tem-disc-btn')?.getBoundingClientRect();
-    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
-    let best = 0, bestD = Infinity;
+    const hH = document.querySelector('.header')?.offsetHeight      || 0;
+    const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+    const topEdge = hH + tH + 10;
+    let best = 0;
     this.secs.forEach((s, i) => {
       if (!s.el) return;
-      const d = Math.abs(s.el.getBoundingClientRect().top - cy);
-      if (d < bestD) { bestD = d; best = i; }
+      if (s.el.getBoundingClientRect().top <= topEdge) best = i;
     });
     return best;
   },
@@ -253,7 +312,7 @@ const TemDisc = {
       _detach();
       _tmm = e => {
         e.preventDefault();
-        this.rot = this._clamp(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
+        this.rot = this._groove(startRot + (e.touches[0].clientY - startY) * this.SPEED / (this.R * this.STEP));
         this._render();
       };
       _tmu = () => {
@@ -278,7 +337,7 @@ const TemDisc = {
       if (!this.secs.length) return;
       if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
       let sy = e.clientY, sr = this.rot;
-      const mm = ev => { this.rot = this._clamp(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
+      const mm = ev => { this.rot = this._groove(sr + (ev.clientY - sy) * this.SPEED / (this.R * this.STEP)); this._render(); };
       const mu = () => {
         document.removeEventListener('mousemove', mm);
         document.removeEventListener('mouseup',   mu);
