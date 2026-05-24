@@ -198,7 +198,7 @@
   // BH center floats just above the content block
   const _dash      = document.getElementById('dash-bottom');
   const _contentH  = _dash ? _dash.getBoundingClientRect().height : 0;
-  const _gapBottom = 14;                         // px between content bottom and nav
+  const _gapBottom = Math.round(wrapH * 0.10);  // 10% of available height from nav
   const _gapBH     = Math.round(wrapH * 0.07);  // px between BH center and content top
   const _contentTop = wrapH - _gapBottom - _contentH;
   const CY = Math.max(5, Math.round((_contentTop - _gapBH) / lineH));
