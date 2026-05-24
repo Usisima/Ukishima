@@ -665,9 +665,12 @@ const Disc = {
   },
 
 _currentIdx() {
-    const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
-    const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
+    const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
+    const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+    const topEdge = hH + tH + 10;
     if (this.mode === 'home') {
+      const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
+      const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
       let best = 0;
       this.secs.forEach((s, i) => {
         if (!s.el) return;
@@ -675,11 +678,11 @@ _currentIdx() {
       });
       return best;
     }
-    let best = 0, bestD = Infinity;
+    // Último item cuyo top está a nivel o por encima del borde de contenido
+    let best = 0;
     this.secs.forEach((s, i) => {
       if (!s.el) return;
-      const d = Math.abs(s.el.getBoundingClientRect().top - cy);
-      if (d < bestD) { bestD = d; best = i; }
+      if (s.el.getBoundingClientRect().top <= topEdge) best = i;
     });
     return best;
   },
