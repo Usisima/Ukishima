@@ -1134,6 +1134,19 @@ const LIBRARY_OPT = [
     ]
   },
   {
+    subject: "Economía I",
+    matId:   "economia_1",
+    color:   "linear-gradient(135deg,#0a1008,#182008)",
+    books: [
+      { id: "eco1_b1", title: "Teoría Económica en Retrospección",         author: "M. Blaug",                  edition: "FCE, 1985",             chapters: [] },
+      { id: "eco1_b2", title: "Macroeconomía",                             author: "R. Dornbusch; S. Fischer",  edition: "McGraw-Hill, 1991",     chapters: [] },
+      { id: "eco1_b3", title: "Macroeconomía",                             author: "R. Hall; J. Taylor",        edition: "Antoni Bosch, 1991",    chapters: [] },
+      { id: "eco1_b4", title: "Microeconomic Theory",                      author: "A. Mas-Colell et al.",      edition: "Oxford University Press, 1995", chapters: [] },
+      { id: "eco1_b5", title: "Microeconomic Analysis",                    author: "H. Varian",                 edition: "W.W. Norton, 1992",     chapters: [] },
+      { id: "eco1_b6", title: "Economía Intermedia: Un Enfoque Moderno",   author: "H. Varian",                 edition: "Antoni Bosch, 1992",    chapters: [] },
+    ]
+  },
+  {
     subject: "Ecuaciones Diferenciales II",
     matId:   "ecuaciones_diferenciales_2",
     color:   "linear-gradient(135deg,#081418,#102830)",
@@ -1145,6 +1158,52 @@ const LIBRARY_OPT = [
       { id: "ed2_b5", title: "Ordinary Differential Equations",                                author: "V.I. Arnold",                  edition: "3ª ed. Springer-Verlag, 1991", chapters: [] },
       { id: "ed2_b6", title: "Dynamics and Bifurcations",                                      author: "J. Hale; H. Kocak",            edition: "Springer-Verlag, 1991",     chapters: [] },
       { id: "ed2_b7", title: "Differential Equations and Dynamical Systems",                   author: "L. Perko",                     edition: "Springer-Verlag, 1990",     chapters: [] },
+    ]
+  },
+  {
+    subject: "Electromagnetismo II",
+    matId:   "electromagnetismo_2",
+    color:   "linear-gradient(135deg,#080a18,#10142c)",
+    books: [
+      { id: "em2_b1", title: "Foundations of Electromagnetic Theory",                author: "J.R. Reitz; F.J. Milford; R.W. Christy", edition: "Addison-Wesley, 1979",        chapters: [] },
+      { id: "em2_b2", title: "Electromagnetic Fields and Waves",                     author: "P. Lorrain; D.R. Corson",                edition: "W.H. Freeman, 1970",          chapters: [] },
+      { id: "em2_b3", title: "Electricity and Magnetism",                            author: "O.D. Jelimenko",                         edition: "Appleton Century Coft, 1966", chapters: [] },
+      { id: "em2_b4", title: "Classical Electromagnetic Theory",                     author: "J. Vanderlinde",                         edition: "Wiley, 1993",                 chapters: [] },
+      { id: "em2_b5", title: "The Theory of the Electromagnetic Field",              author: "D.M. Cook",                              edition: "Prentice-Hall, 1975",         chapters: [] },
+      { id: "em2_b6", title: "Electromagnetic Fields",                               author: "R.K. Wangsness",                         edition: "Wiley, 1979",                 chapters: [] },
+      { id: "em2_b7", title: "An Introduction to Electromagnetic Theory",            author: "P.C. Clemow",                            edition: "Cambridge University Press, 1973", chapters: [] },
+      { id: "em2_b8", title: "Introduction to Electrodynamics",                      author: "D.J. Griffiths",                         edition: "Prentice-Hall, 1989",         chapters: [] },
+      { id: "em2_b9", title: "Classical Electromagnetic Radiation",                  author: "M.A. Heald; J.B. Marion",                edition: "Saunders, 1995",              chapters: [] },
+    ]
+  },
+  {
+    subject: "Estadística I",
+    matId:   "estadistica_1",
+    color:   "linear-gradient(135deg,#180a08,#301410)",
+    books: [
+      { id: "est1_b1", title: "Probabilidad y Estadística: Aplicaciones y Métodos",           author: "G.C. Canavos",                    edition: "McGraw-Hill, 1987",      chapters: [] },
+      { id: "est1_b2", title: "Statistical Inference",                                         author: "G. Casella; R.L. Berger",         edition: "Wadsworth, 1990",        chapters: [] },
+      { id: "est1_b3", title: "Probability and Statistics",                                    author: "M.H. Degroot",                    edition: "Addison-Wesley, 1986",   chapters: [] },
+      { id: "est1_b4", title: "Introduction to Mathematical Statistics",                       author: "R.V. Hogg; A.T. Craig",           edition: "5ª ed. Prentice-Hall, 1995", chapters: [] },
+      { id: "est1_b5", title: "An Introduction to Mathematical Statistics and its Applications", author: "R.J. Larsen; M.L. Marx",        edition: "Prentice-Hall, 1986",    chapters: [] },
+      { id: "est1_b6", title: "Statistical Theory",                                            author: "B.W. Lindgren",                   edition: "Macmillan, 1976",        chapters: [] },
+      { id: "est1_b7", title: "Introduction to the Theory of Statistics",                      author: "A.M. Mood; F.A. Graybill; D.C. Boes", edition: "McGraw-Hill, 1974", chapters: [] },
+      { id: "est1_b8", title: "Exploratory Data Analysis",                                     author: "J.W. Tukey",                      edition: "Addison-Wesley, 1977",   chapters: [] },
+    ]
+  },
+  {
+    subject: "Estadística II",
+    matId:   "estadistica_2",
+    color:   "linear-gradient(135deg,#141408,#282808)",
+    books: [
+      { id: "est2_b1", title: "Practical Nonparametric Statistics",                 author: "W.J. Conover",                      edition: "2ª ed. Wiley, 1980",           chapters: [] },
+      { id: "est2_b2", title: "Applied Nonparametric Statistics",                   author: "W. Daniel",                         edition: "2ª ed. PWS Kent, 1990",        chapters: [] },
+      { id: "est2_b3", title: "Nonparametric Statistical Inference",                author: "J.D. Gibbons; S. Chakraborti",      edition: "4ª ed. Marcel Dekker, 2003",   chapters: [] },
+      { id: "est2_b4", title: "Regression Analysis by Example",                     author: "S. Chatterjee; B. Price",           edition: "2ª ed. Wiley, 1991",           chapters: [] },
+      { id: "est2_b5", title: "Applied Regression Analysis",                        author: "N. Draper; H. Smith",               edition: "2ª ed. Wiley, 1981",           chapters: [] },
+      { id: "est2_b6", title: "Introduction to Linear Regression Analysis",         author: "D.C. Montgomery; E.A. Peck; G.G. Vining", edition: "3ª ed. Wiley, 2001",   chapters: [] },
+      { id: "est2_b7", title: "Applied Linear Statistical Models",                  author: "J. Neter; W. Wasserman; M.H. Kutner", edition: "3ª ed. Irwin, 1990",        chapters: [] },
+      { id: "est2_b8", title: "Applied Regression Analysis: A Research Tool",       author: "J.O. Rawlings",                     edition: "Wadsworth, 1988",              chapters: [] },
     ]
   },
   {

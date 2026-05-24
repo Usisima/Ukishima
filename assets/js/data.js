@@ -674,6 +674,31 @@ const OPT_DATA = {
     subsecuentes: ["Ecuaciones Diferenciales Parciales II"]
   },
 
+  // ── Economía I ─────────────────────────────────────────────────────────────
+  "Economía I": {
+    temario: [
+      { num: "1", name: "Introducción",                           horas:  5, subtemas: ["El problema económico", "La ciencia de la Economía", "Metodología de la Economía", "Organización de la actividad económica"] },
+      { num: "2", name: "Teoría del consumidor",                  horas: 15, subtemas: ["Preferencias y restricción económica", "Elección y demanda", "Estática comparativa", "Elección intertemporal", "Elección bajo incertidumbre"] },
+      { num: "3", name: "Teoría de la producción",                horas: 15, subtemas: ["Tecnología", "Costos", "Maximización de beneficios", "Oferta", "Equilibrio de mercado"] },
+      { num: "4", name: "Mercados imperfectos",                   horas:  5, subtemas: ["Monopolio y monopsonio", "Oligopolio"] },
+      { num: "5", name: "Equilibrio general y bienestar",         horas: 10, subtemas: ["Intercambio puro", "Intercambio con producción", "Bienestar"] },
+      { num: "6", name: "Introducción a la macroeconomía",        horas:  5, subtemas: ["Los problemas macroeconómicos básicos", "Las variables en macroeconomía", "Determinación del ingreso", "Inflación", "Desempleo", "Fluctuaciones económicas"] },
+      { num: "7", name: "El modelo IS-LM",                        horas: 15, subtemas: ["Oferta y demanda agregada", "El modelo IS-LM", "La curva de Phillips"] },
+      { num: "8", name: "Política macroeconómica y crecimiento",  horas: 10, subtemas: ["Política macroeconómica", "Teoría de los ciclos económicos reales", "Crecimiento económico (modelo de Solow)"] }
+    ],
+    bibBasicas: [
+      { name: "Blaug, M. — Teoría Económica en Retrospección. FCE, 1985.", caps: [] },
+      { name: "Dornbusch, R.; Fischer, S. — Macroeconomía. McGraw-Hill, 1991.", caps: [] },
+      { name: "Hall, R.; Taylor, J. — Macroeconomía. Antoni Bosch, 1991.", caps: [] }
+    ],
+    bibComp: [
+      "Mas-Colell, A. et al. — Microeconomic Theory. Oxford University Press, 1995.",
+      "Varian, H. — Microeconomic Analysis. W.W. Norton, 1992.",
+      "Varian, H. — Economía Intermedia: Un Enfoque Moderno. Antoni Bosch, 1992."
+    ],
+    subsecuentes: []
+  },
+
   // ── Ecuaciones Diferenciales II (0163) ─────────────────────────────────────
   "Ecuaciones Diferenciales II": {
     temario: [
@@ -701,6 +726,85 @@ const OPT_DATA = {
       "Perko, L. — Differential Equations and Dynamical Systems. Springer-Verlag, 1990."
     ],
     subsecuentes: ["Biología Matemática I", "Ecuaciones Diferenciales III"]
+  },
+
+  // ── Electromagnetismo II (0609) ────────────────────────────────────────────
+  "Electromagnetismo II": {
+    temario: [
+      { num: "1",  name: "El campo electrostático en el vacío",               horas:  6, subtemas: ["Ley de Coulomb. Principio de superposición. Campo de intensidad eléctrica", "Ley de Gauss (integral, diferencial y condiciones de frontera)", "Carácter conservativo del campo electrostático. Potencial electrostático", "Ecuaciones de Poisson y de Laplace. Densidad de energía y tensor de Maxwell"] },
+      { num: "2",  name: "Métodos de solución de problemas de electrostática", horas:  9, subtemas: ["Teorema de unicidad (Dirichlet y Neumann). Función de Green", "Método de imágenes. Método de funciones analíticas de variable compleja", "Solución en coordenadas cartesianas, cilíndricas y esféricas. Desarrollo multipolar"] },
+      { num: "3",  name: "El campo electrostático en medios dieléctricos",    horas:  9, subtemas: ["Polarizabilidad. Polarización y susceptibilidad eléctrica", "Ley de Gauss en medios dieléctricos. Desplazamiento eléctrico. Permeabilidad dieléctrica", "Ecuaciones de Clausius-Mossotti, Langevin y Debye. Densidad de energía y tensor de Maxwell"] },
+      { num: "4",  name: "El campo magnetostático en el vacío",               horas:  8, subtemas: ["Fuerza de Lorentz y campo de inducción magnética. Ley de Biot-Savart", "Ley circuital de Ampère. Carácter solenoidal del campo magnético", "Potencial vectorial magnético. Transformaciones de norma. Desarrollo multipolar"] },
+      { num: "5",  name: "El campo magnetostático en medios permeables",      horas:  8, subtemas: ["Diamagnetos, paramagnetos y ferromagnetos. Momentos magnéticos y magnetización", "Ley de Ampère en medios permeables. Intensidad magnética H. Susceptibilidad y permeabilidad"] },
+      { num: "6",  name: "Inducción electromagnética",                        horas:  6, subtemas: ["Fuerza electromotriz. Ley de Faraday-Lenz-Henry (fenomenológica, integral, diferencial)", "Inductancia mutua y autoinductancia. Energía en el campo magnetostático"] },
+      { num: "7",  name: "Ecuaciones de Maxwell y propiedades dinámicas",     horas: 10, subtemas: ["Corriente de desplazamiento. Ley de Ampère-Maxwell. Ecuaciones de Maxwell completas", "Potenciales y transformaciones de norma. Ecuaciones de onda en norma de Coulomb y de Lorentz", "Teorema de Poynting. Densidad de energía y de cantidad de movimiento. Tensor de esfuerzos"] },
+      { num: "8",  name: "Ondas electromagnéticas planas",                    horas: 10, subtemas: ["En el vacío: velocidades de fase y de energía, transversalidad y polarización", "En medios dieléctricos: índice de refracción, birrefringencia", "En fronteras: reflexión y refracción (Snell), ecuaciones de Fresnel, reflexión total, ondas evanescentes", "En medios conductores: atenuación, profundidad de la piel. En plasmas: frecuencia de plasma"] },
+      { num: "9",  name: "Ondas electromagnéticas confinadas",                horas:  6, subtemas: ["Guías de onda: modos TEM, TE y TM; transmisión y atenuación; fibras ópticas", "Cavidades de resonancia: paralelepípedo, cilindro, valor Q"] },
+      { num: "10", name: "Sistemas radiantes",                                horas: 10, subtemas: ["Función de Green retardada. Dipolo de Hertz eléctrico y magnético. Antenas", "Potenciales y campos de Liénard-Wiechert. Partículas cargadas aceleradas"] },
+      { num: "11", name: "Descripción covariante de la electrodinámica",      horas: 10, subtemas: ["Espacio-tiempo de Minkowski. Cuadrivectores y cuadritensores. Cinemática y dinámica relativista", "Cuadrivector de potencial. Condición de Lorentz. Cuadritensor de campo electromagnético", "Invariantes, tensor de esfuerzos, ecuaciones de conservación de cantidad de movimiento-energía"] }
+    ],
+    bibBasicas: [
+      { name: "Reitz, J.R.; Milford, F.J.; Christy, R.W. — Foundations of Electromagnetic Theory. Addison-Wesley, 1979.", caps: [] },
+      { name: "Lorrain, P.; Corson, D.R. — Electromagnetic Fields and Waves. W.H. Freeman, 1970.", caps: [] },
+      { name: "Jelimenko, O.D. — Electricity and Magnetism. Appleton Century Coft, 1966.", caps: [] },
+      { name: "Vanderlinde, J. — Classical Electromagnetic Theory. Wiley, 1993.", caps: [] },
+      { name: "Cook, D.M. — The Theory of the Electromagnetic Field. Prentice-Hall, 1975.", caps: [] },
+      { name: "Wangsness, R.K. — Electromagnetic Fields. Wiley, 1979.", caps: [] },
+      { name: "Clemow, P.C. — An Introduction to Electromagnetic Theory. Cambridge University Press, 1973.", caps: [] }
+    ],
+    bibComp: [
+      "Hauser, W. — Introduction to the Principles of Electromagnetism. Addison-Wesley, 1971.",
+      "Shadowitz, A. — The Electromagnetic Field. Dover, 1988.",
+      "Griffiths, D.J. — Introduction to Electrodynamics. Prentice-Hall, 1989.",
+      "Heald, M.A.; Marion, J.B. — Classical Electromagnetic Radiation. Saunders, 1995."
+    ],
+    subsecuentes: []
+  },
+
+  // ── Estadística I ──────────────────────────────────────────────────────────
+  "Estadística I": {
+    temario: [
+      { num: "1", name: "Introducción",                   horas:  5, subtemas: ["¿Qué es la Estadística? ¿Qué es la Probabilidad?", "Relación entre Estadística y Probabilidad. El papel de la Estadística en la investigación", "Conceptos de población, censo y muestra. El proceso de análisis estadístico", "Datos, variables y escalas de medición"] },
+      { num: "2", name: "Análisis exploratorio de datos", horas: 20, subtemas: ["Tablas de frecuencias. Métodos gráficos", "Medidas descriptivas para datos sin agrupar", "Medidas descriptivas para datos agrupados"] },
+      { num: "3", name: "Estimación puntual",             horas: 25, subtemas: ["Estadísticas y estimadores. Métodos de construcción (momentos, máxima verosimilitud)", "Criterios de evaluación: insesgamiento, varianza mínima, error cuadrático medio, consistencia", "Suficiencia: estadísticas suficientes y minimales. Teorema de Factorización", "Estimación insesgada: cota de Cramér-Rao. Suficiencia y completez", "Propiedades asintóticas de los estimadores de máxima verosimilitud"] },
+      { num: "4", name: "Estimación por intervalo",       horas: 10, subtemas: ["Intervalo aleatorio e intervalo de confianza", "Métodos para construir intervalos de confianza: pivotal y general", "Intervalo basado en muestras grandes"] },
+      { num: "5", name: "Pruebas de hipótesis",           horas: 20, subtemas: ["Hipótesis estadística: simple y compuesta. Región crítica", "Errores tipo I y II. Lema de Neyman-Pearson. Función potencia", "Prueba uniformemente más potente. Prueba del cociente de verosimilitud", "Distribución asintótica de estadísticas de prueba"] }
+    ],
+    bibBasicas: [
+      { name: "Canavos, G.C. — Probabilidad y Estadística: Aplicaciones y Métodos. McGraw-Hill, 1987.", caps: [] },
+      { name: "Casella, G.; Berger, R.L. — Statistical Inference. Wadsworth, 1990.", caps: [] },
+      { name: "Degroot, M.H. — Probability and Statistics. Addison-Wesley, 1986.", caps: [] },
+      { name: "Hogg, R.V.; Craig, A.T. — Introduction to Mathematical Statistics. 5ª ed. Prentice-Hall, 1995.", caps: [] },
+      { name: "Larsen, R.J.; Marx, M.L. — An Introduction to Mathematical Statistics and its Applications. Prentice-Hall, 1986.", caps: [] },
+      { name: "Lindgren, B.W. — Statistical Theory. Macmillan, 1976.", caps: [] },
+      { name: "Mood, A.M.; Graybill, F.A.; Boes, D.C. — Introduction to the Theory of Statistics. McGraw-Hill, 1974.", caps: [] },
+      { name: "Tukey, J.W. — Exploratory Data Analysis. Addison-Wesley, 1977.", caps: [] }
+    ],
+    bibComp: ["Johnson, N.L. — Statistics: An Intermediate Text Book. Cambridge University Press, 1951-1953."],
+    subsecuentes: ["Estadística II"]
+  },
+
+  // ── Estadística II ─────────────────────────────────────────────────────────
+  "Estadística II": {
+    temario: [
+      { num: "1", name: "Estadística no paramétrica",  horas: 30, subtemas: ["Pruebas binomiales: para proporciones, cuantiles, signos, McNemar, Cox-Stuart", "Pruebas de rango: Mann-Whitney (U), Kruskal-Wallis, varianza de más de dos poblaciones", "Pruebas de bondad de ajuste: Ji-Cuadrada, Kolmogorov, Lilliefors, exponencial", "Tablas de contingencia: independencia, proporciones, mediana"] },
+      { num: "2", name: "Análisis de Regresión",        horas: 50, subtemas: ["Modelo de regresión lineal simple: mínimos cuadrados, Gauss-Markov, máxima verosimilitud, análisis de varianza, correlación y determinación, intervalos de confianza y predicción, análisis de residuales", "Modelo de regresión lineal múltiple: estimación matricial, inferencias, diagnósticos, multicolinealidad", "Selección de modelos: métodos de selección de variables"] }
+    ],
+    bibBasicas: [
+      { name: "Conover, W.J. — Practical Nonparametric Statistics. 2ª ed. Wiley, 1980.", caps: [] },
+      { name: "Daniel, W. — Applied Nonparametric Statistics. 2ª ed. PWS Kent, 1990.", caps: [] },
+      { name: "Gibbons, J.D.; Chakraborti, S. — Nonparametric Statistical Inference. 4ª ed. Marcel Dekker, 2003.", caps: [] },
+      { name: "Chatterjee, S.; Price, B. — Regression Analysis by Example. 2ª ed. Wiley, 1991.", caps: [] },
+      { name: "Draper, N.; Smith, H. — Applied Regression Analysis. 2ª ed. Wiley, 1981.", caps: [] },
+      { name: "Montgomery, D.C.; Peck, E.A.; Vining, G.G. — Introduction to Linear Regression Analysis. 3ª ed. Wiley, 2001.", caps: [] },
+      { name: "Neter, J.; Wasserman, W.; Kutner, M.H. — Applied Linear Statistical Models. 3ª ed. Irwin, 1990.", caps: [] }
+    ],
+    bibComp: [
+      "Brodsky, B.; Darkhovsky, B. — Nonparametric Methods in Change-Point Problems. Kluwer, 1993.",
+      "Everitt, B.S. — The Analysis of Contingency Tables. Chapman and Hall, 1977.",
+      "Rawlings, J.O. — Applied Regression Analysis: A Research Tool. Wadsworth, 1988."
+    ],
+    subsecuentes: ["Estadística III", "Teoría del Riesgo"]
   },
 
   // ── Geometría Diferencial I (0246) ─────────────────────────────────────────

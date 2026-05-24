@@ -1947,3 +1947,292 @@ BIBLIOGRAFÍA COMPLEMENTARIA:
 3. Sommerville, D.M., The Elements of Non-Euclidean Geometry. Dover, 1958.
 4. Stewart, I., The Problems of Mathematics.
    Oxford University Press, 1992.
+════════════════════════════════════════════════════════════════
+  ECONOMÍA I
+════════════════════════════════════════════════════════════════
+Semestre: VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Cálculo Diferencial e Integral IV
+Seriación sub.: Optativas
+
+Objetivos: Al finalizar el curso el alumno estará capacitado en los principios
+generales de la Economía (proceso económico, producción, consumidor, costos)
+y conocerá y aplicará los principales métodos utilizados en la Economía.
+
+TEMARIO:
+ 5 h  1. Introducción
+      1.1 El problema económico
+      1.2 La ciencia de la Economía
+      1.3 Metodología de la Economía
+      1.4 Organización de la actividad económica
+
+15 h  2. Teoría del consumidor
+      2.1 Preferencias y restricción económica
+      2.2 Elección y demanda
+      2.3 Estática comparativa
+      2.4 Elección intertemporal
+      2.5 Elección bajo incertidumbre
+
+15 h  3. Teoría de la producción
+      3.1 Tecnología
+      3.2 Costos
+      3.3 Maximización de beneficios
+      3.4 Oferta
+      3.5 Equilibrio de mercado
+
+ 5 h  4. Mercados imperfectos
+      4.1 Monopolio y monopsonio
+      4.2 Oligopolio
+
+10 h  5. Equilibrio general y bienestar
+      5.1 Intercambio puro
+      5.2 Intercambio con producción
+      5.3 Bienestar
+
+ 5 h  6. Introducción a la macroeconomía
+      6.1 Los problemas macroeconómicos básicos
+      6.2 Las variables en macroeconomía
+      6.3 Determinación del ingreso
+      6.4 Inflación
+      6.5 Desempleo
+      6.6 Fluctuaciones económicas
+
+15 h  7. El modelo IS-LM
+      7.1 Oferta y demanda agregada
+      7.2 El modelo IS-LM
+      7.3 La curva de Phillips
+
+10 h  8. Política macroeconómica y crecimiento
+      8.1 Política macroeconómica
+      8.2 Teoría de los ciclos económicos reales
+      8.3 Crecimiento económico (modelo de Solow)
+
+BIBLIOGRAFÍA BÁSICA:
+· Blaug, M., Teoría Económica en Retrospección. FCE, 1985.
+· Dornbusch, R.; Fischer, S., Macroeconomía. McGraw-Hill, 1991.
+· Hall, R.; Taylor, J., Macroeconomía. Antoni Bosch, 1991.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+· Mas-Colell, A. et al., Microeconomic Theory. Oxford University Press, 1995.
+· Varian, H., Microeconomic Analysis. W.W. Norton, 1992.
+· Varian, H., Economía Intermedia: Un Enfoque Moderno. Antoni Bosch, 1992.
+
+════════════════════════════════════════════════════════════════
+  ELECTROMAGNETISMO II  |  Clave: 0609
+════════════════════════════════════════════════════════════════
+Semestre: VII (Física) / Optativa para Matemáticas  |  Créditos: 12
+Horas: Teóricas 6/96
+Seriación ant.: Electromagnetismo I, Óptica, Mecánica Analítica,
+                Ecuaciones Diferenciales I, Variable Compleja,
+                Matemáticas Avanzadas de la Física
+
+Objetivos: Familiarizar al estudiante con la teoría electromagnética: descripción
+matemática unificada de los fenómenos eléctricos y magnéticos en el vacío y en
+medios materiales. Propiedades dinámicas del campo electromagnético, leyes de
+conservación, situaciones de electrostática, magnetostática y electromagnetismo
+incluyendo sistemas de radiación.
+
+TEMARIO:
+ 6 h  1. El campo electrostático en el vacío
+      1.1 Ley de Coulomb. Principio de superposición. Campo de intensidad eléctrica
+      1.2 Ley de Gauss (integral, diferencial y condiciones de frontera)
+      1.3 Carácter conservativo del campo. Potencial electrostático
+      1.4 Ecuaciones de Poisson y de Laplace. Densidad de energía y tensor de Maxwell
+
+ 9 h  2. Métodos de solución de problemas de electrostática
+      2.1 Teorema de unicidad (Dirichlet y Neumann). Función de Green
+      2.2 Método de imágenes. Método de funciones analíticas de variable compleja
+      2.3 Solución usando funciones armónicas en coordenadas cartesianas,
+          cilíndricas y esféricas. El desarrollo multipolar
+
+ 9 h  3. El campo electrostático en medios dieléctricos
+      3.1 Polarizabilidad. Polarización y susceptibilidad eléctrica
+      3.2 Ley de Gauss en medios dieléctricos. Desplazamiento eléctrico.
+          Permeabilidad dieléctrica
+      3.3 Ecuaciones de Clausius-Mossotti, Langevin y Debye.
+          Densidad de energía y tensor de Maxwell
+
+ 8 h  4. El campo magnetostático en el vacío
+      4.1 Fuerza de Lorentz y campo de inducción magnética. Ley de Biot-Savart
+      4.2 Ley circuital de Ampère (integral, diferencial, condiciones de frontera)
+      4.3 Carácter solenoidal del campo magnético. Potencial vectorial.
+          Transformaciones de norma. Desarrollo multipolar
+
+ 8 h  5. El campo magnetostático en medios permeables
+      5.1 Diamagnetos, paramagnetos y ferromagnetos. Magnetización
+      5.2 Ley de Ampère en medios permeables. Intensidad H.
+          Susceptibilidad y permeabilidad magnética. Histéresis
+
+ 6 h  6. Inducción electromagnética
+      6.1 Fuerza electromotriz. Ley de Faraday-Lenz-Henry
+          (fenomenológica, integral, diferencial y condiciones de frontera)
+      6.2 Inductancia mutua y autoinductancia.
+          Densidad de energía en el campo magnetostático
+
+10 h  7. Ecuaciones de Maxwell y propiedades dinámicas del campo
+      7.1 Corriente de desplazamiento. Ley de Ampère-Maxwell.
+          Ecuaciones de Maxwell completas
+      7.2 Potenciales y transformaciones de norma (Coulomb y Lorentz)
+      7.3 Teorema de Poynting. Densidad de energía y de cantidad de movimiento.
+          Tensor de esfuerzos de Maxwell
+
+10 h  8. Ondas electromagnéticas planas
+      8.1 En el vacío: velocidades de fase y de energía, transversalidad, polarización
+      8.2 En medios dieléctricos: índice de refracción, birrefringencia
+      8.3 En fronteras: reflexión y refracción (Snell), ecuaciones de Fresnel,
+          reflexión total, ondas evanescentes
+      8.4 En medios conductores: atenuación, profundidad de la piel.
+          En plasmas: frecuencia de plasma
+
+ 6 h  9. Ondas electromagnéticas confinadas
+      9.1 Guías de onda: modos TEM, TE y TM; transmisión y atenuación; fibras ópticas
+      9.2 Cavidades de resonancia: paralelepípedo, cilindro, valor Q
+
+10 h  10. Sistemas radiantes
+       10.1 Función de Green retardada. Dipolo de Hertz eléctrico y magnético. Antenas
+       10.2 Potenciales y campos de Liénard-Wiechert. Partículas cargadas aceleradas
+
+10 h  11. Descripción covariante de la electrodinámica
+       11.1 Espacio-tiempo de Minkowski. Cuadrivectores y cuadritensores.
+            Cinemática y dinámica relativista
+       11.2 Cuadrivector de potencial. Condición de Lorentz.
+            Cuadritensor de campo electromagnético
+       11.3 Invariantes, tensor de esfuerzos, ecuaciones de conservación
+
+BIBLIOGRAFÍA BÁSICA:
+· Reitz, J.R.; Milford, F.J.; Christy, R.W., Foundations of Electromagnetic Theory.
+  Addison-Wesley, 1979.
+· Lorrain, P.; Corson, D.R., Electromagnetic Fields and Waves. W.H. Freeman, 1970.
+· Jelimenko, O.D., Electricity and Magnetism. Appleton Century Coft, 1966.
+· Vanderlinde, J., Classical Electromagnetic Theory. Wiley, 1993.
+· Cook, D.M., The Theory of the Electromagnetic Field. Prentice-Hall, 1975.
+· Wangsness, R.K., Electromagnetic Fields. Wiley, 1979.
+· Clemow, P.C., An Introduction to Electromagnetic Theory.
+  Cambridge University Press, 1973.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+· Hauser, W., Introduction to the Principles of Electromagnetism.
+  Addison-Wesley, 1971.
+· Shadowitz, A., The Electromagnetic Field. Dover, 1988.
+· Griffiths, D.J., Introduction to Electrodynamics. Prentice-Hall, 1989.
+· Heald, M.A.; Marion, J.B., Classical Electromagnetic Radiation. Saunders, 1995.
+
+════════════════════════════════════════════════════════════════
+  ESTADÍSTICA I
+════════════════════════════════════════════════════════════════
+Semestre: V  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Probabilidad II, Cálculo IV
+Seriación sub.: Estadística II
+
+Objetivos: Al finalizar el curso el alumno comprenderá los principios básicos de
+la Estadística y su relación con la Probabilidad; conocerá y aplicará herramientas
+para el análisis exploratorio de datos; identificará los principios de la estimación
+paramétrica y conocerá los métodos básicos para estimación por intervalos y
+pruebas de hipótesis.
+
+TEMARIO:
+ 5 h  1. Introducción
+      1.1 ¿Qué es la Estadística? ¿Qué es la Probabilidad?
+      1.2 Relación entre Estadística y Probabilidad.
+          El papel de la Estadística en la investigación
+      1.3 Conceptos de población, censo y muestra.
+          El proceso de análisis estadístico
+      1.4 Datos, variables y escalas de medición
+
+20 h  2. Análisis exploratorio de datos
+      2.1 Tablas de frecuencias. Métodos gráficos
+      2.2 Medidas descriptivas para datos sin agrupar
+      2.3 Medidas descriptivas para datos agrupados
+
+25 h  3. Estimación puntual
+      3.1 Estadísticas y estimadores
+      3.2 Métodos de construcción de estimadores:
+          momentos, máxima verosimilitud
+      3.3 Criterios de evaluación: insesgamiento, varianza mínima,
+          error cuadrático medio, consistencia
+      3.4 Suficiencia: estadísticas suficientes y minimales.
+          Teorema de Factorización
+      3.5 Estimación insesgada: cota de Cramér-Rao. Suficiencia y completez
+      3.6 Propiedades asintóticas de los estimadores de máxima verosimilitud
+
+10 h  4. Estimación por intervalo
+      4.1 Intervalo aleatorio e intervalo de confianza
+      4.2 Métodos para construir intervalos de confianza: pivotal y general
+      4.3 Intervalo basado en muestras grandes
+
+20 h  5. Pruebas de hipótesis
+      5.1 Hipótesis estadística: simple y compuesta. Región crítica
+      5.2 Errores tipo I y II. Lema de Neyman-Pearson. Función potencia
+      5.3 Prueba uniformemente más potente
+      5.4 Prueba del cociente de verosimilitud
+      5.5 Distribución asintótica de algunas estadísticas de prueba
+
+BIBLIOGRAFÍA BÁSICA:
+· Canavos, G.C., Probabilidad y Estadística: Aplicaciones y Métodos.
+  McGraw-Hill, 1987.
+· Casella, G.; Berger, R.L., Statistical Inference. Wadsworth, 1990.
+· Degroot, M.H., Probability and Statistics. Addison-Wesley, 1986.
+· Hogg, R.V.; Craig, A.T., Introduction to Mathematical Statistics.
+  5ª ed. Prentice-Hall, 1995.
+· Larsen, R.J.; Marx, M.L., An Introduction to Mathematical Statistics
+  and its Applications. Prentice-Hall, 1986.
+· Lindgren, B.W., Statistical Theory. Macmillan, 1976.
+· Mood, A.M.; Graybill, F.A.; Boes, D.C., Introduction to the Theory
+  of Statistics. McGraw-Hill, 1974.
+· Tukey, J.W., Exploratory Data Analysis. Addison-Wesley, 1977.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+· Johnson, N.L., Statistics: An Intermediate Text Book.
+  Cambridge University Press, 1951-1953.
+
+════════════════════════════════════════════════════════════════
+  ESTADÍSTICA II
+════════════════════════════════════════════════════════════════
+Semestre: VI  |  Créditos: 10  |  Carácter: Optativo
+Horas: Teóricas 5/80
+Seriación ant.: Estadística I
+Seriación sub.: Estadística III, Teoría del Riesgo
+
+Objetivos: Al finalizar el curso el alumno conocerá y aplicará las principales
+técnicas de la estadística no paramétrica y su justificación, y conocerá el
+análisis de regresión como técnica para investigar y modelar relaciones entre variables.
+
+TEMARIO:
+30 h  1. Estadística no paramétrica
+      1.1 Pruebas binomiales: para proporciones, cuantiles, signos,
+          McNemar, Cox-Stuart
+      1.2 Pruebas de rango: Mann-Whitney (U), Kruskal-Wallis,
+          varianza de más de dos poblaciones
+      1.3 Pruebas de bondad de ajuste: Ji-Cuadrada, Kolmogorov,
+          Lilliefors, exponencial
+      1.4 Tablas de contingencia: independencia, proporciones, mediana
+
+50 h  2. Análisis de Regresión
+      2.1 Panorama de los modelos de regresión y su utilización
+      2.2 El modelo de regresión lineal simple: estimación por mínimos
+          cuadrados, Gauss-Markov, máxima verosimilitud, análisis de
+          varianza, correlación y determinación, intervalos de confianza
+          y predicción, análisis de residuales, pruebas F, forma matricial
+      2.3 El modelo de regresión lineal múltiple: estimación matricial,
+          resultados de análisis de varianza, inferencias, diagnósticos,
+          multicolinealidad y sus efectos
+      2.4 Selección de modelos: métodos de selección de variables
+
+BIBLIOGRAFÍA BÁSICA:
+· Conover, W.J., Practical Nonparametric Statistics. 2ª ed. Wiley, 1980.
+· Daniel, W., Applied Nonparametric Statistics. 2ª ed. PWS Kent, 1990.
+· Gibbons, J.D.; Chakraborti, S., Nonparametric Statistical Inference.
+  4ª ed. Marcel Dekker, 2003.
+· Chatterjee, S.; Price, B., Regression Analysis by Example. 2ª ed. Wiley, 1991.
+· Draper, N.; Smith, H., Applied Regression Analysis. 2ª ed. Wiley, 1981.
+· Montgomery, D.C.; Peck, E.A.; Vining, G.G., Introduction to Linear
+  Regression Analysis. 3ª ed. Wiley, 2001.
+· Neter, J.; Wasserman, W.; Kutner, M.H., Applied Linear Statistical Models.
+  3ª ed. Irwin, 1990.
+
+BIBLIOGRAFÍA COMPLEMENTARIA:
+· Brodsky, B.; Darkhovsky, B., Nonparametric Methods in Change-Point Problems.
+  Kluwer, 1993.
+· Everitt, B.S., The Analysis of Contingency Tables. Chapman and Hall, 1977.
+· Rawlings, J.O., Applied Regression Analysis: A Research Tool. Wadsworth, 1988.
