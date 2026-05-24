@@ -720,13 +720,12 @@ body {
 }
 
 #bh-art.bh-on {
-  /* ease-out: rápido al inicio, lento al final — sin per-keyframe timing */
-  animation: bh-power-on 2.4s ease-out both;
+  animation: bh-power-on 2.2s cubic-bezier(0.4, 0, 0.55, 1) both;
 }
 
 @keyframes bh-power-on {
   0%   { opacity: 0;    clip-path: circle(0%   at 50% var(--bh-cy)); }
-  25%  { opacity: 0.85; clip-path: circle(85%  at 50% var(--bh-cy)); }
+  45%  { opacity: 0.12; clip-path: circle(8%   at 50% var(--bh-cy)); }
   100% { opacity: 1;    clip-path: circle(160% at 50% var(--bh-cy)); }
 }
 
