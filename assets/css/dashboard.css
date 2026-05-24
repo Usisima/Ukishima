@@ -563,12 +563,14 @@ body {
   margin-bottom: 0.28rem;
 }
 
-/* ::before es 2× el ancho de la barra, 2 ciclos idénticos del degradado.
-   translateX(-50% → 0): el contenedor se desplaza a la derecha, visualmente el flujo
-   viaja de izquierda a derecha. Semáforo matemáticamente perfecto. */
+/* ::before es 3× el ancho de la barra con 3 ciclos idénticos.
+   translateX(0 → -33.333%): mueve exactamente 1 ciclo hacia la izquierda;
+   inicio y fin son visualmente idénticos → loop perfecto sin glitch.
+   El gradiente está invertido (e20c75→0ad3fa) para que el movimiento
+   izquierda del contenedor se perciba como flujo izquierda→derecha. */
 @keyframes sem-bar-flow {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
 }
 
 .dash-sem-bar-wrap {
@@ -593,15 +595,19 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 200%;
+  width: 300%;
   height: 100%;
+  /* 3 ciclos idénticos invertidos: mueve físico izq = flujo visual izq→der */
   background: linear-gradient(90deg,
-    #0ad3fa  0%,
-    #c74d97 20%,
-    #e20c75 40%,
-    #0ad3fa 60%,
-    #c74d97 80%,
-    #e20c75 100%
+    #e20c75  0%,
+    #c74d97 13.333%,
+    #0ad3fa 33.333%,
+    #e20c75 33.333%,
+    #c74d97 46.666%,
+    #0ad3fa 66.666%,
+    #e20c75 66.666%,
+    #c74d97 79.999%,
+    #0ad3fa 100%
   );
   animation: sem-bar-flow 10s linear infinite;
 }
