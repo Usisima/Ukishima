@@ -1383,9 +1383,8 @@ body {
   border: 1px solid rgba(155, 191, 181, 0.25);
   border-radius: 99px;
   padding: 3px 9px;
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .disc-item.is-sub {
   font-size: 10px;

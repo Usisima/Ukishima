@@ -574,7 +574,8 @@ const Disc = {
 
       if (arcY < -40 || arcY > H + 40) return;
 
-      const maxW = Math.max(50, Math.min(W - 14, arcX - 8));
+      const pillMaxW = Math.max(50, W + L - R - 8); // fixed at center — never reflows
+      const maxW = sec.isCh ? pillMaxW : Math.max(50, Math.min(W - 14, arcX - 8));
       const absTh  = Math.abs(theta);
       const opacity = Math.max(0.04, 1 - absTh * 0.9);
       const isAct   = i === active;
