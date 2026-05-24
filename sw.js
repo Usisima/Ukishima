@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v123';
+const CACHE = 'ukishima-v124';
 
 // App shell: all local assets cached on install
 const SHELL = [

@@ -107,6 +107,37 @@ const PDF = {
   cyl_b6: { title: "El Método de la Inducción Matemática — Sominski", driveId: "" },
   cyl_b7: { title: "Manual de Lógica para Estudiantes de Matemáticas — Zubieta", driveId: "" },
   cyl_b8: { title: "Taller de Lógica Matemática — Zubieta", driveId: "" },
+  // ── Geometría Moderna II (optativa, Bloque I) ──
+  gm2_b1: { title: "An Introduction to the Modern Geometry of the Triangle and the Circle — Altshiller", driveId: "" },
+  gm2_b2: { title: "Non-euclidean Geometry — Menschkowsky", driveId: "" },
+  gm2_b3: { title: "Introducción a la Geometría Moderna — Shively", driveId: "" },
+  // ── Geometría Proyectiva (optativa, Bloque I) ──
+  gp_b1:  { title: "The Octonians — Baez", driveId: "" },
+  gp_b2:  { title: "Projective Geometry: From Foundations to Applications — Beutelspacher & Rosenbaum", driveId: "" },
+  gp_b3:  { title: "Projective Geometry — Coxeter", driveId: "" },
+  gp_b4:  { title: "Foundations of Projective Geometry — Hartshorne", driveId: "" },
+  gp_b5:  { title: "Projective Geometry and its Application to Computer Graphics — Penna", driveId: "" },
+  gp_b6:  { title: "Elementos de Geometría Proyectiva — Seidenberg", driveId: "" },
+  // ── Gráficas y Juegos (optativa, Bloque I) ──
+  gyj_b1: { title: "Graphs — Berge", driveId: "" },
+  gyj_b2: { title: "Graph Theory with Applications — Bondy & Murty", driveId: "" },
+  gyj_b3: { title: "Introductory Graph Theory — Chartrand", driveId: "" },
+  gyj_b4: { title: "Graph Theory — Harary", driveId: "" },
+  // ── Introducción a Ciencias de la Computación II (optativa, Bloque I) ──
+  icc2_b1: { title: "Fundamentals of Computing II — Tucker, Bradley, Cupper et al.", driveId: "" },
+  icc2_b2: { title: "Estructuras de Datos — Magidin", driveId: "" },
+  // ── Introducción a la Geometría Avanzada (optativa, Bloque I) ──
+  iga_b1:  { title: "Fundamentos de Geometría — Coxeter", driveId: "" },
+  iga_b2:  { title: "Projective Geometry — Coxeter", driveId: "" },
+  iga_b3:  { title: "Non-euclidean Geometry — Coxeter", driveId: "" },
+  iga_b4:  { title: "Geometry Revisited — Coxeter", driveId: "" },
+  iga_b5:  { title: "Introducción a la Geometría Avanzada — Ramírez-Galarza & Seade", driveId: "" },
+  iga_b6:  { title: "Invitación a las Geometrías No-euclideanas — Ramírez-Galarza & Sienra", driveId: "" },
+  iga_b7:  { title: "Geometry and the Imagination — Hilbert & Cohn-Vossen", driveId: "" },
+  iga_b8:  { title: "Transformation Geometry — Martin", driveId: "" },
+  // ── Matemáticas Discretas (optativa, Bloque I) ──
+  md_b1:  { title: "Mathematical Structures For Computer Science — Gersting", driveId: "" },
+  md_b2:  { title: "A Logical Approach to Discrete Math — Gries & Schneider", driveId: "" },
   // ── Álgebra Moderna II (optativa, Bloque II) ──
   am2_b1: { title: "Álgebra Abstracta — Fraleigh", driveId: "" },
   am2_b2: { title: "Álgebra Moderna — Herstein", driveId: "" },
@@ -892,6 +923,73 @@ const LIBRARY_OPT = [
       { id: "fc_b2", title: "Termodinámica Clásica",                                   author: "G. Carmona",                edition: "Fac. de Ciencias-UNAM, 2007", chapters: [] },
       { id: "fc_b3", title: "Physical Hydrodynamics",                                  author: "E. Guyon, J.P. Hullin, L. Petit & C.D. Mitescu", edition: "Oxford University Press, 2001", chapters: [] },
       { id: "fc_b4", title: "Physics of Waves",                                        author: "W.C. Elmore & M.A. Heald",  edition: "Dover Publications, 1985",    chapters: [] },
+    ]
+  },
+  {
+    subject: "Geometría Moderna II",
+    matId:   "geometria_moderna_2",
+    color:   "linear-gradient(135deg,#080e0e,#0e2020)",
+    books: [
+      { id: "gm2_b1", title: "An Introduction to the Modern Geometry of the Triangle and the Circle", author: "C.N. Altshiller", edition: "Barnes and Noble, 1965", chapters: [] },
+      { id: "gm2_b2", title: "Non-euclidean Geometry",                                               author: "H. Menschkowsky",  edition: "Academic Press, 1972", chapters: [] },
+      { id: "gm2_b3", title: "Introducción a la Geometría Moderna",                                  author: "L.S. Shively",     edition: "CECSA, 1968",         chapters: [] },
+    ]
+  },
+  {
+    subject: "Geometría Proyectiva",
+    matId:   "geometria_proyectiva",
+    color:   "linear-gradient(135deg,#08080e,#14142a)",
+    books: [
+      { id: "gp_b1", title: "The Octonians",                                             author: "J.C. Baez",                    edition: "Bulletin of the AMS, 2002",               chapters: [] },
+      { id: "gp_b2", title: "Projective Geometry: From Foundations to Applications",     author: "A. Beutelspacher & U. Rosenbaum", edition: "Cambridge University Press, 1998",    chapters: [] },
+      { id: "gp_b3", title: "Projective Geometry",                                       author: "H.S.M. Coxeter",               edition: "Springer-Verlag, 1994",                  chapters: [] },
+      { id: "gp_b4", title: "Foundations of Projective Geometry",                        author: "R. Hartshorne",                edition: "W.A. Benjamin, 1967",                    chapters: [] },
+      { id: "gp_b5", title: "Projective Geometry and its Application to Computer Graphics", author: "M.A. Penna",               edition: "Prentice-Hall, 1991",                    chapters: [] },
+      { id: "gp_b6", title: "Elementos de Geometría Proyectiva",                          author: "A. Seidenberg",               edition: "CECSA, 1965",                            chapters: [] },
+    ]
+  },
+  {
+    subject: "Gráficas y Juegos",
+    matId:   "graficas_y_juegos",
+    color:   "linear-gradient(135deg,#060e08,#0c1e10)",
+    books: [
+      { id: "gyj_b1", title: "Graphs",                        author: "C. Berge",          edition: "North Holland, 1985",         chapters: [] },
+      { id: "gyj_b2", title: "Graph Theory with Applications", author: "J.A. Bondy & U.S. Murty", edition: "Macmillan, 1976",    chapters: [] },
+      { id: "gyj_b3", title: "Introductory Graph Theory",      author: "G. Chartrand",      edition: "Dover Publications, 1977",   chapters: [] },
+      { id: "gyj_b4", title: "Graph Theory",                   author: "F. Harary",         edition: "Addison-Wesley, 1969",       chapters: [] },
+    ]
+  },
+  {
+    subject: "Introducción a Ciencias de la Computación II",
+    matId:   "icc_2",
+    color:   "linear-gradient(135deg,#0a0c10,#141820)",
+    books: [
+      { id: "icc2_b1", title: "Fundamentals of Computing II: Abstraction, Data Structures, and Large Software Systems", author: "Tucker, Bradley, Cupper, Epstein & Kelemen", edition: "McGraw-Hill, 1994", chapters: [] },
+      { id: "icc2_b2", title: "Estructuras de Datos",                                                                   author: "M. Magidin",                                edition: "Editorial Trillas, 1991", chapters: [] },
+    ]
+  },
+  {
+    subject: "Introducción a la Geometría Avanzada",
+    matId:   "intro_geometria_avanzada",
+    color:   "linear-gradient(135deg,#080a10,#10142a)",
+    books: [
+      { id: "iga_b1", title: "Fundamentos de Geometría",                          author: "H.S.M. Coxeter",                edition: "Limusa-Wiley, 1971",                        chapters: [] },
+      { id: "iga_b2", title: "Projective Geometry",                               author: "H.S.M. Coxeter",                edition: "Springer-Verlag, 1994",                     chapters: [] },
+      { id: "iga_b3", title: "Non-euclidean Geometry",                            author: "H.S.M. Coxeter",                edition: "MAA, 1998",                                chapters: [] },
+      { id: "iga_b4", title: "Geometry Revisited",                                author: "H.S.M. Coxeter",                edition: "MAA, 1983",                                chapters: [] },
+      { id: "iga_b5", title: "Introducción a la Geometría Avanzada",              author: "A. Ramírez-Galarza & J. Seade", edition: "Las Prensas de Ciencias, UNAM, 2005",       chapters: [] },
+      { id: "iga_b6", title: "Invitación a las Geometrías No-euclideanas",        author: "A. Ramírez-Galarza & G. Sienra", edition: "Las Prensas de Ciencias, UNAM, 2000",     chapters: [] },
+      { id: "iga_b7", title: "Geometry and the Imagination",                      author: "D. Hilbert & S. Cohn-Vossen",   edition: "Vínculos Matemáticos 150, FC-UNAM, 2000",   chapters: [] },
+      { id: "iga_b8", title: "Transformation Geometry: An Introduction to Symmetry", author: "G. Martin",                edition: "Springer-Verlag, 1997",                     chapters: [] },
+    ]
+  },
+  {
+    subject: "Matemáticas Discretas",
+    matId:   "matematicas_discretas",
+    color:   "linear-gradient(135deg,#060c0e,#0e1c20)",
+    books: [
+      { id: "md_b1", title: "Mathematical Structures For Computer Science", author: "J.L. Gersting",      edition: "3ª ed. W.H. Freeman, 1993",     chapters: [] },
+      { id: "md_b2", title: "A Logical Approach to Discrete Math",          author: "D. Gries & F.B. Schneider", edition: "Springer-Verlag, 1994", chapters: [] },
     ]
   },
   // ── Bloque II ─────────────────────────────────────────────────────

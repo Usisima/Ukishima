@@ -151,6 +151,110 @@ const OPTATIVAS_BLOQUE_III = [
 
 // ==================== DATOS ENRIQUECIDOS DE OPTATIVAS ====================
 const OPT_DATA = {
+  "Geometría Moderna II": {
+    temario: [
+      { num: "1", name: "Circunferencias coaxiales", horas: 15, subtemas: ["Potencia de un punto respecto a una circunferencia", "Eje radical de dos circunferencias", "Circunferencias ortogonales", "Familias coaxiales. Circunferencia de similitud", "Aplicación al cuadrilátero completo"] },
+      { num: "2", name: "Inversión",                 horas: 15, subtemas: ["Puntos inversos respecto a una circunferencia", "Inversión de rectas y circunferencias", "Conservación de ángulos y razón cruzada", "Inversión de un teorema. Construcciones"] },
+      { num: "3", name: "Polos y polares",            horas: 15, subtemas: ["La polar de un punto y el polo de una recta", "Relaciones armónicas. Principio de dualidad", "Triángulo autopolar. Circunferencia polar", "Polos y polares para cónicas. Los diez problemas de Apolonio"] },
+      { num: "4", name: "Razón cruzada",              horas: 15, subtemas: ["Razón cruzada para hileras y haces", "Construcción del cuarto elemento dada la razón", "Razón cruzada en la circunferencia. Regla de la falsa posición", "Teoremas de Pascal, Brianchon y Pappus"] },
+      { num: "5", name: "Introducción a la Geometría Hiperbólica", horas: 20, subtemas: ["Los elementos de Euclides. El 5° postulado", "Los axiomas de la geometría hiperbólica", "Modelos de la geometría hiperbólica", "El modelo de Poincaré del semiplano. La distancia hiperbólica", "Mediatrices, bisectrices e isometrías. Construcciones"] }
+    ],
+    bibBasicas: [
+      { name: "Altshiller, C.N. — An Introduction to the Modern Geometry of the Triangle and the Circle. Barnes and Noble, 1965.", caps: ["Circunferencias coaxiales", "Inversión", "Polos y polares", "Razón cruzada"] },
+      { name: "Menschkowsky, H. — Non-euclidean Geometry. Academic Press, 1972.", caps: ["Introducción a la Geometría Hiperbólica"] },
+      { name: "Shively, L.S. — Introducción a la Geometría Moderna. CECSA, 1968.", caps: ["Circunferencias coaxiales", "Inversión", "Polos y polares", "Razón cruzada", "Geometría hiperbólica"] }
+    ],
+    bibComp: ["Fernández-Román, L. — Jugando con el Triángulo Hiperbólico. Tesis FC-UNAM, 2001.", "García Campos, M. — Geometría Hiperbólica para Principiantes. Tesis FC-UNAM, 2001."],
+    subsecuentes: ["Seminario sobre la Enseñanza de las Matemáticas I"]
+  },
+  "Geometría Proyectiva": {
+    temario: [
+      { num: "1", name: "Geometría proyectiva sintética",   horas: 20, subtemas: ["Proyecciones. Modelos para el plano proyectivo real", "Proyectividades y perspectividades. Teorema fundamental", "Completación proyectiva de planos afines. Planos proyectivos finitos", "Teorema de Desargues. Teorema de Pascal"] },
+      { num: "2", name: "Geometría proyectiva analítica",   horas: 15, subtemas: ["Coordenadas homogéneas. Condiciones de colinealidad", "Ecuaciones de las cónicas. Comportamiento al infinito", "Geometría compleja: puntos circulares y rectas isotrópicas", "Teorema de Euler. Tangente a una curva. Polos y polares respecto a cónicas", "Cambios lineales de coordenadas"] },
+      { num: "3", name: "Fundamentos de la geometría proyectiva", horas: 10, subtemas: ["Axiomas para planos afines y proyectivos", "Retícula de subespacios lineales. "Pappus ⇒ Desargues"", "Teorema fundamental de la geometría proyectiva", "Planos proyectivos sobre anillos de división y no desargues ianos"] },
+      { num: "4", name: "Geometría proyectiva tridimensional", horas: 15, subtemas: ["Axiomatización y coordenadas homogéneas", "Configuraciones de Reye y Bricard", "Transversales y generación de cuádricas", "Transformaciones proyectivas. Cambios de coordenadas", "Generación proyectiva de cónicas y cuádricas. Cuádricas en P³"] },
+      { num: "5", name: "Temas selectos (dos a elegir)",    horas: 20, subtemas: ["Configuraciones proyectivas", "Introducción a la geometría algebraica", "Cuádricas. Haces y redes de cónicas", "Automorfismos del plano proyectivo", "Aplicaciones a la graficación por computadora", "Teoría de códigos y Criptografía"] }
+    ],
+    bibBasicas: [
+      { name: "Beutelspacher, A.; Rosenbaum, U. — Projective Geometry: From Foundations to Applications. Cambridge University Press, 1998.", caps: ["Geometría proyectiva sintética", "Fundamentos", "Geometría tridimensional"] },
+      { name: "Coxeter, H.S.M. — Projective Geometry. Springer-Verlag, 1994.", caps: ["Geometría proyectiva sintética", "Geometría analítica", "Transformaciones proyectivas"] },
+      { name: "Hartshorne, R. — Foundations of Projective Geometry. W.A. Benjamin, 1967.", caps: ["Fundamentos de la geometría proyectiva"] },
+      { name: "Penna, M.A. — Projective Geometry and its Application to Computer Graphics. Prentice-Hall, 1991.", caps: ["Geometría proyectiva analítica", "Temas selectos: graficación"] },
+      { name: "Seidenberg, A. — Elementos de Geometría Proyectiva. CECSA, 1965.", caps: ["Geometría proyectiva sintética", "Geometría proyectiva analítica"] }
+    ],
+    bibComp: ["Eves, H. — Estudio de las Geometrías. UTEHA, 1982.", "Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. FC-UNAM, 2000."],
+    subsecuentes: []
+  },
+  "Gráficas y Juegos": {
+    temario: [
+      { num: "I",   name: "Gráficas",                              horas: 20, subtemas: ["Conceptos básicos. Isomorfismo. Matriz de adyacencia", "Subgráficas. Clases de gráficas. Operaciones", "Caminos, paseos, trayectorias y ciclos", "Gráficas conexas. Gráficas bipartitas"] },
+      { num: "II",  name: "Árboles",                               horas: 10, subtemas: ["El problema de las vías ferroviarias", "Árboles. Árboles generadores"] },
+      { num: "III", name: "Conexidad",                             horas: 12, subtemas: ["Conexidad puntual y lineal", "Vértices de corte y puentes. Bloques", "Teorema de Menger"] },
+      { num: "IV",  name: "Recorridos Eulerianos y Hamiltonianos", horas:  9, subtemas: ["El problema de los puentes de Königsberg. Gráficas Eulerianas", "El problema del agente viajero. Gráficas Hamiltonianas", "Aplicaciones: dominó, ajedrez, la casa de los espejos"] },
+      { num: "V",   name: "Apareamientos",                         horas:  9, subtemas: ["El problema del casamiento y el problema del baile", "Apareamientos en gráficas bipartitas (Teorema de Hall)", "Algoritmo Húngaro. Factorización"] },
+      { num: "VI",  name: "Coloración de vértices",                horas:  5, subtemas: ["El problema de los cuatro colores", "Coloración. Número cromático"] },
+      { num: "VII", name: "Planaridad",                            horas:  5, subtemas: ["Gráficas planas. Fórmula de Euler", "El teorema de los cinco colores"] },
+      { num: "VIII", name: "Juegos",                               horas:  6, subtemas: ["Introducción a la Teoría de Juegos", "Juegos en forma extensiva. Equilibrio de Nash", "Juegos bipersonales"] },
+      { num: "IX",  name: "Juegos tipo Nim",                       horas:  4, subtemas: ["Digráficas. Núcleos", "Juegos tipo Nim"] }
+    ],
+    bibBasicas: [
+      { name: "Berge, C. — Graphs. North Holland, 1985.", caps: ["Gráficas", "Árboles", "Conexidad", "Apareamientos", "Coloración"] },
+      { name: "Bondy, J.A.; Murty, U.S. — Graph Theory with Applications. Macmillan, 1976.", caps: ["Gráficas", "Recorridos Eulerianos y Hamiltonianos", "Planaridad", "Coloración"] },
+      { name: "Chartrand, G. — Introductory Graph Theory. Dover, 1977.", caps: ["Gráficas", "Árboles", "Conexidad", "Planaridad"] },
+      { name: "Harary, F. — Graph Theory. Addison-Wesley, 1969.", caps: ["Gráficas", "Árboles", "Conexidad", "Coloración"] }
+    ],
+    bibComp: ["Chartrand, G.; Lesniak, L. — Graphs and Digraphs. Wadsworth and Brooks, 1979."],
+    subsecuentes: ["Teoría de las Gráficas I", "Análisis de Algoritmos I"]
+  },
+  "Introducción a Ciencias de la Computación II": {
+    temario: [
+      { num: "I",  name: "Especificación, verificación y validación", horas:  8, subtemas: ["Especificaciones operativas y descriptivas", "Verificación: pruebas, análisis, ejecución simbólica, depuración", "Lectura de código y recorridos estructurados"] },
+      { num: "II", name: "Tipos Abstractos de Datos",                horas:  4, subtemas: ["Conceptos involucrados", "Instrumentación de TAD en un lenguaje de alto nivel"] },
+      { num: "III", name: "Estructuras de datos básicas",            horas: 20, subtemas: ["Estructuras secuenciales y arreglos empacados", "Implementaciones contiguas y ligadas", "Estructuras múltiples: listas circulares, bidireccionales y múltiples", "Búsqueda, inserción y remoción de elementos"] },
+      { num: "IV", name: "Estructuras de datos no lineales",         horas:  8, subtemas: ["Árboles y estructuras arborescentes. Árboles binarios", "Representación de árboles arbitrarios en base a binarios", "Listas y recolección de basura. Asignación dinámica de espacio"] },
+      { num: "V",  name: "Búsquedas y Ordenamientos",               horas: 20, subtemas: ["Algoritmos O(n log n): quicksort, heapsort, mergesort", "Shell sort, bucket sort y radix sort", "Funciones de dispersión y resolución de colisiones", "Árboles balanceados: B y AVL. Ordenamientos externos"] }
+    ],
+    bibBasicas: [
+      { name: "Tucker, A.B. et al. — Fundamentals of Computing II: Abstraction, Data Structures, and Large Software Systems. McGraw-Hill, 1994.", caps: ["Tipos Abstractos de Datos", "Estructuras de datos básicas", "Estructuras no lineales", "Búsquedas y Ordenamientos"] },
+      { name: "Magidin, M. — Estructuras de Datos. Editorial Trillas, 1991.", caps: ["Estructuras de datos básicas", "Estructuras no lineales"] }
+    ],
+    bibComp: ["Aho, A.V.; Hopcroft, J.E.; Ullman, J.D. — Estructuras de Datos y Algoritmos. Addison-Wesley, 1988.", "Cormen, T.H.; Leiserson, C.E.; Rivest, R.L. — Introduction to Algorithms. McGraw-Hill, 1990.", "Baase, S. — Computer Algorithms. Addison-Wesley, 1990."],
+    subsecuentes: ["Análisis de Algoritmos I", "Diseño de Sistemas Digitales"]
+  },
+  "Introducción a la Geometría Avanzada": {
+    temario: [
+      { num: "1", name: "Geometría Euclidiana", horas: 30, subtemas: ["Simetrías con respecto a un punto, una recta y un plano", "Transformaciones rígidas y sus invariantes", "Cilindros y toros. Subgrupos finitos de E(2) y E(3)", "Frisos y mosaicos"] },
+      { num: "2", name: "Geometría Afín",        horas:  5, subtemas: ["Puntos de fuga y recta del horizonte vs. puntos al infinito", "Transformaciones afines y sus invariantes"] },
+      { num: "3", name: "Geometría Proyectiva",  horas: 30, subtemas: ["El plano proyectivo real. El principio de realidad", "Cartas coordenadas de P²(R) y P¹(C)", "El grupo de transformaciones proyectivas. Teorema de Desargues", "Propiedades proyectivas de las cónicas. Teorema de Pascal", "Polos y polares. Geometría elíptica"] },
+      { num: "4", name: "Geometría Hiperbólica", horas: 15, subtemas: ["Los modelos del plano hiperbólico", "Transformaciones del plano hiperbólico", "La red de Steiner. La métrica hiperbólica", "Primeros resultados. Superficies con estructura hiperbólica. Mosaicos"] }
+    ],
+    bibBasicas: [
+      { name: "Coxeter, H.S.M. — Fundamentos de Geometría. Limusa-Wiley, 1971.", caps: ["Geometría Euclidiana", "Geometría Proyectiva"] },
+      { name: "Coxeter, H.S.M. — Projective Geometry. Springer-Verlag, 1994.", caps: ["Geometría Proyectiva"] },
+      { name: "Coxeter, H.S.M. — Non-euclidean Geometry. MAA, 1998.", caps: ["Geometría Hiperbólica"] },
+      { name: "Ramírez-Galarza, A.; Seade, J. — Introducción a la Geometría Avanzada. UNAM, 2005.", caps: ["Geometría Euclidiana", "Geometría Afín", "Geometría Proyectiva", "Geometría Hiperbólica"] },
+      { name: "Ramírez-Galarza, A.; Sienra, G. — Invitación a las Geometrías No-euclideanas. UNAM, 2000.", caps: ["Geometría Hiperbólica"] },
+      { name: "Martin, G. — Transformation Geometry. Springer-Verlag, 1997.", caps: ["Geometría Euclidiana", "Geometría Afín"] }
+    ],
+    bibComp: ["Hilbert, D.; Cohn-Vossen, S. — Geometry and the Imagination. FC-UNAM, 2000.", "Coxeter, H.S.M. — Geometry Revisited. MAA, 1983.", "Eves, H. — Estudio de las Geometrías. UTEHA, 1982.", "Klein, F. — Le Programme d'Erlangen. Gauthier-Villard, 1974."],
+    subsecuentes: ["Geometría Diferencial I"]
+  },
+  "Matemáticas Discretas": {
+    temario: [
+      { num: "I",  name: "Lógica formal, demostraciones y análisis de algoritmos", horas: 18, subtemas: ["Enunciados, representaciones simbólicas y tautologías", "Cuantificadores, predicados y validez", "Lógica proposicional y de predicados", "Programación lógica y pruebas de correctez", "Técnicas de demostración. Inducción", "Recursión, relaciones de recurrencia y análisis de algoritmos"] },
+      { num: "II", name: "Relaciones y gráficas dirigidas",                        horas: 17, subtemas: ["Conjuntos producto y particiones", "Relaciones y gráficas dirigidas", "Trayectorias en relaciones y gráficas dirigidas", "Propiedades de las relaciones. Representación computacional", "Conectividad y algoritmo de Warshall"] },
+      { num: "III", name: "Funciones",                                             horas: 12, subtemas: ["Funciones en gráficas. Permutaciones", "Números especiales: Stirling, Eulerianos, Armónicos, Bernoulli, Fibonacci"] },
+      { num: "IV", name: "Orden, relaciones y estructuras",                        horas:  5, subtemas: ["Conjuntos parcialmente ordenados. Elementos extremos", "Latices. Álgebras de Boole. Implementación de funciones booleanas"] },
+      { num: "V",  name: "Árboles y lenguajes",                                    horas:  4, subtemas: ["Árboles y árboles etiquetados", "Lenguajes y representación de gramáticas", "Árboles no dirigidos"] },
+      { num: "VI", name: "Problemas de coloración",                                horas:  4, subtemas: ["Problemas combinatorios de coloración"] }
+    ],
+    bibBasicas: [
+      { name: "Gersting, J.L. — Mathematical Structures For Computer Science. 3ª ed. W.H. Freeman, 1993.", caps: ["Lógica formal", "Relaciones", "Funciones", "Álgebras de Boole", "Árboles"] },
+      { name: "Gries, D.; Schneider, F.B. — A Logical Approach to Discrete Math. Springer-Verlag, 1994.", caps: ["Lógica formal y demostraciones", "Recursión"] }
+    ],
+    bibComp: ["Kolman, B.; Busby, R.C. — Estructuras de Matemáticas Discretas para la Computación. Prentice Hall, 1986.", "Graham, R.L.; Knuth, D.E.; Patashnik, O. — Concrete Mathematics. Addison-Wesley, 1989.", "Cormen, T.H. et al. — Introduction to Algorithms. McGraw-Hill, 1990."],
+    subsecuentes: ["Análisis de Algoritmos I", "Gráficas y Juegos"]
+  },
   "Conjuntos y Lógica": {
     temario: [
       { num: "1", name: "Conjuntos",                               horas: 25, subtemas: ["Noción de conjunto y pertenencia", "Operaciones: unión, intersección, diferencia, complemento", "Relaciones de orden: COPO, COTO, COBO, CODO. Lema de Zorn", "Relaciones de equivalencia y conjuntos cociente", "Funciones: inyectivas, suprayectivas, biyectivas", "Cardinalidad. Teorema de Cantor. Conjuntos numerables e innumerables", "Inducción y Recursión. Principio del Buen Orden"] },
