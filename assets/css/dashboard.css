@@ -495,30 +495,16 @@ body {
   animation-delay: 0.08s;
 }
 
-/* Page title — SVG Manim Write */
+/* Page title */
 .dash-page-title {
-  display: block;
-  width: 100%;
-  height: 1.6rem;
-  overflow: visible;
   margin: 0 0 0.05rem;
-}
-
-.dash-write-text {
-  stroke: var(--ink);
-  stroke-width: 0.55;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: transparent;
-  stroke-dasharray: 9999;
-  stroke-dashoffset: 9999;
-  animation: manim-write 1.6s cubic-bezier(0.35, 0, 0.25, 1) 0.3s forwards;
-}
-
-@keyframes manim-write {
-  0%  { stroke-dashoffset: 9999; fill: transparent; }
-  62% { stroke-dashoffset: 0;    fill: transparent; }
-  100%{ stroke-dashoffset: 0;    fill: var(--ink);  }
+  font-family: 'Playfair Display', serif;
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: center;
 }
 
 /* Divider below page title */
