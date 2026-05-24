@@ -519,6 +519,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // offsetTop acumulado: posición absoluta en el documento, no depende del scroll actual
         let absTop = 0, el = card;
         while (el) { absTop += el.offsetTop; el = el.offsetParent; }
+        // Inline styles overridean keyframes: la card es visible de inmediato
+        // y no parpadea cuando se quita highlight-pulse (que reactiva cardSlideIn)
+        card.style.opacity = '1';
+        card.style.transform = 'none';
         card.classList.add('open', 'highlight-pulse');
         setTimeout(() => card.classList.remove('highlight-pulse'), 1600);
         window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
