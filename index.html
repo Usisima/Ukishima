@@ -184,13 +184,14 @@
   pre.style.width      = '100%';
   pre.style.overflowX  = 'hidden';
 
-  // Size to the available height between header and bottom nav
-  const lineH   = fsPx * 1.6;
-  const headerEl = document.querySelector('.header');
-  const navEl    = document.querySelector('.bottom-nav');
-  const wrapH    = window.innerHeight
-                 - (headerEl ? headerEl.offsetHeight : 0)
-                 - (navEl    ? navEl.offsetHeight    : 0);
+  // Size to the available height — read directly from the container element
+  // so it matches exactly what CSS flex assigned (avoids window.innerHeight mismatches)
+  const lineH       = fsPx * 1.6;
+  const containerEl = pre.closest('.bh-container');
+  const wrapH       = containerEl ? containerEl.offsetHeight
+                    : window.innerHeight
+                      - (document.querySelector('.header')?.offsetHeight ?? 0)
+                      - (document.querySelector('.bottom-nav')?.offsetHeight ?? 0);
   const ROWS   = Math.max(Math.ceil(wrapH / lineH), 20);
 
   const CX = COLS >> 1;
