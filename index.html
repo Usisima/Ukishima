@@ -225,10 +225,10 @@
 
   // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue }
   const RINGS  = [
-    { rc: 0.24,  w: 0.090, hue: 315, off: 0.7 },  // rosa-lavanda interior
-    { rc: 0.455, w: 0.085, hue: 275, off: 2.4 },  // violeta-lavanda
-    { rc: 0.645, w: 0.060, hue: 225, off: 4.0 },  // azul medio
-    { rc: 0.880, w: 0.060, hue: 195, off: 5.6 },  // azul cian exterior
+    { rc: 0.24,  w: 0.090, hue: 333, off: 0.7 },  // #e20c75 esfera interna
+    { rc: 0.455, w: 0.085, hue: 320, off: 2.4 },  // #c74d97 anillo interior
+    { rc: 0.645, w: 0.060, hue: 260, off: 4.0 },  // transicion purpura→cian
+    { rc: 0.880, w: 0.060, hue: 189, off: 5.6 },  // #0ad3fa anillo exterior
   ];
   const BASE_RC = 0.45;
 
@@ -426,11 +426,11 @@
           ch = lv(ringB);
           const l = Math.round((30 + ringT * 32) / 5) * 5;
           const s = Math.round((90 - ringT * 40) / 10) * 10;
-          color = `hsl(280,${s}%,${l}%)`;
+          color = `hsl(320,${s}%,${l}%)`;
         } else if (showScatter) {
           ch = lv(scatterB * 0.44);
           const sl = Math.round((12 + scatterB * 28) / 5) * 5;
-          color = `hsl(200,75%,${sl}%)`;
+          color = `hsl(189,95%,${sl}%)`;
         }
         // void & non-disc cells → space (transparent, page bg shows through)
 
