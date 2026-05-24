@@ -719,15 +719,6 @@ body {
   --bh-cy: 35%;
 }
 
-#bh-art.bh-on {
-  animation: bh-power-on 1.5s cubic-bezier(0.215, 0.610, 0.355, 1) both;
-}
-
-@keyframes bh-power-on {
-  0%   { opacity: 0;    clip-path: circle(0%   at 50% var(--bh-cy)); }
-  45%  { opacity: 0.5; clip-path: circle(8%   at 50% var(--bh-cy)); }
-  100% { opacity: 1;    clip-path: circle(160% at 50% var(--bh-cy)); }
-}
 
 .bh-art {
   font-family: 'DM Mono', monospace;
