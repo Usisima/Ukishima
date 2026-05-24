@@ -112,6 +112,22 @@ function filterBookNotes(q) {
   });
 }
 
+/* ── SORT LIBRARY BY SEMESTER ORDER ──────────── */
+(function() {
+  const ORDER = [
+    'algebra_superior_1','calculo_1','geo_analitica_1',
+    'algebra_superior_2','calculo_2','geo_analitica_2',
+    'algebra_lineal_1','calculo_3',
+    'algebra_lineal_2','calculo_4',
+    'ecuaciones_diferenciales_1','algebra_moderna_1','analisis_matematico_1',
+    'variable_compleja_1','analisis_matematico_2',
+  ];
+  LIBRARY.sort((a, b) => {
+    const ai = ORDER.indexOf(a.matId), bi = ORDER.indexOf(b.matId);
+    return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
+  });
+})();
+
 /* ── RENDER ───────────────────────────────────── */
 const R = {
 
@@ -484,9 +500,9 @@ const Disc = {
   rot:    0,
   isOpen: false,
   mode:   'book',  // 'book' | 'home'
-  R:      480,
-  LEDGE:  330,
-  STEP:   0.11,
+  R:      580,
+  LEDGE:  430,
+  STEP:   0.14,
   SPEED:  4.5,
 
   reset() { this.secs = []; this.rot = 0; },
@@ -537,7 +553,7 @@ const Disc = {
     const buf = [];
 
     // ── Selector needle ─────────────────────────────────────────
-    const armLen = 92; // tip aligns with ante-penultimate ring (r=458, LEDGE=330): 458-330-36=92
+    const armLen = R - L - 36; // needle tip reaches center-item position
     buf.push(
       `<div style="position:absolute;right:36px;top:${(cy - 0.5).toFixed(0)}px;` +
       `width:${armLen}px;height:1px;` +
