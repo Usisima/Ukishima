@@ -101,7 +101,7 @@ function rerenderOptSlot(semNum, slotIdx) {
 // ==================== DISC SCRUBBER (temarios) ====================
 const TemDisc = {
   secs: [], rot: 0, isOpen: false,
-  R: 480, LEDGE: 330, STEP: 0.11, SPEED: 4.5,
+  R: 580, LEDGE: 430, STEP: 0.11, SPEED: 4.5,
 
   reset() { this.secs = []; this.rot = 0; },
 
@@ -115,18 +115,18 @@ const TemDisc = {
         bloqEl.querySelectorAll('.card').forEach(card => {
           const name = card.querySelector('.card-name')?.textContent.trim() || '';
           const target = card.querySelector('.card-head') || card;
-          this.secs.push({ label: name.length > 24 ? name.slice(0, 23) + '…' : name, el: target, isCh: false });
+          this.secs.push({ label: name.length > 40 ? name.slice(0, 39) + '…' : name, el: target, isCh: false });
         });
       });
     } else {
       document.querySelectorAll('.semester').forEach(semEl => {
         const headEl = semEl.querySelector('.sem-header');
         const raw = headEl?.querySelector('.sem-title')?.textContent.trim() || '';
-        this.secs.push({ label: raw.length > 26 ? raw.slice(0, 25) + '…' : raw, el: headEl, isCh: true });
+        this.secs.push({ label: raw.length > 40 ? raw.slice(0, 39) + '…' : raw, el: headEl, isCh: true });
         semEl.querySelectorAll('.card').forEach(card => {
           const name = card.querySelector('.card-name')?.textContent.trim() || '';
           const target = card.querySelector('.card-head') || card;
-          this.secs.push({ label: name.length > 24 ? name.slice(0, 23) + '…' : name, el: target, isCh: false });
+          this.secs.push({ label: name.length > 40 ? name.slice(0, 39) + '…' : name, el: target, isCh: false });
         });
       });
     }
@@ -145,7 +145,7 @@ const TemDisc = {
     const buf = [];
 
     // ── Selector needle ─────────────────────────────────────────
-    const armLen = 92; // tip aligns with ante-penultimate ring (r=458, LEDGE=330): 458-330-36=92
+    const armLen = R - L - 36; // needle tip reaches center-item position
     buf.push(
       `<div style="position:absolute;right:36px;top:${(cy - 0.5).toFixed(0)}px;` +
       `width:${armLen}px;height:1px;` +
