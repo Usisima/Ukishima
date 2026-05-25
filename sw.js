@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v131';
+const CACHE = 'ukishima-v132';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -21,6 +21,7 @@ const SHELL = [
   './assets/js/ui.js',
   './assets/js/main.js',
   './assets/js/libros-data.js',
+  './assets/js/notas-data.js',
   './assets/js/libros.js',
   // Fonts (local)
   './assets/fonts/google-fonts.css',

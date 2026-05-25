@@ -79,6 +79,22 @@ function renderKatex(el) {
   } catch(e) { /* silent */ }
 }
 
+/* ── GROUP TRANSCRIPTION NOTES INTO CHAPTERS ─── */
+function groupTranscNotes(notes) {
+  const groups = [];
+  let cur = null;
+  for (const n of notes) {
+    if (n.type === 'chapter') {
+      cur = { num: n.num != null ? n.num : '', title: n.title || '', notes: [] };
+      groups.push(cur);
+    } else {
+      if (!cur) { cur = { num: '', title: '', notes: [] }; groups.push(cur); }
+      cur.notes.push(n);
+    }
+  }
+  return groups;
+}
+
 /* ── FIND NOTE BY KEY ─────────────────────────── */
 function findNote(nkey) {
   const m = nkey.match(/^(.+)_ch(\d+)_n(\d+)$/);
@@ -86,10 +102,35 @@ function findNote(nkey) {
   const [, bookId, ci, ni] = m;
   const found = findBook(bookId);
   if (!found) return null;
-  const ch = found.book.chapters?.[+ci];
+
+  // 1. chapters[] — sistema legacy (Apostol, etc.)
+  const ch   = found.book.chapters?.[+ci];
   const note = ch?.notes?.[+ni];
-  if (!note) return null;
-  return { note, book: found.book, subject: found.subject, color: found.color, chTitle: ch.title };
+  if (note && note.type !== 'sublabel') {
+    return { note, book: found.book, subject: found.subject, color: found.color, chTitle: ch.title };
+  }
+
+  // 2. NOTAS_BOOK_DATA — sistema de transcripción
+  const tnotes = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[bookId] : null;
+  if (tnotes?.length) {
+    const groups = groupTranscNotes(tnotes);
+    const tch    = groups[+ci];
+    const tn     = tch?.notes[+ni];
+    if (tn && tn.type !== 'sublabel') {
+      return {
+        note: {
+          label: tn.label || [tn.numero, tn.titulo].filter(Boolean).join(' · ') || '—',
+          tex:   tn.tex || tn.contenido || '',
+          type:  tn.type || 'def',
+          tipo:  tn.tipo,
+          dem:   tn.dem || null,
+        },
+        book: found.book, subject: found.subject, color: found.color,
+        chTitle: tch.title || '',
+      };
+    }
+  }
+  return null;
 }
 
 /* ── IN-BOOK SEARCH FILTER ────────────────────── */
@@ -173,6 +214,58 @@ const R = {
     main.innerHTML = html;
   },
 
+  /* ── TRANSCRIPTION NOTES — renderizador principal ── */
+  _renderTranscChapters(bookId, notes) {
+    const groups = groupTranscNotes(notes);
+    let di = 0;
+    return groups.map((ch, ci) => {
+      const key = `${bookId}_ch${ci}`;
+      const notesHtml = ch.notes.map((note, ni) => {
+        if (note.type === 'sublabel') {
+          return `<div class="note-sublabel"><span>${esc(note.label || '')}</span></div>`;
+        }
+        const nkey     = `${key}_n${ni}`;
+        const nfaved   = isFavNote(nkey) ? 'faved' : '';
+        const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
+        const imgN     = (di % DISC_TOTAL) + 1; di++;
+        // soporta label (Apostol) o numero/titulo (Arizmendi, etc.)
+        const label    = note.label
+          || [note.numero, note.titulo].filter(Boolean).join(' · ')
+          || '—';
+        // soporta tipo explícito o NOTE_LABELS
+        const badge    = note.tipo || NOTE_LABELS[note.type] || note.type || '';
+        // soporta .tex (Apostol) o .contenido (Arizmendi, etc.)
+        const texContent = note.tex || note.contenido || '';
+        const hasDem   = !!note.dem;
+        const chevron  = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
+        const favStop  = hasDem ? 'event.stopPropagation();' : '';
+        const demSec   = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${esc(note.dem)}</div></div>` : '';
+        return `
+        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type || 'def')}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
+          <div class="note-header">
+            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt="" loading="lazy" decoding="async"></div>
+            <div class="note-meta">
+              <div class="note-label">${esc(label)}</div>
+              <div class="note-type-badge">${esc(badge)}${chevron}</div>
+            </div>
+            <button class="note-fav-btn ${nfaved}" onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)" aria-label="Guardar nota">${nfavIcon}</button>
+          </div>
+          <div class="note-tex">${esc(texContent)}</div>
+          ${demSec}
+        </div>`;
+      }).join('');
+
+      const headHtml = ch.title
+        ? `<div class="chapter-head"><span class="chapter-num">${esc(String(ch.num))}</span><span class="chapter-title">${esc(ch.title)}</span></div>`
+        : '';
+      return `
+      <div class="chapter-item" data-ch-key="${esc(key)}">
+        ${headHtml}
+        <div class="chapter-body" id="chbody-${esc(key)}">${notesHtml}</div>
+      </div>`;
+    }).join('');
+  },
+
   _bookCard(b, color, idx = 0) {
     const faved = isFavBook(b.id) ? 'faved' : '';
     const favIcon = isFavBook(b.id) ? '♥' : '♡';
@@ -200,8 +293,13 @@ const R = {
 
     document.getElementById('header-title').textContent = b.title;
 
+    const _tnotes    = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[b.id] : null;
+    const _useTransc = !!(_tnotes && _tnotes.length);
+
     let discIdx = 0;
-    const chaptersHtml = (b.chapters || []).map((ch, ci) => {
+    const chaptersHtml = _useTransc
+      ? R._renderTranscChapters(b.id, _tnotes)
+      : (b.chapters || []).map((ch, ci) => {
       const key = `${b.id}_ch${ci}`;
       const notesHtml = ch.notes.map((note, ni) => {
         if (note.type === 'sublabel') {
@@ -432,7 +530,7 @@ const R = {
           <div class="note-header">
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
-              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}${chevron}</div>
+              <div class="note-type-badge">${esc(note.tipo || NOTE_LABELS[note.type] || note.type)}${chevron}</div>
               <div class="fav-note-source" onclick="event.stopPropagation();Nav.go('book','${esc(b.id)}')">${esc(b.title)}</div>
             </div>
             <button class="note-fav-btn faved"

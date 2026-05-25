@@ -613,6 +613,11 @@ body {
   padding-bottom: 0.5rem;
 }
 
+/* ── TRANSCRIPTION NOTES SECTION ─────────────── */
+.tex-notas-section {
+  margin-top: 1.75rem;
+}
+
 /* ── PDF BUTTON ──────────────────────────────── */
 .btn-pdf {
   display: inline-flex;

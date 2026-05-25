@@ -412,58 +412,59 @@ body {
 
 /* ==================== TEMA ITEMS ==================== */
 .tema-item {
-  border: 1px solid var(--border);
-  border-radius: var(--r2);
-  overflow: hidden;
-  margin-bottom: 0.65rem;
-  background: rgba(255, 255, 255, 0.018);
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tema-item:last-child {
+  border-bottom: none;
 }
 
 .tema-head {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.75rem 0.9rem;
+  gap: 0.75rem;
+  padding: 0;
   cursor: default;
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
 }
 
 .tema-item.done .tema-head {
   cursor: pointer;
-  background: rgba(91, 191, 181, 0.04);
+  background: transparent;
 }
 
 .tema-head-left {
   flex: 1;
   display: flex;
-  gap: 0.6rem;
-  align-items: center;
+  gap: 0.65rem;
+  align-items: baseline;
+  padding-right: 0;
 }
 
 .tema-num {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
-  background: rgba(155, 191, 181, 0.12);
-  border: 1px solid rgba(155, 191, 181, 0.25);
-  padding: 2px 7px;
-  border-radius: 6px;
-  color: var(--gold);
+  color: var(--ink3);
   flex-shrink: 0;
-  letter-spacing: 0.05em;
+  min-width: 18px;
+  text-align: right;
+  letter-spacing: 0.03em;
+  opacity: 0.7;
 }
 
 .tema-name {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--ink);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .tema-meta {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-shrink: 0;
 }
 
@@ -472,11 +473,12 @@ body {
   font-size: 9px;
   color: var(--ink3);
   white-space: nowrap;
+  opacity: 0.55;
 }
 
 .tema-chev {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   color: var(--ink3);
   transition: transform 0.2s, opacity 0.2s;
   flex-shrink: 0;
@@ -485,7 +487,7 @@ body {
 }
 
 .tema-item.done .tema-chev {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .tema-item.done.collapsed .tema-chev {
@@ -493,10 +495,10 @@ body {
 }
 
 .tema-checkbox {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  border: 2px solid var(--border2);
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border2);
   background: transparent;
   cursor: pointer;
   appearance: none;
@@ -513,13 +515,13 @@ body {
 .tema-checkbox:checked::after {
   content: '';
   position: absolute;
-  width: 5px;
-  height: 9px;
-  border: 2px solid #000;
+  width: 4px;
+  height: 7px;
+  border: 1.5px solid #000;
   border-top: none;
   border-left: none;
   transform: rotate(45deg);
-  left: 5px;
+  left: 4px;
   top: 1px;
 }
 
@@ -532,6 +534,7 @@ body {
 .tema-subtemas {
   overflow: hidden;
   max-height: 9999px;
+  margin-top: 0.18rem;
   transition: max-height 0.35s cubic-bezier(0.2, 1, 0.4, 1);
 }
 
@@ -540,21 +543,22 @@ body {
 }
 
 .subtema {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--ink3);
-  padding: 0.5rem 0.9rem;
-  border-top: 1px solid var(--border);
-  line-height: 1.55;
+  padding: 0.28rem 1rem 0 1.5rem;
+  line-height: 1.6;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  opacity: 0.75;
 }
 
 .subtema::before {
-  content: "›";
+  content: "–";
   color: var(--gold);
   flex-shrink: 0;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 11px;
+  line-height: 1.7;
+  opacity: 0.5;
 }
 
 /* ==================== BIBLIOGRAFÍA ==================== */
