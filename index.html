@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="assets/css/dashboard.css">
   <link rel="prefetch" href="temarios.html">
   <link rel="prefetch" href="libros.html">
-  <link rel="preload" as="script" href="assets/js/data.js">
+  <link rel="preload" as="script" href="assets/js/data/data.js">
   <script type="speculationrules">
     {"prerender":[{"source":"list","urls":["temarios.html","libros.html"]}]}
   </script>
@@ -109,8 +109,8 @@
   </a>
 </nav>
 
-<script src="assets/js/page-transitions.js"></script>
-<script src="assets/js/stars-bg.js"></script>
+<script src="assets/js/shared/page-transitions.js"></script>
+<script src="assets/js/shared/stars-bg.js"></script>
 <script>
 (function () {
   if (!window.STANDALONE_GATE) return;
@@ -127,8 +127,8 @@
   }
 })();
 </script>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/state.js"></script>
+<script src="assets/js/data/data.js"></script>
+<script src="assets/js/temarios/state.js"></script>
 <script>
 (function () {
   if (window.STANDALONE_GATE && !(window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone)) return;

@@ -18,7 +18,6 @@ const S = {
   bookId: null,
   noteKey: null,          // deep-link: scroll to this note after rendering
   bookQuery: '',          // in-book search query
-  openChapters: new Set(),
   favBooks: loadSet(SK_FAVBOOKS),
   favNotes: loadSet(SK_FAVNOTES),
   recent: loadArr(SK_RECENT),

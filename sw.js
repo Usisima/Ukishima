@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v134';
+const CACHE = 'ukishima-v135';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -14,15 +14,15 @@ const SHELL = [
   './assets/css/temarios.css',
   './assets/css/libros.css',
   './assets/css/calendario.css',
-  './assets/js/page-transitions.js',
-  './assets/js/stars-bg.js',
-  './assets/js/data.js',
-  './assets/js/state.js',
-  './assets/js/ui.js',
-  './assets/js/main.js',
-  './assets/js/libros-data.js',
-  './assets/js/notas-data.js',
-  './assets/js/libros.js',
+  './assets/js/shared/page-transitions.js',
+  './assets/js/shared/stars-bg.js',
+  './assets/js/data/data.js',
+  './assets/js/data/notas-data.js',
+  './assets/js/data/libros-data.js',
+  './assets/js/temarios/state.js',
+  './assets/js/temarios/ui.js',
+  './assets/js/temarios/main.js',
+  './assets/js/libros/libros.js',
   // Fonts (local)
   './assets/fonts/google-fonts.css',
   './assets/fonts/katex.min.css',
