@@ -1,0 +1,123 @@
+% BookID: as1_b1
+% Libro: Álgebra Superior
+% Autor: Cárdenas, Lluis, Raggi & Tomás
+% Edición: Porrúa, 2004
+
+\section{Capítulo I: Preludio}
+
+\subsection{Relaciones de equivalencia}
+
+\begin{definicion}[1.5]{}
+Una relación binaria en un conjunto $A$ es un subconjunto $R \subseteq A \times A$. Escribimos $a \mathrel{R} b$ si $(a,b) \in R$.
+\end{definicion}
+
+\begin{definicion}[1.2]{Relación de equivalencia}
+Una relación $\sim$ en $A$ es de equivalencia si es reflexiva ($a \sim a$), simétrica ($a \sim b \Rightarrow b \sim a$) y transitiva ($a \sim b,\ b \sim c \Rightarrow a \sim c$).
+\end{definicion}
+
+\begin{definicion}[1.3]{Clase de equivalencia}
+La clase de equivalencia de $a \in A$ es $[a] = \{x \in A : x \sim a\}$. El conjunto cociente es $A/{\sim}\ = \{[a] : a \in A\}$.
+\end{definicion}
+
+\begin{teorema}[1.1]{Partición inducida}
+Si $\sim$ es una relación de equivalencia en $A$, las clases de equivalencia forman una partición de $A$: son no vacías, disjuntas dos a dos, y su unión es $A$.
+\end{teorema}
+\begin{proof}
+Cada $a$ pertenece a $[a]$ (reflexividad), luego las clases son no vacías y cubren $A$. Si $[a] \cap [b] \neq \emptyset$ existe $c$ con $c \sim a$ y $c \sim b$; por simetría $a \sim c$, y por transitividad $a \sim b$, lo que da $[a] = [b]$. $\blacksquare$
+\end{proof}
+
+\subsection{Funciones}
+
+\begin{definicion}[1.4]{Función}
+Una función $f : A \to B$ es una relación $f \subseteq A \times B$ tal que para todo $a \in A$ existe un único $b \in B$ con $(a,b) \in f$. Se escribe $f(a) = b$.
+\end{definicion}
+
+\begin{definicion}[1.5]{Inyectiva, suprayectiva, biyectiva}
+$f : A \to B$ es inyectiva si $f(a) = f(a') \Rightarrow a = a'$; suprayectiva si $f(A) = B$; biyectiva si es ambas.
+\end{definicion}
+
+\section{Capítulo II: Los Números Enteros}
+
+\subsection{Divisibilidad}
+
+\begin{definicion}[2.1]{Divisibilidad}
+Sean $a, b \in \mathbb{Z}$ con $b \neq 0$. Decimos que $b$ divide a $a$, escrito $b \mid a$, si existe $q \in \mathbb{Z}$ tal que $a = bq$.
+\end{definicion}
+
+\begin{teorema}[2.1]{Algoritmo de la división}
+Dados $a \in \mathbb{Z}$ y $b \in \mathbb{Z}^+$, existen únicos $q, r \in \mathbb{Z}$ con $0 \leq r < b$ tales que $a = bq + r$.
+\end{teorema}
+
+\begin{definicion}[2.2]{Máximo común divisor}
+El máximo común divisor de $a, b \in \mathbb{Z}$ (no ambos cero) es el único entero positivo $d = \gcd(a,b)$ tal que $d \mid a$, $d \mid b$, y si $c \mid a$ y $c \mid b$ entonces $c \mid d$.
+\end{definicion}
+
+\begin{teorema}[2.2]{Identidad de Bézout}
+Para todo $a, b \in \mathbb{Z}$ no ambos cero, existen $s, t \in \mathbb{Z}$ tales que $as + bt = \gcd(a,b)$.
+\end{teorema}
+\begin{proof}
+Sea $d$ el menor elemento positivo del conjunto $S = \{as + bt : s,t \in \mathbb{Z}\}$. Por división euclidiana, $d \mid a$ y $d \mid b$. Cualquier divisor común $c$ de $a$ y $b$ divide a $as + bt = d$, luego $d = \gcd(a,b)$. $\blacksquare$
+\end{proof}
+
+\begin{corolario}[2.1]{}
+$\gcd(a,b) = 1$ si y solo si existen $s,t \in \mathbb{Z}$ con $as + bt = 1$.
+\end{corolario}
+
+\begin{teorema}[2.3]{Lema de Euclides}
+Si $p$ es primo y $p \mid ab$, entonces $p \mid a$ o $p \mid b$.
+\end{teorema}
+\begin{proof}
+Si $p \nmid a$ entonces $\gcd(p,a) = 1$; por Bézout existen $s,t$ con $ps + at = 1$. Multiplicando por $b$: $pbs + abt = b$. Como $p \mid pbs$ y $p \mid abt = ab\,t$, se tiene $p \mid b$. $\blacksquare$
+\end{proof}
+
+\section{Capítulo IV: Estructuras Algebraicas}
+
+\subsection{Grupos}
+
+\begin{definicion}[4.1]{Grupo}
+Un grupo es un par $(G, \cdot)$ donde $G \neq \emptyset$ y $\cdot : G \times G \to G$ satisface:
+(G1) Asociatividad: $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
+(G2) Neutro: existe $e \in G$ con $e \cdot a = a \cdot e = a$ para todo $a$.
+(G3) Inversos: para todo $a \in G$ existe $a^{-1}$ con $a \cdot a^{-1} = a^{-1} \cdot a = e$.
+Si además $a \cdot b = b \cdot a$ el grupo es abeliano.
+\end{definicion}
+
+\begin{proposicion}[4.1]{Unicidad del neutro e inversos}
+En un grupo, el elemento neutro es único y cada elemento tiene un único inverso.
+\end{proposicion}
+\begin{proof}
+Si $e, e'$ son neutros: $e = e \cdot e' = e'$. Si $a', a''$ son inversos de $a$: $a' = a'(a\,a'') = (a'a)\,a'' = a''$. $\blacksquare$
+\end{proof}
+
+\begin{definicion}[4.2]{Subgrupo}
+$H \subseteq G$ es subgrupo de $G$, escrito $H \leq G$, si $H$ con la operación de $G$ es grupo.
+\end{definicion}
+
+\begin{teorema}[4.1]{Criterio de subgrupo}
+$H \leq G$ si y solo si $H \neq \emptyset$ y para todo $a,b \in H$ se tiene $ab^{-1} \in H$.
+\end{teorema}
+\begin{proof}
+($\Rightarrow$) Inmediato por definición. ($\Leftarrow$) Tomando $a = b$ se obtiene $e \in H$. Con $a = e$: $eb^{-1} = b^{-1} \in H$. Con $b$ reemplazado por $b^{-1}$: $a(b^{-1})^{-1} = ab \in H$. $\blacksquare$
+\end{proof}
+
+\begin{teorema}[4.2]{Teorema de Lagrange}
+Si $G$ es un grupo finito y $H \leq G$, entonces $|H|$ divide a $|G|$ y $[G:H] = |G|/|H|$.
+\end{teorema}
+\begin{proof}
+Las coclases izquierdas $aH = \{ah : h \in H\}$ particionan $G$ y todas tienen cardinalidad $|H|$. Si hay $k$ coclases distintas, entonces $|G| = k|H|$. $\blacksquare$
+\end{proof}
+
+\subsection{Homomorfismos}
+
+\begin{definicion}[4.3]{Homomorfismo}
+Una función $\phi : G \to G'$ entre grupos es homomorfismo si $\phi(ab) = \phi(a)\phi(b)$ para todo $a,b \in G$. Es isomorfismo si además es biyectiva.
+\end{definicion}
+
+\begin{definicion}[4.4]{Núcleo e imagen}
+El núcleo de $\phi$ es $\ker\phi = \{g \in G : \phi(g) = e'\}$ y la imagen es $\mathrm{Im}\,\phi = \phi(G)$.
+\end{definicion}
+
+\begin{proposicion}[4.2]{}
+$\ker\phi \trianglelefteq G$ (subgrupo normal) y $\phi$ es inyectiva si y solo si $\ker\phi = \{e\}$.
+\end{proposicion}
+

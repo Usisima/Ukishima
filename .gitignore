@@ -1,2 +1,4 @@
-# Archivos de texto/transcripciones , no subir a GitHub
-texto/
+# Archivos auxiliares dentro de texto/ — no subir a GitHub
+texto/*
+# Excepto los archivos de notas (.tex) — la app los necesita
+!texto/*.tex
