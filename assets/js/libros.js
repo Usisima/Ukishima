@@ -133,9 +133,12 @@ function findNote(nkey) {
   return null;
 }
 
+/* ── NORMALIZE: accent-insensitive, case-insensitive ── */
+const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
 /* ── IN-BOOK SEARCH FILTER ────────────────────── */
 function filterBookNotes(q) {
-  const lq = q.trim().toLowerCase();
+  const lq = norm(q.trim());
   document.querySelectorAll('.chapter-item').forEach(chEl => {
     let anyVisible = false;
     chEl.querySelectorAll('.note-item, .note-sublabel').forEach(el => {
@@ -143,8 +146,8 @@ function filterBookNotes(q) {
         el.style.display = lq ? 'none' : '';
         return;
       }
-      const label = (el.querySelector('.note-label')?.textContent || '').toLowerCase();
-      const tex   = (el.querySelector('.note-tex')?.textContent   || '').toLowerCase();
+      const label = norm(el.querySelector('.note-label')?.textContent);
+      const tex   = norm(el.querySelector('.note-tex')?.textContent);
       const match = !lq || label.includes(lq) || tex.includes(lq);
       el.style.display = match ? '' : 'none';
       if (match) anyVisible = true;
@@ -377,7 +380,7 @@ const R = {
 
         <div class="book-search-row">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
-          <input class="book-search-input" type="text" placeholder="Buscar en este libro…" autocomplete="off" spellcheck="false" value="${esc(S.bookQuery)}">
+          <input class="book-search-input" type="search" placeholder="Buscar en este libro…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-form-type="other" data-lpignore="true" data-1p-ignore value="${esc(S.bookQuery)}">
           <button class="book-search-clear" style="display:${S.bookQuery ? 'flex' : 'none'}" aria-label="Limpiar">
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
@@ -399,7 +402,7 @@ const R = {
   search() {
     document.getElementById('header-title').textContent = 'Bibliografía';
     const main = document.getElementById('lib-main');
-    const q = S.query.trim().toLowerCase();
+    const q = norm(S.query.trim());
     if (!q) {
       const allBooks = LIBRARY.flatMap(subj =>
         subj.books.map(b => ({ book: b, subject: subj.subject, color: subj.color }))
@@ -425,18 +428,38 @@ const R = {
 
     for (const subj of LIBRARY) {
       for (const b of subj.books) {
-        if (b.title.toLowerCase().includes(q) ||
-            b.author.toLowerCase().includes(q) ||
-            subj.subject.toLowerCase().includes(q)) {
+        if (norm(b.title).includes(q) ||
+            norm(b.author).includes(q) ||
+            norm(subj.subject).includes(q)) {
           bookResults.push({ book: b, subject: subj.subject, color: subj.color });
         }
+        // Search legacy chapters[]
         for (const [ci, ch] of (b.chapters || []).entries()) {
           for (const [ni, note] of (ch.notes || []).entries()) {
             if (note.type === 'sublabel') continue;
-            if ((note.label || '').toLowerCase().includes(q) ||
-                (note.tex  || '').toLowerCase().includes(q)) {
+            if (norm(note.label || '').includes(q) ||
+                norm(note.tex   || '').includes(q)) {
               const nkey = `${b.id}_ch${ci}_n${ni}`;
               noteResults.push({ note, nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
+            }
+          }
+        }
+        // Search NOTAS_BOOK_DATA (transcription-primary system)
+        const tnotes = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[b.id] : null;
+        if (tnotes?.length) {
+          const groups = groupTranscNotes(tnotes);
+          for (const [ci, ch] of groups.entries()) {
+            for (const [ni, note] of ch.notes.entries()) {
+              if (note.type === 'sublabel') continue;
+              const nlabel = note.label || [note.numero, note.titulo].filter(Boolean).join(' · ') || '';
+              const ntex   = note.tex || note.contenido || '';
+              if (norm(nlabel).includes(q) || norm(ntex).includes(q)) {
+                const nkey = `${b.id}_ch${ci}_n${ni}`;
+                noteResults.push({
+                  note: { label: nlabel, tex: ntex, type: note.type || 'def', tipo: note.tipo },
+                  nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title
+                });
+              }
             }
           }
         }
