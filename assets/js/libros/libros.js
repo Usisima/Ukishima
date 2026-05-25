@@ -26,8 +26,9 @@ const S = {
 
 /* ── NOTE TYPE LABELS ─────────────────────────── */
 const NOTE_LABELS = {
-  def: 'Definición', teo: 'Teorema', cor: 'Corolario',
-  dem: 'Demostración', eje: 'Ejemplo', obs: 'Observación',
+  def:  'Definición',  teo: 'Teorema',     cor:  'Corolario',
+  lem:  'Lema',        prop: 'Proposición', axi:  'Axioma',
+  alg:  'Algoritmo',   eje: 'Ejemplo',     obs:  'Observación',
 };
 
 const DISC_TOTAL = 52; // d1.jpg … d52.jpg
@@ -78,20 +79,139 @@ function renderKatex(el) {
   } catch(e) { /* silent */ }
 }
 
-/* ── GROUP TRANSCRIPTION NOTES INTO CHAPTERS ─── */
-function groupTranscNotes(notes) {
-  const groups = [];
-  let cur = null;
-  for (const n of notes) {
-    if (n.type === 'chapter') {
-      cur = { num: n.num != null ? n.num : '', title: n.title || '', notes: [] };
-      groups.push(cur);
-    } else {
-      if (!cur) { cur = { num: '', title: '', notes: [] }; groups.push(cur); }
-      cur.notes.push(n);
+/* ── TEX PARSER ────────────────────────────────── */
+const _TEX_ENV = {
+  definicion:  { t: 'def',  label: 'Definición'  },
+  teorema:     { t: 'teo',  label: 'Teorema'      },
+  lema:        { t: 'lem',  label: 'Lema'         },
+  corolario:   { t: 'cor',  label: 'Corolario'    },
+  proposicion: { t: 'prop', label: 'Proposición'  },
+  nota:        { t: 'obs',  label: 'Nota'         },
+  observacion: { t: 'obs',  label: 'Observación'  },
+  ejemplo:     { t: 'eje',  label: 'Ejemplo'      },
+  axioma:      { t: 'axi',  label: 'Axioma'       },
+  algoritmo:   { t: 'alg',  label: 'Algoritmo'    },
+  definition:  { t: 'def',  label: 'Definition'   },
+  theorem:     { t: 'teo',  label: 'Theorem'      },
+  lemma:       { t: 'lem',  label: 'Lemma'        },
+  corollary:   { t: 'cor',  label: 'Corollary'    },
+  proposition: { t: 'prop', label: 'Proposition'  },
+  remark:      { t: 'obs',  label: 'Remark'       },
+  example:     { t: 'eje',  label: 'Example'      },
+  axiom:       { t: 'axi',  label: 'Axiom'        },
+};
+
+const _SKIP_PFXS = [
+  '\\documentclass', '\\usepackage', '\\newtheorem', '\\theoremstyle',
+  '\\setcounter', '\\title{', '\\author{', '\\date{', '\\maketitle',
+  '\\tableofcontents',
+];
+
+function parseTeX(text) {
+  const RE_SECT = /^\\(?:chapter|section)\*?\{(.+)\}/;
+  const RE_SUB  = /^\\subsection\*?\{(.+)\}/;
+  const RE_BEG  = /^\\begin\{(\w+)\}(?:\[([^\]]*)\])?(?:\{([^}]*)\})?/;
+  const RE_END  = /^\\end\{(\w+)\}/;
+
+  const groups = [];           // [{title, notes:[...]}]
+  let cur      = null;         // current group
+  let inEnv    = null;         // {name, num, title, lines:[]}
+  let inProof  = false;
+  let prfLines = [];
+  let lastNote = null;         // last real note (for proof attachment)
+
+  function newGroup(title) {
+    cur = { title, notes: [] };
+    groups.push(cur);
+    lastNote = null;
+  }
+
+  function pushNote(item) {
+    if (!cur) newGroup('');
+    cur.notes.push(item);
+    if (item.type !== 'sublabel') lastNote = item;
+  }
+
+  function flushEnv() {
+    if (!inEnv) return;
+    const map = _TEX_ENV[inEnv.name];
+    if (map) {
+      const num = inEnv.num || '';
+      const tit = inEnv.title || '';
+      const item = {
+        type:   map.t,
+        tipo:   map.label,
+        label:  [num, tit].filter(Boolean).join(' · ') || map.label,
+        numero: num, titulo: tit,
+        tex:    inEnv.lines.join('\n').trim(),
+        dem:    null,
+      };
+      pushNote(item);
+    }
+    inEnv = null;
+  }
+
+  function flushProof() {
+    const content = prfLines.join('\n').trim();
+    if (lastNote && content) lastNote.dem = content;
+    inProof = false; prfLines = [];
+  }
+
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (line.startsWith('%')) continue;
+    if (_SKIP_PFXS.some(p => line.startsWith(p))) continue;
+
+    if (inEnv) {
+      const em = line.match(RE_END);
+      if (em && em[1].toLowerCase() === inEnv.name) { flushEnv(); continue; }
+      inEnv.lines.push(rawLine);
+      continue;
+    }
+
+    if (inProof) {
+      const em = line.match(RE_END);
+      if (em && (em[1] === 'proof' || em[1] === 'demostracion')) { flushProof(); continue; }
+      prfLines.push(rawLine);
+      continue;
+    }
+
+    const sm = line.match(RE_SECT);
+    if (sm) { newGroup(sm[1].trim()); continue; }
+
+    const um = line.match(RE_SUB);
+    if (um) { pushNote({ type: 'sublabel', label: um[1].trim() }); continue; }
+
+    const bm = line.match(RE_BEG);
+    if (bm) {
+      const name = bm[1].toLowerCase();
+      if (name === 'proof' || name === 'demostracion') {
+        inProof = true; prfLines = []; continue;
+      }
+      if (_TEX_ENV[name]) {
+        inEnv = { name, num: (bm[2] || '').trim(), title: (bm[3] || '').trim(), lines: [] };
+        continue;
+      }
     }
   }
-  return groups;
+
+  flushEnv();
+  if (inProof) flushProof();
+  return groups.filter(g => g.notes.length > 0);
+}
+
+/* ── TEX FETCH + CACHE ─────────────────────────── */
+const _texCache = {};
+
+async function fetchTexNotes(bookId) {
+  if (bookId in _texCache) return _texCache[bookId];
+  try {
+    const res = await fetch(`./texto/${bookId}.tex`);
+    if (!res.ok) { _texCache[bookId] = null; return null; }
+    const groups = parseTeX(await res.text());
+    _texCache[bookId] = groups.length ? groups : null;
+  } catch { _texCache[bookId] = null; }
+  return _texCache[bookId];
 }
 
 /* ── FIND NOTE BY KEY ─────────────────────────── */
@@ -101,35 +221,15 @@ function findNote(nkey) {
   const [, bookId, ci, ni] = m;
   const found = findBook(bookId);
   if (!found) return null;
-
-  // 1. chapters[] — sistema legacy (Apostol, etc.)
-  const ch   = found.book.chapters?.[+ci];
-  const note = ch?.notes?.[+ni];
-  if (note && note.type !== 'sublabel') {
-    return { note, book: found.book, subject: found.subject, color: found.color, chTitle: ch.title };
-  }
-
-  // 2. NOTAS_BOOK_DATA — sistema de transcripción
-  const tnotes = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[bookId] : null;
-  if (tnotes?.length) {
-    const groups = groupTranscNotes(tnotes);
-    const tch    = groups[+ci];
-    const tn     = tch?.notes[+ni];
-    if (tn && tn.type !== 'sublabel') {
-      return {
-        note: {
-          label: tn.label || [tn.numero, tn.titulo].filter(Boolean).join(' · ') || '—',
-          tex:   tn.tex || tn.contenido || '',
-          type:  tn.type || 'def',
-          tipo:  tn.tipo,
-          dem:   tn.dem || null,
-        },
-        book: found.book, subject: found.subject, color: found.color,
-        chTitle: tch.title || '',
-      };
-    }
-  }
-  return null;
+  const groups = _texCache[bookId];
+  if (!groups) return null;
+  const ch   = groups[+ci];
+  const note = ch?.notes[+ni];
+  if (!note || note.type === 'sublabel') return null;
+  return {
+    note: { label: note.label || '—', tex: note.tex || '', type: note.type, tipo: note.tipo, dem: note.dem || null },
+    book: found.book, subject: found.subject, color: found.color, chTitle: ch.title || '',
+  };
 }
 
 /* ── NORMALIZE: accent-insensitive, case-insensitive ── */
@@ -216,49 +316,41 @@ const R = {
     main.innerHTML = html;
   },
 
-  /* ── TRANSCRIPTION NOTES — renderizador principal ── */
-  _renderTranscChapters(bookId, notes) {
-    const groups = groupTranscNotes(notes);
+  /* ── RENDER CHAPTERS from parsed tex groups ────── */
+  _renderChapters(bookId, groups) {
     let di = 0;
     return groups.map((ch, ci) => {
       const key = `${bookId}_ch${ci}`;
       const notesHtml = ch.notes.map((note, ni) => {
         if (note.type === 'sublabel') {
-          return `<div class="note-sublabel"><span>${esc(note.label || '')}</span></div>`;
+          return `<div class="note-sublabel"><span>${esc(note.label)}</span></div>`;
         }
         const nkey     = `${key}_n${ni}`;
         const nfaved   = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
         const imgN     = (di % DISC_TOTAL) + 1; di++;
-        // soporta label (Apostol) o numero/titulo (Arizmendi, etc.)
-        const label    = note.label
-          || [note.numero, note.titulo].filter(Boolean).join(' · ')
-          || '—';
-        // soporta tipo explícito o NOTE_LABELS
         const badge    = note.tipo || NOTE_LABELS[note.type] || note.type || '';
-        // soporta .tex (Apostol) o .contenido (Arizmendi, etc.)
-        const texContent = note.tex || note.contenido || '';
         const hasDem   = !!note.dem;
         const chevron  = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
         const favStop  = hasDem ? 'event.stopPropagation();' : '';
         const demSec   = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${esc(note.dem)}</div></div>` : '';
         return `
-        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type || 'def')}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
+        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
           <div class="note-header">
             <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt="" loading="lazy" decoding="async"></div>
             <div class="note-meta">
-              <div class="note-label">${esc(label)}</div>
+              <div class="note-label">${esc(note.label)}</div>
               <div class="note-type-badge">${esc(badge)}${chevron}</div>
             </div>
             <button class="note-fav-btn ${nfaved}" onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)" aria-label="Guardar nota">${nfavIcon}</button>
           </div>
-          <div class="note-tex">${esc(texContent)}</div>
+          <div class="note-tex">${esc(note.tex)}</div>
           ${demSec}
         </div>`;
       }).join('');
 
       const headHtml = ch.title
-        ? `<div class="chapter-head"><span class="chapter-num">${esc(String(ch.num))}</span><span class="chapter-title">${esc(ch.title)}</span></div>`
+        ? `<div class="chapter-head"><span class="chapter-title">${esc(ch.title)}</span></div>`
         : '';
       return `
       <div class="chapter-item" data-ch-key="${esc(key)}">
@@ -288,69 +380,17 @@ const R = {
   },
 
   /* ── BOOK DETAIL ────────────────────────────── */
-  book(bookId) {
+  async book(bookId) {
     const found = findBook(bookId);
     if (!found) { Nav.go('home'); return; }
     const { book: b, subject, color } = found;
-
     document.getElementById('header-title').textContent = b.title;
 
-    const _tnotes    = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[b.id] : null;
-    const _useTransc = !!(_tnotes && _tnotes.length);
+    const groups = await fetchTexNotes(b.id);
+    // User navigated away while we were fetching — abort
+    if (S.view !== 'book' || S.bookId !== bookId) return;
 
-    let discIdx = 0;
-    const chaptersHtml = _useTransc
-      ? R._renderTranscChapters(b.id, _tnotes)
-      : (b.chapters || []).map((ch, ci) => {
-      const key = `${b.id}_ch${ci}`;
-      const notesHtml = ch.notes.map((note, ni) => {
-        if (note.type === 'sublabel') {
-          return `<div class="note-sublabel"><span>${esc(note.label)}</span></div>`;
-        }
-        const nkey = `${key}_n${ni}`;
-        const nfaved = isFavNote(nkey) ? 'faved' : '';
-        const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
-        const imgN = (discIdx % DISC_TOTAL) + 1;
-        discIdx++;
-        const hasDem = !!note.dem;
-        const demSection = hasDem ? `
-          <div class="note-dem">
-            <div class="note-dem-label">Demostración</div>
-            <div class="note-dem-tex">${esc(note.dem)}</div>
-          </div>` : '';
-        const chevron = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
-        const favStop = hasDem ? 'event.stopPropagation();' : '';
-        return `
-        <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
-          <div class="note-header">
-            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt="" loading="lazy" decoding="async"></div>
-            <div class="note-meta">
-              <div class="note-label">${esc(note.label)}</div>
-              <div class="note-type-badge">${esc(NOTE_LABELS[note.type] || note.type)}${chevron}</div>
-            </div>
-            <button class="note-fav-btn ${nfaved}"
-              onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)"
-              aria-label="Guardar nota">
-              ${nfavIcon}
-            </button>
-          </div>
-          <div class="note-tex">${esc(note.tex)}</div>
-          ${demSection}
-        </div>`;
-      }).join('');
-
-      return `
-      <div class="chapter-item" data-ch-key="${esc(key)}">
-        <div class="chapter-head">
-          <span class="chapter-num">${ch.num}</span>
-          <span class="chapter-title">${esc(ch.title)}</span>
-        </div>
-        <div class="chapter-body" id="chbody-${esc(key)}">
-          ${notesHtml}
-        </div>
-      </div>`;
-    }).join('');
-
+    const chaptersHtml = groups ? R._renderChapters(b.id, groups) : '';
     const main = document.getElementById('lib-main');
     main.innerHTML = `
       <div class="book-detail">
@@ -395,6 +435,28 @@ const R = {
     renderKatex(main);
     if (S.bookQuery) filterBookNotes(S.bookQuery);
 
+    // Note deep-link scroll (must run after async render)
+    const noteKey = S.noteKey;
+    if (noteKey) {
+      S.noteKey = null;
+      requestAnimationFrame(() => {
+        const el = document.querySelector(`.note-item[data-nkey="${CSS.escape(noteKey)}"]`);
+        if (!el) return;
+        const headerH = document.getElementById('lib-header')?.offsetHeight || 0;
+        const tabsH   = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
+        const top = el.getBoundingClientRect().top + window.scrollY - headerH - tabsH - 16;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+        el.classList.add('note-highlight');
+        setTimeout(() => el.classList.remove('note-highlight'), 1600);
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Rebuild disc scrubber after content is in DOM
+    Disc.reset();
+    Disc.build();
+    Disc.setVisible(true);
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -436,35 +498,19 @@ const R = {
           seenBooks.add(b.id);
           bookResults.push({ book: b, subject: subj.subject, color: subj.color });
         }
-        // Search legacy chapters[]
-        for (const [ci, ch] of (b.chapters || []).entries()) {
-          for (const [ni, note] of (ch.notes || []).entries()) {
-            if (note.type === 'sublabel') continue;
-            const nkey = `${b.id}_ch${ci}_n${ni}`;
-            if (!seenNkeys.has(nkey) &&
-                (norm(note.label || '').includes(q) ||
-                 norm(note.tex   || '').includes(q))) {
-              seenNkeys.add(nkey);
-              noteResults.push({ note, nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
-            }
-          }
-        }
-        // Search NOTAS_BOOK_DATA (transcription-primary system)
-        const tnotes = (typeof NOTAS_BOOK_DATA !== 'undefined') ? NOTAS_BOOK_DATA[b.id] : null;
-        if (tnotes?.length) {
-          const groups = groupTranscNotes(tnotes);
+        // Search tex notes (populated as books are visited)
+        const groups = _texCache[b.id];
+        if (groups) {
           for (const [ci, ch] of groups.entries()) {
             for (const [ni, note] of ch.notes.entries()) {
               if (note.type === 'sublabel') continue;
               const nkey = `${b.id}_ch${ci}_n${ni}`;
-              const nlabel = note.label || [note.numero, note.titulo].filter(Boolean).join(' · ') || '';
-              const ntex   = note.tex || note.contenido || '';
               if (!seenNkeys.has(nkey) &&
-                  (norm(nlabel).includes(q) || norm(ntex).includes(q))) {
+                  (norm(note.label || '').includes(q) || norm(note.tex || '').includes(q))) {
                 seenNkeys.add(nkey);
                 noteResults.push({
-                  note: { label: nlabel, tex: ntex, type: note.type || 'def', tipo: note.tipo },
-                  nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title
+                  note: { label: note.label, tex: note.tex, type: note.type, tipo: note.tipo },
+                  nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title,
                 });
               }
             }
@@ -513,11 +559,17 @@ const R = {
   },
 
   /* ── FAVS ────────────────────────────────────── */
-  favs() {
+  async favs() {
     document.getElementById('header-title').textContent = 'Bibliografía';
     const main = document.getElementById('lib-main');
 
     const favNoteKeys = [...S.favNotes];
+
+    // Pre-fetch tex notes for any books with saved notes not yet in cache
+    const neededIds = [...new Set(
+      favNoteKeys.map(k => k.match(/^(.+)_ch\d+_n\d+$/)?.[1]).filter(Boolean)
+    )];
+    if (neededIds.length) await Promise.all(neededIds.map(fetchTexNotes));
     const favBookIds  = [...S.favBooks];
 
     if (!favNoteKeys.length && !favBookIds.length) {
@@ -1007,37 +1059,22 @@ const Nav = {
     /* search bar */
     const searchBar = document.getElementById('lib-search-bar');
     searchBar.style.display = S.view === 'search' ? 'flex' : 'none';
-    if (S.view === 'search') {
-      setTimeout(() => document.getElementById('lib-search-input').focus(), 50);
-    }
+    if (S.view === 'search') setTimeout(() => document.getElementById('lib-search-input').focus(), 50);
 
-    /* render main content */
+    /* book: async — handles disc, scroll, and noteKey internally */
+    if (S.view === 'book') { R.book(S.bookId); return; }
+
+    /* other views: sync */
     if (S.view === 'home')   R.home();
-    if (S.view === 'book')   R.book(S.bookId);
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
 
-    /* disc scrubber visibility */
-    Disc.mode = S.view === 'home' ? 'home' : 'book';
-    Disc.setVisible(S.view === 'book' || S.view === 'home');
+    /* disc */
+    Disc.mode = 'home';
+    Disc.setVisible(S.view === 'home');
 
-    /* scroll: to note if deep-link, else to top */
-    if (S.noteKey) {
-      const key = S.noteKey;
-      S.noteKey = null;
-      requestAnimationFrame(() => {
-        const el = document.querySelector(`.note-item[data-nkey="${CSS.escape(key)}"]`);
-        if (!el) return;
-        const headerH = document.getElementById('lib-header')?.offsetHeight || 0;
-        const tabsH   = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-        const top = el.getBoundingClientRect().top + window.scrollY - headerH - tabsH - 16;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
-        el.classList.add('note-highlight');
-        setTimeout(() => el.classList.remove('note-highlight'), 1600);
-      });
-    } else {
-      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-    }
+    /* scroll to top */
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   },
 };
 
