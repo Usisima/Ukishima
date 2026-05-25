@@ -1,4 +1,38 @@
 ﻿{
   "liveServer.settings.host": "127.0.0.1",
-  "liveServer.settings.file": "/index.html"
+  "liveServer.settings.file": "/index.html",
+
+  // ── LaTeX Workshop ──────────────────────────────────────────
+  // No compilar automáticamente al guardar (los .tex son plantillas)
+  "latex-workshop.latex.autoBuild.run": "never",
+  // Vista previa de fórmulas al hacer hover sobre $...$
+  "latex-workshop.hover.preview.enabled": true,
+  "latex-workshop.hover.preview.scale": 1.2,
+  // Resaltado de sintaxis mejorado
+  "latex-workshop.formatting.latex": "latexindent",
+  // Desactivar chktex (clave actual en versiones recientes de LaTeX Workshop)
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.chktex.enabled": false,
+  // Limpiar con glob en vez de latexmk (latexmk requiere Perl)
+  "latex-workshop.latex.clean.method": "glob",
+  // Usar pdflatex directamente (latexmk requiere Perl, no instalado)
+  "latex-workshop.latex.recipe.default": "pdflatex",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex",
+      "tools": ["pdflatex"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    }
+  ]
 }
