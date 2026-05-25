@@ -317,8 +317,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   if (!root) return;
 
+  // Stamp initial entry so back from #search stays in the SPA
+  history.scrollRestoration = 'manual';
+  history.replaceState({ view: 'tronco' }, '', location.href);
+
   renderView(root, 'tronco');
   updateGlobalBadge();
+
+  // ── Helper: navigate to a tab with history entry ─────
+  const navTo = (view) => {
+    TEM_QUERY = '';
+    const si = document.getElementById('tem-search-input');
+    if (si) si.value = '';
+    const sc = document.getElementById('tem-search-clear');
+    if (sc) sc.style.display = 'none';
+    history.pushState({ view }, '', view === 'tronco' ? '#' : `#${view}`);
+    renderView(root, view);
+    if (view === 'search') {
+      const inp = document.getElementById('tem-search-input');
+      if (inp) setTimeout(() => inp.focus(), 60);
+    }
+  };
+
+  // ── Browser back/forward ─────────────────────────────
+  window.addEventListener('popstate', e => {
+    const state = e.state || {};
+    TEM_QUERY = '';
+    const si = document.getElementById('tem-search-input');
+    if (si) si.value = '';
+    const sc = document.getElementById('tem-search-clear');
+    if (sc) sc.style.display = 'none';
+    renderView(root, state.view || 'tronco', '');
+  });
 
   // ── Tab switching ────────────────────────────────────
   const temTabs = document.getElementById('tem-tabs');
@@ -326,11 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     temTabs.addEventListener('click', e => {
       const tab = e.target.closest('[data-view]');
       if (!tab) return;
-      renderView(root, tab.dataset.view);
-      if (tab.dataset.view === 'search') {
-        const inp = document.getElementById('tem-search-input');
-        if (inp) setTimeout(() => inp.focus(), 60);
-      }
+      navTo(tab.dataset.view);
     });
   }
 
