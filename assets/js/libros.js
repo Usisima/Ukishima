@@ -425,21 +425,27 @@ const R = {
 
     const bookResults = [];
     const noteResults = [];
+    const seenBooks   = new Set();
+    const seenNkeys   = new Set();
 
     for (const subj of LIBRARY) {
       for (const b of subj.books) {
-        if (norm(b.title).includes(q) ||
-            norm(b.author).includes(q) ||
-            norm(subj.subject).includes(q)) {
+        if (!seenBooks.has(b.id) &&
+            (norm(b.title).includes(q) ||
+             norm(b.author).includes(q) ||
+             norm(subj.subject).includes(q))) {
+          seenBooks.add(b.id);
           bookResults.push({ book: b, subject: subj.subject, color: subj.color });
         }
         // Search legacy chapters[]
         for (const [ci, ch] of (b.chapters || []).entries()) {
           for (const [ni, note] of (ch.notes || []).entries()) {
             if (note.type === 'sublabel') continue;
-            if (norm(note.label || '').includes(q) ||
-                norm(note.tex   || '').includes(q)) {
-              const nkey = `${b.id}_ch${ci}_n${ni}`;
+            const nkey = `${b.id}_ch${ci}_n${ni}`;
+            if (!seenNkeys.has(nkey) &&
+                (norm(note.label || '').includes(q) ||
+                 norm(note.tex   || '').includes(q))) {
+              seenNkeys.add(nkey);
               noteResults.push({ note, nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title });
             }
           }
@@ -451,10 +457,12 @@ const R = {
           for (const [ci, ch] of groups.entries()) {
             for (const [ni, note] of ch.notes.entries()) {
               if (note.type === 'sublabel') continue;
+              const nkey = `${b.id}_ch${ci}_n${ni}`;
               const nlabel = note.label || [note.numero, note.titulo].filter(Boolean).join(' · ') || '';
               const ntex   = note.tex || note.contenido || '';
-              if (norm(nlabel).includes(q) || norm(ntex).includes(q)) {
-                const nkey = `${b.id}_ch${ci}_n${ni}`;
+              if (!seenNkeys.has(nkey) &&
+                  (norm(nlabel).includes(q) || norm(ntex).includes(q))) {
+                seenNkeys.add(nkey);
                 noteResults.push({
                   note: { label: nlabel, tex: ntex, type: note.type || 'def', tipo: note.tipo },
                   nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title
