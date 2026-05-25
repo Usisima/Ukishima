@@ -1076,6 +1076,17 @@ const Nav = {
     S.view = 'search';
   }
 
+  // Stamp the initial history entry with the resolved view state so that
+  // popstate always has valid state to work with.  Without this, the entry
+  // created by the regular page load has state=null; on Android Chrome (PWA)
+  // popping back to a null-state entry can skip past it to external history
+  // instead of staying in the SPA.
+  history.replaceState(
+    { view: S.view, bookId: S.bookId || undefined },
+    '',
+    location.href
+  );
+
   Nav._render();
 
   /* tab clicks */
@@ -1092,9 +1103,13 @@ const Nav = {
 
   /* browser back/forward */
   window.addEventListener('popstate', e => {
-    const state = e.state;
-    if (!state) { S.view = 'home'; S.bookId = null; }
-    else { S.view = state.view || 'home'; S.bookId = state.bookId || null; }
+    const state = e.state || {};
+    S.view   = state.view   || 'home';
+    S.bookId = state.bookId || null;
+    // Clear search state on any back/forward navigation
+    S.query = '';
+    document.getElementById('lib-search-input').value = '';
+    document.getElementById('lib-search-clear').style.display = 'none';
     Nav._render();
   });
 
