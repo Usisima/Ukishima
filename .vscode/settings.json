@@ -1,4 +1,6 @@
 ﻿{
+  "editor.wordWrap": "on",
+
   "liveServer.settings.host": "127.0.0.1",
   "liveServer.settings.file": "/index.html",
 
@@ -23,6 +25,8 @@
       "tools": ["pdflatex"]
     }
   ],
+  // Guardar archivos auxiliares en subcarpeta .build/ (mantiene texto/ limpio)
+  "latex-workshop.latex.outDir": "%DIR%/.build",
   "latex-workshop.latex.tools": [
     {
       "name": "pdflatex",
@@ -31,6 +35,7 @@
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
+        "-output-directory=%OUTDIR%",
         "%DOC%"
       ]
     }
