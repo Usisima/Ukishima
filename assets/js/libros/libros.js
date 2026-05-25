@@ -103,8 +103,12 @@ const _TEX_ENV = {
 
 const _SKIP_PFXS = [
   '\\documentclass', '\\usepackage', '\\newtheorem', '\\theoremstyle',
-  '\\setcounter', '\\title{', '\\author{', '\\date{', '\\maketitle',
-  '\\tableofcontents',
+  '\\setcounter', '\\title{', '\\author{', '\\date{',
+  '\\maketitle', '\\tableofcontents',
+  // Comandos de preamble LuaLaTeX / ukishima-notas.sty
+  '\\newcommand', '\\renewcommand', '\\newenvironment', '\\renewenvironment',
+  '\\setmainfont', '\\setlength', '\\makeatletter', '\\makeatother',
+  '\\NeedsTeXFormat', '\\ProvidesPackage', '\\RequirePackage',
 ];
 
 function parseTeX(text) {

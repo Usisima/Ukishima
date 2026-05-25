@@ -4,17 +4,9 @@
   "liveServer.settings.host": "127.0.0.1",
   "liveServer.settings.file": "/index.html",
 
-  // ── Archivos de notas: no son documentos LaTeX, no compilar ──
-  "files.associations": {
-    "**/texto/*.tex": "plaintext"
-  },
-
   // ── LaTeX Workshop ──────────────────────────────────────────
-  // No compilar automáticamente al guardar (los .tex son plantillas)
+  // No compilar automáticamente al guardar — usa Ctrl+Alt+B para compilar
   "latex-workshop.latex.autoBuild.run": "never",
-  // No mostrar mensajes de error/advertencia de compilación LaTeX
-  "latex-workshop.message.error.show": false,
-  "latex-workshop.message.warning.show": false,
   // Vista previa de fórmulas al hacer hover sobre $...$
   "latex-workshop.hover.preview.enabled": true,
   "latex-workshop.hover.preview.scale": 1.2,

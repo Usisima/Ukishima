@@ -1,0 +1,42 @@
+% ukishima-notas.sty — Estilo compartido para notas de matemáticas (UNAM FC)
+% Compilar con: lualatex <archivo>.tex
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ukishima-notas}[2026/05/25 Notas UNAM FC]
+
+% ── LuaLaTeX ─────────────────────────────────────────────────────
+\RequirePackage{fontspec}
+\setmainfont{Latin Modern Roman}
+
+% ── Idioma ───────────────────────────────────────────────────────
+\RequirePackage[spanish,es-noquoting]{babel}
+
+% ── Matemáticas ──────────────────────────────────────────────────
+\RequirePackage{amsmath,amssymb,amsthm}
+\renewcommand{\qedsymbol}{}   % \blacksquare se escribe explícito en cada proof
+
+% ── Diseño: páginas A4 de ancho estrecho (≈ pills de la app) ─────
+% paperwidth 18cm → textwidth 16cm ≈ interior de las pills (≈ 642px)
+\RequirePackage[paperheight=29.7cm, paperwidth=18cm,
+                top=1.2cm, bottom=1.2cm,
+                left=1cm,  right=1cm]{geometry}
+\RequirePackage{parskip}
+
+% ── Utilidades ───────────────────────────────────────────────────
+\RequirePackage{etoolbox}
+
+% ── Entornos de nota  (formato: \begin{env}[número]{título}) ─────
+\newcommand{\notahead}[3]{%
+  \par\medskip\noindent
+  {\bfseries #1\ifstrempty{#2}{}{ #2}\ifstrempty{#3}{}{ \normalfont\textit{(#3)}}}.%
+  \newline\itshape}
+
+\newenvironment{definicion}[2][]  {\notahead{Definición}{#1}{#2}}  {\normalfont\par\medskip}
+\newenvironment{teorema}[2][]     {\notahead{Teorema}{#1}{#2}}     {\normalfont\par\medskip}
+\newenvironment{lema}[2][]        {\notahead{Lema}{#1}{#2}}        {\normalfont\par\medskip}
+\newenvironment{corolario}[2][]   {\notahead{Corolario}{#1}{#2}}   {\normalfont\par\medskip}
+\newenvironment{proposicion}[2][] {\notahead{Proposición}{#1}{#2}} {\normalfont\par\medskip}
+\newenvironment{observacion}[2][] {\notahead{Observación}{#1}{#2}} {\normalfont\par\medskip}
+\newenvironment{nota}[2][]        {\notahead{Nota}{#1}{#2}}        {\normalfont\par\medskip}
+\newenvironment{ejemplo}[2][]     {\notahead{Ejemplo}{#1}{#2}}     {\normalfont\par\medskip}
+\newenvironment{axioma}[2][]      {\notahead{Axioma}{#1}{#2}}      {\normalfont\par\medskip}
+\newenvironment{algoritmo}[2][]   {\notahead{Algoritmo}{#1}{#2}}   {\normalfont\par\medskip}

@@ -2,3 +2,5 @@
 texto/*
 # Excepto los archivos de notas (.tex) — la app los necesita
 !texto/*.tex
+# Excepto el paquete de estilos compartido (.sty) — necesario para compilar
+!texto/*.sty
