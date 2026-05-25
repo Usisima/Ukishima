@@ -232,6 +232,44 @@ function findNote(nkey) {
   };
 }
 
+/* ── TEX BODY → HTML ──────────────────────────
+   Convierte el contenido crudo del tex en HTML listo para renderizar.
+   - Separa spans de matemáticas ($…$, $$…$$, \[…\], \(…\))
+     para no escapar su contenido (KaTeX lo necesita intacto).
+   - En el texto plano: escapa HTML, traduce comandos básicos,
+     convierte saltos de párrafo/línea.
+   ─────────────────────────────────────────────── */
+function renderTexBody(raw) {
+  if (!raw) return '';
+  // Regex que captura spans de matemáticas; el resto es texto plano.
+  const MATH_RE = /(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\$[^$\n]*?\$|\\\([^)]*?\\\))/g;
+
+  let result = '';
+  let last = 0;
+  let m;
+
+  const processText = t =>
+    t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+     // LaTeX text formatting
+     .replace(/\\textbf\{([^}]*)\}/g, '<strong>$1</strong>')
+     .replace(/\\textit\{([^}]*)\}/g, '<em>$1</em>')
+     .replace(/\\emph\{([^}]*)\}/g,   '<em>$1</em>')
+     .replace(/\\textmd\{([^}]*)\}/g, '$1')
+     .replace(/\\textnormal\{([^}]*)\}/g, '$1')
+     // Structural whitespace
+     .replace(/[ \t]*\n[ \t]*\n[ \t]*/g, '</p><p>')
+     .replace(/\n/g, '<br>');
+
+  while ((m = MATH_RE.exec(raw)) !== null) {
+    result += processText(raw.slice(last, m.index));
+    result += m[0]; // math span intacto para KaTeX
+    last = m.index + m[0].length;
+  }
+  result += processText(raw.slice(last));
+
+  return result.includes('</p><p>') ? '<p>' + result + '</p>' : result;
+}
+
 /* ── NORMALIZE: accent-insensitive, case-insensitive ── */
 const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
@@ -333,7 +371,7 @@ const R = {
         const hasDem   = !!note.dem;
         const chevron  = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
         const favStop  = hasDem ? 'event.stopPropagation();' : '';
-        const demSec   = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${esc(note.dem)}</div></div>` : '';
+        const demSec   = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${renderTexBody(note.dem)}</div></div>` : '';
         return `
         <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
           <div class="note-header">
@@ -344,7 +382,7 @@ const R = {
             </div>
             <button class="note-fav-btn ${nfaved}" onclick="${favStop}A.toggleFavNote('${esc(nkey)}',this)" aria-label="Guardar nota">${nfavIcon}</button>
           </div>
-          <div class="note-tex">${esc(note.tex)}</div>
+          <div class="note-tex">${renderTexBody(note.tex)}</div>
           ${demSec}
         </div>`;
       }).join('');
@@ -454,6 +492,7 @@ const R = {
     }
 
     // Rebuild disc scrubber after content is in DOM
+    Disc.mode = 'book';
     Disc.reset();
     Disc.build();
     Disc.setVisible(true);
@@ -605,7 +644,7 @@ const R = {
         const { note, book: b, color } = found;
         const hasDem = !!note.dem;
         const chevron = hasDem ? `<svg class="dem-chev" viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>` : '';
-        const demSection = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${esc(note.dem)}</div></div>` : '';
+        const demSection = hasDem ? `<div class="note-dem"><div class="note-dem-label">Demostración</div><div class="note-dem-tex">${renderTexBody(note.dem)}</div></div>` : '';
         const favStop = hasDem ? 'event.stopPropagation();' : '';
         return `
         <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
@@ -621,7 +660,7 @@ const R = {
               ♥
             </button>
           </div>
-          <div class="note-tex">${esc(note.tex)}</div>
+          <div class="note-tex">${renderTexBody(note.tex)}</div>
           ${demSection}
         </div>`;
       }).join('');
@@ -755,24 +794,40 @@ const Disc = {
 
   _buildHome() {
     this.secs = [];
-    const hasOpt = !!document.querySelector('.lib-subject-section.is-opt');
+    const troncoSects = [...document.querySelectorAll('.lib-subject-section:not(.is-opt)')];
+    const optSects    = [...document.querySelectorAll('.lib-subject-section.is-opt')];
 
-    // ── Tronco Común label ─────────────────────────────────────────
-    this.secs.push({ label: 'Tronco Común', el: null, isCh: false, isSect: true });
-    document.querySelectorAll('.lib-subject-section:not(.is-opt)').forEach(subjEl => {
-      const headerEl = subjEl.querySelector('.lib-subject-header');
-      const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
-      this.secs.push({ label: name, el: headerEl, isCh: false, subjEl });
-    });
-
-    // ── Optativas label ────────────────────────────────────────────
-    if (hasOpt) {
-      this.secs.push({ label: 'Optativas', el: null, isCh: false, isSect: true });
-      document.querySelectorAll('.lib-subject-section.is-opt').forEach(subjEl => {
-        const headerEl = subjEl.querySelector('.lib-subject-header');
+    // ── Tronco Común ───────────────────────────────────────────────
+    if (troncoSects.length) {
+      const firstSubjEl = troncoSects[0];
+      this.secs.push({ label: 'Tronco Común', el: firstSubjEl.querySelector('.lib-subject-header'), isCh: false, isSect: true, subjEl: firstSubjEl });
+      troncoSects.forEach(subjEl => {
         const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
-        this.secs.push({ label: name, el: headerEl, isCh: false, subjEl });
+        this.secs.push({ label: name, el: subjEl.querySelector('.lib-subject-header'), isCh: false, subjEl });
       });
+    }
+
+    // ── Optativas por Bloque ───────────────────────────────────────
+    if (optSects.length) {
+      const b2start = (typeof LIBRARY_OPT_BLOQUE_STARTS !== 'undefined' && LIBRARY_OPT_BLOQUE_STARTS[1]) || optSects.length;
+
+      // Bloque I
+      const b1El = optSects[0];
+      this.secs.push({ label: 'Optativas Bloque I', el: b1El.querySelector('.lib-subject-header'), isCh: false, isSect: true, subjEl: b1El });
+      optSects.slice(0, b2start).forEach(subjEl => {
+        const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
+        this.secs.push({ label: name, el: subjEl.querySelector('.lib-subject-header'), isCh: false, subjEl });
+      });
+
+      // Bloque II
+      if (b2start < optSects.length) {
+        const b2El = optSects[b2start];
+        this.secs.push({ label: 'Optativas Bloque II', el: b2El.querySelector('.lib-subject-header'), isCh: false, isSect: true, subjEl: b2El });
+        optSects.slice(b2start).forEach(subjEl => {
+          const name = subjEl.querySelector('.lib-subject-name')?.textContent.trim() || '';
+          this.secs.push({ label: name, el: subjEl.querySelector('.lib-subject-header'), isCh: false, subjEl });
+        });
+      }
     }
   },
 
@@ -865,28 +920,29 @@ const Disc = {
 
   _scrollToHome(i) {
     const sec = this.secs[i];
-    if (!sec?.el || !sec.subjEl) return;
+    const target = sec?.subjEl || sec?.el;
+    if (!target) return;
     const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
     const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-    const subjTop = sec.subjEl.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
-    window.scrollTo({ top: Math.max(0, subjTop), behavior: 'smooth' });
+    const top = target.getBoundingClientRect().top + window.scrollY - hH - tH - 10;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   },
 
 _currentIdx() {
     const hH = document.getElementById('lib-header')?.offsetHeight  || 0;
     const tH = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-    const topEdge = hH + tH + 10;
     if (this.mode === 'home') {
-      const btnRect = document.getElementById('bk-disc-btn')?.getBoundingClientRect();
-      const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : window.innerHeight / 2;
+      // Use the upper quarter of the viewport so at scroll=0 the first subject is active
+      const mid = hH + tH + Math.min(160, window.innerHeight * 0.22);
       let best = 0;
       this.secs.forEach((s, i) => {
         if (!s.el) return;
-        if (s.el.getBoundingClientRect().top <= cy) best = i;
+        if (s.el.getBoundingClientRect().top <= mid) best = i;
       });
       return best;
     }
     // Último item cuyo top está a nivel o por encima del borde de contenido
+    const topEdge = hH + tH + 10;
     let best = 0;
     this.secs.forEach((s, i) => {
       if (!s.el) return;

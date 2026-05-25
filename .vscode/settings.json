@@ -4,9 +4,17 @@
   "liveServer.settings.host": "127.0.0.1",
   "liveServer.settings.file": "/index.html",
 
+  // ── Archivos de notas: no son documentos LaTeX, no compilar ──
+  "files.associations": {
+    "**/texto/*.tex": "plaintext"
+  },
+
   // ── LaTeX Workshop ──────────────────────────────────────────
   // No compilar automáticamente al guardar (los .tex son plantillas)
   "latex-workshop.latex.autoBuild.run": "never",
+  // No mostrar mensajes de error/advertencia de compilación LaTeX
+  "latex-workshop.message.error.show": false,
+  "latex-workshop.message.warning.show": false,
   // Vista previa de fórmulas al hacer hover sobre $...$
   "latex-workshop.hover.preview.enabled": true,
   "latex-workshop.hover.preview.scale": 1.2,
@@ -17,17 +25,26 @@
   "latex-workshop.chktex.enabled": false,
   // Limpiar con glob en vez de latexmk (latexmk requiere Perl)
   "latex-workshop.latex.clean.method": "glob",
-  // Usar pdflatex directamente (latexmk requiere Perl, no instalado)
-  "latex-workshop.latex.recipe.default": "pdflatex",
+  // LuaLaTeX — necesario para fontspec y luacode (también disponible pdflatex)
+  "latex-workshop.latex.recipe.default": "lualatex",
   "latex-workshop.latex.recipes": [
-    {
-      "name": "pdflatex",
-      "tools": ["pdflatex"]
-    }
+    { "name": "lualatex", "tools": ["lualatex"] },
+    { "name": "pdflatex", "tools": ["pdflatex"] }
   ],
-  // Guardar archivos auxiliares en subcarpeta .build/ (mantiene texto/ limpio)
+  // Guardar archivos auxiliares en subcarpeta .build/ (mantiene el directorio limpio)
   "latex-workshop.latex.outDir": "%DIR%/.build",
   "latex-workshop.latex.tools": [
+    {
+      "name": "lualatex",
+      "command": "lualatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-output-directory=%OUTDIR%",
+        "%DOC%"
+      ]
+    },
     {
       "name": "pdflatex",
       "command": "pdflatex",

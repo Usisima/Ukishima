@@ -209,6 +209,14 @@ body {
   position: relative;
 }
 
+.cal-progress-bar--danger {
+  background: linear-gradient(90deg, #9b2020, #d94040);
+}
+.cal-progress-bar--danger::after {
+  background: #d94040;
+  box-shadow: 0 0 6px 2px rgba(217,64,64,0.6);
+}
+
 .cal-progress-bar::after {
   content: '';
   position: absolute;

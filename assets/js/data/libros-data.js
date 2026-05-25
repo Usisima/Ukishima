@@ -1082,6 +1082,10 @@ const LIBRARY_OPT = [
   // ── Bloque III ────────────────────────────────────────────────────
 ];
 
+// Índice (dentro de LIBRARY_OPT) donde empieza cada Bloque.
+// Bloque III está vacío, así que solo se definen I y II.
+const LIBRARY_OPT_BLOQUE_STARTS = [0, 16]; // [BloqueI, BloqueII]
+
 /* ── Función auxiliar para buscar libro por id ── */
 function findBook(id) {
   for (const subj of [...LIBRARY, ...LIBRARY_OPT]) {

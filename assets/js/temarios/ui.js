@@ -142,14 +142,12 @@ const _SRCH_POOLS = [
 
 function _allSearchMats() {
   const fixed = CURRICULUM.flatMap(s =>
-    s.materias.map(m => ({ ...m, _tag: 'Sem. ' + s.semestre }))
+    s.materias.map(m => ({ ...m }))
   );
-  const BLOQUE_NAMES = ['I', 'II', 'III'];
   const opts = _SRCH_POOLS.flatMap(({ key, pool }, bi) =>
     pool.map((opt, i) => ({
       ...enrichOptativa(opt),
       id: `opt_${key}_${i}`,
-      _tag: 'Bloque ' + BLOQUE_NAMES[bi],
     }))
   );
   return [...fixed, ...opts].sort((a, b) => a.name.localeCompare(b.name, 'es'));

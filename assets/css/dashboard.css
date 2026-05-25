@@ -578,6 +578,14 @@ body {
   position: relative;
 }
 
+.dash-sem-bar--danger {
+  background: linear-gradient(90deg, #9b2020, #d94040);
+}
+.dash-sem-bar--danger::after {
+  background: #d94040;
+  box-shadow: 0 0 5px 2px rgba(217,64,64,0.55);
+}
+
 .dash-sem-bar::after {
   content: '';
   position: absolute;
