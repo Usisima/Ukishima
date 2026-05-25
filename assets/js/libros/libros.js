@@ -141,7 +141,7 @@ function parseTeX(text) {
       const item = {
         type:   map.t,
         tipo:   map.label,
-        label:  [num, tit].filter(Boolean).join(' · ') || map.label,
+        label:  tit || num || map.label,
         numero: num, titulo: tit,
         tex:    inEnv.lines.join('\n').trim(),
         dem:    null,
