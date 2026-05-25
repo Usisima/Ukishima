@@ -78,4 +78,3 @@ function getSemPct(sem) {
   return Math.min(100, Math.round(dc / tc * 100));
 }
 
-function buildMateriaId(id) { return `card-${id}`; }

@@ -1158,9 +1158,3 @@ function findBook(id) {
   return null;
 }
 
-/* ── Lista plana de todos los libros ─────────── */
-function allBooks() {
-  return [...LIBRARY, ...LIBRARY_OPT].flatMap(s => s.books.map(b => ({
-    ...b, subject: s.subject, color: s.color
-  })));
-}
