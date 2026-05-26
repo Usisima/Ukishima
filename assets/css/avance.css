@@ -266,6 +266,29 @@ body {
   font-size: 11px; font-weight: 500; color: rgba(255,255,255,.42);
   margin-top: 2px; letter-spacing: .03em;
 }
+
+/* Mini day calendar */
+.av-hero-days {
+  display: flex; gap: 4px; align-items: center; flex-wrap: nowrap;
+}
+.av-hero-day {
+  width: 21px; height: 21px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(255,255,255,0.05);
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; font-weight: 700;
+  color: rgba(255,255,255,0.22);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.av-hero-day--on { font-weight: 800; }
+
+.av-hero-hora {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.50);
+  margin-top: 7px;
+}
 .av-hero-pct {
   font-family: 'Playfair Display', serif;
   font-size: 2rem; font-weight: 900;

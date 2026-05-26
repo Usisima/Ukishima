@@ -709,7 +709,15 @@ const R = {
     const done   = tareas.filter(t=>t.done).length;
     const graded = examenes.filter(e=>e.grade!=null);
     const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
-    const sched  = []; if(sub.dias&&sub.dias.length)sched.push(sub.dias.join(' · ')); if(sub.hora)sched.push(sub.hora);
+
+    /* Mini day calendar */
+    const ALL_DAYS   = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    const DAY_LABELS = ['L','M','X','J','V','S','D'];
+    const daysHtml = ALL_DAYS.map((d,i) => {
+      const on = sub.dias && sub.dias.includes(d);
+      return `<span class="av-hero-day${on?' av-hero-day--on':''}"${on?` style="background:${ac};color:#000;border-color:${ac}"`:''}>
+        ${DAY_LABELS[i]}</span>`;
+    }).join('');
 
     const tareaRows = tareas.length
       ? tareas.map((t,i)=>`
@@ -755,17 +763,13 @@ const R = {
           <div class="av-hero-top">
             <div class="av-hero-planet">${mkPlanetSvg(sub.colorIdx||0,ac)}</div>
             <div class="av-hero-info">
-              ${sub.profesor?`<div class="av-hero-prof">${esc(sub.profesor)}</div>`:''}
-              ${sched.length?`<div class="av-hero-sched">${esc(sched.join('  '))}</div>`:''}
+              <div class="av-hero-days">${daysHtml}</div>
+              ${sub.hora?`<div class="av-hero-hora">${esc(sub.hora)}</div>`:''}
             </div>
             <div class="av-hero-pct" id="av-hero-pct" style="color:${ac}">${p}%</div>
           </div>
           <div class="av-hero-bar-wrap">
             <div class="av-hero-bar" id="av-hero-bar" style="width:${p}%;background:${ac}"></div>
-          </div>
-          <div class="av-hero-meta">
-            <span>${done} / ${tareas.length} tareas completadas</span>
-            ${avgEx!=null?`<span>Promedio: <strong style="color:${gradeColor(parseFloat(avgEx))}">${avgEx}</strong></span>`:''}
           </div>
         </div>
         <div class="av-section">
@@ -945,13 +949,15 @@ const Nav={
     if (_suppressNav) { _suppressNav = false; return; }
 
     /* Back gesture with modal open: modal already popped its history entry,
-       just close the sheet and stay on the current view. */
+       just close the sheet and stay on the current view.
+       Check === 'flex' (explicit inline style set by open()), NOT !== 'none',
+       because the initial inline style is '' so !== 'none' would always be true. */
     const modals = [
       document.getElementById('av-sub-modal'),
       document.getElementById('av-modal'),
     ];
     for (const m of modals) {
-      if (m && m.style.display !== 'none') {
+      if (m && m.style.display === 'flex') {
         m.style.display = 'none';
         return;
       }
