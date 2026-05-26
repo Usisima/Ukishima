@@ -716,6 +716,7 @@ body {
   box-shadow: 0 2px 12px rgba(0,0,0,0.35);
 }
 .av-card:active { transform: scale(0.977); opacity: .88; }
+.av-card:has(.av-vis-btn:active) { transform: none; opacity: 1; }
 
 .av-card-thumb {
   width: 72px; flex-shrink: 0;
@@ -776,14 +777,12 @@ body {
 .av-vis-btn {
   position: absolute; bottom: 5px; left: 5px;
   width: 20px; height: 20px;
-  border: none; background: rgba(0,0,0,0.42);
-  color: rgba(155,191,181,0.55);
+  border: none; background: rgba(0,0,0,0.18);
+  color: rgba(155,191,181,0.22);
   display: flex; align-items: center; justify-content: center;
   border-radius: 5px; padding: 0; cursor: pointer;
-  transition: color 0.14s, background 0.14s;
 }
-.av-vis-btn--off { color: rgba(232,245,242,0.22); }
-.av-vis-btn:active { color: var(--gold); background: rgba(0,0,0,0.6); }
+.av-vis-btn--off { color: rgba(232,245,242,0.10); }
 
 /* ══════════════════════════════════════════════
    SUMMARY BANNER
