@@ -56,57 +56,66 @@
       <div class="av-modal-handle"></div>
       <div class="av-modal-title">Nueva materia</div>
 
-      <!-- Nombre -->
-      <input class="av-modal-inp" id="av-sub-name" type="text"
-             placeholder="Nombre de la materia *" maxlength="80"
-             autocomplete="off" autocorrect="off"
-             autocapitalize="words" spellcheck="false">
+      <form autocomplete="off" onsubmit="return false" role="presentation">
+        <!-- honeypot: confunde al browser para que no ofrezca credenciales/tarjetas -->
+        <input type="text"     aria-hidden="true" tabindex="-1" style="display:none" autocomplete="username">
+        <input type="password" aria-hidden="true" tabindex="-1" style="display:none" autocomplete="new-password">
 
-      <!-- Profesor -->
-      <input class="av-modal-inp" id="av-sub-prof" type="text"
-             placeholder="Profesor" maxlength="80"
-             autocomplete="off" autocorrect="off"
-             autocapitalize="words" spellcheck="false">
+        <!-- Nombre -->
+        <input class="av-modal-inp" id="av-sub-name" type="text"
+               placeholder="Nombre de la materia *" maxlength="80"
+               autocomplete="one-time-code" autocorrect="off"
+               autocapitalize="words" spellcheck="false"
+               data-lpignore="true" data-1p-ignore data-form-type="other">
 
-      <!-- Días -->
-      <div class="av-field-label">Días</div>
-      <div class="av-days-row" id="av-days-row">
-        <button class="av-day-btn" data-day="Lun" type="button">L</button>
-        <button class="av-day-btn" data-day="Mar" type="button">M</button>
-        <button class="av-day-btn" data-day="Mié" type="button">X</button>
-        <button class="av-day-btn" data-day="Jue" type="button">J</button>
-        <button class="av-day-btn" data-day="Vie" type="button">V</button>
-        <button class="av-day-btn" data-day="Sáb" type="button">S</button>
-        <button class="av-day-btn" data-day="Dom" type="button">D</button>
-      </div>
+        <!-- Profesor -->
+        <input class="av-modal-inp" id="av-sub-prof" type="text"
+               placeholder="Profesor" maxlength="80"
+               autocomplete="one-time-code" autocorrect="off"
+               autocapitalize="words" spellcheck="false"
+               data-lpignore="true" data-1p-ignore data-form-type="other">
 
-      <!-- Hora + Semestre -->
-      <div class="av-two-col">
-        <div class="av-field">
-          <div class="av-field-label">Hora</div>
-          <input class="av-field-inp" id="av-sub-hora" type="time">
+        <!-- Días -->
+        <div class="av-field-label">Días</div>
+        <div class="av-days-row" id="av-days-row">
+          <button class="av-day-btn" data-day="Lun" type="button">L</button>
+          <button class="av-day-btn" data-day="Mar" type="button">M</button>
+          <button class="av-day-btn" data-day="Mié" type="button">X</button>
+          <button class="av-day-btn" data-day="Jue" type="button">J</button>
+          <button class="av-day-btn" data-day="Vie" type="button">V</button>
+          <button class="av-day-btn" data-day="Sáb" type="button">S</button>
+          <button class="av-day-btn" data-day="Dom" type="button">D</button>
         </div>
-        <div class="av-field">
-          <div class="av-field-label">Semestre</div>
-          <select class="av-field-inp av-sel" id="av-sub-sem">
-            <option value="">—</option>
-            <option value="1">1°</option>
-            <option value="2">2°</option>
-            <option value="3">3°</option>
-            <option value="4">4°</option>
-            <option value="5">5°</option>
-            <option value="6">6°</option>
-            <option value="7">7°</option>
-            <option value="8">8°</option>
-            <option value="9">9°</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="av-modal-row">
-        <button class="av-modal-cancel" id="av-sub-cancel">Cancelar</button>
-        <button class="av-modal-ok"     id="av-sub-ok">Guardar</button>
-      </div>
+        <!-- Hora + Semestre -->
+        <div class="av-two-col">
+          <div class="av-field">
+            <div class="av-field-label">Hora</div>
+            <input class="av-field-inp" id="av-sub-hora" type="time"
+                   autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
+          </div>
+          <div class="av-field">
+            <div class="av-field-label">Semestre</div>
+            <select class="av-field-inp av-sel" id="av-sub-sem" autocomplete="off">
+              <option value="">—</option>
+              <option value="1">1°</option>
+              <option value="2">2°</option>
+              <option value="3">3°</option>
+              <option value="4">4°</option>
+              <option value="5">5°</option>
+              <option value="6">6°</option>
+              <option value="7">7°</option>
+              <option value="8">8°</option>
+              <option value="9">9°</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="av-modal-row">
+          <button class="av-modal-cancel" id="av-sub-cancel" type="button">Cancelar</button>
+          <button class="av-modal-ok"     id="av-sub-ok"     type="button">Guardar</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -117,19 +126,26 @@
     <div class="av-modal-sheet">
       <div class="av-modal-handle"></div>
       <div class="av-modal-title" id="av-modal-title">Nueva tarea</div>
-      <input class="av-modal-inp" id="av-modal-inp" type="text"
-             placeholder="Escribe aquí…" maxlength="80"
-             autocomplete="off" autocorrect="off"
-             autocapitalize="sentences" spellcheck="false">
-      <!-- fecha de entrega (solo para tareas) -->
-      <div id="av-modal-date-row" class="av-modal-date-row" style="display:none">
-        <div class="av-field-label">Fecha de entrega</div>
-        <input class="av-field-inp av-modal-date-inp" id="av-modal-date" type="date">
-      </div>
-      <div class="av-modal-row">
-        <button class="av-modal-cancel" id="av-modal-cancel">Cancelar</button>
-        <button class="av-modal-ok"     id="av-modal-ok">Agregar</button>
-      </div>
+      <form autocomplete="off" onsubmit="return false" role="presentation">
+        <input type="text"     aria-hidden="true" tabindex="-1" style="display:none" autocomplete="username">
+        <input type="password" aria-hidden="true" tabindex="-1" style="display:none" autocomplete="new-password">
+
+        <input class="av-modal-inp" id="av-modal-inp" type="text"
+               placeholder="Escribe aquí…" maxlength="80"
+               autocomplete="one-time-code" autocorrect="off"
+               autocapitalize="sentences" spellcheck="false"
+               data-lpignore="true" data-1p-ignore data-form-type="other">
+        <!-- fecha de entrega (solo para tareas) -->
+        <div id="av-modal-date-row" class="av-modal-date-row" style="display:none">
+          <div class="av-field-label">Fecha de entrega</div>
+          <input class="av-field-inp av-modal-date-inp" id="av-modal-date" type="date"
+                 autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
+        </div>
+        <div class="av-modal-row">
+          <button class="av-modal-cancel" id="av-modal-cancel" type="button">Cancelar</button>
+          <button class="av-modal-ok"     id="av-modal-ok"     type="button">Agregar</button>
+        </div>
+      </form>
     </div>
   </div>
 

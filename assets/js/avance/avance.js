@@ -10,10 +10,13 @@ function _load()             { try{return JSON.parse(localStorage.getItem(SK)||'
 function _persist(d)         { localStorage.setItem(SK,JSON.stringify(d)); }
 function getSubjects()       { return _load().subjects||[]; }
 function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
-function getProgress(id)     { return(_load().progress||{})[id]||{tareas:[],examenes:[]}; }
-function saveProgress(id,p)  { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
-function getSolarPose()      { return _load().solar||{rotation:0,el:Math.PI/2*0.97}; }
-function saveSolarPose(r,el) { const d=_load();d.solar={rotation:r,el};_persist(d); }
+function getProgress(id)      { return(_load().progress||{})[id]||{tareas:[],examenes:[]}; }
+function saveProgress(id,p)   { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
+function getSolarPose()       { return _load().solar||{rotation:0,el:Math.PI/2*0.97}; }
+function saveSolarPose(r,el)  { const d=_load();d.solar={rotation:r,el};_persist(d); }
+function getHidden()          { return _load().hidden||{}; }
+function toggleHidden(id)     { const d=_load();(d.hidden=d.hidden||{})[id]=!d.hidden[id];_persist(d); return !!d.hidden[id]; }
+function isHidden(id)         { return !!(_load().hidden||{})[id]; }
 function uid()               { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
@@ -129,7 +132,7 @@ const SolarSys = {
 
   init(wrap, subs) {
     this.stop();
-    this.subs = subs;
+    this.subs = subs.filter(s => !isHidden(s.id));
     this.t    = 0;
     const pose = getSolarPose();
     this.rotation = pose.rotation;
@@ -155,6 +158,7 @@ const SolarSys = {
     c.removeEventListener('mousedown',  this._ems);
     window.removeEventListener('mousemove', this._emm);
     window.removeEventListener('mouseup',   this._emu);
+    c.remove();
     this.canvas = null;
   },
 
@@ -172,11 +176,103 @@ const SolarSys = {
   },
 
   _genStars() {
-    this.stars = Array.from({length:100}, () => ({
+    /* Dim field stars — normalized coords so they stay fixed on screen */
+    this.stars = Array.from({length:88}, () => ({
       x: Math.random(), y: Math.random(),
-      r: 0.3 + Math.random() * 1.1,
-      a: 0.12 + Math.random() * 0.45,
+      r: 0.22 + Math.random() * 1.1,
+      a: 0.07 + Math.random() * 0.42,
+      tp: Math.random() * Math.PI * 2,          /* twinkle phase */
+      tf: 0.6 + Math.random() * 1.8,            /* twinkle frequency */
     }));
+    /* Brighter stars with cross-spike */
+    this.starsBright = Array.from({length:11}, () => ({
+      x: Math.random(), y: Math.random(),
+      r: 1.1 + Math.random() * 0.9,
+      a: 0.30 + Math.random() * 0.50,
+    }));
+    /* Shooting-star pool */
+    this._shooters = [];
+    this._shooterTimer = 2 + Math.random() * 5;
+  },
+
+  /* ── Static background: stars + shooting stars (screen-space, disc-independent) ── */
+  _drawBg() {
+    const {ctx, _W:W, _H:H} = this;
+    const t = this.t;
+
+    /* Nebula wisps — two faint radial blobs */
+    const nb = (nx,ny,nr,r,g,b,a) => {
+      const ng = ctx.createRadialGradient(nx*W,ny*H,0,nx*W,ny*H,nr*W);
+      ng.addColorStop(0,`rgba(${r},${g},${b},${a})`);
+      ng.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=ng; ctx.fillRect(0,0,W,H);
+    };
+    nb(0.28, 0.22, 0.38,  88,130,170, 0.028);
+    nb(0.72, 0.68, 0.30, 140, 90,175, 0.020);
+
+    /* Dim field stars with twinkle */
+    for (const s of this.stars) {
+      const tw = 0.80 + 0.20 * Math.sin(s.tp + t * s.tf);
+      ctx.globalAlpha = s.a * tw;
+      ctx.fillStyle = '#ddeef0';
+      ctx.beginPath();
+      ctx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    /* Bright stars with cross-spike */
+    for (const s of this.starsBright) {
+      ctx.globalAlpha = s.a;
+      ctx.fillStyle = '#e8f5f2';
+      ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = s.a * 0.32;
+      ctx.strokeStyle = '#e8f5f2'; ctx.lineWidth = 0.55;
+      const sp = s.r * 3.5, sx = s.x*W, sy = s.y*H;
+      ctx.beginPath();
+      ctx.moveTo(sx-sp, sy); ctx.lineTo(sx+sp, sy);
+      ctx.moveTo(sx, sy-sp); ctx.lineTo(sx, sy+sp);
+      ctx.stroke();
+    }
+
+    /* ── Shooting stars ── */
+    this._shooterTimer -= 1/30;
+    if (this._shooterTimer <= 0) {
+      const ang = 0.28 + (Math.random()-0.5)*0.45;   /* ~16° avg angle */
+      const spd = 1.8 + Math.random()*2.4;            /* px/frame */
+      this._shooters.push({
+        x:  Math.random() * W * 0.80,
+        y:  Math.random() * H * 0.50,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd,
+        nx: Math.cos(ang), ny: Math.sin(ang),
+        life: 1,
+        len: 50 + Math.random()*80,
+        w:   0.45 + Math.random()*0.75,
+      });
+      this._shooterTimer = 5 + Math.random()*9;
+    }
+    for (let i = this._shooters.length-1; i >= 0; i--) {
+      const s = this._shooters[i];
+      s.x += s.vx; s.y += s.vy;
+      s.life -= 0.024;
+      if (s.life <= 0 || s.x > W+120 || s.y > H+120) { this._shooters.splice(i,1); continue; }
+      /* Trail */
+      const grd = ctx.createLinearGradient(s.x, s.y, s.x-s.nx*s.len, s.y-s.ny*s.len);
+      grd.addColorStop(0, `rgba(215,238,242,${(s.life*0.88).toFixed(2)})`);
+      grd.addColorStop(1, 'rgba(215,238,242,0)');
+      ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.nx*s.len, s.y-s.ny*s.len);
+      ctx.strokeStyle = grd; ctx.lineWidth = s.w; ctx.stroke();
+      /* Head sparkle */
+      ctx.globalAlpha = s.life * 0.75;
+      const hg = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.w*4);
+      hg.addColorStop(0,'rgba(255,255,255,0.9)');
+      hg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle = hg;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.w*4,0,Math.PI*2); ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
   },
 
   _orbitR(idx) {
@@ -204,6 +300,9 @@ const SolarSys = {
     const cx = W * 0.5, cy = H * 0.50;
     const TILT = Math.sin(this.el);
     ctx.clearRect(0, 0, W, H);
+
+    // Static background (stars, nebulae, shooting stars) — screen-space, not tied to disc
+    this._drawBg();
 
     // Orbit ellipses
     for (let i = 0; i < this.subs.length; i++) {
@@ -284,23 +383,20 @@ const SolarSys = {
       }
       ctx.globalAlpha = 1;
 
-      // Label (front half)
-      if (depth > 0.36) {
-        const la = (depth - 0.36) / 0.64;
-        ctx.globalAlpha = 0.3 + la * 0.7;
-        ctx.font = `${Math.round(9 + depth * 2)}px 'DM Sans',sans-serif`;
-        ctx.fillStyle = '#e8f5f2';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        const lbl = sub.name.length > 14 ? sub.name.slice(0,13) + '…' : sub.name;
-        ctx.fillText(lbl, pos.x, pos.y + pr + 3);
-        if (p > 0) {
-          ctx.font = `500 ${Math.round(8 + depth)}px 'DM Sans',sans-serif`;
-          ctx.fillStyle = ac;
-          ctx.fillText(p + '%', pos.x, pos.y + pr + 3 + Math.round(10 + depth * 2) + 1);
-        }
-        ctx.globalAlpha = 1;
+      // Label (always visible; alpha + size fade with depth for 3-D feel)
+      ctx.globalAlpha = 0.22 + depth * 0.78;
+      ctx.font = `${Math.round(8.5 + depth * 2)}px 'DM Sans',sans-serif`;
+      ctx.fillStyle = '#e8f5f2';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      const lbl = sub.name.length > 14 ? sub.name.slice(0,13) + '…' : sub.name;
+      ctx.fillText(lbl, pos.x, pos.y + pr + 3);
+      if (p > 0) {
+        ctx.font = `500 ${Math.round(7.5 + depth)}px 'DM Sans',sans-serif`;
+        ctx.fillStyle = ac;
+        ctx.fillText(p + '%', pos.x, pos.y + pr + 3 + Math.round(9.5 + depth * 2) + 1);
       }
+      ctx.globalAlpha = 1;
 
       hits.push({sub, x: pos.x, y: pos.y, r: pr * 1.8});
     }
@@ -427,7 +523,17 @@ const SolarSys = {
   _tap(x, y) {
     for (const h of this._hits) {
       const dx = x - h.x, dy = y - h.y;
-      if (dx*dx + dy*dy <= h.r*h.r) { Nav.detail(h.sub.id); return; }
+      if (dx*dx + dy*dy <= h.r*h.r) {
+        Nav.detail(h.sub.id);
+        /* Suppress the ~300 ms ghost-click the browser fires after touchend
+           so it doesn't land on a button that appeared at the same position. */
+        const main = document.getElementById('av-main');
+        if (main) {
+          main.style.pointerEvents = 'none';
+          setTimeout(() => { main.style.pointerEvents = ''; }, 380);
+        }
+        return;
+      }
     }
   },
 };
@@ -503,7 +609,15 @@ const R = {
 
     let cardsHtml = '';
     for (const sem of semKeys) {
-      cardsHtml += `<div class="av-sem-label">${sem?`Semestre ${esc(sem)}°`:'Sin semestre'}</div>`;
+      cardsHtml += `
+        <div class="av-sem-label">
+          <span>${sem ? `${esc(sem)}° Semestre` : 'Sin semestre'}</span>
+          ${sem ? `<button class="av-sem-add" onclick="A.openSubModal('${esc(sem)}')" aria-label="Agregar al semestre ${esc(sem)}">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>` : ''}
+        </div>`;
       for (const sub of bySem[sem]) {
         const {bg,ac} = getColor(sub.colorIdx||0);
         const p = calcPct(sub.id);
@@ -525,10 +639,22 @@ const R = {
         }
         if (!chips) chips = `<span class="av-chip av-chip--empty">Sin registros</span>`;
         cardsHtml += `
-        <div class="av-card" style="--pb:${bg};--pa:${ac}" onclick="Nav.detail('${esc(sub.id)}')">
+        <div class="av-card" data-sub="${esc(sub.id)}" style="--pb:${bg};--pa:${ac}" onclick="Nav.detail('${esc(sub.id)}')">
           <div class="av-card-thumb">
             <span class="av-status-dot ${dotClass}"></span>
-            ${mkPlanetSvg(sub.colorIdx||0, ac)}
+            ${mkPlanetSvg(sub.colorIdx||0, isHidden(sub.id) ? 'rgba(155,191,181,0.28)' : ac)}
+            <button class="av-vis-btn ${isHidden(sub.id)?'av-vis-btn--off':''}"
+                    onclick="event.stopPropagation();A.toggleVis('${esc(sub.id)}')"
+                    aria-label="${isHidden(sub.id)?'Mostrar en sistema solar':'Ocultar en sistema solar'}">
+              ${isHidden(sub.id)
+                ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                     <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                     <line x1="1" y1="1" x2="23" y2="23"/></svg>`
+                : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                     <circle cx="12" cy="12" r="3"/></svg>`}
+            </button>
           </div>
           <div class="av-card-content">
             <div class="av-card-row1">
@@ -611,7 +737,8 @@ const R = {
               value="${e.grade!=null?e.grade:''}" placeholder="—"
               style="color:${gradeColor(e.grade)}"
               oninput="this.style.color=gradeColor(parseFloat(this.value))"
-              onchange="A.setGrade('${esc(subId)}',${i},this.value)" autocomplete="off">
+              onchange="A.setGrade('${esc(subId)}',${i},this.value)"
+              autocomplete="one-time-code" data-lpignore="true" data-1p-ignore data-form-type="other">
             <span class="av-grade-slash">/10</span>
           </div>
           <button class="av-del" onclick="A.delExamen('${esc(subId)}',${i})" aria-label="Eliminar">
@@ -710,10 +837,10 @@ const Modal = {
 };
 
 const SubModal = {
-  open() {
+  open(sem) {
     ['av-sub-name','av-sub-prof'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
-    document.getElementById('av-sub-sem').value='';
+    document.getElementById('av-sub-sem').value = sem || '';
     document.querySelectorAll('.av-day-btn').forEach(b=>b.classList.remove('av-day-btn--on'));
     document.getElementById('av-sub-modal').style.display='flex';
     setTimeout(()=>document.getElementById('av-sub-name').focus(),80);
@@ -736,7 +863,40 @@ const SubModal = {
    ACTIONS
    ══════════════════════════════════════════════════════ */
 const A = {
-  openSubModal:      ()=>SubModal.open(),
+  openSubModal:      (sem)=>SubModal.open(sem),
+  toggleVis(id) {
+    const hidden = toggleHidden(id);
+    /* Re-init solar system in-place (no HTML rebuild, no scroll) */
+    const solarWrap = document.getElementById('av-solar-wrap');
+    if (solarWrap) { SolarSys.stop(); SolarSys.init(solarWrap, getSubjects()); }
+    /* Update the affected card in-place */
+    const card = document.querySelector(`.av-card[data-sub="${id}"]`);
+    if (!card) return;
+    const sub = getSubjects().find(s => s.id === id);
+    if (!sub) return;
+    const {ac} = getColor(sub.colorIdx || 0);
+    /* Swap planet SVG color */
+    const oldSvg = card.querySelector('.av-planet-svg');
+    if (oldSvg) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = mkPlanetSvg(sub.colorIdx || 0, hidden ? 'rgba(155,191,181,0.28)' : ac);
+      oldSvg.replaceWith(tmp.firstChild);
+    }
+    /* Swap eye icon + class */
+    const btn = card.querySelector('.av-vis-btn');
+    if (btn) {
+      btn.className = `av-vis-btn${hidden ? ' av-vis-btn--off' : ''}`;
+      btn.setAttribute('aria-label', hidden ? 'Mostrar en sistema solar' : 'Ocultar en sistema solar');
+      btn.innerHTML = hidden
+        ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+             <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+             <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+             <line x1="1" y1="1" x2="23" y2="23"/></svg>`
+        : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+             <circle cx="12" cy="12" r="3"/></svg>`;
+    }
+  },
   closeSubModal:     ()=>SubModal.close(),
   confirmAddSubject: ()=>SubModal.confirm(),
   openModal:         (t,id)=>Modal.open(t,id),
