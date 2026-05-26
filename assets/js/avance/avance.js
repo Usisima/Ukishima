@@ -467,9 +467,11 @@ const SolarSys = {
 
     this._ets = e => {
       if (e.touches.length !== 1) return;
+      const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
+      /* Reserve left edge (≤18 px) for the browser's swipe-back gesture */
+      if (tx <= 18) return;
       this.dragging = true; totalDx = 0; totalDy = 0;
       this.velRot = 0; this.velEl = 0;
-      const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
       this._prev = { x: tx, y: ty };
       this._dragMode = isOnDisc(tx, ty) ? 'disc' : 'free';
     };
