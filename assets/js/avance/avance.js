@@ -247,6 +247,11 @@ const SolarSys = {
       ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
       ctx.fillStyle = ac; ctx.fill();
 
+      // Clip to planet disc so shadow/highlight never overflow
+      ctx.save();
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
+      ctx.clip();
+
       // Shadow crescent — oriented away from central star
       const toSun  = Math.atan2(cy - pos.y, cx - pos.x);
       const shOffX = -Math.cos(toSun) * pr * 0.42;
@@ -262,6 +267,8 @@ const SolarSys = {
       gLit.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
       ctx.fillStyle = gLit; ctx.fill();
+
+      ctx.restore();
 
       // Progress arc ring
       if (p > 0) {
