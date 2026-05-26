@@ -820,9 +820,14 @@ const Modal = {
     const dr=document.getElementById('av-modal-date-row'), di=document.getElementById('av-modal-date');
     if(dr){dr.style.display=type==='tarea'?'block':'none'; if(di)di.value='';}
     document.getElementById('av-modal').style.display = 'flex';
+    history.pushState({modal:'item',view:S.view,subId:S.subId||undefined},'',location.href);
     setTimeout(()=>document.getElementById('av-modal-inp').focus(),80);
   },
-  close() { _ctx=null; document.getElementById('av-modal').style.display='none'; },
+  close() {
+    _ctx=null;
+    document.getElementById('av-modal').style.display='none';
+    if(history.state&&history.state.modal==='item'){_suppressNav=true;history.back();}
+  },
   confirm() {
     if(!_ctx) return;
     const text=document.getElementById('av-modal-inp').value.trim();
@@ -843,9 +848,12 @@ const SubModal = {
     document.getElementById('av-sub-sem').value = sem || '';
     document.querySelectorAll('.av-day-btn').forEach(b=>b.classList.remove('av-day-btn--on'));
     document.getElementById('av-sub-modal').style.display='flex';
-    setTimeout(()=>document.getElementById('av-sub-name').focus(),80);
+    history.pushState({modal:'sub',view:S.view,subId:S.subId||undefined},'',location.href);
   },
-  close() { document.getElementById('av-sub-modal').style.display='none'; },
+  close() {
+    document.getElementById('av-sub-modal').style.display='none';
+    if(history.state&&history.state.modal==='sub'){_suppressNav=true;history.back();}
+  },
   confirm() {
     const name=document.getElementById('av-sub-name').value.trim();
     if(!name){document.getElementById('av-sub-name').focus();return;}
@@ -915,6 +923,7 @@ const A = {
    NAVIGATION + INIT
    ══════════════════════════════════════════════════════ */
 const S={view:'home',subId:null};
+let _suppressNav = false;   /* flag to swallow the popstate fired by history.go(+1) */
 const Nav={
   detail(id){S.view='detail';S.subId=id;history.pushState({view:'detail',subId:id},'',`#mat/${id}`);R.detail(id);},
   _goHome() {S.view='home';S.subId=null;R.home();},
@@ -931,9 +940,26 @@ const Nav={
   if(S.view==='detail'&&S.subId) R.detail(S.subId); else Nav._goHome();
 
   document.getElementById('av-back').addEventListener('click',()=>{history.pushState({view:'home'},'','#');Nav._goHome();});
-  window.addEventListener('popstate',e=>{
-    const st=e.state||{};S.view=st.view||'home';S.subId=st.subId||null;
-    if(S.view==='detail'&&S.subId)R.detail(S.subId);else Nav._goHome();
+  window.addEventListener('popstate', e => {
+    /* Swallow popstate fired by SubModal/Modal.close() → history.back() */
+    if (_suppressNav) { _suppressNav = false; return; }
+
+    /* Back gesture with modal open: modal already popped its history entry,
+       just close the sheet and stay on the current view. */
+    const modals = [
+      document.getElementById('av-sub-modal'),
+      document.getElementById('av-modal'),
+    ];
+    for (const m of modals) {
+      if (m && m.style.display !== 'none') {
+        m.style.display = 'none';
+        return;
+      }
+    }
+
+    const st = e.state || {};
+    S.view = st.view||'home'; S.subId = st.subId||null;
+    if (S.view==='detail' && S.subId) R.detail(S.subId); else Nav._goHome();
   });
   document.getElementById('av-modal-cancel').addEventListener('click',()=>Modal.close());
   document.getElementById('av-modal-ok').addEventListener('click',()=>Modal.confirm());
