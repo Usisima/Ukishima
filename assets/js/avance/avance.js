@@ -12,7 +12,29 @@ function getSubjects()       { return _load().subjects||[]; }
 function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
 function getProgress(id)     { return(_load().progress||{})[id]||{tareas:[],examenes:[]}; }
 function saveProgress(id,p)  { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
+function getSolarPose()      { return _load().solar||{rotation:0,el:Math.asin(0.35)}; }
+function saveSolarPose(r,el) { const d=_load();d.solar={rotation:r,el};_persist(d); }
 function uid()               { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+/* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
+const DEFAULTS = [
+  {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  profesor:'', dias:[], hora:''},
+  {id:'calculo_1',                 name:'Cálculo Diferencial e Integral I',  semestre:'1', colorIdx:1,  profesor:'', dias:[], hora:''},
+  {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  profesor:'', dias:[], hora:''},
+  {id:'geo_moderna_1',             name:'Geometría Moderna I',               semestre:'1', colorIdx:3,  profesor:'', dias:[], hora:''},
+  {id:'algebra_superior_2',        name:'Álgebra Superior II',               semestre:'2', colorIdx:4,  profesor:'', dias:[], hora:''},
+  {id:'calculo_2',                 name:'Cálculo Diferencial e Integral II', semestre:'2', colorIdx:5,  profesor:'', dias:[], hora:''},
+  {id:'geo_analitica_2',           name:'Geometría Analítica II',            semestre:'2', colorIdx:6,  profesor:'', dias:[], hora:''},
+  {id:'algebra_lineal_1',          name:'Álgebra Lineal I',                  semestre:'3', colorIdx:7,  profesor:'', dias:[], hora:''},
+  {id:'calculo_3',                 name:'Cálculo Diferencial e Integral III',semestre:'3', colorIdx:8,  profesor:'', dias:[], hora:''},
+  {id:'algebra_lineal_2',          name:'Álgebra Lineal II',                 semestre:'4', colorIdx:9,  profesor:'', dias:[], hora:''},
+  {id:'calculo_4',                 name:'Cálculo Diferencial e Integral IV', semestre:'4', colorIdx:10, profesor:'', dias:[], hora:''},
+  {id:'ecuaciones_diferenciales_1',name:'Ecuaciones Diferenciales I',        semestre:'4', colorIdx:11, profesor:'', dias:[], hora:''},
+  {id:'algebra_moderna_1',         name:'Álgebra Moderna I',                 semestre:'5', colorIdx:0,  profesor:'', dias:[], hora:''},
+  {id:'analisis_matematico_1',     name:'Análisis Matemático I',             semestre:'5', colorIdx:1,  profesor:'', dias:[], hora:''},
+  {id:'variable_compleja_1',       name:'Variable Compleja I',               semestre:'5', colorIdx:2,  profesor:'', dias:[], hora:''},
+  {id:'analisis_matematico_2',     name:'Análisis Matemático II',            semestre:'6', colorIdx:3,  profesor:'', dias:[], hora:''},
+];
 
 /* ── COLOR PALETTE ───────────────────────────────────── */
 const PAL = [
@@ -39,11 +61,11 @@ const PLANET_FNS = [
       <line x1="20" y1="18" x2="30" y2="41" stroke="rgba(255,255,255,.16)" stroke-width="2.5" stroke-linecap="round"/>
       <line x1="26" y1="17" x2="35" y2="38" stroke="rgba(255,255,255,.11)" stroke-width="2" stroke-linecap="round"/>
       <circle cx="50" cy="13" r="3.5" fill="${c}" opacity=".55"/>`,
-  c=>`<ellipse cx="30" cy="36" rx="24" ry="5.5" fill="${c}" opacity=".28"/>
-      <circle  cx="30" cy="28" r="16" fill="${c}"/>
-      <circle  cx="36" cy="26" r="16" fill="rgba(0,0,0,.4)"/>
-      <ellipse cx="30" cy="36" rx="24" ry="5.5" fill="none" stroke="${c}" stroke-width="2.5" opacity=".6"/>
-      <circle  cx="52" cy="17" r="2" fill="${c}" opacity=".45"/>`,
+  c=>`<ellipse cx="30" cy="30" rx="24" ry="5.5" fill="${c}" opacity=".28"/>
+      <circle  cx="30" cy="30" r="16" fill="${c}"/>
+      <circle  cx="37" cy="27" r="16" fill="rgba(0,0,0,.4)"/>
+      <ellipse cx="30" cy="30" rx="24" ry="5.5" fill="none" stroke="${c}" stroke-width="2.5" opacity=".6"/>
+      <circle  cx="52" cy="14" r="2" fill="${c}" opacity=".45"/>`,
   c=>`<circle cx="30" cy="30" r="18" fill="${c}"/>
       <circle cx="37" cy="27" r="18" fill="rgba(0,0,0,.38)"/>
       <circle cx="20" cy="24" r="3.5" fill="rgba(0,0,0,.32)"/>
@@ -72,10 +94,10 @@ const PLANET_FNS = [
       <path d="M13 33 Q21 25 29 31 Q37 37 44 29" fill="none" stroke="rgba(255,255,255,.13)" stroke-width="2" stroke-linecap="round"/>
       <circle cx="37" cy="27" r="18" fill="rgba(0,0,0,.38)"/>
       <ellipse cx="20" cy="34" rx="4.5" ry="3" fill="rgba(255,255,255,.22)"/>`,
-  c=>`<ellipse cx="30" cy="33" rx="22" ry="4.5" fill="${c}" opacity=".22"/>
-      <circle  cx="30" cy="27" r="15" fill="${c}"/>
-      <circle  cx="36" cy="25" r="15" fill="rgba(0,0,0,.4)"/>
-      <ellipse cx="30" cy="33" rx="22" ry="4.5" fill="none" stroke="${c}" stroke-width="2" opacity=".55"/>
+  c=>`<ellipse cx="30" cy="30" rx="22" ry="4.5" fill="${c}" opacity=".22"/>
+      <circle  cx="30" cy="30" r="15" fill="${c}"/>
+      <circle  cx="37" cy="27" r="15" fill="rgba(0,0,0,.4)"/>
+      <ellipse cx="30" cy="30" rx="22" ry="4.5" fill="none" stroke="${c}" stroke-width="2" opacity=".55"/>
       <circle cx="7"  cy="38" r="2.5" fill="${c}" opacity=".5"/>
       <circle cx="53" cy="20" r="2"   fill="${c}" opacity=".4"/>`,
 ];
@@ -97,7 +119,8 @@ function mkPlanetSvg(colorIdx, ac) {
 const SolarSys = {
   canvas: null, ctx: null, subs: [],
   t: 0, rotation: 0,
-  dragging: false, dragStart: {x:0,rot:0}, dragDx: 0,
+  el: Math.asin(0.35),          /* elevation: 0=edge-on, π/2=top-down */
+  dragging: false, dragStart: {x:0,y:0,rot:0,el:Math.asin(0.35)}, dragDx: 0, dragDy: 0,
   raf: null, stars: null, _W: 0, _H: 0,
   _hits: [],
   _ets:null,_etm:null,_ete:null,_ems:null,_emm:null,_emu:null,
@@ -106,6 +129,9 @@ const SolarSys = {
     this.stop();
     this.subs = subs;
     this.t    = 0;
+    const pose = getSolarPose();
+    this.rotation = pose.rotation;
+    this.el       = pose.el;
     const c   = document.createElement('canvas');
     c.className = 'av-solar-canvas';
     wrap.prepend(c);
@@ -156,30 +182,25 @@ const SolarSys = {
   },
 
   _pos(idx) {
-    const r = this._orbitR(idx);
-    const TILT = 0.35;
+    const r     = this._orbitR(idx);
+    const sinEl = Math.sin(this.el);
+    const cosEl = Math.cos(this.el);
     const speed = 0.20 / Math.pow(1 + idx * 0.55, 0.72);
     const angle = idx * 2.399 + this.t * speed + this.rotation;
     const cx = this._W * 0.5, cy = this._H * 0.50;
     return {
       x: cx + Math.cos(angle) * r,
-      y: cy + Math.sin(angle) * r * TILT,
-      z: Math.sin(angle), r, angle,
+      y: cy + Math.sin(angle) * r * sinEl,
+      z: Math.sin(angle) * cosEl,   /* 3D-correct depth: 0 when top-down */
+      r, angle,
     };
   },
 
   _draw() {
     const {ctx, _W:W, _H:H} = this;
-    const cx = W * 0.5, cy = H * 0.50, TILT = 0.35;
+    const cx = W * 0.5, cy = H * 0.50;
+    const TILT = Math.sin(this.el);
     ctx.clearRect(0, 0, W, H);
-
-    // Stars
-    for (const s of this.stars) {
-      ctx.beginPath();
-      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${s.a})`;
-      ctx.fill();
-    }
 
     // Orbit ellipses
     for (let i = 0; i < this.subs.length; i++) {
@@ -192,18 +213,14 @@ const SolarSys = {
     }
 
     // Central star glow
-    const gS = ctx.createRadialGradient(cx, cy, 0, cx, cy, 42);
-    gS.addColorStop(0, 'rgba(232,245,242,0.75)');
-    gS.addColorStop(0.4, 'rgba(155,191,181,0.28)');
+    const gS = ctx.createRadialGradient(cx, cy, 0, cx, cy, 36);
+    gS.addColorStop(0, 'rgba(232,245,242,0.38)');
+    gS.addColorStop(0.4, 'rgba(155,191,181,0.13)');
     gS.addColorStop(1, 'rgba(155,191,181,0)');
-    ctx.beginPath(); ctx.arc(cx, cy, 42, 0, Math.PI * 2);
+    ctx.beginPath(); ctx.arc(cx, cy, 36, 0, Math.PI * 2);
     ctx.fillStyle = gS; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx, cy, 15, 0, Math.PI * 2);
-    ctx.fillStyle = '#e8f5f2'; ctx.fill();
-    ctx.fillStyle = '#0a0a0a';
-    ctx.font = '700 10px serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('Ж', cx, cy);
+    ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(232,245,242,0.72)'; ctx.fill();
 
     // Sort back→front
     const sorted = this.subs.map((sub,i) => ({sub, i, pos: this._pos(i)}))
@@ -220,19 +237,31 @@ const SolarSys = {
       ctx.globalAlpha = alpha;
 
       // Glow halo
-      const gP = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, pr * 2.6);
-      gP.addColorStop(0, hexRgba(ac, 0.38));
+      const gP = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, pr * 2.2);
+      gP.addColorStop(0, hexRgba(ac, 0.18));
       gP.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr * 2.6, 0, Math.PI * 2);
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr * 2.2, 0, Math.PI * 2);
       ctx.fillStyle = gP; ctx.fill();
 
       // Body
       ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
       ctx.fillStyle = ac; ctx.fill();
 
-      // Shadow crescent
-      ctx.beginPath(); ctx.arc(pos.x + pr * 0.35, pos.y - pr * 0.06, pr * 0.88, 0, Math.PI * 2);
+      // Shadow crescent — oriented away from central star
+      const toSun  = Math.atan2(cy - pos.y, cx - pos.x);
+      const shOffX = -Math.cos(toSun) * pr * 0.42;
+      const shOffY = -Math.sin(toSun) * pr * 0.42;
+      ctx.beginPath(); ctx.arc(pos.x + shOffX, pos.y + shOffY, pr * 0.88, 0, Math.PI * 2);
       ctx.fillStyle = bg; ctx.fill();
+
+      // Specular highlight — on the lit side facing the star
+      const litX = pos.x + Math.cos(toSun) * pr * 0.30;
+      const litY = pos.y + Math.sin(toSun) * pr * 0.30;
+      const gLit = ctx.createRadialGradient(litX, litY, 0, litX, litY, pr * 0.65);
+      gLit.addColorStop(0, 'rgba(255,255,255,0.22)');
+      gLit.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
+      ctx.fillStyle = gLit; ctx.fill();
 
       // Progress arc ring
       if (p > 0) {
@@ -282,37 +311,67 @@ const SolarSys = {
 
   _bind() {
     const c = this.canvas;
+    const EL_MIN = 0.06, EL_MAX = Math.PI / 2 * 0.97;
+
+    /* flipH: top half (+1) and bottom half (-1) rotate in opposite directions
+       so that dragging right always makes the touched region move right. */
+    const startFlip = clientY => {
+      const rect = c.getBoundingClientRect();
+      return (clientY - rect.top) < this._H * 0.5 ? 1 : -1;
+    };
+
+    const applyDrag = (dx, dy) => {
+      this.rotation = this.dragStart.rot + (dx * this.dragStart.flipH / this._W) * Math.PI * 3;
+      this.el = Math.max(EL_MIN, Math.min(EL_MAX,
+        this.dragStart.el + (dy / this._H) * Math.PI * 0.35));
+    };
+
     this._ets = e => {
       if (e.touches.length !== 1) return;
-      this.dragging = true; this.dragDx = 0;
-      this.dragStart = {x: e.touches[0].clientX, rot: this.rotation};
+      this.dragging = true; this.dragDx = 0; this.dragDy = 0;
+      this.dragStart = {
+        x: e.touches[0].clientX, y: e.touches[0].clientY,
+        rot: this.rotation, el: this.el,
+        flipH: startFlip(e.touches[0].clientY),
+      };
     };
     this._etm = e => {
       if (!this.dragging || e.touches.length !== 1) return;
       e.preventDefault();
       this.dragDx = e.touches[0].clientX - this.dragStart.x;
-      this.rotation = this.dragStart.rot + (this.dragDx / this._W) * Math.PI * 3;
+      this.dragDy = e.touches[0].clientY - this.dragStart.y;
+      applyDrag(this.dragDx, this.dragDy);
     };
     this._ete = e => {
       if (!this.dragging) return;
       this.dragging = false;
-      if (Math.abs(this.dragDx) < 8 && e.changedTouches.length) {
+      saveSolarPose(this.rotation, this.el);
+      if (Math.abs(this.dragDx) < 8 && Math.abs(this.dragDy) < 8 && e.changedTouches.length) {
         const t = e.changedTouches[0];
         const rect = c.getBoundingClientRect();
         this._tap(t.clientX - rect.left, t.clientY - rect.top);
       }
     };
-    this._ems = e => { this.dragging = true; this.dragDx = 0; this.dragStart = {x: e.clientX, rot: this.rotation}; };
+    this._ems = e => {
+      this.dragging = true; this.dragDx = 0; this.dragDy = 0;
+      this.dragStart = {
+        x: e.clientX, y: e.clientY,
+        rot: this.rotation, el: this.el,
+        flipH: startFlip(e.clientY),
+      };
+    };
     this._emm = e => {
       if (!this.dragging) return;
       this.dragDx = e.clientX - this.dragStart.x;
-      this.rotation = this.dragStart.rot + (this.dragDx / this._W) * Math.PI * 3;
+      this.dragDy = e.clientY - this.dragStart.y;
+      applyDrag(this.dragDx, this.dragDy);
     };
     this._emu = e => {
       if (!this.dragging) return;
-      const dx = Math.abs(e.clientX - this.dragStart.x);
+      const moved = Math.abs(e.clientX - this.dragStart.x) + Math.abs(e.clientY - this.dragStart.y);
       this.dragging = false;
-      if (dx < 5) { const rect = c.getBoundingClientRect(); this._tap(e.clientX - rect.left, e.clientY - rect.top); }
+      saveSolarPose(this.rotation, this.el);
+      if (moved < 6) { const rect = c.getBoundingClientRect(); this._tap(e.clientX - rect.left, e.clientY - rect.top); }
     };
     c.addEventListener('touchstart', this._ets, {passive:true});
     c.addEventListener('touchmove',  this._etm, {passive:false});
@@ -700,6 +759,8 @@ const Nav={
 
 (function init(){
   history.scrollRestoration='manual';
+  /* Seed obligatorias on first run */
+  if (!getSubjects().length) saveSubjects(DEFAULTS);
   const hash=location.hash;
   if(hash.startsWith('#mat/')){const id=hash.slice(5);if(getSubjects().find(s=>s.id===id)){S.view='detail';S.subId=id;}}
   history.replaceState({view:S.view,subId:S.subId||undefined},'',location.href);
