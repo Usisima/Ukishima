@@ -103,6 +103,23 @@ body {
 }
 
 /* ── SEM LABEL ────────────────────────────────── */
+/* ── Divisor sistema solar → tarjetas ────────────── */
+.av-cards-divider {
+  display: flex; align-items: center;
+  gap: 10px;
+  padding: 14px 20px 6px;
+}
+.av-cards-divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(155,191,181,0.18), transparent);
+}
+.av-cards-divider-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink3);
+  white-space: nowrap;
+}
+
 .av-sem-label {
   padding: 8px 20px 2px;
   font-size: 9px; font-weight: 700;

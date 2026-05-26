@@ -12,7 +12,7 @@ function getSubjects()       { return _load().subjects||[]; }
 function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
 function getProgress(id)     { return(_load().progress||{})[id]||{tareas:[],examenes:[]}; }
 function saveProgress(id,p)  { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
-function getSolarPose()      { return _load().solar||{rotation:0,el:Math.asin(0.35)}; }
+function getSolarPose()      { return _load().solar||{rotation:0,el:Math.PI/2*0.97}; }
 function saveSolarPose(r,el) { const d=_load();d.solar={rotation:r,el};_persist(d); }
 function uid()               { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 
@@ -119,8 +119,10 @@ function mkPlanetSvg(colorIdx, ac) {
 const SolarSys = {
   canvas: null, ctx: null, subs: [],
   t: 0, rotation: 0,
-  el: Math.asin(0.35),          /* elevation: 0=edge-on, π/2=top-down */
-  dragging: false, dragStart: {x:0,y:0,rot:0,el:Math.asin(0.35)}, dragDx: 0, dragDy: 0,
+  el: Math.PI/2*0.97,           /* elevation: 0=edge-on, π/2=top-down */
+  EL_MIN: 0.06, EL_MAX: Math.PI/2*0.97,
+  dragging: false, dragStart: {x:0,y:0,rot:0,el:Math.PI/2*0.97}, dragDx: 0, dragDy: 0,
+  velRot: 0, velEl: 0, _trail: [],
   raf: null, stars: null, _W: 0, _H: 0,
   _hits: [],
   _ets:null,_etm:null,_ete:null,_ems:null,_emm:null,_emu:null,
@@ -159,7 +161,8 @@ const SolarSys = {
   _size() {
     const dpr = devicePixelRatio || 1;
     const W   = window.innerWidth;
-    const H   = Math.min(Math.round(W * 0.80), 340);
+    /* Height = 2*(maxR + padding) so top-down view fits fully */
+    const H   = Math.round((W * 0.43 + 26) * 2);
     this._W = W; this._H = H;
     this.canvas.style.width  = W + 'px';
     this.canvas.style.height = H + 'px';
@@ -310,7 +313,19 @@ const SolarSys = {
       this.raf = requestAnimationFrame(tick);
       if (ts - last < 1000/FPS - 1) return;
       last = ts;
-      if (!this.dragging) this.t += 1/FPS;
+      if (!this.dragging) {
+        this.t += 1/FPS;
+        /* Inertia */
+        if (Math.abs(this.velRot) > 0.0001) {
+          this.rotation += this.velRot;
+          this.velRot   *= 0.88;
+        }
+        if (Math.abs(this.velEl) > 0.0001) {
+          this.el     = Math.max(this.EL_MIN, Math.min(this.EL_MAX, this.el + this.velEl));
+          this.velEl *= 0.88;
+          if (this.el <= this.EL_MIN || this.el >= this.EL_MAX) this.velEl = 0;
+        }
+      }
       this._draw();
     };
     this.raf = requestAnimationFrame(tick);
@@ -318,67 +333,88 @@ const SolarSys = {
 
   _bind() {
     const c = this.canvas;
-    const EL_MIN = 0.06, EL_MAX = Math.PI / 2 * 0.97;
+    const EL_MIN = this.EL_MIN, EL_MAX = this.EL_MAX;
 
-    /* flipH: top half (+1) and bottom half (-1) rotate in opposite directions
-       so that dragging right always makes the touched region move right. */
-    const startFlip = clientY => {
-      const rect = c.getBoundingClientRect();
-      return (clientY - rect.top) < this._H * 0.5 ? 1 : -1;
+    const rect = () => c.getBoundingClientRect();
+
+    /* Returns true when the client-space point falls inside the orbital disc ellipse.
+       Mode is locked at drag-start so crossing the boundary never switches mid-gesture. */
+    const isOnDisc = (clientX, clientY) => {
+      const r    = rect();
+      const lx   = clientX - r.left;
+      const ly   = clientY - r.top;
+      const maxR = this._W * 0.43;
+      const TILT = Math.sin(this.el);
+      const ry   = Math.max(maxR * TILT, 24);   /* clamp so edge-on never collapses to 0 */
+      const nx   = (lx - this._W * 0.5) / maxR;
+      const ny   = (ly - this._H * 0.5) / ry;
+      return (nx*nx + ny*ny) <= 1.1;             /* slight margin beyond outermost orbit */
     };
 
-    const applyDrag = (dx, dy) => {
-      this.rotation = this.dragStart.rot + (dx * this.dragStart.flipH / this._W) * Math.PI * 3;
-      this.el = Math.max(EL_MIN, Math.min(EL_MAX,
-        this.dragStart.el + (dy / this._H) * Math.PI * 0.35));
+    /* Incremental drag: apply only the delta of this frame.
+       Disc mode  → rotation only.
+       Free mode  → rotation + elevation. */
+    const applyIncr = (clientX, clientY, ddx, ddy) => {
+      const ly   = clientY - rect().top;
+      const flip = ly < this._H * 0.5 ? 1 : -1;
+      const dR   = (ddx * flip / this._W) * Math.PI * 3;
+      const dE   = (ddy / this._H) * Math.PI * 0.75;
+      this.rotation += dR;
+      this.velRot = dR;
+      if (this._dragMode === 'free') {
+        this.el     = Math.max(EL_MIN, Math.min(EL_MAX, this.el + dE));
+        this.velEl  = dE;
+      }
     };
+
+    let totalDx = 0, totalDy = 0;
 
     this._ets = e => {
       if (e.touches.length !== 1) return;
-      this.dragging = true; this.dragDx = 0; this.dragDy = 0;
-      this.dragStart = {
-        x: e.touches[0].clientX, y: e.touches[0].clientY,
-        rot: this.rotation, el: this.el,
-        flipH: startFlip(e.touches[0].clientY),
-      };
+      this.dragging = true; totalDx = 0; totalDy = 0;
+      this.velRot = 0; this.velEl = 0;
+      const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
+      this._prev = { x: tx, y: ty };
+      this._dragMode = isOnDisc(tx, ty) ? 'disc' : 'free';
     };
     this._etm = e => {
       if (!this.dragging || e.touches.length !== 1) return;
       e.preventDefault();
-      this.dragDx = e.touches[0].clientX - this.dragStart.x;
-      this.dragDy = e.touches[0].clientY - this.dragStart.y;
-      applyDrag(this.dragDx, this.dragDy);
+      const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
+      const ddx = tx - this._prev.x, ddy = ty - this._prev.y;
+      totalDx += ddx; totalDy += ddy;
+      applyIncr(tx, ty, ddx, ddy);
+      this._prev = { x: tx, y: ty };
     };
     this._ete = e => {
       if (!this.dragging) return;
       this.dragging = false;
       saveSolarPose(this.rotation, this.el);
-      if (Math.abs(this.dragDx) < 8 && Math.abs(this.dragDy) < 8 && e.changedTouches.length) {
+      if (Math.abs(totalDx) < 8 && Math.abs(totalDy) < 8 && e.changedTouches.length) {
         const t = e.changedTouches[0];
-        const rect = c.getBoundingClientRect();
-        this._tap(t.clientX - rect.left, t.clientY - rect.top);
+        this._tap(t.clientX - rect().left, t.clientY - rect().top);
       }
     };
     this._ems = e => {
-      this.dragging = true; this.dragDx = 0; this.dragDy = 0;
-      this.dragStart = {
-        x: e.clientX, y: e.clientY,
-        rot: this.rotation, el: this.el,
-        flipH: startFlip(e.clientY),
-      };
+      this.dragging = true; totalDx = 0; totalDy = 0;
+      this.velRot = 0; this.velEl = 0;
+      this._prev = { x: e.clientX, y: e.clientY };
+      this._dragMode = isOnDisc(e.clientX, e.clientY) ? 'disc' : 'free';
     };
     this._emm = e => {
       if (!this.dragging) return;
-      this.dragDx = e.clientX - this.dragStart.x;
-      this.dragDy = e.clientY - this.dragStart.y;
-      applyDrag(this.dragDx, this.dragDy);
+      const ddx = e.clientX - this._prev.x, ddy = e.clientY - this._prev.y;
+      totalDx += ddx; totalDy += ddy;
+      applyIncr(e.clientX, e.clientY, ddx, ddy);
+      this._prev = { x: e.clientX, y: e.clientY };
     };
     this._emu = e => {
       if (!this.dragging) return;
-      const moved = Math.abs(e.clientX - this.dragStart.x) + Math.abs(e.clientY - this.dragStart.y);
       this.dragging = false;
       saveSolarPose(this.rotation, this.el);
-      if (moved < 6) { const rect = c.getBoundingClientRect(); this._tap(e.clientX - rect.left, e.clientY - rect.top); }
+      if (Math.abs(totalDx) < 6 && Math.abs(totalDy) < 6) {
+        this._tap(e.clientX - rect().left, e.clientY - rect().top);
+      }
     };
     c.addEventListener('touchstart', this._ets, {passive:true});
     c.addEventListener('touchmove',  this._etm, {passive:false});
@@ -440,7 +476,6 @@ const R = {
     SolarSys.stop();
     document.getElementById('av-header-title').textContent = 'Avance';
     document.getElementById('av-back').style.display = 'none';
-    document.getElementById('av-add-pill').style.display = 'flex';
 
     const main = document.getElementById('av-main');
     const subs = getSubjects();
@@ -458,14 +493,6 @@ const R = {
         </div>`;
       return;
     }
-
-    /* Stats for summary banner */
-    const totalT  = subs.reduce((s,sub)=>s+getProgress(sub.id).tareas.length,0);
-    const doneT   = subs.reduce((s,sub)=>s+getProgress(sub.id).tareas.filter(t=>t.done).length,0);
-    const pending = totalT - doneT;
-    const overall = Math.round(subs.reduce((s,sub)=>s+calcPct(sub.id),0)/subs.length);
-    const Rv=24, circ=+(2*Math.PI*Rv).toFixed(2);
-    const dash=+((overall/100)*circ).toFixed(2), off=+(circ/4).toFixed(2);
 
     /* Build cards grouped by semestre */
     const bySem = {};
@@ -523,44 +550,13 @@ const R = {
 
     main.innerHTML = `
       <!-- ═══ SOLAR SYSTEM ═══ -->
-      <div class="av-solar-wrap" id="av-solar-wrap">
-        <div class="av-solar-hint">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-          Arrastra para girar · Toca un planeta
-        </div>
-        <button class="av-to-cards-btn" onclick="document.getElementById('av-cards-top').scrollIntoView({behavior:'smooth'})">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
-            <line x1="8" y1="18" x2="21" y2="18"/>
-            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/>
-            <line x1="3" y1="18" x2="3.01" y2="18"/>
-          </svg>
-          Ver materias
-        </button>
-      </div>
+      <div class="av-solar-wrap" id="av-solar-wrap"></div>
 
-      <!-- ═══ SUMMARY ═══ -->
-      <div id="av-cards-top" class="av-summary">
-        <div class="av-summary-ring">
-          <svg viewBox="0 0 60 60" width="64" height="64" style="transform:rotate(-90deg)">
-            <circle cx="30" cy="30" r="${Rv}" fill="none" stroke="rgba(155,191,181,.1)" stroke-width="4.5"/>
-            <circle cx="30" cy="30" r="${Rv}" fill="none" stroke="var(--gold)" stroke-width="4.5"
-              stroke-linecap="round" stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${off}"/>
-          </svg>
-          <span class="av-summary-ring-num">${overall}%</span>
-        </div>
-        <div class="av-summary-body">
-          <div class="av-summary-msg">${motivMsg(overall)}</div>
-          <div class="av-summary-stats">
-            <span>${pending} pendiente${pending!==1?'s':''}</span>
-            <span>${subs.length} materia${subs.length!==1?'s':''}</span>
-          </div>
-          <div class="av-summary-bar-wrap">
-            <div class="av-summary-bar" style="width:${overall}%"></div>
-          </div>
-        </div>
+      <!-- ═══ DIVIDER ═══ -->
+      <div class="av-cards-divider">
+        <span class="av-cards-divider-line"></span>
+        <span class="av-cards-divider-label">Materias</span>
+        <span class="av-cards-divider-line"></span>
       </div>
 
       <!-- ═══ CARDS ═══ -->
@@ -579,7 +575,7 @@ const R = {
 
     const {bg,ac} = getColor(sub.colorIdx||0);
     document.getElementById('av-header-title').textContent = sub.name;
-    document.getElementById('av-back').style.display = 'flex';
+    document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
 
     const {tareas,examenes} = getProgress(subId);
