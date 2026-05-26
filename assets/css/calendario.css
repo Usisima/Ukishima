@@ -1,14 +1,21 @@
 :root {
   color-scheme: dark;
-  --bg: #000;
-  --border: rgba(155, 191, 181, 0.08);
-  --border2: rgba(155, 191, 181, 0.16);
-  --ink: #e8f5f2;
-  --ink2: rgba(232, 245, 242, 0.55);
-  --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #9bbfb5;
-  --gold2: #7aa89e;
+  --bg: #080a0f;
+  --border: rgba(255, 255, 255, 0.08);
+  --border2: rgba(255, 255, 255, 0.14);
+  --ink: rgba(255, 255, 255, 0.92);
+  --ink2: rgba(255, 255, 255, 0.55);
+  --ink3: rgba(255, 255, 255, 0.28);
+  --gold: #7EE8A2;
+  --gold2: rgba(126, 232, 162, 0.65);
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Colores por materia */
+  --mat-algebra:   #7EE8A2;
+  --mat-calculo:   #7EB8E8;
+  --mat-geometria: #C87EE8;
+  --mat-moderna:   #E8C47E;
+  --mat-lineal:    #E87E7E;
+  --mat-analisis:  #7EE8D8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
@@ -47,9 +54,9 @@ body {
 .header-left { display: flex; align-items: center; gap: 0.8rem; }
 
 .header-logo {
-  font-family: 'Playfair Display', serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 1.1rem;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -63,9 +70,9 @@ body {
 .header-text { display: flex; flex-direction: column; }
 
 .header-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 0.92rem;
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.1;
 }
@@ -181,9 +188,9 @@ body {
 }
 
 .cal-progress-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--ink);
 }
 
@@ -268,9 +275,9 @@ body {
 }
 
 .cal-month-name {
-  font-family: 'Playfair Display', serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--ink);
   letter-spacing: 0.01em;
   margin-bottom: 0.28rem;

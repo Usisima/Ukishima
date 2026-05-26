@@ -4,16 +4,23 @@
 
 :root {
   color-scheme: dark;
-  --bg:       #000;
-  --border:   rgba(155, 191, 181, 0.08);
-  --border2:  rgba(155, 191, 181, 0.18);
-  --ink:      #e8f5f2;
-  --ink2:     rgba(232, 245, 242, 0.55);
-  --ink3:     rgba(232, 245, 242, 0.28);
-  --gold:     #9bbfb5;
-  --gold2:    #7aa89e;
+  --bg:       #080a0f;
+  --border:   rgba(255, 255, 255, 0.08);
+  --border2:  rgba(255, 255, 255, 0.14);
+  --ink:      rgba(255, 255, 255, 0.92);
+  --ink2:     rgba(255, 255, 255, 0.55);
+  --ink3:     rgba(255, 255, 255, 0.28);
+  --gold:     #7EE8A2;
+  --gold2:    rgba(126, 232, 162, 0.65);
   --r:        20px;
   --ease:     0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Colores por materia */
+  --mat-algebra:   #7EE8A2;
+  --mat-calculo:   #7EB8E8;
+  --mat-geometria: #C87EE8;
+  --mat-moderna:   #E8C47E;
+  --mat-lineal:    #E87E7E;
+  --mat-analisis:  #7EE8D8;
 }
 
 /* ── RESET ────────────────────────────────────── */
@@ -71,8 +78,8 @@ body {
 }
 
 .header-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; font-weight: 900;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem; font-weight: 400;
   color: var(--ink); line-height: 1;
   letter-spacing: -0.02em; flex-shrink: 0;
 }
@@ -83,8 +90,8 @@ body {
 }
 .header-text { display: flex; flex-direction: column; }
 .header-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.92rem; font-weight: 900;
+  font-family: 'DM Serif Display', serif;
+  font-size: 0.92rem; font-weight: 400;
   color: var(--ink); letter-spacing: -0.01em; line-height: 1.1;
 }
 .header-sub {
@@ -289,8 +296,8 @@ body {
   margin-top: 7px;
 }
 .av-hero-pct {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem; font-weight: 900;
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem; font-weight: 400;
   letter-spacing: -0.05em; line-height: 1;
   flex-shrink: 0;
 }
@@ -445,8 +452,8 @@ body {
   margin: 0 auto 18px;
 }
 .av-modal-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 900;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem; font-weight: 400;
   color: var(--ink); margin-bottom: 14px;
 }
 .av-modal-inp {
@@ -571,8 +578,8 @@ body {
   opacity: 0.6;
 }
 .av-empty-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem; font-weight: 900;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem; font-weight: 400;
   color: var(--ink2);
 }
 .av-empty-body {
@@ -823,8 +830,8 @@ body {
 .av-summary-ring-num {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 900; color: var(--gold); letter-spacing: -0.03em;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem; font-weight: 400; color: var(--gold); letter-spacing: -0.03em;
 }
 .av-summary-body { flex: 1; }
 .av-summary-msg  { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 3px; }
