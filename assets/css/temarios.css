@@ -3,30 +3,23 @@
 
 :root {
   color-scheme: dark;
-  --bg: #080a0f;
-  --s1: #0e1118;
-  --s2: #151922;
-  --s3: #1c2130;
-  --border: rgba(255, 255, 255, 0.08);
-  --border2: rgba(255, 255, 255, 0.14);
-  --ink: rgba(255, 255, 255, 0.92);
-  --ink2: rgba(255, 255, 255, 0.55);
-  --ink3: rgba(255, 255, 255, 0.28);
-  --gold: #7EE8A2;
-  --gold2: rgba(126, 232, 162, 0.65);
-  --gold-dim: rgba(126, 232, 162, 0.12);
-  --teal: #7EE8A2;
-  --teal-dim: rgba(126, 232, 162, 0.10);
+  --bg: #000;
+  --s1: #080d0c;
+  --s2: #0d1512;
+  --s3: #121c18;
+  --border: rgba(155, 191, 181, 0.08);
+  --border2: rgba(155, 191, 181, 0.16);
+  --ink: #e8f5f2;
+  --ink2: rgba(232, 245, 242, 0.55);
+  --ink3: rgba(232, 245, 242, 0.28);
+  --gold: #9bbfb5;
+  --gold2: #7aa89e;
+  --gold-dim: rgba(155, 191, 181, 0.14);
+  --teal: #9bbfb5;
+  --teal-dim: rgba(155, 191, 181, 0.12);
   --r: 20px;
   --r2: 12px;
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Colores por materia */
-  --mat-algebra:   #7EE8A2;
-  --mat-calculo:   #7EB8E8;
-  --mat-geometria: #C87EE8;
-  --mat-moderna:   #E8C47E;
-  --mat-lineal:    #E87E7E;
-  --mat-analisis:  #7EE8D8;
 }
 
 * {
@@ -96,9 +89,9 @@ body {
 }
 
 .header-logo {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 900;
   color: var(--ink);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -114,9 +107,9 @@ body {
 }
 
 .header-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 0.92rem;
-  font-weight: 400;
+  font-weight: 900;
   color: var(--ink);
   letter-spacing: -0.01em;
   line-height: 1.1;
@@ -163,9 +156,9 @@ body {
 }
 
 .sem-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.25;
 }
@@ -275,10 +268,10 @@ body {
 }
 
 .card-name {
-  font-family: 'DM Sans', sans-serif;
-  font-style: normal;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
 }
@@ -1078,10 +1071,10 @@ body {
 }
 
 .opt-item-name {
-  font-family: 'DM Sans', sans-serif;
-  font-style: normal;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
   white-space: nowrap;
@@ -1406,10 +1399,10 @@ body {
 .opt-search-icon img { width: 100%; height: 100%; object-fit: cover; }
 
 .opt-search-name {
-  font-family: 'DM Sans', sans-serif;
-  font-style: normal;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.3;
 }
@@ -1425,9 +1418,9 @@ body {
 }
 
 .opt-bloque-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.25;
 }
