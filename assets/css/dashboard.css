@@ -3,15 +3,15 @@
 :root {
   color-scheme: dark;
   --bg: #000;
-  --border: rgba(155, 191, 181, 0.08);
-  --border2: rgba(155, 191, 181, 0.16);
+  --border: rgba(126, 232, 162, 0.08);
+  --border2: rgba(126, 232, 162, 0.16);
   --ink: #e8f5f2;
   --ink2: rgba(232, 245, 242, 0.55);
   --ink3: rgba(232, 245, 242, 0.28);
-  --gold: #9bbfb5;
-  --gold2: #7aa89e;
-  --teal: #9bbfb5;
-  --teal-dim: rgba(155, 191, 181, 0.12);
+  --gold: #7EE8A2;
+  --gold2: #52c874;
+  --teal: #7EE8A2;
+  --teal-dim: rgba(126, 232, 162, 0.12);
   --r: 20px;
   --r2: 12px;
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -130,8 +130,8 @@ body {
   font-weight: 500;
   padding: 6px 16px;
   border-radius: 99px;
-  border: 1px solid rgba(155, 191, 181, 0.35);
-  background: rgba(155, 191, 181, 0.08);
+  border: 1px solid rgba(126, 232, 162, 0.35);
+  background: rgba(126, 232, 162, 0.08);
   color: var(--gold2);
   white-space: nowrap;
   letter-spacing: 0.04em;
@@ -157,7 +157,7 @@ body {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(155, 191, 181, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(126, 232, 162, 0.25), transparent);
 }
 
 .nav-item {
@@ -202,7 +202,7 @@ body {
   height: 2px;
   background: var(--gold);
   border-radius: 0 0 2px 2px;
-  box-shadow: 0 0 10px 2px rgba(155, 191, 181, 0.55);
+  box-shadow: 0 0 10px 2px rgba(126, 232, 162, 0.55);
 }
 
 .nav-item:not(.active):hover { color: var(--ink2); }
@@ -659,9 +659,9 @@ body {
 }
 
 .dash-pill:active {
-  background: rgba(155, 191, 181, 0.18);
-  border-color: rgba(155, 191, 181, 0.55);
-  box-shadow: 0 0 18px 4px rgba(155, 191, 181, 0.22), 0 0 6px 1px rgba(155, 191, 181, 0.15);
+  background: rgba(126, 232, 162, 0.18);
+  border-color: rgba(126, 232, 162, 0.55);
+  box-shadow: 0 0 18px 4px rgba(126, 232, 162, 0.22), 0 0 6px 1px rgba(126, 232, 162, 0.15);
 }
 
 .dash-pill svg {
@@ -681,8 +681,8 @@ body {
   margin: 0 auto 0.75rem;
   padding: 0.7rem 0;
   border-radius: 99px;
-  border: 1px solid rgba(155, 191, 181, 0.35);
-  background: rgba(155, 191, 181, 0.1);
+  border: 1px solid rgba(126, 232, 162, 0.35);
+  background: rgba(126, 232, 162, 0.1);
   color: var(--gold);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
@@ -693,8 +693,8 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .dash-install-btn:hover {
-  background: rgba(155, 191, 181, 0.18);
-  border-color: rgba(155, 191, 181, 0.55);
+  background: rgba(126, 232, 162, 0.18);
+  border-color: rgba(126, 232, 162, 0.55);
 }
 
 /* ==================== BLACK HOLE ==================== */
@@ -790,8 +790,8 @@ body {
   width: 230px;
   font-size: 0.9rem;
   padding: 0.85rem 0;
-  background: rgba(155, 191, 181, 0.15);
-  border-color: rgba(155, 191, 181, 0.5);
+  background: rgba(126, 232, 162, 0.15);
+  border-color: rgba(126, 232, 162, 0.5);
 }
 
 .dash-browser-hint {
