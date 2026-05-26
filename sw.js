@@ -1,11 +1,12 @@
 'use strict';
 
-const CACHE = 'ukishima-v144';
+const CACHE = 'ukishima-v148';
 
 // App shell: all local assets cached on install
 const SHELL = [
   './',
   './index.html',
+  './avance.html',
   './manifest.json',
   './temarios.html',
   './libros.html',
@@ -14,6 +15,8 @@ const SHELL = [
   './assets/css/temarios.css',
   './assets/css/libros.css',
   './assets/css/calendario.css',
+  './assets/css/avance.css',
+  './assets/js/avance/avance.js',
   './assets/js/shared/page-transitions.js',
   './assets/js/shared/stars-bg.js',
   './assets/js/data/data.js',
@@ -142,9 +145,6 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   // Cross-origin (Google Fonts, CDN) — network only, no cache
   if (url.origin !== self.location.origin) return;
-  // tex files live outside the cache — let them go straight to network
-  if (url.pathname.endsWith('.tex')) return;
-
   e.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(e.request);
