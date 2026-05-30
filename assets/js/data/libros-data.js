@@ -1088,9 +1088,14 @@ const LIBRARY_OPT_BLOQUE_STARTS = [0, 16]; // [BloqueI, BloqueII]
 
 /* ── Función auxiliar para buscar libro por id ── */
 function findBook(id) {
-  for (const subj of [...LIBRARY, ...LIBRARY_OPT]) {
+  const all = [...LIBRARY, ...LIBRARY_OPT];
+  for (let i = 0; i < all.length; i++) {
+    const subj = all[i];
     const b = subj.books.find(bk => bk.id === id);
-    if (b) return { book: b, subject: subj.subject, color: subj.color };
+    if (b) {
+      const h = (i * 30) % 360;
+      return { book: b, subject: subj.subject, color: 'hsla(' + h + ',75%,10%,0.7)' };
+    }
   }
   return null;
 }

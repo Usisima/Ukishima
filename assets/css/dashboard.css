@@ -578,21 +578,6 @@ body {
   position: relative;
 }
 
-.dash-sem-bar--neutral {
-  background: rgba(232, 245, 242, 0.12);
-}
-.dash-sem-bar--neutral::after {
-  background: rgba(232, 245, 242, 0.28);
-  box-shadow: none;
-}
-.dash-sem-bar--finals {
-  background: linear-gradient(90deg, #c47878, #d49a8a);
-}
-.dash-sem-bar--finals::after {
-  background: #d49a8a;
-  box-shadow: 0 0 5px 2px rgba(212, 154, 138, 0.45);
-}
-
 .dash-sem-bar::after {
   content: '';
   position: absolute;
@@ -604,6 +589,20 @@ body {
   border-radius: 50%;
   background: var(--gold);
   box-shadow: 0 0 5px 2px rgba(155,191,181,0.55);
+}
+
+.dash-sem-bar--neutral {
+  background: rgba(232, 245, 242, 0.12);
+}
+.dash-sem-bar--neutral::after {
+  display: none;
+}
+.dash-sem-bar--finals {
+  background: linear-gradient(90deg, #c47878, #d49a8a);
+}
+.dash-sem-bar--finals::after {
+  background: #d49a8a;
+  box-shadow: 0 0 5px 2px rgba(212, 154, 138, 0.45);
 }
 
 .dash-sem-meta {

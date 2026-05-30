@@ -209,21 +209,6 @@ body {
   position: relative;
 }
 
-.cal-progress-bar--neutral {
-  background: rgba(232, 245, 242, 0.12);
-}
-.cal-progress-bar--neutral::after {
-  background: rgba(232, 245, 242, 0.28);
-  box-shadow: none;
-}
-.cal-progress-bar--finals {
-  background: linear-gradient(90deg, #c47878, #d49a8a);
-}
-.cal-progress-bar--finals::after {
-  background: #d49a8a;
-  box-shadow: 0 0 6px 2px rgba(212, 154, 138, 0.45);
-}
-
 .cal-progress-bar::after {
   content: '';
   position: absolute;
@@ -235,6 +220,20 @@ body {
   border-radius: 50%;
   background: var(--gold);
   box-shadow: 0 0 6px 2px rgba(155, 191, 181, 0.6);
+}
+
+.cal-progress-bar--neutral {
+  background: rgba(232, 245, 242, 0.12);
+}
+.cal-progress-bar--neutral::after {
+  display: none;
+}
+.cal-progress-bar--finals {
+  background: linear-gradient(90deg, #c47878, #d49a8a);
+}
+.cal-progress-bar--finals::after {
+  background: #d49a8a;
+  box-shadow: 0 0 6px 2px rgba(212, 154, 138, 0.45);
 }
 
 .cal-progress-meta {
@@ -262,6 +261,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.42rem;
+  margin-top: 0.75rem;
   margin-bottom: 0.42rem;
 }
 
@@ -408,7 +408,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.32rem 0.6rem;
-  margin: 0.4rem 0 0.2rem;
+  margin: 0;
   padding: 0 0.1rem;
 }
 
@@ -439,6 +439,7 @@ body {
 ════════════════════════════════════════════ */
 #cdc-root {
   margin-bottom: 0.55rem;
+  position: relative;
 }
 
 .cdc-wrap {
@@ -468,14 +469,27 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-.cdc-pill:active {
-  background: rgba(155, 191, 181, 0.10);
-}
+.cdc-pill:active { opacity: 0.7; }
 
 .cdc-pill--sel {
-  border-color: rgba(155, 191, 181, 0.75);
+  border-color: rgba(155, 191, 181, 0.65);
   background: rgba(155, 191, 181, 0.12);
-  box-shadow: 0 0 10px 0 rgba(155, 191, 181, 0.18);
+}
+
+/* botón volver a hoy */
+.cdc-today-btn {
+  display: block;
+  margin: 0.2rem auto 0;
+  padding: 2px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(155,191,181,0.35);
+  background: rgba(155,191,181,0.08);
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .cdc-dow {
@@ -496,7 +510,13 @@ body {
   font-size: 15px;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.1;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
 }
 
 .cdc-pill--sel .cdc-num {
@@ -515,15 +535,20 @@ body {
   color: rgba(155, 191, 181, 0.65);
 }
 
-.cdc-dot {
-  display: block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+/* círculo en la fecha de hoy */
+.cdc-today .cdc-num {
   background: var(--gold);
-  margin-top: 2px;
-  box-shadow: 0 0 4px 1px rgba(155, 191, 181, 0.55);
+  color: #000;
 }
+
+/* pill de "ir a hoy" */
+.cdc-today-pill {
+  border-color: rgba(155,191,181,0.30);
+  background: rgba(155,191,181,0.06);
+  opacity: 0.75;
+}
+.cdc-today-pill .cdc-dow { color: var(--gold); }
+.cdc-today-pill .cdc-num { color: var(--gold); font-size: 16px; }
 
 /* ════════════════════════════════════════════
    DAY VIEW  (cdv-*)

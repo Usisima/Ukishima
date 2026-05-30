@@ -55,38 +55,14 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ── PALETA PASTEL (misma que avance) ────────────── */
-const LIB_PAL = [
-  'linear-gradient(135deg,rgba(80,200,160,0.20),rgba(80,200,160,0.05))',
-  'linear-gradient(135deg,rgba(130,110,210,0.20),rgba(130,110,210,0.05))',
-  'linear-gradient(135deg,rgba(190,110,210,0.20),rgba(190,110,210,0.05))',
-  'linear-gradient(135deg,rgba(80,190,110,0.20),rgba(80,190,110,0.05))',
-  'linear-gradient(135deg,rgba(210,100,100,0.20),rgba(210,100,100,0.05))',
-  'linear-gradient(135deg,rgba(210,150,80,0.20),rgba(210,150,80,0.05))',
-  'linear-gradient(135deg,rgba(210,90,145,0.20),rgba(210,90,145,0.05))',
-  'linear-gradient(135deg,rgba(80,145,210,0.20),rgba(80,145,210,0.05))',
-  'linear-gradient(135deg,rgba(145,210,80,0.20),rgba(145,210,80,0.05))',
-  'linear-gradient(135deg,rgba(210,175,80,0.20),rgba(210,175,80,0.05))',
-  'linear-gradient(135deg,rgba(80,200,200,0.20),rgba(80,200,200,0.05))',
-  'linear-gradient(135deg,rgba(210,115,80,0.20),rgba(210,115,80,0.05))',
-];
-
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
 function palColor(subj) {
   const idx = _allLib().indexOf(subj);
-  return LIB_PAL[Math.max(0, idx) % LIB_PAL.length];
+  const h = (Math.max(0, idx) * 30) % 360;
+  return `hsla(${h},75%,10%,0.7)`;
 }
 
-/* Envolver findBook para que devuelva color pastel */
-const _findBookOrig = findBook;
-function findBook(id) {
-  const found = _findBookOrig(id);
-  if (!found) return null;
-  const idx = _allLib().findIndex(s => s.books.some(b => b.id === id));
-  found.color = LIB_PAL[Math.max(0, idx) % LIB_PAL.length];
-  return found;
-}
 
 /* Cover background element */
 function coverDiv(color, titleText) {

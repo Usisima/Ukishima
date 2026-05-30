@@ -40,25 +40,9 @@ const DEFAULTS = [
 ];
 
 /* ── COLOR PALETTE ───────────────────────────────────── */
-const PAL = [
-  {bg:'linear-gradient(135deg,rgba(80,200,160,0.20),rgba(80,200,160,0.05))',   ac:'#70c8a8'},
-  {bg:'linear-gradient(135deg,rgba(130,110,210,0.20),rgba(130,110,210,0.05))', ac:'#a08ed4'},
-  {bg:'linear-gradient(135deg,rgba(190,110,210,0.20),rgba(190,110,210,0.05))', ac:'#c07cd4'},
-  {bg:'linear-gradient(135deg,rgba(80,190,110,0.20),rgba(80,190,110,0.05))',   ac:'#68c484'},
-  {bg:'linear-gradient(135deg,rgba(210,100,100,0.20),rgba(210,100,100,0.05))', ac:'#d47878'},
-  {bg:'linear-gradient(135deg,rgba(210,150,80,0.20),rgba(210,150,80,0.05))',   ac:'#d4a868'},
-  {bg:'linear-gradient(135deg,rgba(210,90,145,0.20),rgba(210,90,145,0.05))',   ac:'#d070a8'},
-  {bg:'linear-gradient(135deg,rgba(80,145,210,0.20),rgba(80,145,210,0.05))',   ac:'#68a4d4'},
-  {bg:'linear-gradient(135deg,rgba(145,210,80,0.20),rgba(145,210,80,0.05))',   ac:'#a4d468'},
-  {bg:'linear-gradient(135deg,rgba(210,175,80,0.20),rgba(210,175,80,0.05))',   ac:'#d4c068'},
-  {bg:'linear-gradient(135deg,rgba(80,200,200,0.20),rgba(80,200,200,0.05))',   ac:'#68c8c8'},
-  {bg:'linear-gradient(135deg,rgba(210,115,80,0.20),rgba(210,115,80,0.05))',   ac:'#d48068'},
-];
-function getColor(idx) { return PAL[idx%PAL.length]; }
-
-function getSubColor(id, colorIdx) {
-  return PAL[(colorIdx || 0) % PAL.length];
-}
+function _hue(colorIdx) { return ((colorIdx || 0) * 30) % 360; }
+function getColor(idx)           { const h=_hue(idx); return {bg:`hsla(${h},75%,10%,0.7)`,ac:`hsl(${h},75%,65%)`}; }
+function getSubColor(id,colorIdx){ return getColor(colorIdx); }
 
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
 function _allDataMats() {
@@ -88,9 +72,14 @@ function _findInData(sub) {
 }
 
 /* ── COLOR HELPERS ───────────────────────────────────── */
-function hexRgba(hex, a) {
-  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${a})`;
+function hexRgba(color, a) {
+  if (color.startsWith('#')) {
+    const r=parseInt(color.slice(1,3),16), g=parseInt(color.slice(3,5),16), b=parseInt(color.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+  if (color.startsWith('hsl('))  return `hsla(${color.slice(4,-1)},${a})`;
+  if (color.startsWith('hsla(')) return color.replace(/,[\d.]+\)$/, `,${a})`);
+  return color;
 }
 
 /* ── PLANET SVGs (inline, for card thumbnails) ───────── */
@@ -707,7 +696,6 @@ const R = {
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
                 ${mkDaysDots(sub.dias, sub.hora)}
-                ${sub.profesor ? `<span class="av-meta-pill">${esc(sub.profesor)}</span>` : ''}
               </div>
             </div>
             <span class="av-card-pct" style="color:${gradeClr}">${avgEx != null ? avgEx : '—'}</span>
@@ -810,7 +798,6 @@ const R = {
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
                 ${mkDaysDots(sub.dias, sub.hora)}
-                ${sub.profesor ? `<span class="av-meta-pill">${esc(sub.profesor)}</span>` : ''}
               </div>
             </div>
             <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${avgEx != null ? avgEx : '—'}</span>
