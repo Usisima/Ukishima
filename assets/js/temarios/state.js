@@ -10,7 +10,10 @@ function loadDB(k) {
   catch { return {}; }
 }
 
-function saveDB(k, d) { localStorage.setItem(k, JSON.stringify(d)); }
+function saveDB(k, d) {
+  try { localStorage.setItem(k, JSON.stringify(d)); }
+  catch (e) { console.warn('[state] No se pudo guardar en localStorage:', e); }
+}
 
 // ==================== ESTADO ====================
 let temaDB = loadDB(SK_TEMA);

@@ -150,25 +150,35 @@
 
   // Semester progress strip
   (function () {
-    const FIRST  = new Date(2026, 1, 3);   // 3 feb 2026
-    const LAST   = new Date(2026, 4, 29);  // 29 may 2026 — fin del semestre
-    const FINALS = new Date(2026, 5, 12);  // 12 jun 2026 — fin de exámenes finales (+14 días)
-    const now    = new Date(); now.setHours(0,0,0,0);
+    const FIRST    = new Date(2026, 1, 3);   // 3 feb 2026
+    const LAST     = new Date(2026, 4, 29);  // 29 may 2026 — fin del semestre (display)
+    const LAST_END = new Date(2026, 4, 30);  // medianoche del 30 = fin real del día 29
+    const FINALS   = new Date(2026, 5, 14);  // 14 jun 2026 — fin de dos semanas de finales
+    const NEXT_SEM = new Date(2026, 7, 10);  // 10 ago 2026 — inicio siguiente semestre
+    const _dow = LAST.getDay();
+    const FINALS_START = new Date(LAST.getTime() + (_dow === 1 ? 7 : (8 - _dow) % 7) * 86400000);
+    const now    = new Date();
     const MSHRT  = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-    const total   = Math.round((LAST - FIRST) / 86400000);
-    const elapsed = Math.max(0, Math.min(total, Math.round((now - FIRST) / 86400000)));
-    const spct    = Math.min(100, Math.round(elapsed / total * 100));
+    const total_ms   = LAST_END - FIRST;
+    const elapsed_ms = Math.max(0, Math.min(total_ms, now - FIRST));
+    const spct    = Math.min(100, Math.floor(elapsed_ms / total_ms * 100));
     const fmt = d => d.getDate() + ' ' + MSHRT[d.getMonth()] + ' ' + d.getFullYear();
 
-    const afterSem    = now >= LAST;
+    const afterSem    = now >= LAST_END;
+    const inFinals    = now >= FINALS_START && now <= FINALS;
     const afterFinals = now > FINALS;
-    const daysToFinals = Math.max(0, Math.round((FINALS - now) / 86400000));
-    const remain = Math.max(0, total - elapsed);
+    const inVacation  = afterFinals && now < NEXT_SEM;
+    const remain  = Math.max(0, Math.floor((LAST_END  - now) / 86400000));
+    const daysVac = Math.max(0, Math.ceil( (NEXT_SEM  - now) / 86400000));
 
-    const barExtra = afterSem ? ' dash-sem-bar--danger' : '';
+    const barExtra = inFinals ? ' dash-sem-bar--finals'
+                   : afterSem ? ' dash-sem-bar--neutral'
+                   :            '';
     const displayPct = afterSem ? 100 : spct;
-    const countLabel = afterFinals ? '✓ finales'
-                     : afterSem    ? daysToFinals + 'd finales'
+    const countLabel = inFinals   ? '—'
+                     : inVacation ? daysVac + 'd'
+                     : afterSem   ? ''
+                     : remain === 0 ? spct + '% · ' + Math.ceil((LAST_END - now) / 3600000) + 'h'
                      :               spct + '% · ' + remain + 'd';
 
     document.getElementById('dash-sem-progress').innerHTML =
@@ -535,7 +545,9 @@
 </script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
+  navigator.serviceWorker.register('./sw.js').catch(function(e) {
+    console.warn('[SW] Registro fallido:', e);
+  });
   caches.keys().then(function(keys) {
     var k = keys.find(function(k) { return k.startsWith('ukishima-'); });
     var el = document.getElementById('dash-version');

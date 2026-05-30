@@ -209,12 +209,19 @@ body {
   position: relative;
 }
 
-.cal-progress-bar--danger {
-  background: linear-gradient(90deg, #9b2020, #d94040);
+.cal-progress-bar--neutral {
+  background: rgba(232, 245, 242, 0.12);
 }
-.cal-progress-bar--danger::after {
-  background: #d94040;
-  box-shadow: 0 0 6px 2px rgba(217,64,64,0.6);
+.cal-progress-bar--neutral::after {
+  background: rgba(232, 245, 242, 0.28);
+  box-shadow: none;
+}
+.cal-progress-bar--finals {
+  background: linear-gradient(90deg, #c47878, #d49a8a);
+}
+.cal-progress-bar--finals::after {
+  background: #d49a8a;
+  box-shadow: 0 0 6px 2px rgba(212, 154, 138, 0.45);
 }
 
 .cal-progress-bar::after {
@@ -426,3 +433,378 @@ body {
 }
 
 .header-right { display: flex; align-items: center; gap: 0.5rem; }
+
+/* ════════════════════════════════════════════
+   DAY CAROUSEL  (cdc-*)
+════════════════════════════════════════════ */
+#cdc-root {
+  margin-bottom: 0.55rem;
+}
+
+.cdc-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 0.32rem;
+  overflow: hidden;
+  padding: 0.1rem 0 0.2rem;
+}
+
+.cdc-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 40px;
+  max-width: 46px;
+  flex: 1;
+  padding: 0.45rem 0.2rem 0.4rem;
+  border-radius: 10px;
+  border: 1px solid rgba(155, 191, 181, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cdc-pill:active {
+  background: rgba(155, 191, 181, 0.10);
+}
+
+.cdc-pill--sel {
+  border-color: rgba(155, 191, 181, 0.75);
+  background: rgba(155, 191, 181, 0.12);
+  box-shadow: 0 0 10px 0 rgba(155, 191, 181, 0.18);
+}
+
+.cdc-dow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  line-height: 1;
+}
+
+.cdc-pill--sel .cdc-dow {
+  color: var(--gold);
+}
+
+.cdc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.cdc-pill--sel .cdc-num {
+  color: var(--gold);
+}
+
+.cdc-mon {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink3);
+  line-height: 1;
+}
+
+.cdc-pill--sel .cdc-mon {
+  color: rgba(155, 191, 181, 0.65);
+}
+
+.cdc-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 2px;
+  box-shadow: 0 0 4px 1px rgba(155, 191, 181, 0.55);
+}
+
+/* ════════════════════════════════════════════
+   DAY VIEW  (cdv-*)
+════════════════════════════════════════════ */
+#cdv-root {
+  margin-bottom: 0.75rem;
+}
+
+.cdv-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+/* ── vertical timeline ── */
+.cdv-timeline {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  overflow-y: auto;
+  max-height: 44vh;
+  cursor: pointer;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cdv-timeline--exp {
+  max-height: 75vh;
+  cursor: default;
+}
+
+.cdv-tl-inner {
+  position: relative;
+}
+
+.cdv-tl-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.cdv-tl-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--ink3);
+  width: 40px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 8px;
+  padding-top: 1px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.cdv-tl-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-top: 4px;
+}
+
+/* Current time indicator */
+.cdv-tl-now {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cdv-tl-now::after {
+  content: '';
+  position: absolute;
+  left: 40px;
+  top: -3.5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 7px 2px rgba(155, 191, 181, 0.55);
+}
+
+.cdv-tl-now-lbl {
+  position: absolute;
+  right: calc(100% - 36px);
+  top: -8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--gold);
+  text-align: right;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+/* Event block */
+.cdv-tl-event {
+  position: absolute;
+  left: 48px;
+  right: 6px;
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  padding: 5px 8px 4px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cdv-ev-name {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cdv-ev-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ink3);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Floating cards (no time set) */
+.cdv-floats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── subject card ── */
+.cdv-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  animation: fadeUp 0.35s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.cdv-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.cdv-card-name {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cdv-card-prof {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink2);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cdv-card-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink3);
+  letter-spacing: 0.04em;
+}
+
+.cdv-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-top: 0.22rem;
+}
+
+.cdv-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 99px;
+  line-height: 1.4;
+}
+
+.cdv-chip--task {
+  background: rgba(214, 148, 78, 0.18);
+  color: #d6944e;
+  border: 1px solid rgba(214, 148, 78, 0.30);
+}
+
+.cdv-chip--exam {
+  background: rgba(196, 111, 214, 0.18);
+  color: #c46fd6;
+  border: 1px solid rgba(196, 111, 214, 0.30);
+}
+
+/* ── empty state ── */
+.cdv-empty {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink3);
+  text-align: center;
+  padding: 1.1rem 0 0.9rem;
+  letter-spacing: 0.06em;
+}
+
+/* ── due tasks section ── */
+.cdv-due-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+}
+
+.cdv-due-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink3);
+  margin-bottom: 0.45rem;
+}
+
+.cdv-due-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cdv-due-item:last-child {
+  border-bottom: none;
+}
+
+.cdv-due-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cdv-due-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cdv-due-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  color: var(--ink3);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}

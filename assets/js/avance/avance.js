@@ -50,6 +50,33 @@ const PAL = [
 ];
 function getColor(idx) { return PAL[idx%PAL.length]; }
 
+/* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
+function _allDataMats() {
+  const result = [];
+  if (typeof CURRICULUM !== 'undefined')
+    CURRICULUM.forEach(s => s.materias.forEach(m => result.push(m)));
+  const pools = [
+    ['BI',   typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : []],
+    ['BII',  typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : []],
+    ['BIII', typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : []],
+  ];
+  pools.forEach(([key, pool]) => pool.forEach((opt, i) =>
+    result.push({...opt, id:`opt_${key}_${i}`})));
+  return result;
+}
+
+function _findInData(sub) {
+  if (typeof CURRICULUM !== 'undefined')
+    for (const s of CURRICULUM) for (const m of s.materias)
+      if (m.id === sub.id || m.name === sub.name) return m;
+  for (const pool of [
+    typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : [],
+    typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : [],
+    typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : [],
+  ]) for (const m of pool) if (m.name === sub.name) return m;
+  return null;
+}
+
 /* ── COLOR HELPERS ───────────────────────────────────── */
 function hexRgba(hex, a) {
   const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
@@ -129,6 +156,7 @@ const SolarSys = {
   raf: null, stars: null, _W: 0, _H: 0,
   _hits: [],
   _ets:null,_etm:null,_ete:null,_ems:null,_emm:null,_emu:null,
+  _imgs: {}, _iconMap: {},
 
   init(wrap, subs) {
     this.stop();
@@ -144,8 +172,22 @@ const SolarSys = {
     this.ctx    = c.getContext('2d');
     this._size();
     this._genStars();
+    this._preload(this.subs);
     this._bind();
     this._loop();
+  },
+
+  _preload(subs) {
+    subs.forEach(sub => {
+      const dm  = _findInData(sub);
+      const src = sub.icon || (dm && dm.icon) || 'assets/images/d0.jpg';
+      this._iconMap[sub.id] = src;
+      if (!this._imgs[src]) {
+        const img = new Image();
+        img.src = src;
+        this._imgs[src] = img;
+      }
+    });
   },
 
   stop() {
@@ -190,9 +232,6 @@ const SolarSys = {
       r: 1.1 + Math.random() * 0.9,
       a: 0.30 + Math.random() * 0.50,
     }));
-    /* Shooting-star pool */
-    this._shooters = [];
-    this._shooterTimer = 2 + Math.random() * 5;
   },
 
   /* ── Static background: stars + shooting stars (screen-space, disc-independent) ── */
@@ -234,43 +273,6 @@ const SolarSys = {
       ctx.stroke();
     }
 
-    /* ── Shooting stars ── */
-    this._shooterTimer -= 1/30;
-    if (this._shooterTimer <= 0) {
-      const ang = 0.28 + (Math.random()-0.5)*0.45;   /* ~16° avg angle */
-      const spd = 1.8 + Math.random()*2.4;            /* px/frame */
-      this._shooters.push({
-        x:  Math.random() * W * 0.80,
-        y:  Math.random() * H * 0.50,
-        vx: Math.cos(ang) * spd,
-        vy: Math.sin(ang) * spd,
-        nx: Math.cos(ang), ny: Math.sin(ang),
-        life: 1,
-        len: 50 + Math.random()*80,
-        w:   0.45 + Math.random()*0.75,
-      });
-      this._shooterTimer = 5 + Math.random()*9;
-    }
-    for (let i = this._shooters.length-1; i >= 0; i--) {
-      const s = this._shooters[i];
-      s.x += s.vx; s.y += s.vy;
-      s.life -= 0.024;
-      if (s.life <= 0 || s.x > W+120 || s.y > H+120) { this._shooters.splice(i,1); continue; }
-      /* Trail */
-      const grd = ctx.createLinearGradient(s.x, s.y, s.x-s.nx*s.len, s.y-s.ny*s.len);
-      grd.addColorStop(0, `rgba(215,238,242,${(s.life*0.88).toFixed(2)})`);
-      grd.addColorStop(1, 'rgba(215,238,242,0)');
-      ctx.globalAlpha = 1;
-      ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.nx*s.len, s.y-s.ny*s.len);
-      ctx.strokeStyle = grd; ctx.lineWidth = s.w; ctx.stroke();
-      /* Head sparkle */
-      ctx.globalAlpha = s.life * 0.75;
-      const hg = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.w*4);
-      hg.addColorStop(0,'rgba(255,255,255,0.9)');
-      hg.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.fillStyle = hg;
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.w*4,0,Math.PI*2); ctx.fill();
-    }
 
     ctx.globalAlpha = 1;
   },
@@ -330,45 +332,35 @@ const SolarSys = {
 
     const hits = [];
     for (const {sub, i, pos} of sorted) {
-      const {ac, bg} = getColor(sub.colorIdx || 0);
+      const {ac} = getColor(sub.colorIdx || 0);
       const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
-      const pr    = (8 + (p / 100) * 5) * (0.70 + depth * 0.30);
+      const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
+      const clipR = pr * 0.82;   /* radio del clip = círculo interior del ícono */
       const alpha = 0.48 + depth * 0.52;
 
       ctx.globalAlpha = alpha;
 
       // Glow halo
-      const gP = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, pr * 2.2);
+      const gP = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, clipR * 2.2);
       gP.addColorStop(0, hexRgba(ac, 0.18));
       gP.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr * 2.2, 0, Math.PI * 2);
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR * 2.2, 0, Math.PI * 2);
       ctx.fillStyle = gP; ctx.fill();
 
-      // Body
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
-      ctx.fillStyle = ac; ctx.fill();
-
-      // Clip to planet disc so shadow/highlight never overflow
+      // Ícono: imagen dibujada a tamaño pr*2, clippeada al círculo interior (clipR)
       ctx.save();
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
+      ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2);
       ctx.clip();
 
-      // Shadow crescent — oriented away from central star
-      const toSun  = Math.atan2(cy - pos.y, cx - pos.x);
-      const shOffX = -Math.cos(toSun) * pr * 0.42;
-      const shOffY = -Math.sin(toSun) * pr * 0.42;
-      ctx.beginPath(); ctx.arc(pos.x + shOffX, pos.y + shOffY, pr * 0.88, 0, Math.PI * 2);
-      ctx.fillStyle = bg; ctx.fill();
-
-      // Specular highlight — on the lit side facing the star
-      const litX = pos.x + Math.cos(toSun) * pr * 0.30;
-      const litY = pos.y + Math.sin(toSun) * pr * 0.30;
-      const gLit = ctx.createRadialGradient(litX, litY, 0, litX, litY, pr * 0.65);
-      gLit.addColorStop(0, 'rgba(255,255,255,0.22)');
-      gLit.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.beginPath(); ctx.arc(pos.x, pos.y, pr, 0, Math.PI * 2);
-      ctx.fillStyle = gLit; ctx.fill();
+      const _src = this._iconMap[sub.id] || 'assets/images/d0.jpg';
+      const _img = this._imgs[_src];
+      if (_img && _img.complete && _img.naturalWidth > 0) {
+        ctx.drawImage(_img, pos.x - pr, pos.y - pr, pr * 2, pr * 2);
+      } else {
+        ctx.fillStyle = ac;
+        ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2); ctx.fill();
+      }
 
       ctx.restore();
 
@@ -376,29 +368,32 @@ const SolarSys = {
       if (p > 0) {
         ctx.globalAlpha = alpha * 0.72;
         ctx.beginPath();
-        ctx.arc(pos.x, pos.y, pr + 2.8, -Math.PI/2, -Math.PI/2 + (p/100)*Math.PI*2);
+        ctx.arc(pos.x, pos.y, clipR + 2.8, -Math.PI/2, -Math.PI/2 + (p/100)*Math.PI*2);
         ctx.strokeStyle = ac;
         ctx.lineWidth = 1.6;
         ctx.stroke();
       }
       ctx.globalAlpha = 1;
 
-      // Label (always visible; alpha + size fade with depth for 3-D feel)
+      // Label (doble renglón)
       ctx.globalAlpha = 0.22 + depth * 0.78;
-      ctx.font = `${Math.round(8.5 + depth * 2)}px 'DM Sans',sans-serif`;
+      const fSize = 9;
+      ctx.font = `${fSize}px 'DM Sans',sans-serif`;
       ctx.fillStyle = '#e8f5f2';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      const lbl = sub.name.length > 14 ? sub.name.slice(0,13) + '…' : sub.name;
-      ctx.fillText(lbl, pos.x, pos.y + pr + 3);
+      const lines = wrapLabel(abbrevName(sub.name), 14);
+      const lineH = fSize + 1;
+      let lblY = pos.y + clipR + 3;
+      for (const line of lines) { ctx.fillText(line, pos.x, lblY); lblY += lineH; }
       if (p > 0) {
-        ctx.font = `500 ${Math.round(7.5 + depth)}px 'DM Sans',sans-serif`;
+        ctx.font = `500 8px 'DM Sans',sans-serif`;
         ctx.fillStyle = ac;
-        ctx.fillText(p + '%', pos.x, pos.y + pr + 3 + Math.round(9.5 + depth * 2) + 1);
+        ctx.fillText(p + '%', pos.x, lblY);
       }
       ctx.globalAlpha = 1;
 
-      hits.push({sub, x: pos.x, y: pos.y, r: pr * 1.8});
+      hits.push({sub, x: pos.x, y: pos.y, r: clipR * 1.8});
     }
     this._hits = hits;
   },
@@ -574,6 +569,43 @@ function dueBadge(dueDate, done) {
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+/* ── Abreviaciones de nombre para etiquetas de planetas ─ */
+function abbrevName(name) {
+  const m = name.match(/^Cálculo Diferencial e Integral (I{1,3}|IV)$/);
+  if (m) return `Cálculo ${m[1]}`;
+  return name;
+}
+
+/* ── Etiqueta en dos renglones para planetas ─────────── */
+function wrapLabel(name, maxLen) {
+  if (name.length <= maxLen) return [name];
+  const mid = Math.floor(name.length / 2);
+  let best = -1;
+  for (let d = 0; d <= 8; d++) {
+    if (mid - d > 0        && name[mid - d] === ' ') { best = mid - d; break; }
+    if (mid + d < name.length && name[mid + d] === ' ') { best = mid + d; break; }
+  }
+  if (best < 0) return [name.slice(0, maxLen - 1) + '…'];
+  const l1 = name.slice(0, best);
+  const l2 = name.slice(best + 1);
+  return [
+    l1.length > maxLen ? l1.slice(0, maxLen - 1) + '…' : l1,
+    l2.length > maxLen ? l2.slice(0, maxLen - 1) + '…' : l2,
+  ];
+}
+
+/* ── Círculos de días + hora ─────────────────────────── */
+function mkDaysDots(dias, hora) {
+  const ALL = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const LBL = ['L','M','X','J','V','S'];
+  const dots = ALL.map((d,i) => {
+    const on = dias && dias.includes(d);
+    return `<span class="av-day-dot${on?' av-day-dot--on':''}">${LBL[i]}</span>`;
+  }).join('');
+  const horaHtml = hora ? `<span class="av-day-hora">${hora}</span>` : '';
+  return `<span class="av-days-wrap">${dots}${horaHtml}</span>`;
+}
+
 /* ══════════════════════════════════════════════════════
    RENDER
    ══════════════════════════════════════════════════════ */
@@ -606,7 +638,7 @@ const R = {
     const bySem = {};
     for (const sub of subs) { const k=sub.semestre||''; (bySem[k]=bySem[k]||[]).push(sub); }
     const semKeys = Object.keys(bySem).sort((a,b) => {
-      if(a===''&&b!=='') return 1; if(b===''&&a!=='') return -1; return Number(a)-Number(b);
+      if(a===''&&b!=='') return 1; if(b===''&&a!=='') return -1; return Number(b)-Number(a);
     });
 
     let cardsHtml = '';
@@ -621,17 +653,12 @@ const R = {
           </button>` : ''}
         </div>`;
       for (const sub of bySem[sem]) {
-        const {bg,ac} = getColor(sub.colorIdx||0);
+        const {ac} = getColor(sub.colorIdx||0);
         const p = calcPct(sub.id);
         const {tareas,examenes} = getProgress(sub.id);
         const done   = tareas.filter(t=>t.done).length;
         const graded = examenes.filter(e=>e.grade!=null);
         const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
-        const metaParts = [];
-        if (sub.profesor) metaParts.push(sub.profesor);
-        const sched=[]; if(sub.dias&&sub.dias.length)sched.push(sub.dias.join(' · ')); if(sub.hora)sched.push(sub.hora);
-        if (sched.length) metaParts.push(sched.join('  '));
-        const metaText = metaParts.join(' — ');
         const dotClass = (!tareas.length&&!examenes.length)?'av-status-dot--empty':p===100?'av-status-dot--done':'av-status-dot--partial';
         let chips = '';
         if (tareas.length)   chips += `<span class="av-chip${done===tareas.length?' av-chip--done':''}">${done}/${tareas.length} tareas</span>`;
@@ -639,38 +666,31 @@ const R = {
           if (avgEx!=null) { const gc=gradeColor(parseFloat(avgEx)); chips+=`<span class="av-chip" style="color:${gc};border-color:${gc}44">${avgEx} prom</span>`; }
           else chips += `<span class="av-chip">${examenes.length} ex.</span>`;
         }
-        if (!chips) chips = `<span class="av-chip av-chip--empty">Sin registros</span>`;
+
+        /* Buscar icono en data.js si no está almacenado */
+        const dataMat  = _findInData(sub);
+        const icon     = sub.icon || (dataMat && dataMat.icon) || 'assets/images/d0.jpg';
+        const gradeClr = avgEx != null ? gradeColor(parseFloat(avgEx)) : ac;
+
         cardsHtml += `
-        <div class="av-card" data-sub="${esc(sub.id)}" style="--pb:${bg};--pa:${ac}" onclick="Nav.detail('${esc(sub.id)}')">
-          <div class="av-card-thumb">
-            <span class="av-status-dot ${dotClass}"></span>
-            ${mkPlanetSvg(sub.colorIdx||0, isHidden(sub.id) ? 'rgba(155,191,181,0.28)' : ac)}
-            <button class="av-vis-btn ${isHidden(sub.id)?'av-vis-btn--off':''}"
-                    onclick="event.stopPropagation();A.toggleVis('${esc(sub.id)}')"
-                    aria-label="${isHidden(sub.id)?'Mostrar en sistema solar':'Ocultar en sistema solar'}">
-              ${isHidden(sub.id)
-                ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                     <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                     <line x1="1" y1="1" x2="23" y2="23"/></svg>`
-                : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                     <circle cx="12" cy="12" r="3"/></svg>`}
-            </button>
-          </div>
-          <div class="av-card-content">
-            <div class="av-card-row1">
-              <span class="av-card-name">${esc(sub.name)}</span>
-              <span class="av-card-pct" style="color:${ac}">${p}%</span>
+        <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')">
+          <div class="av-card-head">
+            <div class="av-card-icon">
+              <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
+              <span class="av-status-dot ${dotClass}"></span>
             </div>
-            ${metaText?`<div class="av-card-meta">${esc(metaText)}</div>`:''}
-            <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%;background:${ac}"></div></div>
-            <div class="av-card-chips">${chips}</div>
+            <div class="av-card-info">
+              <div class="av-card-name">${esc(sub.name)}</div>
+              <div class="av-card-meta-row">
+                ${mkDaysDots(sub.dias, sub.hora)}
+                ${sub.profesor ? `<span class="av-meta-pill">${esc(sub.profesor)}</span>` : ''}
+              </div>
+            </div>
+            <span class="av-card-pct" style="color:${gradeClr}">${avgEx != null ? avgEx : '—'}</span>
           </div>
-          <div class="av-card-arrow">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
+          <div class="av-card-foot">
+            <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%;background:${ac}"></div></div>
+            ${chips ? `<div class="av-card-chips">${chips}</div>` : ''}
           </div>
         </div>`;
       }
@@ -701,7 +721,7 @@ const R = {
     const sub  = subs.find(s=>s.id===subId);
     if (!sub) { R.home(); return; }
 
-    const {bg,ac} = getColor(sub.colorIdx||0);
+    const {ac} = getColor(sub.colorIdx||0);
     document.getElementById('av-header-title').textContent = sub.name;
     document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
@@ -711,15 +731,11 @@ const R = {
     const done   = tareas.filter(t=>t.done).length;
     const graded = examenes.filter(e=>e.grade!=null);
     const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
+    const gradeClrD = avgEx != null ? gradeColor(parseFloat(avgEx)) : ac;
 
-    /* Mini day calendar */
-    const ALL_DAYS   = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-    const DAY_LABELS = ['L','M','X','J','V','S','D'];
-    const daysHtml = ALL_DAYS.map((d,i) => {
-      const on = sub.dias && sub.dias.includes(d);
-      return `<span class="av-hero-day${on?' av-hero-day--on':''}"${on?` style="background:${ac};color:#000;border-color:${ac}"`:''}>
-        ${DAY_LABELS[i]}</span>`;
-    }).join('');
+    /* Icono desde data.js o guardado */
+    const dataMatD = _findInData(sub);
+    const iconD    = sub.icon || (dataMatD && dataMatD.icon) || 'assets/images/d0.jpg';
 
     const tareaRows = tareas.length
       ? tareas.map((t,i)=>`
@@ -761,17 +777,24 @@ const R = {
 
     document.getElementById('av-main').innerHTML = `
       <div class="av-detail">
-        <div class="av-hero" style="--pb:${bg};--pa:${ac}">
-          <div class="av-hero-top">
-            <div class="av-hero-planet">${mkPlanetSvg(sub.colorIdx||0,ac)}</div>
-            <div class="av-hero-info">
-              <div class="av-hero-days">${daysHtml}</div>
-              ${sub.hora?`<div class="av-hero-hora">${esc(sub.hora)}</div>`:''}
+        <div class="av-hero-card">
+          <div class="av-card-head">
+            <div class="av-card-icon">
+              <img src="${esc(iconD)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
             </div>
-            <div class="av-hero-pct" id="av-hero-pct" style="color:${ac}">${p}%</div>
+            <div class="av-card-info">
+              <div class="av-card-name">${esc(sub.name)}</div>
+              <div class="av-card-meta-row">
+                ${mkDaysDots(sub.dias, sub.hora)}
+                ${sub.profesor ? `<span class="av-meta-pill">${esc(sub.profesor)}</span>` : ''}
+              </div>
+            </div>
+            <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${avgEx != null ? avgEx : '—'}</span>
           </div>
-          <div class="av-hero-bar-wrap">
-            <div class="av-hero-bar" id="av-hero-bar" style="width:${p}%;background:${ac}"></div>
+          <div class="av-card-foot">
+            <div class="av-card-progress">
+              <div class="av-card-bar" id="av-hero-bar" style="width:${p}%;background:${ac}"></div>
+            </div>
           </div>
         </div>
         <div class="av-section">
@@ -809,8 +832,12 @@ const R = {
 
   _refreshHero(subId) {
     const p = calcPct(subId);
+    const {examenes} = getProgress(subId);
+    const graded = examenes.filter(e=>e.grade!=null);
+    const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
     const pEl=document.getElementById('av-hero-pct'), bEl=document.getElementById('av-hero-bar');
-    if(pEl) pEl.textContent=p+'%'; if(bEl) bEl.style.width=p+'%';
+    if(pEl){pEl.textContent=avgEx!=null?avgEx:'—';pEl.style.color=avgEx!=null?gradeColor(parseFloat(avgEx)):'';}
+    if(bEl) bEl.style.width=p+'%';
   },
 };
 
@@ -848,18 +875,105 @@ const Modal = {
 };
 
 const SubModal = {
+  _selected: null,   /* datos del item elegido en el dropdown */
+
   open(sem) {
+    this._selected = null;
     ['av-sub-name','av-sub-prof'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
     document.getElementById('av-sub-sem').value = sem || '';
     document.querySelectorAll('.av-day-btn').forEach(b=>b.classList.remove('av-day-btn--on'));
-    document.getElementById('av-sub-modal').style.display='flex';
+    const sug = document.getElementById('av-name-suggest');
+    if (sug) { sug.innerHTML=''; sug.style.display='none'; }
+    /* bloquear scroll del fondo sin tocar scrollY */
+    this._blockScroll = e => {
+      if (!e.target.closest('.av-modal-sheet')) e.preventDefault();
+    };
+    document.addEventListener('touchmove', this._blockScroll, { passive: false });
+    /* ajustar max-height del sheet al viewport visible (teclado) */
+    const _modal = document.getElementById('av-sub-modal');
+    const _sheet = _modal.querySelector('.av-modal-sheet');
+    if (window.visualViewport && _sheet) {
+      this._syncVV = () => {
+        _sheet.style.maxHeight = window.visualViewport.height + 'px';
+        /* scroll al input activo para que siempre quede visible */
+        requestAnimationFrame(() => {
+          const active = _sheet.querySelector(':focus');
+          if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        });
+      };
+      window.visualViewport.addEventListener('resize', this._syncVV);
+      this._syncVV();
+    }
+    _modal.style.display='flex';
     history.pushState({modal:'sub',view:S.view,subId:S.subId||undefined},'',location.href);
   },
+
   close() {
-    document.getElementById('av-sub-modal').style.display='none';
-    if(history.state&&history.state.modal==='sub'){_suppressNav=true;history.back();}
+    this._selected = null;
+    const sug = document.getElementById('av-name-suggest');
+    if (sug) { sug.innerHTML=''; sug.style.display='none'; }
+    /* limpiar syncVV y reset max-height */
+    if (window.visualViewport && this._syncVV) {
+      window.visualViewport.removeEventListener('resize', this._syncVV);
+      this._syncVV = null;
+    }
+    const _sheet = document.querySelector('#av-sub-modal .av-modal-sheet');
+    if (_sheet) _sheet.style.maxHeight = '';
+    /* restaurar scroll del fondo */
+    if (this._blockScroll) {
+      document.removeEventListener('touchmove', this._blockScroll);
+      this._blockScroll = null;
+    }
+    document.getElementById('av-sub-modal').style.display = 'none';
+    if (history.state && history.state.modal === 'sub') { _suppressNav = true; history.back(); }
   },
+
+  _suggest(q) {
+    const box = document.getElementById('av-name-suggest');
+    if (!box) return;
+    const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    const nq = norm(q.trim());
+    if (!nq || nq.length < 2) { box.innerHTML=''; box.style.display='none'; return; }
+    const matches = _allDataMats().filter(m => norm(m.name).includes(nq)).slice(0,7);
+    if (!matches.length) { box.innerHTML=''; box.style.display='none'; return; }
+    box.innerHTML = matches.map(m => `
+      <div class="av-suggest-item"
+           data-name="${esc(m.name)}"
+           data-icon="${esc(m.icon||'assets/images/d0.jpg')}"
+           data-clave="${esc(m.clave||'')}"
+           data-creditos="${m.creditos||''}">
+        <img class="av-suggest-icon" src="${esc(m.icon||'assets/images/d0.jpg')}"
+             onerror="this.src='assets/images/d0.jpg'" alt="">
+        <span class="av-suggest-name">${esc(m.name)}</span>
+        ${m.clave&&m.clave!=='—'?`<span class="av-suggest-clave">${esc(m.clave)}</span>`:''}
+      </div>`).join('');
+    box.style.display = 'block';
+
+    const pick = item => {
+      SubModal._selected = {
+        name:     item.dataset.name,
+        icon:     item.dataset.icon,
+        clave:    item.dataset.clave,
+        creditos: item.dataset.creditos ? Number(item.dataset.creditos) : undefined,
+      };
+      const inp = document.getElementById('av-sub-name');
+      inp.value = item.dataset.name;
+      inp.blur();
+      box.innerHTML=''; box.style.display='none';
+    };
+    box.querySelectorAll('.av-suggest-item').forEach(item => {
+      item.addEventListener('mousedown', e => { e.preventDefault(); pick(item); });
+      let _ty0 = 0;
+      item.addEventListener('touchstart', e => { _ty0 = e.touches[0].clientY; }, {passive:true});
+      item.addEventListener('touchend', e => {
+        if (Math.abs(e.changedTouches[0].clientY - _ty0) > 8) return; /* fue scroll, no tap */
+        e.preventDefault();
+        pick(item);
+      }, {passive:false});
+    });
+  },
+
   confirm() {
     const name=document.getElementById('av-sub-name').value.trim();
     if(!name){document.getElementById('av-sub-name').focus();return;}
@@ -868,8 +982,18 @@ const SubModal = {
     const semestre=document.getElementById('av-sub-sem').value;
     const dias=[...document.querySelectorAll('.av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
-    subs.push({id:uid(),name,profesor,dias,hora,semestre,colorIdx:subs.length});
-    saveSubjects(subs); SubModal.close(); R.home();
+    const newSub={id:uid(),name,profesor,dias,hora,semestre,colorIdx:subs.length};
+    /* Guardar icono/clave/créditos del dropdown o buscar en data.js */
+    const src = this._selected || _findInData({name,id:''});
+    if (src) {
+      if (src.icon)     newSub.icon     = src.icon;
+      if (src.clave)    newSub.clave    = src.clave;
+      if (src.creditos) newSub.creditos = src.creditos;
+    }
+    subs.push(newSub);
+    saveSubjects(subs);
+    SubModal.close();
+    R.home();
   },
 };
 
@@ -879,37 +1003,9 @@ const SubModal = {
 const A = {
   openSubModal:      (sem)=>SubModal.open(sem),
   toggleVis(id) {
-    const hidden = toggleHidden(id);
-    /* Re-init solar system in-place (no HTML rebuild, no scroll) */
+    toggleHidden(id);
     const solarWrap = document.getElementById('av-solar-wrap');
     if (solarWrap) { SolarSys.stop(); SolarSys.init(solarWrap, getSubjects()); }
-    /* Update the affected card in-place */
-    const card = document.querySelector(`.av-card[data-sub="${id}"]`);
-    if (!card) return;
-    const sub = getSubjects().find(s => s.id === id);
-    if (!sub) return;
-    const {ac} = getColor(sub.colorIdx || 0);
-    /* Swap planet SVG color */
-    const oldSvg = card.querySelector('.av-planet-svg');
-    if (oldSvg) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = mkPlanetSvg(sub.colorIdx || 0, hidden ? 'rgba(155,191,181,0.28)' : ac);
-      oldSvg.replaceWith(tmp.firstChild);
-    }
-    /* Swap eye icon + class */
-    const btn = card.querySelector('.av-vis-btn');
-    if (btn) {
-      btn.className = `av-vis-btn${hidden ? ' av-vis-btn--off' : ''}`;
-      btn.setAttribute('aria-label', hidden ? 'Mostrar en sistema solar' : 'Ocultar en sistema solar');
-      btn.innerHTML = hidden
-        ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-             <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-             <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-             <line x1="1" y1="1" x2="23" y2="23"/></svg>`
-        : `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-             <circle cx="12" cy="12" r="3"/></svg>`;
-    }
   },
   closeSubModal:     ()=>SubModal.close(),
   confirmAddSubject: ()=>SubModal.confirm(),
@@ -973,9 +1069,32 @@ const Nav={
   document.getElementById('av-modal-ok').addEventListener('click',()=>Modal.confirm());
   document.getElementById('av-modal').addEventListener('click',e=>{if(e.target===document.getElementById('av-modal'))Modal.close();});
   document.getElementById('av-modal-inp').addEventListener('keydown',e=>{if(e.key==='Enter')Modal.confirm();if(e.key==='Escape')Modal.close();});
-  document.getElementById('av-sub-cancel').addEventListener('click',()=>SubModal.close());
+  const _subClose = () => SubModal.close();
+  document.getElementById('av-sub-cancel').addEventListener('click', _subClose);
   document.getElementById('av-sub-ok').addEventListener('click',()=>SubModal.confirm());
-  document.getElementById('av-sub-modal').addEventListener('click',e=>{if(e.target===document.getElementById('av-sub-modal'))SubModal.close();});
-  document.getElementById('av-sub-name').addEventListener('keydown',e=>{if(e.key==='Escape')SubModal.close();});
-  document.getElementById('av-days-row').addEventListener('click',e=>{const b=e.target.closest('.av-day-btn');if(b)b.classList.toggle('av-day-btn--on');});
+  document.getElementById('av-sub-modal').addEventListener('click',e=>{if(e.target===document.getElementById('av-sub-modal'))_subClose();});
+  const _nameInp = document.getElementById('av-sub-name');
+  const _profInp = document.getElementById('av-sub-prof');
+  _nameInp.addEventListener('keydown',e=>{if(e.key==='Escape')SubModal.close();});
+  _nameInp.addEventListener('input',()=>SubModal._suggest(_nameInp.value));
+  _nameInp.addEventListener('blur',()=>setTimeout(()=>{
+    const b=document.getElementById('av-name-suggest');
+    if(b){b.innerHTML='';b.style.display='none';}
+  },200));
+  /* al tocar profesor desde nombre: evitar blur/refocus bounce */
+  _profInp.addEventListener('mousedown', e => {
+    if (document.activeElement === _nameInp) e.preventDefault();
+  });
+  _profInp.addEventListener('touchstart', e => {
+    if (document.activeElement === _nameInp) { e.preventDefault(); _profInp.focus(); }
+  }, { passive: false });
+  /* días: preventDefault en mousedown/touchstart para que el teclado no se cierre */
+  document.getElementById('av-days-row').addEventListener('mousedown', e => {
+    const b = e.target.closest('.av-day-btn');
+    if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
+  });
+  document.getElementById('av-days-row').addEventListener('touchstart', e => {
+    const b = e.target.closest('.av-day-btn');
+    if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
+  }, { passive: false });
 })();

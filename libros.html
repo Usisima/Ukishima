@@ -96,7 +96,7 @@
   <script src="assets/js/data/libros-data.js"></script>
   <script src="assets/js/data/notas-data.js"></script>
   <script src="assets/js/libros/libros.js"></script>
-<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');</script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('[SW] Registro fallido:',e);});</script>
 </body>
 </html>
 

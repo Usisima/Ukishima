@@ -153,7 +153,7 @@ self.addEventListener('fetch', e => {
           if (res.ok) cache.put(e.request, res.clone());
           return res;
         })
-        .catch(() => cached);
+        .catch(() => cached || Response.error());
       return cached || networkFetch;
     })
   );
