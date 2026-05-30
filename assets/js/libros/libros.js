@@ -286,6 +286,8 @@ function renderTexBody(raw) {
 /* ── NORMALIZE: accent-insensitive, case-insensitive ── */
 const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
+const CHEVRON_SVG = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
+
 /* ── IN-BOOK SEARCH FILTER ────────────────────── */
 function filterBookNotes(q) {
   const lq = norm(q.trim());
@@ -520,7 +522,6 @@ const R = {
       const allBooks = LIBRARY.flatMap(subj =>
         subj.books.map(b => ({ book: b, subject: subj.subject, color: palColor(subj) }))
       ).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
-      const chevronSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
       main.innerHTML = `<div class="search-results">
         <div class="search-result-group-label">${allBooks.length} libros</div>
         ${allBooks.map(({ book: b, subject, color }) => `
@@ -530,7 +531,7 @@ const R = {
               <div class="search-book-title">${esc(b.title)}</div>
               <div class="search-book-subject">${esc(b.author)}</div>
             </div>
-            ${chevronSvg}
+            ${CHEVRON_SVG}
           </div>`).join('')}
       </div>`;
       return;
@@ -576,8 +577,6 @@ const R = {
       return;
     }
 
-    const chevronSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
-
     let html = '<div class="search-results">';
 
     if (bookResults.length) {
@@ -589,7 +588,7 @@ const R = {
             <div class="search-book-title">${esc(b.title)}</div>
             <div class="search-book-subject">${esc(b.author)}</div>
           </div>
-          ${chevronSvg}
+          ${CHEVRON_SVG}
         </div>`).join('');
     }
 
@@ -601,7 +600,7 @@ const R = {
             <div class="search-note-label">${esc(note.label)}</div>
             <div class="search-note-source">${esc(b.title)}</div>
           </div>
-          ${chevronSvg}
+          ${CHEVRON_SVG}
         </div>`).join('');
     }
 

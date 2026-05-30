@@ -63,6 +63,10 @@
       <span class="dash-stat-val" id="hs-pct">—</span>
       <span class="dash-stat-key">Avance</span>
     </div>
+    <div class="dash-stat-card">
+      <span class="dash-stat-val" id="hs-avg">—</span>
+      <span class="dash-stat-key">Promedio</span>
+    </div>
   </div>
 
   <div id="dash-sem-progress"></div>
@@ -138,15 +142,36 @@
   if (window.STANDALONE_GATE && !(window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone)) return;
   const allMats = CURRICULUM.flatMap(function(s) { return s.materias; });
   const total   = allMats.length;
-  const done    = allMats.filter(function(m) { return isComplete(m); }).length;
-  const earned  = allMats.filter(function(m) { return isComplete(m); })
+
+  /* también contar materias acreditadas en avance (con calificación final) */
+  var _avProg = {};
+  try { _avProg = (JSON.parse(localStorage.getItem('ukishima_avance_v2')||'null')||{}).progress||{}; } catch(e){}
+  function isCredited(m) { return isComplete(m) || (_avProg[m.id] && _avProg[m.id].finalGrade != null); }
+
+  const done    = allMats.filter(function(m) { return isCredited(m); }).length;
+  const earned  = allMats.filter(function(m) { return isCredited(m); })
                          .reduce(function(s, m) { return s + m.creditos; }, 0);
-  const pct     = getGlobalPct();
+  const pct     = Math.min(100, Math.round(earned / (TOTAL_CREDITOS||1) * 100));
 
   document.getElementById('hs-mats').textContent  = done + ' / ' + total;
   document.getElementById('hs-creds').textContent = earned;
   document.getElementById('hs-pct').textContent   = pct + '%';
   document.getElementById('header-pct').textContent = pct + '%';
+  // Promedio general de materias cursadas (con calificación final)
+  (function() {
+    try {
+      var av = JSON.parse(localStorage.getItem('ukishima_avance_v2') || 'null') || {};
+      var prog = av.progress || {};
+      var grades = Object.values(prog)
+        .map(function(p) { return p.finalGrade; })
+        .filter(function(g) { return g != null && !isNaN(g); });
+      var el = document.getElementById('hs-avg');
+      if (el && grades.length) {
+        var avg = grades.reduce(function(s, g) { return s + g; }, 0) / grades.length;
+        el.textContent = avg.toFixed(1);
+      }
+    } catch(e) {}
+  })();
 
   // Semester progress strip
   (function () {

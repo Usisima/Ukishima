@@ -57,21 +57,17 @@ const DEFAULTS = [
 /* ── COLOR PALETTE ───────────────────────────────────── */
 function _hue(colorIdx) { return ((colorIdx || 0) * 30) % 360; }
 function getColor(idx)           { const h=_hue(idx); return {bg:`hsla(${h},75%,10%,0.7)`,ac:`hsl(${h},75%,65%)`}; }
-function getSubColor(id,colorIdx){ return getColor(colorIdx); }
+function getSubColor(colorIdx){ return getColor(colorIdx); }
 
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
 function _allDataMats() {
-  const result = [];
-  if (typeof CURRICULUM !== 'undefined')
-    CURRICULUM.forEach(s => s.materias.forEach(m => result.push(m)));
+  const mats = typeof CURRICULUM !== 'undefined' ? CURRICULUM.flatMap(s => s.materias) : [];
   const pools = [
     ['BI',   typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : []],
     ['BII',  typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : []],
     ['BIII', typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : []],
   ];
-  pools.forEach(([key, pool]) => pool.forEach((opt, i) =>
-    result.push({...opt, id:`opt_${key}_${i}`})));
-  return result;
+  return [...mats, ...pools.flatMap(([key, pool]) => pool.map((opt, i) => ({...opt, id:`opt_${key}_${i}`})))];
 }
 
 function _findInData(sub) {
@@ -346,7 +342,7 @@ const SolarSys = {
 
     const hits = [];
     for (const {sub, i, pos} of sorted) {
-      const {ac} = getSubColor(sub.id, sub.colorIdx);
+      const {ac} = getSubColor(sub.colorIdx);
       const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
       const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
@@ -535,7 +531,7 @@ const SolarSys = {
     for (const h of this._hits) {
       const dx = x - h.x, dy = y - h.y;
       if (dx*dx + dy*dy <= h.r*h.r) {
-        Nav.detail(h.sub.id);
+        Nav.detail(h.sub.id, true);
         /* Suppress the ~300 ms ghost-click the browser fires after touchend
            so it doesn't land on a button that appeared at the same position. */
         const main = document.getElementById('av-main');
@@ -681,7 +677,7 @@ const R = {
           </button>` : ''}
         </div>`;
       for (const sub of bySem[sem]) {
-        const {bg, ac} = getSubColor(sub.id, sub.colorIdx);
+        const {bg, ac} = getSubColor(sub.colorIdx);
         const prog0    = getProgress(sub.id);
         const p = prog0.finalGrade != null ? 100 : calcPct(sub.id);
         const {tareas,examenes} = prog0;
@@ -690,7 +686,7 @@ const R = {
         const avgEx    = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
         const weighted = calcWeightedGrade(sub.id);
         const displayG = prog0.finalGrade!=null ? prog0.finalGrade.toFixed(1) : weighted!==null ? weighted.toFixed(1) : avgEx;
-        const dotClass = (!tareas.length&&!examenes.length)?'av-status-dot--empty':p===100?'av-status-dot--done':'av-status-dot--partial';
+        const dotClass = prog0.finalGrade!=null ? 'av-status-dot--done' : (!tareas.length&&!examenes.length) ? 'av-status-dot--empty' : p===100 ? 'av-status-dot--done' : 'av-status-dot--partial';
         let chips = '';
         if (tareas.length)   chips += `<span class="av-chip${done===tareas.length?' av-chip--done':''}">${done}/${tareas.length} tareas</span>`;
         if (examenes.length && !weighted) {
@@ -750,7 +746,7 @@ const R = {
     const sub  = subs.find(s=>s.id===subId);
     if (!sub) { R.home(); return; }
 
-    const {bg, ac} = getSubColor(sub.id, sub.colorIdx);
+    const {bg, ac} = getSubColor(sub.colorIdx);
     document.getElementById('av-header-title').textContent = sub.name;
     document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
@@ -936,8 +932,11 @@ const R = {
   },
 
   _refreshHero(subId) {
+    const prog = getProgress(subId);
+    /* si hay calificación final, tiene prioridad absoluta */
+    if (prog.finalGrade != null) return;
     const p = calcPct(subId);
-    const {examenes} = getProgress(subId);
+    const {examenes} = prog;
     const graded = examenes.filter(e=>e.grade!=null);
     const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
     const pEl=document.getElementById('av-hero-pct'), bEl=document.getElementById('av-hero-bar');
@@ -945,6 +944,15 @@ const R = {
     if(bEl) bEl.style.width=p+'%';
   },
 };
+
+function _refreshWeightedDisplay(id) {
+  if (getProgress(id).finalGrade != null) return; /* calificación final tiene prioridad */
+  const w = calcWeightedGrade(id);
+  const pEl = document.getElementById('av-hero-pct');
+  if (pEl && w !== null) { pEl.textContent = w.toFixed(1); pEl.style.color = gradeColor(w); }
+  const tot = document.querySelector('.av-crit-total strong');
+  if (tot) { tot.textContent = w !== null ? w.toFixed(1) : '—'; if (w !== null) tot.style.color = gradeColor(w); }
+}
 
 /* ══════════════════════════════════════════════════════
    MODALS
@@ -1162,12 +1170,7 @@ const A = {
     if(f==='peso'){const n=parseInt(v);c.peso=isNaN(n)?0:Math.max(0,Math.min(100,n));}
     else c[f]=v;
     saveCriterios(id,cs);
-    const w=calcWeightedGrade(id);
-    const pEl=document.getElementById('av-hero-pct');
-    const dg=w!==null?w.toFixed(1):null;
-    if(pEl&&dg){pEl.textContent=dg;pEl.style.color=gradeColor(parseFloat(dg));}
-    const tot=document.querySelector('.av-crit-total strong');
-    if(tot){tot.textContent=w!==null?w.toFixed(1):'—';if(w!==null)tot.style.color=gradeColor(w);}
+    _refreshWeightedDisplay(id);
   },
   addCriterioItem(id,cid)           { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;(c.items=c.items||[]).push({id:uid(),text:'',grade:null});saveCriterios(id,cs);R.detail(id); },
   delCriterioItem(id,cid,iid)       { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;c.items=(c.items||[]).filter(i=>i.id!==iid);saveCriterios(id,cs);R.detail(id); },
@@ -1176,11 +1179,7 @@ const A = {
     if(!item)return;
     const n=parseFloat(v);item.grade=isNaN(n)?null:Math.max(0,Math.min(10,n));
     saveCriterios(id,cs);
-    const w=calcWeightedGrade(id);
-    const pEl=document.getElementById('av-hero-pct');
-    if(pEl&&w!==null){pEl.textContent=w.toFixed(1);pEl.style.color=gradeColor(w);}
-    const tot=document.querySelector('.av-crit-total strong');
-    if(tot){tot.textContent=w!==null?w.toFixed(1):'—';if(w!==null)tot.style.color=gradeColor(w);}
+    _refreshWeightedDisplay(id);
   },
   setCriterioItemName(id,cid,iid,v) { const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);if(!item)return;item.text=v;saveCriterios(id,cs); },
   setProyGrade(id,i,v) { const n=parseFloat(v),p=getProgress(id);(p.proyectos=p.proyectos||[])[i].grade=isNaN(n)?null:Math.max(0,Math.min(10,n));saveProgress(id,p);R._refreshHero(id); },
@@ -1206,11 +1205,15 @@ const S={view:'home',subId:null};
 let _suppressNav = false;   /* flag to swallow the popstate fired by history.go(+1) */
 const Nav={
   _homeScroll: 0,
-  detail(id) {
+  _cardTop: null,
+  _lastSubId: null,
+  detail(id, skipAnim) {
     Nav._homeScroll = window.scrollY;
-    /* captura posición de la tarjeta antes de navegar */
-    const card = document.querySelector(`.av-card[data-sub="${id}"]`);
+    Nav._lastSubId  = id;
+    /* captura posición de la tarjeta solo si no viene del sistema solar */
+    const card    = skipAnim ? null : document.querySelector(`.av-card[data-sub="${id}"]`);
     const cardTop = card ? card.getBoundingClientRect().top : null;
+    Nav._cardTop = cardTop;
     S.view='detail'; S.subId=id;
     history.pushState({view:'detail',subId:id},'',`#mat/${id}`);
     R.detail(id);
@@ -1231,7 +1234,67 @@ const Nav={
       }
     }
   },
-  _goHome() {S.view='home';S.subId=null;R.home();window.scrollTo({top:Nav._homeScroll,behavior:'instant'});Nav._homeScroll=0;},
+  _goHome() {
+    const savedSubId = Nav._lastSubId;
+    Nav._lastSubId = null;
+    S.view='home'; S.subId=null;
+    const hero    = document.querySelector('.av-hero-card');
+    const cardTop = Nav._cardTop;
+    const scrollY = Nav._homeScroll;
+    Nav._cardTop    = null;
+    Nav._homeScroll = 0;
+
+    if (hero && cardTop !== null) {
+      const heroRect = hero.getBoundingClientRect();
+
+      /* 1 — renderizar home */
+      R.home();
+      window.scrollTo({top: scrollY, behavior:'instant'});
+      const main       = document.getElementById('av-main');
+      const targetCard = savedSubId ? main.querySelector(`[data-sub="${savedSubId}"]`) : null;
+
+      if (targetCard) {
+        /* 2 — FLIP: calcular cuánto hay que desplazar la tarjeta para que arranque
+                     desde la posición donde estaba el hero en el detalle          */
+        const targetRect = targetCard.getBoundingClientRect();
+        const dy = heroRect.top - targetRect.top;
+
+        /* 3 — posicionar la tarjeta en la posición del hero (sin transición) */
+        targetCard.style.transition = 'none';
+        targetCard.style.transform  = `translateY(${dy}px)`;
+        targetCard.style.zIndex     = '2';
+
+        /* resto del home: fade-in mientras la pill viaja */
+        Array.from(main.querySelectorAll('.av-card, .av-sem-label, .av-summary, .av-solar-wrap, .av-cards-divider'))
+          .forEach(el => { if (el !== targetCard) { el.style.opacity='0'; el.style.transition='none'; } });
+
+        /* 4 — un frame después: animar tarjeta a su posición natural + fade-in del resto */
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          targetCard.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.8,1)';
+          targetCard.style.transform  = '';
+
+          Array.from(main.querySelectorAll('.av-card, .av-sem-label, .av-summary, .av-solar-wrap, .av-cards-divider'))
+            .forEach(el => { if (el !== targetCard) { el.style.transition='opacity 0.4s ease 0.05s'; el.style.opacity='1'; } });
+
+          setTimeout(() => {
+            targetCard.style.transition = '';
+            targetCard.style.transform  = '';
+            targetCard.style.zIndex     = '';
+            main.querySelectorAll('.av-card, .av-sem-label, .av-summary, .av-solar-wrap, .av-cards-divider')
+              .forEach(el => { el.style.transition=''; el.style.opacity=''; });
+          }, 580);
+        }));
+      } else {
+        /* sin tarjeta destino: fade-in simple */
+        main.style.opacity = '0';
+        requestAnimationFrame(() => { main.style.transition='opacity 0.35s ease'; main.style.opacity='1'; });
+        setTimeout(() => { main.style.transition=''; main.style.opacity=''; }, 380);
+      }
+    } else {
+      R.home();
+      window.scrollTo({top: scrollY, behavior:'instant'});
+    }
+  },
 };
 
 (function init(){
