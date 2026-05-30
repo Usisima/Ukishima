@@ -71,7 +71,6 @@
       <div class="header-sub">Facultad de Ciencias · UNAM</div>
     </div>
   </div>
-  <span class="global-badge" id="header-pct">—%</span>
 </header>
 
 <div class="bh-container">
@@ -169,12 +168,11 @@
   var prompt  = document.getElementById('dash-browser-prompt');
   var bottom  = document.getElementById('dash-bottom');
   var nav     = document.querySelector('.bottom-nav');
-  var badge   = document.getElementById('header-pct');
+
   if (!isStandalone) {
     prompt.style.display = 'flex';
     bottom.style.display = 'none';
     nav.style.display    = 'none';
-    badge.style.display  = 'none';
   }
 })();
 </script>
@@ -199,7 +197,7 @@
   document.getElementById('hs-mats').textContent  = done + ' / ' + total;
   document.getElementById('hs-creds').textContent = earned;
   document.getElementById('hs-pct').textContent   = pct + '%';
-  document.getElementById('header-pct').textContent = pct + '%';
+
   // Promedio general de materias cursadas (con calificación final)
   (function() {
     try {
