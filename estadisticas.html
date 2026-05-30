@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <title>Estadísticas · UNAM</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/fonts/google-fonts.css">
+  <link rel="stylesheet" href="assets/css/estadisticas.css">
+  <link rel="preload" as="script" href="assets/js/data/data.js">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <button class="header-back" id="btn-back" aria-label="Volver" onclick="history.length>1?history.back():location.replace('index.html')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <div class="header-divider"></div>
+    <div class="header-text">
+      <div class="header-title">Estadísticas</div>
+      <div class="header-sub">Temarios · Facultad de Ciencias · UNAM</div>
+    </div>
+  </div>
+  <div class="header-lock">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    privado
+  </div>
+</header>
+
+<div class="stats-wrap">
+  <div class="summary-row" id="summary-row"></div>
+  <div class="summary-progress-wrap" id="summary-progress"></div>
+  <div id="sections-container"></div>
+</div>
+
+<script src="assets/js/data/data.js"></script>
+<script>
+(function () {
+
+  /* ── helpers ── */
+  function hasTem(mat) {
+    return Array.isArray(mat.temario) && mat.temario.length > 0;
+  }
+  function hasOptTem(opt) {
+    var d = OPT_DATA && OPT_DATA[opt.name];
+    return d && Array.isArray(d.temario) && d.temario.length > 0;
+  }
+
+  /* ── collect all subjects ── */
+  var troncoMats = [];
+  CURRICULUM.forEach(function(sem) {
+    troncoMats = troncoMats.concat(sem.materias || []);
+  });
+
+  var allOptativas = OPTATIVAS_BLOQUE_I.concat(OPTATIVAS_BLOQUE_II).concat(OPTATIVAS_BLOQUE_III);
+
+  var totalMats = troncoMats.length + allOptativas.length;
+  var conTem = troncoMats.filter(hasTem).length +
+               allOptativas.filter(hasOptTem).length;
+  var sinTem = totalMats - conTem;
+  var pct    = Math.round(conTem / totalMats * 100);
+
+  /* ── summary cards ── */
+  var summaryRow = document.getElementById('summary-row');
+  summaryRow.innerHTML =
+    card(totalMats, '', 'Materias') +
+    card(conTem, 'ok', 'Con temario') +
+    card(sinTem, 'miss', 'Sin temario');
+
+  function card(val, cls, lbl) {
+    return '<div class="summary-card">' +
+      '<span class="summary-val' + (cls ? ' ' + cls : '') + '">' + val + '</span>' +
+      '<span class="summary-lbl">' + lbl + '</span>' +
+    '</div>';
+  }
+
+  /* ── progress bar ── */
+  document.getElementById('summary-progress').innerHTML =
+    '<div class="summary-progress-label">' +
+      '<span>Cobertura de temarios</span>' +
+      '<span>' + conTem + ' / ' + totalMats + ' · ' + pct + '%</span>' +
+    '</div>' +
+    '<div class="summary-progress-bar-bg">' +
+      '<div class="summary-progress-bar-fill" style="width:' + pct + '%"></div>' +
+    '</div>';
+
+  /* ── render sections ── */
+  var container = document.getElementById('sections-container');
+  var html = '';
+
+  /* Tronco Común */
+  var tcTotal = troncoMats.length;
+  var tcConTem = troncoMats.filter(hasTem).length;
+  html += '<div class="section-heading">' +
+    '<h2>Tronco Común</h2>' +
+    '<span class="section-count">' + tcConTem + ' / ' + tcTotal + ' con temario</span>' +
+  '</div>';
+
+  CURRICULUM.forEach(function(sem) {
+    if (!sem.materias || sem.materias.length === 0) return;
+    html += '<div class="subsection-heading">' + sem.titulo + '</div>';
+    html += '<div class="cards-grid">';
+    sem.materias.forEach(function(mat) {
+      html += matCard(mat.name, mat.icon, hasTem(mat));
+    });
+    html += '</div>';
+  });
+
+  /* Optativas */
+  var optTotal  = allOptativas.length;
+  var optConTem = allOptativas.filter(hasOptTem).length;
+  html += '<div class="section-heading">' +
+    '<h2>Optativas</h2>' +
+    '<span class="section-count">' + optConTem + ' / ' + optTotal + ' con temario</span>' +
+  '</div>';
+
+  var bloques = [
+    { name: 'Bloque I — Semestres 2, 3 y 4', list: OPTATIVAS_BLOQUE_I },
+    { name: 'Bloque II — Semestres 5 y 6',   list: OPTATIVAS_BLOQUE_II },
+    { name: 'Bloque III — Semestres 7 y 8',  list: OPTATIVAS_BLOQUE_III },
+  ];
+  bloques.forEach(function(b) {
+    html += '<div class="subsection-heading">' + b.name + '</div>';
+    html += '<div class="cards-grid">';
+    b.list.forEach(function(opt) {
+      html += matCard(opt.name, opt.icon, hasOptTem(opt));
+    });
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+
+  /* ── color extraction ── */
+  var offCanvas = document.createElement('canvas');
+  offCanvas.width = offCanvas.height = 20;
+  var offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+
+  function toHex(v) { return ('0' + Math.round(v).toString(16)).slice(-2); }
+
+  function extractVibrant(img) {
+    try {
+      offCtx.clearRect(0, 0, 20, 20);
+      offCtx.drawImage(img, 0, 0, 20, 20);
+      var px = offCtx.getImageData(0, 0, 20, 20).data;
+      var bestScore = -1, br = 0, bg = 0, bb = 0;
+      for (var i = 0; i < px.length; i += 4) {
+        var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
+        var mx = Math.max(rn,gn,bn), mn = Math.min(rn,gn,bn);
+        var l  = (mx + mn) / 2;
+        if (l < 0.20 || l > 0.80) continue;
+        var d  = mx - mn;
+        var s  = d === 0 ? 0 : d / (1 - Math.abs(2*l - 1));
+        /* score: high saturation, prefer mid-lightness (0.4–0.65 range) */
+        var score = s * (1 - Math.abs(l - 0.52) * 1.6);
+        if (score > bestScore) { bestScore = score; br = px[i]; bg = px[i+1]; bb = px[i+2]; }
+      }
+      if (bestScore < 0) { br = px[0]; bg = px[1]; bb = px[2]; }
+      return '#' + toHex(br) + toHex(bg) + toHex(bb);
+    } catch(e) { return null; }
+  }
+
+  function colorizeCards() {
+    var cards = document.querySelectorAll('.mat-card');
+    cards.forEach(function(card) {
+      var img  = card.querySelector('.mat-card-icon');
+      var bar  = card.querySelector('.mat-card-color-bar');
+      var dot  = card.querySelector('.mat-card-color-dot');
+      var chip = card.querySelector('.mat-card-color-chip');
+      if (!img || !bar || !dot || !chip) return;
+
+      function apply() {
+        var hex = extractVibrant(img);
+        if (!hex) return;
+        bar.style.background = hex;
+        dot.style.background = hex;
+        chip.querySelector('.mat-card-color-hex').textContent = hex;
+        chip.classList.add('loaded');
+        /* Guardar en cache compartido para avance y libros */
+        try {
+          var src = img.getAttribute('src');
+          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}');
+          vc[src] = hex;
+          localStorage.setItem('ukishima_vibrant', JSON.stringify(vc));
+        } catch(e) {}
+      }
+
+      if (img.complete && img.naturalWidth > 0) { apply(); }
+      else { img.addEventListener('load', apply, { once: true }); }
+    });
+  }
+
+  colorizeCards();
+
+  /* ── card builder ── */
+  function matCard(name, icon, ok) {
+    var cls    = ok ? 'has-temario' : 'no-temario';
+    var dotCls = ok ? 'ok' : 'miss';
+    var badge  = ok
+      ? '<span class="mat-card-badge ok">✓ Temario</span>'
+      : '<span class="mat-card-badge miss">✗ Falta</span>';
+    return '<div class="mat-card ' + cls + '">' +
+      '<div class="mat-card-color-bar"></div>' +
+      '<img class="mat-card-icon" src="' + icon + '" alt="" loading="lazy">' +
+      '<span class="mat-card-dot ' + dotCls + '"></span>' +
+      '<div class="mat-card-body">' +
+        '<span class="mat-card-name">' + name + '</span>' +
+        '<div class="mat-card-footer">' +
+          badge +
+          '<span class="mat-card-color-chip">' +
+            '<span class="mat-card-color-dot"></span>' +
+            '<span class="mat-card-color-hex">—</span>' +
+          '</span>' +
+          '<span class="mat-card-icon-name">' + icon.split('/').pop() + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+})();
+</script>
+</body>
+</html>

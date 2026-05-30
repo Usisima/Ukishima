@@ -36,31 +36,196 @@ function uid()               { return Date.now().toString(36)+Math.random().toSt
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
 const DEFAULTS = [
-  {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  profesor:'', dias:[], hora:''},
-  {id:'calculo_1',                 name:'Cálculo Diferencial e Integral I',  semestre:'1', colorIdx:1,  profesor:'', dias:[], hora:''},
-  {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  profesor:'', dias:[], hora:''},
-  {id:'geo_moderna_1',             name:'Geometría Moderna I',               semestre:'1', colorIdx:3,  profesor:'', dias:[], hora:''},
-  {id:'algebra_superior_2',        name:'Álgebra Superior II',               semestre:'2', colorIdx:4,  profesor:'', dias:[], hora:''},
-  {id:'calculo_2',                 name:'Cálculo Diferencial e Integral II', semestre:'2', colorIdx:5,  profesor:'', dias:[], hora:''},
-  {id:'geo_analitica_2',           name:'Geometría Analítica II',            semestre:'2', colorIdx:6,  profesor:'', dias:[], hora:''},
-  {id:'algebra_lineal_1',          name:'Álgebra Lineal I',                  semestre:'3', colorIdx:7,  profesor:'', dias:[], hora:''},
-  {id:'calculo_3',                 name:'Cálculo Diferencial e Integral III',semestre:'3', colorIdx:8,  profesor:'', dias:[], hora:''},
-  {id:'algebra_lineal_2',          name:'Álgebra Lineal II',                 semestre:'4', colorIdx:9,  profesor:'', dias:[], hora:''},
-  {id:'calculo_4',                 name:'Cálculo Diferencial e Integral IV', semestre:'4', colorIdx:10, profesor:'', dias:[], hora:''},
-  {id:'ecuaciones_diferenciales_1',name:'Ecuaciones Diferenciales I',        semestre:'4', colorIdx:11, profesor:'', dias:[], hora:''},
-  {id:'algebra_moderna_1',         name:'Álgebra Moderna I',                 semestre:'5', colorIdx:0,  profesor:'', dias:[], hora:''},
-  {id:'analisis_matematico_1',     name:'Análisis Matemático I',             semestre:'5', colorIdx:1,  profesor:'', dias:[], hora:''},
-  {id:'variable_compleja_1',       name:'Variable Compleja I',               semestre:'5', colorIdx:2,  profesor:'', dias:[], hora:''},
-  {id:'analisis_matematico_2',     name:'Análisis Matemático II',            semestre:'6', colorIdx:3,  profesor:'', dias:[], hora:''},
+  {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  hue:272, profesor:'', dias:[], hora:''},
+  {id:'calculo_1',                 name:'Cálculo Diferencial e Integral I',  semestre:'1', colorIdx:1,  hue:305, profesor:'', dias:[], hora:''},
+  {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  hue:325, profesor:'', dias:[], hora:''},
+  {id:'geo_moderna_1',             name:'Geometría Moderna I',               semestre:'1', colorIdx:3,  hue:30,  profesor:'', dias:[], hora:''},
+  {id:'algebra_superior_2',        name:'Álgebra Superior II',               semestre:'2', colorIdx:4,  hue:215, profesor:'', dias:[], hora:''},
+  {id:'calculo_2',                 name:'Cálculo Diferencial e Integral II', semestre:'2', colorIdx:5,  hue:237, profesor:'', dias:[], hora:''},
+  {id:'geo_analitica_2',           name:'Geometría Analítica II',            semestre:'2', colorIdx:6,  hue:270, profesor:'', dias:[], hora:''},
+  {id:'algebra_lineal_1',          name:'Álgebra Lineal I',                  semestre:'3', colorIdx:7,  hue:152, profesor:'', dias:[], hora:''},
+  {id:'calculo_3',                 name:'Cálculo Diferencial e Integral III',semestre:'3', colorIdx:8,  hue:175, profesor:'', dias:[], hora:''},
+  {id:'algebra_lineal_2',          name:'Álgebra Lineal II',                 semestre:'4', colorIdx:9,  hue:78,  profesor:'', dias:[], hora:''},
+  {id:'calculo_4',                 name:'Cálculo Diferencial e Integral IV', semestre:'4', colorIdx:10, hue:110, profesor:'', dias:[], hora:''},
+  {id:'ecuaciones_diferenciales_1',name:'Ecuaciones Diferenciales I',        semestre:'4', colorIdx:11, hue:82,  profesor:'', dias:[], hora:''},
+  {id:'algebra_moderna_1',         name:'Álgebra Moderna I',                 semestre:'5', colorIdx:0,  hue:15,  profesor:'', dias:[], hora:''},
+  {id:'analisis_matematico_1',     name:'Análisis Matemático I',             semestre:'5', colorIdx:1,  hue:45,  profesor:'', dias:[], hora:''},
+  {id:'variable_compleja_1',       name:'Variable Compleja I',               semestre:'5', colorIdx:2,  hue:50,  profesor:'', dias:[], hora:''},
+  {id:'analisis_matematico_2',     name:'Análisis Matemático II',            semestre:'6', colorIdx:3,  hue:5,   profesor:'', dias:[], hora:''},
 ];
 
 /* ── SEMESTER ORDINALS ───────────────────────────────── */
 const SEM_ORD = ['','Primero','Segundo','Tercero','Cuarto','Quinto','Sexto','Séptimo','Octavo','Noveno','Décimo'];
 
-/* ── COLOR PALETTE ───────────────────────────────────── */
-function _hue(colorIdx) { return ((colorIdx || 0) * 30) % 360; }
-function getColor(idx)           { const h=_hue(idx); return {bg:`hsla(${h},75%,10%,0.7)`,ac:`hsl(${h},75%,65%)`}; }
-function getSubColor(colorIdx){ return getColor(colorIdx); }
+/* ═══════════════════════════════════════════════════════
+   SISTEMA DE COLOR — idéntico a estadisticas.html
+   ═══════════════════════════════════════════════════════
+   extractVibrant: elige el píxel con mayor score de
+   (saturación × proximidad a mid-lightness 0.52).
+   Los resultados se cachean en ukishima_vibrant y se
+   aplican a las cards DESPUÉS de que la imagen carga,
+   igual que colorizeCards() en estadisticas.html.        */
+
+var _vibCv  = null;
+var _vibCtx = null;
+function _vibrantCtx() {
+  if (!_vibCv) {
+    _vibCv = document.createElement('canvas');
+    _vibCv.width = _vibCv.height = 20;
+    _vibCtx = _vibCv.getContext('2d', { willReadFrequently: true });
+  }
+  return _vibCtx;
+}
+
+function _extractVibrant(imgEl) {
+  try {
+    var c = _vibrantCtx();
+    c.clearRect(0, 0, 20, 20);
+    c.drawImage(imgEl, 0, 0, 20, 20);
+    var px = c.getImageData(0, 0, 20, 20).data;
+    var best = -1, br = px[0], bg_ = px[1], bb = px[2];
+    for (var i = 0; i < px.length; i += 4) {
+      var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
+      var mx = Math.max(rn,gn,bn), mn = Math.min(rn,gn,bn);
+      var l  = (mx + mn) / 2;
+      if (l < 0.25) continue;
+      var d = mx - mn;
+      var s = d === 0 ? 0 : d / (1 - Math.abs(2*l - 1));
+      var sc = s * (1 - Math.abs(l - 0.52) * 1.6);
+      if (sc > best) { best = sc; br = px[i]; bg_ = px[i+1]; bb = px[i+2]; }
+    }
+    var h2 = function(v){ return ('0'+Math.round(v).toString(16)).slice(-2); };
+    return '#' + h2(br) + h2(bg_) + h2(bb);
+  } catch(e) { return null; }
+}
+
+function _vibrantCache() {
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}'); }
+  catch { return {}; }
+}
+
+function _saveVibrant(src, hex) {
+  try {
+    var vc = _vibrantCache(); vc[src] = hex;
+    localStorage.setItem('ukishima_vibrant', JSON.stringify(vc));
+  } catch(e) {}
+}
+
+function _hexToH(hex) {
+  return _hexToHSL(hex).h;
+}
+/* Convierte hex → {h, s, l} con valores reales (sin normalizar) */
+function _hexToHSL(hex) {
+  var r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255;
+  var mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn;
+  var l=(mx+mn)/2;
+  var s=d<1e-6?0:(l>0.5?d/(2-mx-mn):d/(mx+mn));
+  var h=0;
+  if(d>1e-6){if(mx===r)h=((g-b)/d%6)*60;else if(mx===g)h=((b-r)/d+2)*60;else h=((r-g)/d+4)*60;if(h<0)h+=360;}
+  return {h:Math.round(h), s:Math.round(s*100), l:Math.round(l*100)};
+}
+/* bg con H y S reales del ícono, L oscurecida — igual que estadísticas pero oscuro */
+function _hexToBg(hex) {
+  var c=_hexToHSL(hex);
+  var bgL=Math.max(Math.round(c.l*0.15),7);
+  return 'hsla('+c.h+','+c.s+'%,'+bgL+'%,0.76)';
+}
+
+/* ── API de color (fallback para render inicial) ────── */
+function getColor(h) {
+  return { bg:'hsla('+h+',75%,10%,0.7)', ac:'hsl('+h+',75%,65%)' };
+}
+function getSubColor(sub) {
+  var entry = _findInData(sub);
+  var icon  = (entry && entry.icon) || sub.icon;
+  if (icon) {
+    var key = _cacheKey(sub.id || '', icon);
+    var hex = _vibrantCache()[key] || _vibrantCache()[icon];
+    if (hex) return { bg: hex+'80', ac: hex };
+  }
+  var def = DEFAULTS.find(function(d){ return d.id===sub.id; });
+  var h = (def && def.hue!=null) ? def.hue
+        : (entry && entry.colorIdx!=null) ? (entry.colorIdx*30)%360
+        : ((sub.colorIdx||0)*30)%360;
+  return getColor(h);
+}
+
+/* ── 4 esquemas de extracción de color ─────────────────────
+   Tronco común: filtro estricto L ∈ [0.20, 0.75] — excluye
+   píxeles muy blancos y muy negros, garantiza colores vívidos.
+   Optativas (cada bloque): sin restricción de L.             */
+
+var _TRONCO_IDS = (function() {
+  var s = {};
+  DEFAULTS.forEach(function(d){ s[d.id] = true; });
+  return s;
+})();
+
+/* Determina la clave de cache según el tipo de materia */
+function _cacheKey(subId, icon) {
+  return _TRONCO_IDS[subId] ? 'ukishima_tronco_v:' + icon
+                             : 'ukishima_opt_v:'    + icon;
+}
+
+/* extractVibrant con rango de luminosidad configurable */
+function _extractVibrantL(imgEl, minL, maxL) {
+  try {
+    var c = _vibrantCtx();
+    c.clearRect(0,0,20,20); c.drawImage(imgEl,0,0,20,20);
+    var px = c.getImageData(0,0,20,20).data;
+    var best=-1, br=px[0], bg_=px[1], bb=px[2];
+    for (var i=0;i<px.length;i+=4) {
+      var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
+      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn);
+      var l=(mx+mn)/2;
+      if (l < minL || l > maxL) continue;
+      var d=mx-mn, s=d===0?0:d/(1-Math.abs(2*l-1));
+      var sc=s*(1-Math.abs(l-0.52)*1.6);
+      if(sc>best){best=sc;br=px[i];bg_=px[i+1];bb=px[i+2];}
+    }
+    if (best < 0 && (minL > 0 || maxL < 1)) return null; // sin resultado con filtro estricto
+    var h2=function(v){return('0'+Math.round(v).toString(16)).slice(-2);};
+    return '#'+h2(br)+h2(bg_)+h2(bb);
+  } catch(e){ return null; }
+}
+
+function _colorizeAvCards() {
+  var vc = _vibrantCache();
+  document.querySelectorAll('.av-card').forEach(function(card) {
+    var subId = card.getAttribute('data-sub') || '';
+    var img   = card.querySelector('.av-card-icon img');
+    if (!img) return;
+    var src   = img.getAttribute('src') || '';
+    var key   = _cacheKey(subId, src);
+    var isTronco = !!_TRONCO_IDS[subId];
+
+    function apply(imgEl) {
+      /* Tronco: filtra blancos/negros; optativas: sin filtro */
+      var hex = isTronco
+        ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl))
+        : _extractVibrant(imgEl);
+      if (!hex) return;
+      card.style.background = hex+'80';
+      var bar = card.querySelector('.av-card-bar');
+      if (bar) bar.style.background = hex;
+      try {
+        var cur = _vibrantCache();
+        cur[key] = hex;
+        localStorage.setItem('ukishima_vibrant', JSON.stringify(cur));
+      } catch(e) {}
+    }
+
+    /* Cache hit */
+    if (key && vc[key]) {
+      card.style.background = vc[key]+'80';
+      var bar2 = card.querySelector('.av-card-bar');
+      if (bar2) bar2.style.background = vc[key];
+      return;
+    }
+    if (img.complete && img.naturalWidth > 0) { apply(img); }
+    else { img.addEventListener('load', function(){ apply(img); }, {once:true}); }
+  });
+}
 
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
 function _allDataMats() {
@@ -193,7 +358,7 @@ const SolarSys = {
   _preload(subs) {
     subs.forEach(sub => {
       const dm  = _findInData(sub);
-      const src = sub.icon || (dm && dm.icon) || 'assets/images/d0.jpg';
+      const src = (dm && dm.icon) || sub.icon || 'assets/images/d0.jpg';
       this._iconMap[sub.id] = src;
       if (!this._imgs[src]) {
         const img = new Image();
@@ -345,7 +510,7 @@ const SolarSys = {
 
     const hits = [];
     for (const {sub, i, pos} of sorted) {
-      const {ac} = getSubColor(sub.colorIdx);
+      const {ac} = getSubColor(sub);
       const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
       const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
@@ -680,7 +845,7 @@ const R = {
           </button>` : ''}
         </div>`;
       for (const sub of bySem[sem]) {
-        const {bg, ac} = getSubColor(sub.colorIdx);
+        const {bg, ac} = getSubColor(sub);
         const prog0    = getProgress(sub.id);
         const p = prog0.finalGrade != null ? 100 : calcPct(sub.id);
         const {tareas,examenes} = prog0;
@@ -697,9 +862,9 @@ const R = {
           else chips += `<span class="av-chip">${examenes.length} ex.</span>`;
         }
 
-        /* Buscar icono en data.js si no está almacenado */
+        /* Siempre preferir el ícono actual de data.js sobre el guardado en localStorage */
         const dataMat  = _findInData(sub);
-        const icon     = sub.icon || (dataMat && dataMat.icon) || 'assets/images/d0.jpg';
+        const icon     = (dataMat && dataMat.icon) || sub.icon || 'assets/images/d0.jpg';
         const gradeClr = displayG != null ? gradeColor(parseFloat(displayG)) : ac;
 
         cardsHtml += `
@@ -740,6 +905,7 @@ const R = {
       ${cardsHtml}`;
 
     SolarSys.init(document.getElementById('av-solar-wrap'), subs);
+    _colorizeAvCards();
   },
 
   /* ── DETAIL ── */
@@ -749,7 +915,7 @@ const R = {
     const sub  = subs.find(s=>s.id===subId);
     if (!sub) { R.home(); return; }
 
-    const {bg, ac} = getSubColor(sub.colorIdx);
+    const {bg, ac} = getSubColor(sub);
     document.getElementById('av-header-title').textContent = sub.name;
     document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
@@ -767,9 +933,9 @@ const R = {
     const gradeClrD   = displayGrade!=null ? gradeColor(parseFloat(displayGrade)) : ac;
     const barPct       = finalGrade!=null ? 100 : p;
 
-    /* Icono desde data.js o guardado */
+    /* Siempre preferir el ícono actual de data.js sobre el guardado en localStorage */
     const dataMatD = _findInData(sub);
-    const iconD    = sub.icon || (dataMatD && dataMatD.icon) || 'assets/images/d0.jpg';
+    const iconD    = (dataMatD && dataMatD.icon) || sub.icon || 'assets/images/d0.jpg';
 
     const tareaRows = tareas.length
       ? tareas.map((t,i)=>`
@@ -1118,12 +1284,13 @@ const SubModal = {
     const dias=[...document.querySelectorAll('.av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
     const newSub={id:uid(),name,profesor,dias,hora,semestre,colorIdx:subs.length};
-    /* Guardar icono/clave/créditos del dropdown o buscar en data.js */
+    /* Guardar icono/clave/créditos/colorIdx del dropdown o buscar en data.js */
     const src = this._selected || _findInData({name,id:''});
     if (src) {
-      if (src.icon)     newSub.icon     = src.icon;
-      if (src.clave)    newSub.clave    = src.clave;
-      if (src.creditos) newSub.creditos = src.creditos;
+      if (src.icon)                newSub.icon     = src.icon;
+      if (src.clave)               newSub.clave    = src.clave;
+      if (src.creditos)            newSub.creditos = src.creditos;
+      if (src.colorIdx != null)    newSub.colorIdx = src.colorIdx;
     }
     subs.push(newSub);
     saveSubjects(subs);

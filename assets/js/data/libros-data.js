@@ -1093,8 +1093,8 @@ function findBook(id) {
     const subj = all[i];
     const b = subj.books.find(bk => bk.id === id);
     if (b) {
-      const h = (i * 30) % 360;
-      return { book: b, subject: subj.subject, color: 'hsla(' + h + ',75%,10%,0.7)' };
+      /* Color se resuelve en libros.js via palColor; aquí devolvemos el subject */
+      return { book: b, subject: subj.subject, color: '' };
     }
   }
   return null;

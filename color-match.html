@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Match · Ukishima</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #080d0c; color: #e8f5f2; font-family: 'DM Mono', monospace, system-ui; font-size: 12px; padding: 24px; }
+    h2 { font-size: 11px; color: #9bbfb5; letter-spacing: 0.18em; text-transform: uppercase; margin: 24px 0 8px; border-bottom: 1px solid rgba(155,191,181,0.12); padding-bottom: 6px; }
+    .row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(155,191,181,0.07); }
+    .swatch { width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+    img.thumb { width: 30px; height: 30px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+    .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #e8f5f2; }
+    .badge { font-size: 10px; color: rgba(155,191,181,0.7); flex-shrink: 0; min-width: 110px; }
+    .ok  { font-size: 10px; color: #3fc99a; flex-shrink: 0; }
+    .chg { font-size: 10px; color: #d6b44e; flex-shrink: 0; }
+    pre  { background: rgba(155,191,181,0.05); border: 1px solid rgba(155,191,181,0.14); padding: 14px; border-radius: 8px; overflow-x: auto; line-height: 1.6; margin-top: 10px; white-space: pre-wrap; font-size: 11px; }
+    .btns { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    button { background: rgba(155,191,181,0.1); border: 1px solid rgba(155,191,181,0.3); color: #9bbfb5; font-family: inherit; font-size: 11px; padding: 7px 16px; border-radius: 99px; cursor: pointer; }
+    button:hover { background: rgba(155,191,181,0.2); color: #fff; }
+    #status { color: rgba(155,191,181,0.5); font-size: 11px; margin: 10px 0; min-height: 18px; }
+    canvas { display: none; }
+    .section-note { font-size: 10px; color: rgba(155,191,181,0.45); margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<h2 style="margin-top:0">Color Match · Ukishima</h2>
+<div id="status">Iniciando análisis...</div>
+<div id="results"></div>
+
+<script>
+// ── Tronco común — colorIdx fijo en avance.js ────────────────────────────────
+const TRONCO = [
+  {id:'algebra_superior_1',        name:'Álgebra Superior I',        colorIdx:0},
+  {id:'calculo_1',                 name:'Cálculo I',                  colorIdx:1},
+  {id:'geo_analitica_1',           name:'Geometría Analítica I',      colorIdx:2},
+  {id:'geo_moderna_1',             name:'Geometría Moderna I',        colorIdx:3},
+  {id:'algebra_superior_2',        name:'Álgebra Superior II',        colorIdx:4},
+  {id:'calculo_2',                 name:'Cálculo II',                 colorIdx:5},
+  {id:'geo_analitica_2',           name:'Geometría Analítica II',     colorIdx:6},
+  {id:'algebra_lineal_1',          name:'Álgebra Lineal I',           colorIdx:7},
+  {id:'calculo_3',                 name:'Cálculo III',                colorIdx:8},
+  {id:'algebra_lineal_2',          name:'Álgebra Lineal II',          colorIdx:9},
+  {id:'calculo_4',                 name:'Cálculo IV',                 colorIdx:10},
+  {id:'ecuaciones_diferenciales_1',name:'Ec. Diferenciales I',        colorIdx:11},
+  {id:'algebra_moderna_1',         name:'Álgebra Moderna I',          colorIdx:0},
+  {id:'analisis_matematico_1',     name:'Análisis Matemático I',      colorIdx:1},
+  {id:'variable_compleja_1',       name:'Variable Compleja I',        colorIdx:2},
+  {id:'analisis_matematico_2',     name:'Análisis Matemático II',     colorIdx:3},
+];
+
+// ── Optativas con imágenes locales (d17–d61) ─────────────────────────────────
+const OPTATIVAS = [
+  // Bloque I
+  {name:'Álgebra Geométrica',                           file:'d17'},
+  {name:'Conjuntos Convexos',                           file:'d19'},
+  {name:'Conjuntos y Lógica',                           file:'d20'},
+  {name:'Diseño de Sistemas Digitales',                 file:'d21'},
+  {name:'Electromagnetismo I',                          file:'d22'},
+  {name:'Fenómenos Colectivos',                         file:'d23'},
+  {name:'Geometría Moderna II',                         file:'d24'},
+  {name:'Geometría Proyectiva',                         file:'d25'},
+  {name:'Gráficas y Juegos',                            file:'d26'},
+  {name:'Introducción a Ciencias de la Computación I',  file:'d27'},
+  {name:'Introducción a Ciencias de la Computación II', file:'d28'},
+  {name:'Introducción a la Geometría Avanzada',         file:'d29'},
+  {name:'Matemáticas Discretas',                        file:'d30'},
+  {name:'Mecánica Vectorial',                           file:'d31'},
+  {name:'Probabilidad I',                               file:'d32'},
+  {name:'Teoría de los Números I',                      file:'d33'},
+  {name:'Teoría de los Números II',                     file:'d34'},
+  // Bloque II
+  {name:'Álgebra Moderna II',                           file:'d35'},
+  {name:'Análisis de Algoritmos I',                     file:'d36'},
+  {name:'Análisis Numérico',                            file:'d37'},
+  {name:'Arquitectura de Computadoras',                 file:'d38'},
+  {name:'Cálculo de las Variaciones',                   file:'d39'},
+  {name:'Economía I',                                   file:'d41'},
+  {name:'Ecuaciones Diferenciales II',                  file:'d42'},
+  {name:'Electromagnetismo II',                         file:'d43'},
+  {name:'Estadística I',                                file:'d44'},
+  {name:'Estadística II',                               file:'d45'},
+  {name:'Geometría Diferencial I',                      file:'d46'},
+  {name:'Geometría Diferencial II',                     file:'d47'},
+  {name:'Historia de las Matemáticas I',                file:'d48'},
+  {name:'Historia de las Matemáticas II',               file:'d49'},
+  {name:'Introducción a la Física Cuántica',            file:'d50'},
+  {name:'Introducción Mat. a la Mecánica Celeste',      file:'d52'},
+  {name:'Investigación de Operaciones',                 file:'d53'},
+  {name:'Lenguajes de Programación y sus Paradigmas',   file:'d55'},
+  {name:'Lógica Matemática I',                          file:'d56'},
+  {name:'Matemáticas Avanzadas de la Física',           file:'d57'},
+  {name:'Mecánica Analítica',                           file:'d58'},
+  {name:'Muestreo',                                     file:'d59'},
+  {name:'Óptica',                                       file:'d60'},
+  {name:'Probabilidad II',                              file:'d61'},
+];
+
+// ── Canvas setup ─────────────────────────────────────────────────────────────
+const cv  = document.getElementById('cv');
+const ctx = cv.getContext('2d', {willReadFrequently: true});
+cv.width = cv.height = 48;
+
+// Media RGB simple → HSL real (sin discretización ni normalización)
+function imageAvgColor(src) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      ctx.clearRect(0, 0, 48, 48);
+      ctx.drawImage(img, 0, 0, 48, 48);
+      const {data} = ctx.getImageData(0, 0, 48, 48);
+      // Media aritmética simple de R, G, B
+      let rS = 0, gS = 0, bS = 0;
+      const n = data.length / 4;
+      for (let i = 0; i < data.length; i += 4) { rS += data[i]; gS += data[i+1]; bS += data[i+2]; }
+      const r = rS/(n*255), g = gS/(n*255), b = bS/(n*255);
+      // RGB → HSL
+      const max = Math.max(r,g,b), min = Math.min(r,g,b), d = max - min;
+      const l = Math.round((max + min) / 2 * 100);
+      if (d < 1e-6) { resolve({h:0, s:0, l}); return; }
+      const s = Math.round(((max+min)/2 > 0.5 ? d/(2-max-min) : d/(max+min)) * 100);
+      let h;
+      if      (max===r) h = ((g-b)/d % 6)*60;
+      else if (max===g) h = ((b-r)/d + 2)*60;
+      else              h = ((r-g)/d + 4)*60;
+      if (h < 0) h += 360;
+      resolve({h: Math.round(h), s, l});
+    };
+    img.onerror = () => resolve({h:0, s:0, l:50});
+    img.src = src;
+  });
+}
+
+function hueDist(a, b) {
+  const d = Math.abs(a - b) % 360;
+  return Math.min(d, 360 - d);
+}
+
+// Greedy optimal assignment usando el H del color promedio real
+function optimalAssign(subs, imgs) {
+  const used = new Set();
+  const result = {};
+  const sorted = subs.slice().sort((a, b) => a.targetHue - b.targetHue);
+  for (const sub of sorted) {
+    let best = null, bestDist = Infinity;
+    for (const img of imgs) {
+      if (used.has(img.file)) continue;
+      const d = hueDist(sub.targetHue, img.color.h);
+      if (d < bestDist) { bestDist = d; best = img; }
+    }
+    if (best) { result[sub.id] = {file: best.file, color: best.color, dist: bestDist}; used.add(best.file); }
+  }
+  return result;
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+async function run() {
+  const status = document.getElementById('status');
+  const out    = document.getElementById('results');
+
+  // 1. Tronco común images d1–d16
+  status.textContent = 'Analizando tronco común (d1–d16)…';
+  const tImages = [];
+  for (let i = 1; i <= 16; i++) {
+    const file  = `d${i}`;
+    const color = await imageAvgColor(`assets/images/${file}.jpg`);
+    tImages.push({file, color});
+    status.textContent = `Tronco: ${file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+  }
+
+  const tSubs    = TRONCO.map(s => ({...s, targetHue: s.colorIdx * 30}));
+  const tAssign  = optimalAssign(tSubs, tImages);
+
+  // 2. Optativas d17–d61
+  status.textContent = 'Analizando optativas (d17–d61)…';
+  const optResults = [];
+  for (const opt of OPTATIVAS) {
+    const color = await imageAvgColor(`assets/images/${opt.file}.jpg`);
+    optResults.push({...opt, color});
+    status.textContent = `Opt: ${opt.file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+  }
+
+  /* ── Guardar color completo {h,s,l} en localStorage ──────────────────────
+     avance.js lo usa para bg y ac sin normalización adicional             */
+  const colorStore = {};
+  // Tronco común (por icono actual asignado)
+  for (let i = 1; i <= 16; i++) {
+    const img = tImages[i-1];
+    colorStore[`assets/images/${img.file}.jpg`] = img.color;
+  }
+  // Optativas
+  for (const o of optResults) {
+    colorStore[`assets/images/${o.file}.jpg`] = o.color;
+  }
+  localStorage.setItem('ukishima_colors', JSON.stringify(colorStore));
+  // Backward compat: también guardar solo hue
+  const hueStore = {};
+  for (const k in colorStore) hueStore[k] = colorStore[k].h;
+  localStorage.setItem('ukishima_hues', JSON.stringify(hueStore));
+
+  const saved = Object.keys(colorStore).length;
+  status.textContent = `✓ Análisis completo — ${saved} colores reales guardados (ukishima_colors)`;
+
+  // ── Render ──────────────────────────────────────────────────────────────────
+  let html = '';
+
+  function acColor(c)  { return `hsl(${c.h},${c.s}%,${c.l}%)`; }
+  function bgColor(c)  { return `hsla(${c.h},${c.s}%,${Math.max(Math.round(c.l*0.14),7)}%,0.76)`; }
+
+  // Tronco común
+  html += `<h2>Tronco Común — color real promediado</h2>
+  <p class="section-note">bg = mismo H y S que la imagen, L reducida. ac = color promedio real sin modificar.</p>`;
+  for (const s of tSubs.sort((a,b)=>a.targetHue-b.targetHue)) {
+    const a = tAssign[s.id];
+    if (!a) continue;
+    html += `<div class="row">
+      <img class="thumb" src="assets/images/${a.file}.jpg">
+      <div class="swatch" style="background:${bgColor(a.color)};border-color:${acColor(a.color)}"></div>
+      <div class="swatch" style="background:${acColor(a.color)}"></div>
+      <div class="name">${s.name}</div>
+      <span class="badge">hsl(${a.color.h},${a.color.s}%,${a.color.l}%)</span>
+      <span class="ok">${a.file}.jpg</span>
+    </div>`;
+  }
+
+  // Optativas
+  html += `<h2>Optativas — color real promediado</h2>`;
+  for (const opt of optResults) {
+    html += `<div class="row">
+      <img class="thumb" src="assets/images/${opt.file}.jpg">
+      <div class="swatch" style="background:${bgColor(opt.color)};border-color:${acColor(opt.color)}"></div>
+      <div class="swatch" style="background:${acColor(opt.color)}"></div>
+      <div class="name">${opt.name}</div>
+      <span class="badge">hsl(${opt.color.h},${opt.color.s}%,${opt.color.l}%)</span>
+      <span class="ok">${opt.file}.jpg</span>
+    </div>`;
+  }
+
+  // JSON output
+  const fullJSON = JSON.stringify(colorStore, null, 2);
+
+  html += `<h2>Output JSON (para aplicar a data.js)</h2>
+  <pre id="jout">${fullJSON}</pre>
+  <div class="btns">
+    <button onclick="navigator.clipboard.writeText(document.getElementById('jout').textContent).then(()=>this.textContent='✓ Copiado')">Copiar JSON</button>
+  </div>`;
+
+  out.innerHTML = html;
+}
+
+run();
+</script>
+</body>
+</html>

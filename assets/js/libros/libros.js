@@ -57,16 +57,119 @@ function esc(s) {
 
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
+/* ── extractVibrant — idéntico a estadisticas.html ──────────────── */
+var _libVibCv = null, _libVibCtx = null;
+function _libExtractVibrant(imgEl) {
+  try {
+    if (!_libVibCv) {
+      _libVibCv = document.createElement('canvas');
+      _libVibCv.width = _libVibCv.height = 20;
+      _libVibCtx = _libVibCv.getContext('2d', { willReadFrequently: true });
+    }
+    _libVibCtx.clearRect(0,0,20,20);
+    _libVibCtx.drawImage(imgEl,0,0,20,20);
+    var px = _libVibCtx.getImageData(0,0,20,20).data;
+    var best=-1, br=px[0], bg_=px[1], bb=px[2];
+    for (var i=0;i<px.length;i+=4) {
+      var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
+      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn);
+      var l=(mx+mn)/2;
+      if (l<0.25) continue;
+      var d=mx-mn, s=d===0?0:d/(1-Math.abs(2*l-1));
+      var sc=s*(1-Math.abs(l-0.52)*1.6);
+      if (sc>best){best=sc;br=px[i];bg_=px[i+1];bb=px[i+2];}
+    }
+    var h2=function(v){return('0'+Math.round(v).toString(16)).slice(-2);};
+    return '#'+h2(br)+h2(bg_)+h2(bb);
+  } catch(e){ return null; }
+}
+
+/* Aplica el color vibrante a las portadas de cada sección de materia,
+   igual que colorizeCards() en estadisticas.html                    */
+function _colorizeLibCovers() {
+  var vc;
+  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}'); } catch(e){ vc={}; }
+
+  /* Opera sobre portadas y hero-bg con data-icon */
+  document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
+    var icon = coverEl.getAttribute('data-icon');
+    if (!icon) return;
+
+    function apply(hex) {
+      coverEl.style.background = hex+'bf';
+      try {
+        var cur=JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}');
+        cur[icon]=hex;
+        localStorage.setItem('ukishima_vibrant',JSON.stringify(cur));
+      } catch(e){}
+    }
+
+    if (vc[icon]) { apply(vc[icon]); return; }
+
+    var img = new Image();
+    img.onload = function() {
+      var hex = _libExtractVibrant(img);
+      if (hex) apply(hex);
+    };
+    img.src = icon;
+  });
+}
+
+/* ── Color de portadas — mismo sistema que avance + estadísticas ──
+   Usa el hex vibrante de ukishima_vibrant (calculado por
+   estadisticas.html o por el auto-seed de avance.js).
+   bg: oscuro del mismo tono. ac: el hex vibrante exacto.         */
+
+function _libEntryFor(name) {
+  if (typeof CURRICULUM !== 'undefined')
+    for (var _i=0;_i<CURRICULUM.length;_i++)
+      for (var _j=0;_j<CURRICULUM[_i].materias.length;_j++)
+        if (CURRICULUM[_i].materias[_j].name === name) return CURRICULUM[_i].materias[_j];
+  var pools = [
+    typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : [],
+    typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : [],
+    typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : [],
+  ];
+  for (var _p=0;_p<pools.length;_p++)
+    for (var _q=0;_q<pools[_p].length;_q++)
+      if (pools[_p][_q].name === name) return pools[_p][_q];
+  return null;
+}
+
+function _libHexToH(hex) {
+  var r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255;
+  var mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn;
+  if (d<1e-6) return 0;
+  var h;
+  if (mx===r) h=((g-b)/d%6)*60; else if(mx===g) h=((b-r)/d+2)*60; else h=((r-g)/d+4)*60;
+  return Math.round(h<0 ? h+360 : h);
+}
+
 function palColor(subj) {
-  const idx = _allLib().indexOf(subj);
-  const h = (Math.max(0, idx) * 30) % 360;
-  return `hsla(${h},75%,10%,0.7)`;
+  var entry = _libEntryFor(subj.subject);
+  var icon  = entry && entry.icon;
+  if (icon) {
+    try {
+      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}')[icon];
+      if (hex) {
+        var h = _libHexToH(hex);
+        return 'hsla(' + h + ',75%,10%,0.7)';
+      }
+    } catch(e) {}
+    if (entry.colorIdx != null) {
+      var h2 = (entry.colorIdx * 30) % 360;
+      return 'hsla(' + h2 + ',75%,10%,0.7)';
+    }
+  }
+  var idx = _allLib().indexOf(subj);
+  return 'hsla(' + ((Math.max(0,idx)*30)%360) + ',75%,10%,0.7)';
 }
 
 
-/* Cover background element */
-function coverDiv(color, titleText) {
-  return `<div class="book-cover-bg" style="background:${color}">
+/* Cover background element — icon añade data-icon para _colorizeLibCovers */
+function coverDiv(color, titleText, icon) {
+  const attr = icon ? ` data-icon="${esc(icon)}"` : '';
+  return `<div class="book-cover-bg"${attr} style="background:${color}">
     <div class="book-cover-title">${esc(titleText)}</div>
   </div>`;
 }
@@ -241,7 +344,7 @@ function findNote(nkey) {
   if (!note || note.type === 'sublabel') return null;
   return {
     note: { label: note.label || '—', tex: note.tex || '', type: note.type, tipo: note.tipo, dem: note.dem || null },
-    book: found.book, subject: found.subject, color: found.color, chTitle: ch.title || '',
+    book: found.book, subject: found.subject, color: '', chTitle: ch.title || '',
   };
 }
 
@@ -348,7 +451,7 @@ const R = {
             <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
           </div>
           <div class="lib-book-scroll">
-            ${ordered.map(({ b, i }) => R._bookCard(b, palColor(subj), i)).join('')}
+            ${ordered.map(({ b, i }) => R._bookCard(b, palColor(subj), i, (_libEntryFor(subj.subject)||{}).icon||'')).join('')}
           </div>
           ${si < list.length - 1 ? '<div class="subject-divider"></div>' : ''}
         </div>`;
@@ -367,6 +470,7 @@ const R = {
     }
 
     main.innerHTML = html;
+    _colorizeLibCovers();
   },
 
   /* ── RENDER CHAPTERS from parsed tex groups ────── */
@@ -413,13 +517,13 @@ const R = {
     }).join('');
   },
 
-  _bookCard(b, color, idx = 0) {
+  _bookCard(b, color, idx = 0, icon = '') {
     const faved = isFavBook(b.id) ? 'faved' : '';
     const favIcon = isFavBook(b.id) ? '♥' : '♡';
     return `
       <div class="book-card" data-book-id="${esc(b.id)}" data-orig-idx="${idx}" onclick="Nav.go('book','${esc(b.id)}')">
         <div class="book-cover">
-          ${coverDiv(color, b.title)}
+          ${coverDiv(color, b.title, icon)}
           <button class="book-fav-dot ${faved}"
             onclick="event.stopPropagation();A.toggleFavBook('${esc(b.id)}',this)"
             aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
@@ -436,7 +540,12 @@ const R = {
   async book(bookId) {
     const found = findBook(bookId);
     if (!found) { Nav.go('home'); return; }
-    const { book: b, subject, color } = found;
+    const { book: b, subject } = found;
+    const _detailEntry = _libEntryFor(subject) || {};
+    const _detailIcon  = _detailEntry.icon || '';
+    /* Buscar subj en LIBRARY para palColor */
+    const _detailSubj  = [...LIBRARY, ...(LIBRARY_OPT||[])].find(s => s.subject === subject);
+    const color        = _detailSubj ? palColor(_detailSubj) : 'hsla(0,0%,10%,0.7)';
     document.getElementById('header-title').textContent = b.title;
 
     const groups = await fetchTexNotes(b.id);
@@ -449,14 +558,14 @@ const R = {
       <div class="book-detail">
 
         <div class="book-hero-banner">
-          <div class="hero-bg" style="background:${color}"></div>
+          <div class="hero-bg" data-icon="${_detailIcon}" style="background:${color}"></div>
           <div class="hero-bands" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
           <div class="hero-watermark" aria-hidden="true">${esc(subject)}</div>
           <div class="hero-row">
             <div class="hero-cover">
-              ${coverDiv(color, b.title)}
+              ${coverDiv(color, b.title, _detailIcon)}
             </div>
             <div class="hero-info">
               <div class="hero-subject-label">${esc(subject)}</div>
@@ -486,6 +595,7 @@ const R = {
     `;
 
     renderKatex(main);
+    _colorizeLibCovers();
     if (S.bookQuery) filterBookNotes(S.bookQuery);
 
     // Note deep-link scroll (must run after async render)
@@ -519,14 +629,15 @@ const R = {
     const main = document.getElementById('lib-main');
     const q = norm(S.query.trim());
     if (!q) {
-      const allBooks = LIBRARY.flatMap(subj =>
-        subj.books.map(b => ({ book: b, subject: subj.subject, color: palColor(subj) }))
-      ).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
+      const allBooks = LIBRARY.flatMap(subj => {
+        const _ic = (_libEntryFor(subj.subject)||{}).icon||'';
+        return subj.books.map(b => ({ book: b, subject: subj.subject, color: palColor(subj), icon: _ic }));
+      }).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
       main.innerHTML = `<div class="search-results">
         <div class="search-result-group-label">${allBooks.length} libros</div>
-        ${allBooks.map(({ book: b, subject, color }) => `
+        ${allBooks.map(({ book: b, subject, color, icon }) => `
           <div class="search-book-card" onclick="Nav.go('book','${esc(b.id)}')">
-            <div class="search-book-cover">${coverDiv(color, b.title)}</div>
+            <div class="search-book-cover">${coverDiv(color, b.title, icon)}</div>
             <div class="search-book-info">
               <div class="search-book-title">${esc(b.title)}</div>
               <div class="search-book-subject">${esc(b.author)}</div>
@@ -534,6 +645,7 @@ const R = {
             ${CHEVRON_SVG}
           </div>`).join('')}
       </div>`;
+      _colorizeLibCovers();
       return;
     }
 
@@ -549,7 +661,7 @@ const R = {
              norm(b.author).includes(q) ||
              norm(subj.subject).includes(q))) {
           seenBooks.add(b.id);
-          bookResults.push({ book: b, subject: subj.subject, color: palColor(subj) });
+          bookResults.push({ book: b, subject: subj.subject, color: palColor(subj), icon: (_libEntryFor(subj.subject)||{}).icon||'' });
         }
         // Search tex notes (populated as books are visited)
         const groups = _texCache[b.id];
@@ -581,9 +693,9 @@ const R = {
 
     if (bookResults.length) {
       html += `<div class="search-result-group-label">${bookResults.length} libro${bookResults.length !== 1 ? 's' : ''}</div>`;
-      html += bookResults.map(({ book: b, subject, color }) => `
+      html += bookResults.map(({ book: b, subject, color, icon }) => `
         <div class="search-book-card" onclick="Nav.go('book','${esc(b.id)}')">
-          <div class="search-book-cover">${coverDiv(color, b.title)}</div>
+          <div class="search-book-cover">${coverDiv(color, b.title, icon)}</div>
           <div class="search-book-info">
             <div class="search-book-title">${esc(b.title)}</div>
             <div class="search-book-subject">${esc(b.author)}</div>
@@ -607,6 +719,7 @@ const R = {
     html += '</div>';
     main.innerHTML = html;
     renderKatex(main);
+    _colorizeLibCovers();
   },
 
   /* ── FAVS ────────────────────────────────────── */
@@ -635,10 +748,11 @@ const R = {
       html += favBookIds.map(id => {
         const found = findBook(id);
         if (!found) return '';
-        const { book: b, color } = found;
+        const { book: b, subject: _fs, color } = found;
+        const _fi = (_libEntryFor(_fs)||{}).icon||'';
         return `
         <div class="fav-book-row" onclick="Nav.go('book','${esc(b.id)}')">
-          <div class="fav-book-cover">${coverDiv(color, b.title)}</div>
+          <div class="fav-book-cover">${coverDiv(color, b.title, _fi)}</div>
           <div class="fav-book-info">
             <div class="fav-book-title">${esc(b.title)}</div>
             <div class="fav-book-author">${esc(b.author)}</div>
@@ -681,6 +795,7 @@ const R = {
     html += '</div>';
     main.innerHTML = html;
     renderKatex(main);
+    _colorizeLibCovers();
   },
 };
 
