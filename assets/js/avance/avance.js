@@ -54,6 +54,9 @@ const DEFAULTS = [
   {id:'analisis_matematico_2',     name:'Análisis Matemático II',            semestre:'6', colorIdx:3,  profesor:'', dias:[], hora:''},
 ];
 
+/* ── SEMESTER ORDINALS ───────────────────────────────── */
+const SEM_ORD = ['','Primero','Segundo','Tercero','Cuarto','Quinto','Sexto','Séptimo','Octavo','Noveno','Décimo'];
+
 /* ── COLOR PALETTE ───────────────────────────────────── */
 function _hue(colorIdx) { return ((colorIdx || 0) * 30) % 360; }
 function getColor(idx)           { const h=_hue(idx); return {bg:`hsla(${h},75%,10%,0.7)`,ac:`hsl(${h},75%,65%)`}; }
@@ -669,7 +672,7 @@ const R = {
     for (const sem of semKeys) {
       cardsHtml += `
         <div class="av-sem-label">
-          <span>${sem ? `${esc(sem)}° Semestre` : 'Sin semestre'}</span>
+          <span>${sem ? (SEM_ORD[Number(sem)] || `${esc(sem)}°`) + ' Semestre' : 'Sin semestre'}</span>
           ${sem ? `<button class="av-sem-add" onclick="A.openSubModal('${esc(sem)}')" aria-label="Agregar al semestre ${esc(sem)}">
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>

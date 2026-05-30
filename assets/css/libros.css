@@ -83,14 +83,15 @@ body {
 }
 
 .header-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 900;
-  color: var(--ink);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
   align-self: center;
+}
+.header-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
 }
 
 .header-divider {

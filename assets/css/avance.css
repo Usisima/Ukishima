@@ -71,10 +71,14 @@ body {
 }
 
 .header-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; font-weight: 900;
-  color: var(--ink); line-height: 1;
-  letter-spacing: -0.02em; flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.header-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
 }
 .header-divider {
   width: 1px;
@@ -123,9 +127,10 @@ body {
 .av-sem-label {
   padding: 8px 16px 2px 20px;
   display: flex; align-items: center; justify-content: space-between;
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ink3);
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
   margin-top: 4px;
 }
 .av-sem-label:first-child { margin-top: 0; }
