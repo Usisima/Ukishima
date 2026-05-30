@@ -386,11 +386,13 @@ body {
   from { background: rgba(0, 0, 0, 0.6); }
   to   { background: rgba(0, 0, 0, 0);   }
 }
-#av-sub-modal.is-closing {
+#av-sub-modal.is-closing,
+#av-modal.is-closing {
   animation: backdropOut 0.3s ease forwards;
   pointer-events: none;
 }
-#av-sub-modal.is-closing .av-modal-sheet {
+#av-sub-modal.is-closing .av-modal-sheet,
+#av-modal.is-closing .av-modal-sheet {
   animation: sheetDown 0.3s cubic-bezier(0.4, 0, 0.8, 1) forwards;
 }
 .av-modal-handle {
@@ -541,10 +543,81 @@ body {
    DELETE SUBJECT  (bottom of detail view)
    ══════════════════════════════════════════════ */
 .av-section--del {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
   padding-top: 4px;
   padding-bottom: 8px;
 }
+
+.av-final-grade-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid rgba(232,245,242,0.12);
+  color: var(--ink3);
+  border-radius: 99px;
+  padding: 8px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.av-final-grade-btn:active { opacity: .55; }
+
+.av-final-grade-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(155,191,181,0.06);
+  border: 1px solid rgba(155,191,181,0.18);
+  border-radius: 12px;
+  padding: 10px 16px;
+}
+.av-final-grade-label { font-size: 12px; color: var(--ink3); }
+.av-final-grade-val   {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 900;
+  letter-spacing: -0.04em; flex: 1; text-align: center;
+}
+.av-final-grade-clear {
+  font-size: 11px; color: var(--ink3);
+  background: none; border: none; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* ── Confirm delete sheet ── */
+.av-confirm-sheet { max-width: 400px; }
+
+#av-confirm-modal.is-closing {
+  animation: backdropOut 0.28s ease forwards;
+  pointer-events: none;
+}
+#av-confirm-modal.is-closing .av-modal-sheet {
+  animation: sheetDown 0.28s cubic-bezier(0.4, 0, 0.8, 1) forwards;
+}
+.av-confirm-msg {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+.av-confirm-del {
+  flex: 1; padding: 13px;
+  border-radius: 12px; border: none;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s;
+  background: rgba(214,80,80,0.18);
+  color: #d65050;
+  border: 1px solid rgba(214,80,80,0.3);
+}
+.av-confirm-del:active { opacity: 0.7; }
 .av-del-sub-btn {
   display: inline-flex; align-items: center; gap: 7px;
   background: none;
@@ -839,7 +912,12 @@ body {
 
 /* ocultar botón ✕ nativo de type="search" */
 #av-sub-name::-webkit-search-cancel-button,
-#av-sub-prof::-webkit-search-cancel-button { display: none; }
+#av-sub-prof::-webkit-search-cancel-button,
+#av-modal-inp::-webkit-search-cancel-button,
+.av-crit-name-inp::-webkit-search-cancel-button,
+.av-crit-item-name::-webkit-search-cancel-button,
+.av-grade-inp::-webkit-search-cancel-button,
+.av-crit-peso-inp::-webkit-search-cancel-button { display: none; }
 .av-suggest-item {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 14px;
@@ -889,6 +967,119 @@ body {
 .av-summary-stats { font-size: 11px; color: var(--ink3); font-weight: 500; display: flex; gap: 10px; margin-bottom: 7px; }
 .av-summary-bar-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
 .av-summary-bar { height: 100%; background: var(--gold); border-radius: 99px; transition: width .5s ease; }
+
+/* ══════════════════════════════════════════════
+   CRITERIOS DE EVALUACIÓN
+   ══════════════════════════════════════════════ */
+.av-crit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.av-crit-row:last-of-type { border-bottom: none; }
+
+.av-crit-name-inp {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  user-select: text;
+  -webkit-user-select: text;
+}
+.av-crit-name-inp::placeholder { color: var(--ink3); }
+
+.av-crit-peso-inp {
+  width: 42px;
+  background: rgba(155,191,181,0.08);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  padding: 4px 2px;
+  outline: none;
+  color: var(--ink);
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  flex-shrink: 0;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.av-crit-peso-inp::-webkit-inner-spin-button,
+.av-crit-peso-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
+.av-crit-peso-inp:focus { border-color: var(--gold); }
+
+.av-crit-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink3);
+  flex-shrink: 0;
+}
+
+.av-crit-avg {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+}
+
+.av-crit-avg-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0 2px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--ink3);
+}
+.av-crit-avg-row strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.av-crit-item { padding-left: 10px; }
+
+.av-crit-item-name {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.4;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.av-crit-item-name::placeholder { color: var(--ink3); }
+
+.av-crit-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--border2);
+  font-size: 12px;
+  color: var(--ink3);
+}
+.av-crit-total strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
 
 /* ══════════════════════════════════════════════
    DUE DATE BADGES

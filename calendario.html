@@ -510,10 +510,14 @@
         var topPx = (h - START_H) * HOUR_H;
         var hgtPx = 1.5 * HOUR_H;
 
-        events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';">'
+        var icon = sub.icon || 'assets/images/d0.jpg';
+        events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';" onclick="location.href=\'avance.html#mat/' + esc(sub.id) + '\'">'
+          + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
+          + '<div class="cdv-ev-body">'
           + '<div class="cdv-ev-name">' + esc(sub.name || '') + '</div>'
           + (sub.hora ? '<div class="cdv-ev-meta">' + esc(sub.hora) + '</div>' : '')
-          + (chips ? '<div class="cdv-card-chips" style="margin-top:4px">' + chips + '</div>' : '')
+          + (chips ? '<div class="cdv-card-chips" style="margin-top:3px">' + chips + '</div>' : '')
+          + '</div>'
           + '</div>';
       });
 
@@ -529,7 +533,9 @@
         var chips = '';
         if (dueToday)  chips += '<span class="cdv-chip cdv-chip--task">' + dueToday + ' entrega' + (dueToday > 1 ? 's' : '') + '</span>';
         if (pendExams) chips += '<span class="cdv-chip cdv-chip--exam">' + pendExams + ' ex.</span>';
-        return '<div class="cdv-card" style="border-left-color:' + ac + ';background:' + bg + ';">'
+        var icon = sub.icon || 'assets/images/d0.jpg';
+        return '<div class="cdv-card" style="border-left-color:' + ac + ';background:' + bg + ';cursor:pointer" onclick="location.href=\'avance.html#mat/' + esc(sub.id) + '\'">'
+          + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
           + '<div class="cdv-card-body">'
           + '<div class="cdv-card-name">' + esc(sub.name || '') + '</div>'
           + (chips ? '<div class="cdv-card-chips">' + chips + '</div>' : '')

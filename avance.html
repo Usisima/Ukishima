@@ -125,16 +125,11 @@
     <div class="av-modal-sheet">
       <div class="av-modal-handle"></div>
       <div class="av-modal-title" id="av-modal-title">Nueva tarea</div>
-      <form autocomplete="off" onsubmit="return false" role="presentation">
-        <input type="text"     aria-hidden="true" tabindex="-1" style="display:none" autocomplete="username">
-        <input type="password" aria-hidden="true" tabindex="-1" style="display:none" autocomplete="new-password">
-
-        <input class="av-modal-inp" id="av-modal-inp" type="text"
+      <div>
+        <input class="av-modal-inp" id="av-modal-inp" type="search"
                placeholder="Escribe aquí…" maxlength="80"
-               autocomplete="one-time-code" autocorrect="off"
-               autocapitalize="sentences" spellcheck="false"
+               autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
                data-lpignore="true" data-1p-ignore data-form-type="other">
-        <!-- fecha de entrega (solo para tareas) -->
         <div id="av-modal-date-row" class="av-modal-date-row" style="display:none">
           <div class="av-field-label">Fecha de entrega</div>
           <input class="av-field-inp av-modal-date-inp" id="av-modal-date" type="date"
@@ -144,7 +139,19 @@
           <button class="av-modal-cancel" id="av-modal-cancel" type="button">Cancelar</button>
           <button class="av-modal-ok"     id="av-modal-ok"     type="button">Agregar</button>
         </div>
-      </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONFIRM DELETE ══════════════════════ -->
+  <div class="av-modal" id="av-confirm-modal" role="dialog" aria-modal="true">
+    <div class="av-modal-sheet av-confirm-sheet">
+      <div class="av-modal-handle"></div>
+      <p class="av-confirm-msg" id="av-confirm-msg"></p>
+      <div class="av-modal-row">
+        <button class="av-modal-cancel" id="av-confirm-cancel" type="button">Cancelar</button>
+        <button class="av-confirm-del" id="av-confirm-ok" type="button">Eliminar</button>
+      </div>
     </div>
   </div>
 

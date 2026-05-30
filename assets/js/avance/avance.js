@@ -10,8 +10,23 @@ function _load()             { try{return JSON.parse(localStorage.getItem(SK)||'
 function _persist(d)         { localStorage.setItem(SK,JSON.stringify(d)); }
 function getSubjects()       { return _load().subjects||[]; }
 function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
-function getProgress(id)      { return(_load().progress||{})[id]||{tareas:[],examenes:[]}; }
+function getProgress(id)      { return(_load().progress||{})[id]||{tareas:[],examenes:[],proyectos:[],criterios:[],finalGrade:null}; }
 function saveProgress(id,p)   { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
+function getCriterios(id)     { return getProgress(id).criterios||[]; }
+function saveCriterios(id,cs) { const p=getProgress(id);p.criterios=cs;saveProgress(id,p); }
+function calcWeightedGrade(id) {
+  const cs = getCriterios(id).filter(c => Number(c.peso) > 0);
+  if (!cs.length) return null;
+  let contrib = 0, hasAny = false;
+  for (const c of cs) {
+    const graded = (c.items||[]).filter(i => i.grade != null);
+    if (!graded.length) continue;
+    const avg = graded.reduce((s,i) => s + i.grade, 0) / graded.length;
+    contrib += avg * (Number(c.peso||0) / 100);
+    hasAny = true;
+  }
+  return hasAny ? contrib : null;
+}
 function getSolarPose()       { return _load().solar||{rotation:0,el:Math.PI/2*0.97}; }
 function saveSolarPose(r,el)  { const d=_load();d.solar={rotation:r,el};_persist(d); }
 function getHidden()          { return _load().hidden||{}; }
@@ -667,15 +682,18 @@ const R = {
         </div>`;
       for (const sub of bySem[sem]) {
         const {bg, ac} = getSubColor(sub.id, sub.colorIdx);
-        const p = calcPct(sub.id);
-        const {tareas,examenes} = getProgress(sub.id);
+        const prog0    = getProgress(sub.id);
+        const p = prog0.finalGrade != null ? 100 : calcPct(sub.id);
+        const {tareas,examenes} = prog0;
         const done   = tareas.filter(t=>t.done).length;
-        const graded = examenes.filter(e=>e.grade!=null);
-        const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
+        const graded   = examenes.filter(e=>e.grade!=null);
+        const avgEx    = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
+        const weighted = calcWeightedGrade(sub.id);
+        const displayG = prog0.finalGrade!=null ? prog0.finalGrade.toFixed(1) : weighted!==null ? weighted.toFixed(1) : avgEx;
         const dotClass = (!tareas.length&&!examenes.length)?'av-status-dot--empty':p===100?'av-status-dot--done':'av-status-dot--partial';
         let chips = '';
         if (tareas.length)   chips += `<span class="av-chip${done===tareas.length?' av-chip--done':''}">${done}/${tareas.length} tareas</span>`;
-        if (examenes.length) {
+        if (examenes.length && !weighted) {
           if (avgEx!=null) { const gc=gradeColor(parseFloat(avgEx)); chips+=`<span class="av-chip" style="color:${gc};border-color:${gc}44">${avgEx} prom</span>`; }
           else chips += `<span class="av-chip">${examenes.length} ex.</span>`;
         }
@@ -683,7 +701,7 @@ const R = {
         /* Buscar icono en data.js si no está almacenado */
         const dataMat  = _findInData(sub);
         const icon     = sub.icon || (dataMat && dataMat.icon) || 'assets/images/d0.jpg';
-        const gradeClr = avgEx != null ? gradeColor(parseFloat(avgEx)) : ac;
+        const gradeClr = displayG != null ? gradeColor(parseFloat(displayG)) : ac;
 
         cardsHtml += `
         <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')" style="background:${bg}">
@@ -698,7 +716,7 @@ const R = {
                 ${mkDaysDots(sub.dias, sub.hora)}
               </div>
             </div>
-            <span class="av-card-pct" style="color:${gradeClr}">${avgEx != null ? avgEx : '—'}</span>
+            <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
           </div>
           <div class="av-card-foot">
             <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%;background:${ac}"></div></div>
@@ -723,7 +741,6 @@ const R = {
       ${cardsHtml}`;
 
     SolarSys.init(document.getElementById('av-solar-wrap'), subs);
-    window.scrollTo({top:0,behavior:'instant'});
   },
 
   /* ── DETAIL ── */
@@ -738,12 +755,18 @@ const R = {
     document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
 
-    const {tareas,examenes} = getProgress(subId);
+    const progData   = getProgress(subId);
+    const {tareas,examenes,proyectos} = progData;
+    const criterios  = getCriterios(subId);
+    const finalGrade = progData.finalGrade;
     const p      = calcPct(subId);
     const done   = tareas.filter(t=>t.done).length;
     const graded = examenes.filter(e=>e.grade!=null);
     const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
-    const gradeClrD = avgEx != null ? gradeColor(parseFloat(avgEx)) : ac;
+    const weighted     = calcWeightedGrade(subId);
+    const displayGrade = finalGrade!=null ? finalGrade.toFixed(1) : weighted!==null ? weighted.toFixed(1) : avgEx;
+    const gradeClrD   = displayGrade!=null ? gradeColor(parseFloat(displayGrade)) : ac;
+    const barPct       = finalGrade!=null ? 100 : p;
 
     /* Icono desde data.js o guardado */
     const dataMatD = _findInData(sub);
@@ -771,7 +794,7 @@ const R = {
         <div class="av-exam-item">
           <span class="av-item-text">${esc(e.text)}</span>
           <div class="av-grade-wrap">
-            <input class="av-grade-inp" type="number" min="0" max="10" step="0.5"
+            <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v"
               value="${e.grade!=null?e.grade:''}" placeholder="—"
               style="color:${gradeColor(e.grade)}"
               oninput="this.style.color=gradeColor(parseFloat(this.value))"
@@ -787,6 +810,27 @@ const R = {
         </div>`).join('')
       : `<div class="av-empty-msg">Sin exámenes registrados</div>`;
 
+    const proyRows = (proyectos||[]).length
+      ? (proyectos||[]).map((p2,i)=>`
+        <div class="av-exam-item">
+          <span class="av-item-text">${esc(p2.text)}</span>
+          <div class="av-grade-wrap">
+            <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v"
+              value="${p2.grade!=null?p2.grade:''}" placeholder="—"
+              style="color:${gradeColor(p2.grade)}"
+              oninput="this.style.color=gradeColor(parseFloat(this.value))"
+              onchange="A.setProyGrade('${esc(subId)}',${i},this.value)"
+              autocomplete="one-time-code" data-lpignore="true" data-1p-ignore data-form-type="other">
+            <span class="av-grade-slash">/10</span>
+          </div>
+          <button class="av-del" onclick="A.delProy('${esc(subId)}',${i})" aria-label="Eliminar">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>`).join('')
+      : `<div class="av-empty-msg">Sin proyectos registrados</div>`;
+
     document.getElementById('av-main').innerHTML = `
       <div class="av-detail">
         <div class="av-hero-card" style="background:${bg}">
@@ -800,35 +844,85 @@ const R = {
                 ${mkDaysDots(sub.dias, sub.hora)}
               </div>
             </div>
-            <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${avgEx != null ? avgEx : '—'}</span>
+            <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${displayGrade != null ? displayGrade : '—'}</span>
           </div>
           <div class="av-card-foot">
             <div class="av-card-progress">
-              <div class="av-card-bar" id="av-hero-bar" style="width:${p}%;background:${ac}"></div>
+              <div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div>
             </div>
           </div>
         </div>
+        ${criterios.length ? criterios.map(c => {
+          const cItems  = c.items||[];
+          const cGraded = cItems.filter(i=>i.grade!=null);
+          const cAvg    = cGraded.length ? (cGraded.reduce((s,i)=>s+i.grade,0)/cGraded.length).toFixed(1) : null;
+          return `
         <div class="av-section">
           <div class="av-sec-head">
-            <span class="av-sec-title">Tareas</span>
-            <button class="av-sec-add" onclick="A.openModal('tarea','${esc(subId)}')">
+            <span class="av-sec-title">${esc(c.nombre||'Sin nombre')}</span>
+            <button class="av-sec-add" onclick="A.addCriterioItem('${esc(subId)}','${c.id}')">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>Agregar
             </button>
-          </div>${tareaRows}
-        </div>
+          </div>
+          ${cItems.length ? cItems.map(item=>`
+            <div class="av-exam-item">
+              <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
+                type="search" autocomplete="off" autocorrect="off" spellcheck="false"
+                data-lpignore="true" data-1p-ignore data-form-type="other"
+                onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
+              <div class="av-grade-wrap">
+                <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v"
+                  value="${item.grade!=null?item.grade:''}" placeholder="—"
+                  style="color:${gradeColor(item.grade)}"
+                  oninput="this.style.color=gradeColor(parseFloat(this.value))"
+                  onchange="A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
+                  autocomplete="off" data-form-type="other">
+                <span class="av-grade-slash">/10</span>
+              </div>
+              <button class="av-del" onclick="A.delCriterioItem('${esc(subId)}','${c.id}','${item.id}')">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>`).join('')
+          : `<div class="av-empty-msg">Sin ítems</div>`}
+          ${cAvg ? `<div class="av-crit-avg-row"><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg))}">${cAvg}</strong></div>` : ''}
+        </div>`;
+        }).join('') : ''}
+        ${weighted!==null?`<div class="av-section"><div class="av-crit-total"><span>Calificación ponderada</span><strong style="color:${gradeColor(weighted)}">${weighted.toFixed(1)}</strong></div></div>`:''}
         <div class="av-section">
           <div class="av-sec-head">
-            <span class="av-sec-title">Exámenes</span>
-            <button class="av-sec-add" onclick="A.openModal('examen','${esc(subId)}')">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+            <span class="av-sec-title">Criterios de evaluación</span>
+            <button class="av-sem-add" onclick="A.addCriterio('${esc(subId)}')" aria-label="Agregar criterio">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>Agregar
+              </svg>
             </button>
-          </div>${examRows}
+          </div>
+          ${criterios.length ? criterios.map(c=>`
+            <div class="av-crit-row">
+              <input class="av-crit-name-inp" type="search" value="${esc(c.nombre||'')}" placeholder="Criterio"
+                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                data-lpignore="true" data-1p-ignore data-form-type="other"
+                onchange="A.updateCriterio('${esc(subId)}','${c.id}','nombre',this.value)">
+              <input class="av-crit-peso-inp" type="search" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v" value="${c.peso||0}"
+                autocomplete="off" title="Peso %"
+                onchange="A.updateCriterio('${esc(subId)}','${c.id}','peso',this.value)">
+              <span class="av-crit-unit">%</span>
+              <button class="av-del" onclick="A.delCriterio('${esc(subId)}','${c.id}')">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>`).join('')
+          : `<div class="av-empty-msg">Sin criterios — define los rubros y su peso en la calificación</div>`}
         </div>
         <div class="av-section av-section--del">
+          ${finalGrade!=null
+            ? `<button class="av-final-grade-btn" onclick="A.clearFinalGrade('${esc(subId)}')">Eliminar calificación</button>`
+            : `<button class="av-final-grade-btn" onclick="A.openFinalGrade('${esc(subId)}')">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>Añadir calificación
+              </button>`}
           <button class="av-del-sub-btn" onclick="A.delSubject('${esc(subId)}')">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <polyline points="3 6 5 6 21 6"/>
@@ -857,19 +951,34 @@ const R = {
    ══════════════════════════════════════════════════════ */
 let _ctx = null;
 const Modal = {
+  _blockScroll: null,
   open(type,subId) {
     _ctx = {type,subId};
-    document.getElementById('av-modal-title').textContent = type==='tarea'?'Nueva tarea':'Nuevo examen';
-    document.getElementById('av-modal-inp').value = '';
+    document.getElementById('av-modal-title').textContent = type==='tarea'?'Nueva tarea':type==='proyecto'?'Nuevo proyecto':type==='calificacion'?'Calificación final':'Nuevo examen';
+    const inp = document.getElementById('av-modal-inp');
+    inp.type = 'search';
+    if(type==='calificacion'){
+      inp.inputMode='decimal'; inp.pattern='[0-9]*'; inp.placeholder='0 – 10';
+    } else {
+      inp.inputMode=''; inp.removeAttribute('pattern'); inp.placeholder='Escribe aquí…';
+    }
+    inp.value = '';
     const dr=document.getElementById('av-modal-date-row'), di=document.getElementById('av-modal-date');
     if(dr){dr.style.display=type==='tarea'?'block':'none'; if(di)di.value='';}
-    document.getElementById('av-modal').style.display = 'flex';
+    /* bloquear scroll del fondo */
+    this._blockScroll = e => { if (!e.target.closest('.av-modal-sheet')) e.preventDefault(); };
+    document.addEventListener('touchmove', this._blockScroll, {passive:false});
+    const _m = document.getElementById('av-modal');
+    _m.style.display = 'flex';
     history.pushState({modal:'item',view:S.view,subId:S.subId||undefined},'',location.href);
-    setTimeout(()=>document.getElementById('av-modal-inp').focus(),80);
+    setTimeout(()=>inp.focus(), 80);
   },
   close() {
     _ctx=null;
-    document.getElementById('av-modal').style.display='none';
+    if (this._blockScroll) { document.removeEventListener('touchmove', this._blockScroll); this._blockScroll=null; }
+    const _m = document.getElementById('av-modal');
+    _m.classList.add('is-closing');
+    setTimeout(()=>{ _m.classList.remove('is-closing'); _m.style.display='none'; },310);
     if(history.state&&history.state.modal==='item'){_suppressNav=true;history.back();}
   },
   confirm() {
@@ -877,9 +986,13 @@ const Modal = {
     const text=document.getElementById('av-modal-inp').value.trim();
     if(!text){document.getElementById('av-modal-inp').focus();return;}
     const {type,subId}=_ctx, p=getProgress(subId);
-    if(type==='tarea'){
+    if(type==='calificacion'){
+      A.setFinalGrade(subId, text); Modal.close(); return;
+    } else if(type==='tarea'){
       const di=document.getElementById('av-modal-date');
       p.tareas.push({text,done:false,dueDate:di&&di.value?di.value:null});
+    } else if(type==='proyecto'){
+      (p.proyectos=p.proyectos||[]).push({text,grade:null});
     } else p.examenes.push({text,grade:null});
     saveProgress(subId,p); Modal.close(); R.detail(subId);
   },
@@ -1011,6 +1124,22 @@ const SubModal = {
 /* ══════════════════════════════════════════════════════
    ACTIONS
    ══════════════════════════════════════════════════════ */
+/* ── Confirm-delete sheet ── */
+const ConfirmDel = {
+  _cb: null,
+  _modal() { return document.getElementById('av-confirm-modal'); },
+  show(msg, cb) {
+    this._cb = cb;
+    document.getElementById('av-confirm-msg').textContent = msg;
+    this._modal().style.display = 'flex';
+  },
+  close() {
+    const m = this._modal();
+    m.classList.add('is-closing');
+    setTimeout(() => { m.classList.remove('is-closing'); m.style.display = 'none'; this._cb = null; }, 290);
+  },
+};
+
 const A = {
   openSubModal:      (sem)=>SubModal.open(sem),
   toggleVis(id) {
@@ -1025,10 +1154,48 @@ const A = {
   delTarea(id,i)    { const p=getProgress(id);p.tareas.splice(i,1);saveProgress(id,p);R.detail(id); },
   delExamen(id,i)   { const p=getProgress(id);p.examenes.splice(i,1);saveProgress(id,p);R.detail(id); },
   setGrade(id,i,v)  { const n=parseFloat(v),p=getProgress(id);p.examenes[i].grade=isNaN(n)?null:Math.max(0,Math.min(10,n));saveProgress(id,p);R._refreshHero(id); },
+  addCriterio(id)                   { const cs=getCriterios(id);cs.push({id:uid(),nombre:'',peso:0,items:[]});saveCriterios(id,cs);R.detail(id); },
+  delCriterio(id,cid)               { saveCriterios(id,getCriterios(id).filter(c=>c.id!==cid));R.detail(id); },
+  updateCriterio(id,cid,f,v) {
+    const cs=getCriterios(id),c=cs.find(x=>x.id===cid);
+    if(!c)return;
+    if(f==='peso'){const n=parseInt(v);c.peso=isNaN(n)?0:Math.max(0,Math.min(100,n));}
+    else c[f]=v;
+    saveCriterios(id,cs);
+    const w=calcWeightedGrade(id);
+    const pEl=document.getElementById('av-hero-pct');
+    const dg=w!==null?w.toFixed(1):null;
+    if(pEl&&dg){pEl.textContent=dg;pEl.style.color=gradeColor(parseFloat(dg));}
+    const tot=document.querySelector('.av-crit-total strong');
+    if(tot){tot.textContent=w!==null?w.toFixed(1):'—';if(w!==null)tot.style.color=gradeColor(w);}
+  },
+  addCriterioItem(id,cid)           { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;(c.items=c.items||[]).push({id:uid(),text:'',grade:null});saveCriterios(id,cs);R.detail(id); },
+  delCriterioItem(id,cid,iid)       { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;c.items=(c.items||[]).filter(i=>i.id!==iid);saveCriterios(id,cs);R.detail(id); },
+  setCriterioItemGrade(id,cid,iid,v){
+    const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);
+    if(!item)return;
+    const n=parseFloat(v);item.grade=isNaN(n)?null:Math.max(0,Math.min(10,n));
+    saveCriterios(id,cs);
+    const w=calcWeightedGrade(id);
+    const pEl=document.getElementById('av-hero-pct');
+    if(pEl&&w!==null){pEl.textContent=w.toFixed(1);pEl.style.color=gradeColor(w);}
+    const tot=document.querySelector('.av-crit-total strong');
+    if(tot){tot.textContent=w!==null?w.toFixed(1):'—';if(w!==null)tot.style.color=gradeColor(w);}
+  },
+  setCriterioItemName(id,cid,iid,v) { const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);if(!item)return;item.text=v;saveCriterios(id,cs); },
+  setProyGrade(id,i,v) { const n=parseFloat(v),p=getProgress(id);(p.proyectos=p.proyectos||[])[i].grade=isNaN(n)?null:Math.max(0,Math.min(10,n));saveProgress(id,p);R._refreshHero(id); },
+  delProy(id,i)        { const p=getProgress(id);(p.proyectos=p.proyectos||[]).splice(i,1);saveProgress(id,p);R.detail(id); },
+  openFinalGrade(id) { Modal.open('calificacion', id); },
+  setFinalGrade(id,v){ const n=parseFloat(v),p=getProgress(id);p.finalGrade=isNaN(n)?null:Math.max(0,Math.min(10,n));saveProgress(id,p);R.detail(id); },
+  clearFinalGrade(id){ const p=getProgress(id);p.finalGrade=null;saveProgress(id,p);R.detail(id); },
   delSubject(id) {
-    saveSubjects(getSubjects().filter(s=>s.id!==id));
-    const d=_load();delete(d.progress=d.progress||{})[id];_persist(d);
-    history.pushState({view:'home'},'','#'); Nav._goHome();
+    const sub  = getSubjects().find(s=>s.id===id);
+    const name = sub ? sub.name : 'esta materia';
+    ConfirmDel.show(`Eliminar "${name}"`, () => {
+      saveSubjects(getSubjects().filter(s=>s.id!==id));
+      const d=_load();delete(d.progress=d.progress||{})[id];_persist(d);
+      history.pushState({view:'home'},'','#'); Nav._goHome();
+    });
   },
 };
 
@@ -1038,8 +1205,33 @@ const A = {
 const S={view:'home',subId:null};
 let _suppressNav = false;   /* flag to swallow the popstate fired by history.go(+1) */
 const Nav={
-  detail(id){S.view='detail';S.subId=id;history.pushState({view:'detail',subId:id},'',`#mat/${id}`);R.detail(id);},
-  _goHome() {S.view='home';S.subId=null;R.home();},
+  _homeScroll: 0,
+  detail(id) {
+    Nav._homeScroll = window.scrollY;
+    /* captura posición de la tarjeta antes de navegar */
+    const card = document.querySelector(`.av-card[data-sub="${id}"]`);
+    const cardTop = card ? card.getBoundingClientRect().top : null;
+    S.view='detail'; S.subId=id;
+    history.pushState({view:'detail',subId:id},'',`#mat/${id}`);
+    R.detail(id);
+    /* anima hero-card desde la posición original de la tarjeta */
+    if (cardTop !== null) {
+      const hero = document.querySelector('.av-hero-card');
+      if (hero) {
+        const dy = cardTop - hero.getBoundingClientRect().top;
+        hero.style.transform = `translateY(${dy}px)`;
+        hero.style.opacity   = '0.75';
+        hero.style.transition = 'none';
+        requestAnimationFrame(() => {
+          hero.style.transition = 'transform 0.72s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
+          hero.style.transform  = '';
+          hero.style.opacity    = '';
+          setTimeout(() => { hero.style.transition = ''; }, 780);
+        });
+      }
+    }
+  },
+  _goHome() {S.view='home';S.subId=null;R.home();window.scrollTo({top:Nav._homeScroll,behavior:'instant'});Nav._homeScroll=0;},
 };
 
 (function init(){
@@ -1050,7 +1242,8 @@ const Nav={
   if(hash.startsWith('#mat/')){const id=hash.slice(5);if(getSubjects().find(s=>s.id===id)){S.view='detail';S.subId=id;}}
   history.replaceState({view:S.view,subId:S.subId||undefined},'',location.href);
 
-  if(S.view==='detail'&&S.subId) R.detail(S.subId); else Nav._goHome();
+  if(S.view==='detail'&&S.subId) R.detail(S.subId);
+  else { Nav._goHome(); window.scrollTo({top:0,behavior:'instant'}); }
 
   document.getElementById('av-back').addEventListener('click',()=>{history.pushState({view:'home'},'','#');Nav._goHome();});
   window.addEventListener('popstate', e => {
@@ -1076,6 +1269,9 @@ const Nav={
     S.view = st.view||'home'; S.subId = st.subId||null;
     if (S.view==='detail' && S.subId) R.detail(S.subId); else Nav._goHome();
   });
+  document.getElementById('av-confirm-cancel').addEventListener('click', ()=>ConfirmDel.close());
+  document.getElementById('av-confirm-ok').addEventListener('click', ()=>{ const cb=ConfirmDel._cb; ConfirmDel.close(); cb?.(); });
+  document.getElementById('av-confirm-modal').addEventListener('click', e=>{ if(e.target===document.getElementById('av-confirm-modal'))ConfirmDel.close(); });
   document.getElementById('av-modal-cancel').addEventListener('click',()=>Modal.close());
   document.getElementById('av-modal-ok').addEventListener('click',()=>Modal.confirm());
   document.getElementById('av-modal').addEventListener('click',e=>{if(e.target===document.getElementById('av-modal'))Modal.close();});

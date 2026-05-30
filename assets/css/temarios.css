@@ -211,6 +211,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  padding-top: 0.75rem;
 }
 
 /* ==================== CARDS ==================== */
