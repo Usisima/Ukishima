@@ -808,3 +808,25 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+/* ── Divisor horario → calendario ── */
+.cal-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 20px 10px;
+  flex-shrink: 0;
+}
+.cal-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(155,191,181,0.18), transparent);
+}
+.cal-divider-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  white-space: nowrap;
+}

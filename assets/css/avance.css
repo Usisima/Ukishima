@@ -364,6 +364,7 @@ body {
   position: fixed; inset: 0; z-index: 900;
   background: rgba(0, 0, 0, 0.6);
   align-items: flex-end; justify-content: center;
+  transition: padding-bottom 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .av-modal-sheet {
   width: 100%; max-width: 640px;
@@ -376,6 +377,21 @@ body {
 @keyframes sheetUp {
   from { transform: translateY(100%); opacity: 0.4; }
   to   { transform: translateY(0);    opacity: 1;   }
+}
+@keyframes sheetDown {
+  from { transform: translateY(0);    opacity: 1;   }
+  to   { transform: translateY(105%); opacity: 0;   }
+}
+@keyframes backdropOut {
+  from { background: rgba(0, 0, 0, 0.6); }
+  to   { background: rgba(0, 0, 0, 0);   }
+}
+#av-sub-modal.is-closing {
+  animation: backdropOut 0.3s ease forwards;
+  pointer-events: none;
+}
+#av-sub-modal.is-closing .av-modal-sheet {
+  animation: sheetDown 0.3s cubic-bezier(0.4, 0, 0.8, 1) forwards;
 }
 .av-modal-handle {
   width: 36px; height: 4px;
@@ -519,6 +535,7 @@ body {
   color: var(--ink3); line-height: 1.55;
 }
 .av-empty-body strong { color: var(--gold); font-weight: 700; }
+.av-empty-add { margin-top: 0.5rem; }
 
 /* ══════════════════════════════════════════════
    DELETE SUBJECT  (bottom of detail view)
@@ -550,7 +567,6 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Field labels inside subject modal */
@@ -670,11 +686,11 @@ body {
 .av-card {
   margin: 0 12px;
   border-radius: 16px;
-  background: rgba(155,191,181,0.04);
-  border: 1px solid rgba(155,191,181,0.1);
+  background: transparent; /* overridden per-card with pastel gradient */
+  border: 1px solid rgba(255,255,255,0.07);
   overflow: hidden; cursor: pointer;
   transition: transform .13s ease, opacity .13s ease;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.3);
 }
 .av-card:active { transform: scale(0.977); opacity: .88; }
 

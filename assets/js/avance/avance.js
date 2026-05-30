@@ -41,14 +41,24 @@ const DEFAULTS = [
 
 /* ── COLOR PALETTE ───────────────────────────────────── */
 const PAL = [
-  {bg:'#0c3228',ac:'#3fc99a'},{bg:'#18153d',ac:'#7b6ed8'},
-  {bg:'#2b1238',ac:'#c46fd6'},{bg:'#0c2d14',ac:'#3fc46f'},
-  {bg:'#321414',ac:'#d65050'},{bg:'#2b1e0c',ac:'#d6944e'},
-  {bg:'#2b0c1e',ac:'#d64e8a'},{bg:'#0c1e32',ac:'#4e94d6'},
-  {bg:'#1e2b0c',ac:'#8ad64e'},{bg:'#32200c',ac:'#d6b44e'},
-  {bg:'#0c2b2b',ac:'#4ed6d6'},{bg:'#2b0c0c',ac:'#d66b4e'},
+  {bg:'linear-gradient(135deg,rgba(80,200,160,0.20),rgba(80,200,160,0.05))',   ac:'#70c8a8'},
+  {bg:'linear-gradient(135deg,rgba(130,110,210,0.20),rgba(130,110,210,0.05))', ac:'#a08ed4'},
+  {bg:'linear-gradient(135deg,rgba(190,110,210,0.20),rgba(190,110,210,0.05))', ac:'#c07cd4'},
+  {bg:'linear-gradient(135deg,rgba(80,190,110,0.20),rgba(80,190,110,0.05))',   ac:'#68c484'},
+  {bg:'linear-gradient(135deg,rgba(210,100,100,0.20),rgba(210,100,100,0.05))', ac:'#d47878'},
+  {bg:'linear-gradient(135deg,rgba(210,150,80,0.20),rgba(210,150,80,0.05))',   ac:'#d4a868'},
+  {bg:'linear-gradient(135deg,rgba(210,90,145,0.20),rgba(210,90,145,0.05))',   ac:'#d070a8'},
+  {bg:'linear-gradient(135deg,rgba(80,145,210,0.20),rgba(80,145,210,0.05))',   ac:'#68a4d4'},
+  {bg:'linear-gradient(135deg,rgba(145,210,80,0.20),rgba(145,210,80,0.05))',   ac:'#a4d468'},
+  {bg:'linear-gradient(135deg,rgba(210,175,80,0.20),rgba(210,175,80,0.05))',   ac:'#d4c068'},
+  {bg:'linear-gradient(135deg,rgba(80,200,200,0.20),rgba(80,200,200,0.05))',   ac:'#68c8c8'},
+  {bg:'linear-gradient(135deg,rgba(210,115,80,0.20),rgba(210,115,80,0.05))',   ac:'#d48068'},
 ];
 function getColor(idx) { return PAL[idx%PAL.length]; }
+
+function getSubColor(id, colorIdx) {
+  return PAL[(colorIdx || 0) % PAL.length];
+}
 
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
 function _allDataMats() {
@@ -332,7 +342,7 @@ const SolarSys = {
 
     const hits = [];
     for (const {sub, i, pos} of sorted) {
-      const {ac} = getColor(sub.colorIdx || 0);
+      const {ac} = getSubColor(sub.id, sub.colorIdx);
       const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
       const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
@@ -595,6 +605,14 @@ function wrapLabel(name, maxLen) {
 }
 
 /* ── Círculos de días + hora ─────────────────────────── */
+function fmtHora(h) {
+  if (!h) return '';
+  const [hh, mm] = h.split(':').map(Number);
+  const ampm = hh >= 12 ? 'PM' : 'AM';
+  const h12  = hh % 12 || 12;
+  return `${h12}:${String(mm).padStart(2,'0')} ${ampm}`;
+}
+
 function mkDaysDots(dias, hora) {
   const ALL = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
   const LBL = ['L','M','X','J','V','S'];
@@ -602,7 +620,7 @@ function mkDaysDots(dias, hora) {
     const on = dias && dias.includes(d);
     return `<span class="av-day-dot${on?' av-day-dot--on':''}">${LBL[i]}</span>`;
   }).join('');
-  const horaHtml = hora ? `<span class="av-day-hora">${hora}</span>` : '';
+  const horaHtml = hora ? `<span class="av-day-hora">${fmtHora(hora)}</span>` : '';
   return `<span class="av-days-wrap">${dots}${horaHtml}</span>`;
 }
 
@@ -629,7 +647,13 @@ const R = {
             </svg>
           </div>
           <div class="av-empty-title">Sin materias</div>
-          <div class="av-empty-body">Toca <strong>+ Materia</strong> arriba para agregar tu primera materia.</div>
+          <div class="av-empty-body">Agrega tu primera materia para comenzar.</div>
+          <button class="av-add-pill av-empty-add" onclick="A.openSubModal()">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Materia
+          </button>
         </div>`;
       return;
     }
@@ -653,7 +677,7 @@ const R = {
           </button>` : ''}
         </div>`;
       for (const sub of bySem[sem]) {
-        const {ac} = getColor(sub.colorIdx||0);
+        const {bg, ac} = getSubColor(sub.id, sub.colorIdx);
         const p = calcPct(sub.id);
         const {tareas,examenes} = getProgress(sub.id);
         const done   = tareas.filter(t=>t.done).length;
@@ -673,7 +697,7 @@ const R = {
         const gradeClr = avgEx != null ? gradeColor(parseFloat(avgEx)) : ac;
 
         cardsHtml += `
-        <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')">
+        <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')" style="background:${bg}">
           <div class="av-card-head">
             <div class="av-card-icon">
               <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
@@ -721,7 +745,7 @@ const R = {
     const sub  = subs.find(s=>s.id===subId);
     if (!sub) { R.home(); return; }
 
-    const {ac} = getColor(sub.colorIdx||0);
+    const {bg, ac} = getSubColor(sub.id, sub.colorIdx);
     document.getElementById('av-header-title').textContent = sub.name;
     document.getElementById('av-back').style.display = 'none';
     document.getElementById('av-add-pill').style.display = 'none';
@@ -777,7 +801,7 @@ const R = {
 
     document.getElementById('av-main').innerHTML = `
       <div class="av-detail">
-        <div class="av-hero-card">
+        <div class="av-hero-card" style="background:${bg}">
           <div class="av-card-head">
             <div class="av-card-icon">
               <img src="${esc(iconD)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
@@ -890,22 +914,18 @@ const SubModal = {
       if (!e.target.closest('.av-modal-sheet')) e.preventDefault();
     };
     document.addEventListener('touchmove', this._blockScroll, { passive: false });
-    /* ajustar max-height del sheet al viewport visible (teclado) */
+    /* empujar el sheet hacia arriba cuando el teclado sube (padding-bottom en el modal) */
     const _modal = document.getElementById('av-sub-modal');
-    const _sheet = _modal.querySelector('.av-modal-sheet');
-    if (window.visualViewport && _sheet) {
+    if (window.visualViewport) {
       this._syncVV = () => {
-        _sheet.style.maxHeight = window.visualViewport.height + 'px';
-        /* scroll al input activo para que siempre quede visible */
-        requestAnimationFrame(() => {
-          const active = _sheet.querySelector(':focus');
-          if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        });
+        const vv = window.visualViewport;
+        const kb = Math.max(0, window.innerHeight - vv.offsetTop - vv.height);
+        _modal.style.paddingBottom = kb > 0 ? kb + 'px' : '';
       };
       window.visualViewport.addEventListener('resize', this._syncVV);
       this._syncVV();
     }
-    _modal.style.display='flex';
+    _modal.style.display = 'flex';
     history.pushState({modal:'sub',view:S.view,subId:S.subId||undefined},'',location.href);
   },
 
@@ -913,20 +933,24 @@ const SubModal = {
     this._selected = null;
     const sug = document.getElementById('av-name-suggest');
     if (sug) { sug.innerHTML=''; sug.style.display='none'; }
-    /* limpiar syncVV y reset max-height */
+    /* limpiar syncVV y reset padding */
     if (window.visualViewport && this._syncVV) {
       window.visualViewport.removeEventListener('resize', this._syncVV);
       this._syncVV = null;
     }
-    const _sheet = document.querySelector('#av-sub-modal .av-modal-sheet');
-    if (_sheet) _sheet.style.maxHeight = '';
+    document.getElementById('av-sub-modal').style.paddingBottom = '';
     /* restaurar scroll del fondo */
     if (this._blockScroll) {
       document.removeEventListener('touchmove', this._blockScroll);
       this._blockScroll = null;
     }
-    document.getElementById('av-sub-modal').style.display = 'none';
     if (history.state && history.state.modal === 'sub') { _suppressNav = true; history.back(); }
+    const _m = document.getElementById('av-sub-modal');
+    _m.classList.add('is-closing');
+    setTimeout(() => {
+      _m.classList.remove('is-closing');
+      _m.style.display = 'none';
+    }, 310);
   },
 
   _suggest(q) {

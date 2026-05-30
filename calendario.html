@@ -327,6 +327,7 @@
   main.innerHTML = renderProgress()
     + '<div id="cdc-root"></div>'
     + '<div id="cdv-root"></div>'
+    + '<div class="cal-section-divider"><span class="cal-divider-line"></span><span class="cal-divider-label">Calendario 2026-2</span><span class="cal-divider-line"></span></div>'
     + renderLegend()
     + '<div class="cal-months-grid">'
     + MONTHS.map(function (ym) { return renderMonth(ym[0], ym[1]); }).join('')

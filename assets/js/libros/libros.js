@@ -55,6 +55,39 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/* ── PALETA PASTEL (misma que avance) ────────────── */
+const LIB_PAL = [
+  'linear-gradient(135deg,rgba(80,200,160,0.20),rgba(80,200,160,0.05))',
+  'linear-gradient(135deg,rgba(130,110,210,0.20),rgba(130,110,210,0.05))',
+  'linear-gradient(135deg,rgba(190,110,210,0.20),rgba(190,110,210,0.05))',
+  'linear-gradient(135deg,rgba(80,190,110,0.20),rgba(80,190,110,0.05))',
+  'linear-gradient(135deg,rgba(210,100,100,0.20),rgba(210,100,100,0.05))',
+  'linear-gradient(135deg,rgba(210,150,80,0.20),rgba(210,150,80,0.05))',
+  'linear-gradient(135deg,rgba(210,90,145,0.20),rgba(210,90,145,0.05))',
+  'linear-gradient(135deg,rgba(80,145,210,0.20),rgba(80,145,210,0.05))',
+  'linear-gradient(135deg,rgba(145,210,80,0.20),rgba(145,210,80,0.05))',
+  'linear-gradient(135deg,rgba(210,175,80,0.20),rgba(210,175,80,0.05))',
+  'linear-gradient(135deg,rgba(80,200,200,0.20),rgba(80,200,200,0.05))',
+  'linear-gradient(135deg,rgba(210,115,80,0.20),rgba(210,115,80,0.05))',
+];
+
+const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
+
+function palColor(subj) {
+  const idx = _allLib().indexOf(subj);
+  return LIB_PAL[Math.max(0, idx) % LIB_PAL.length];
+}
+
+/* Envolver findBook para que devuelva color pastel */
+const _findBookOrig = findBook;
+function findBook(id) {
+  const found = _findBookOrig(id);
+  if (!found) return null;
+  const idx = _allLib().findIndex(s => s.books.some(b => b.id === id));
+  found.color = LIB_PAL[Math.max(0, idx) % LIB_PAL.length];
+  return found;
+}
+
 /* Cover background element */
 function coverDiv(color, titleText) {
   return `<div class="book-cover-bg" style="background:${color}">
@@ -337,7 +370,7 @@ const R = {
             <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
           </div>
           <div class="lib-book-scroll">
-            ${ordered.map(({ b, i }) => R._bookCard(b, subj.color, i)).join('')}
+            ${ordered.map(({ b, i }) => R._bookCard(b, palColor(subj), i)).join('')}
           </div>
           ${si < list.length - 1 ? '<div class="subject-divider"></div>' : ''}
         </div>`;
@@ -509,7 +542,7 @@ const R = {
     const q = norm(S.query.trim());
     if (!q) {
       const allBooks = LIBRARY.flatMap(subj =>
-        subj.books.map(b => ({ book: b, subject: subj.subject, color: subj.color }))
+        subj.books.map(b => ({ book: b, subject: subj.subject, color: palColor(subj) }))
       ).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
       const chevronSvg = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>`;
       main.innerHTML = `<div class="search-results">
@@ -539,7 +572,7 @@ const R = {
              norm(b.author).includes(q) ||
              norm(subj.subject).includes(q))) {
           seenBooks.add(b.id);
-          bookResults.push({ book: b, subject: subj.subject, color: subj.color });
+          bookResults.push({ book: b, subject: subj.subject, color: palColor(subj) });
         }
         // Search tex notes (populated as books are visited)
         const groups = _texCache[b.id];
@@ -553,7 +586,7 @@ const R = {
                 seenNkeys.add(nkey);
                 noteResults.push({
                   note: { label: note.label, tex: note.tex, type: note.type, tipo: note.tipo },
-                  nkey, book: b, subject: subj.subject, color: subj.color, chTitle: ch.title,
+                  nkey, book: b, subject: subj.subject, color: palColor(subj), chTitle: ch.title,
                 });
               }
             }
