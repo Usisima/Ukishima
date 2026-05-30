@@ -155,7 +155,7 @@
         var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
         var mx = Math.max(rn,gn,bn), mn = Math.min(rn,gn,bn);
         var l  = (mx + mn) / 2;
-        if (l < 0.20 || l > 0.80) continue;
+        if (l < 0.2) continue;
         var d  = mx - mn;
         var s  = d === 0 ? 0 : d / (1 - Math.abs(2*l - 1));
         /* score: high saturation, prefer mid-lightness (0.4–0.65 range) */
