@@ -88,9 +88,10 @@ function renderCardBodyTronco(mat) {
   </div>`;
 }
 
-function renderCardTronco(mat) {
+function renderCardTronco(mat, extraClass) {
   const iconSrc = mat.icon || 'assets/images/d0.jpg';
-  return `<div class="card" id="card-${mat.id}">
+  const cls = extraClass ? `card ${extraClass}` : 'card';
+  return `<div class="${cls}" id="card-${mat.id}">
     <div class="card-head" data-toggle="${mat.id}">
       <div class="card-icon"><img src="${iconSrc}" alt="${mat.name}" onerror="this.src='assets/images/d0.jpg'"></div>
       <div class="card-info">
@@ -165,24 +166,82 @@ function _allSearchMats() {
   return _allMatsCache;
 }
 
+function _searchNorm(s) {
+  return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+function _searchHit(mat, words) {
+  if (!words.length) return true;
+  const n = _searchNorm(mat.name), c = _searchNorm(mat.clave);
+  return words.every(w => n.includes(w) || c.includes(w));
+}
+
+// Renderiza TODAS las cards de una vez; las no-coincidentes quedan ocultas.
+// Solo se llama en el render inicial de la vista search.
 function renderSearchResults(query) {
-  function norm(s) {
-    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const words = _searchNorm((query || '').trim()).split(/\s+/).filter(Boolean);
+  const all = _allSearchMats();
+  const cards = all.map(mat =>
+    renderCardTronco(mat, _searchHit(mat, words) ? '' : 'card-search-hidden')
+  ).join('');
+  const hasMatch = all.some(mat => _searchHit(mat, words));
+  const empty = (!hasMatch && words.length) ? '<div class="search-empty">Sin resultados</div>' : '';
+  return `<div class="sem-grid">${cards}</div>${empty}`;
+}
+
+// Actualiza la vista sin re-render: anima out las que dejan de coincidir,
+// anima in las que pasan a coincidir. Las ya visibles y coincidentes no se tocan.
+function updateSearchResults(root, query) {
+  const words = _searchNorm((query || '').trim()).split(/\s+/).filter(Boolean);
+  const allMats = _allSearchMats();
+  const matMap = new Map(allMats.map(m => [m.id, m]));
+
+  let matchCount = 0;
+  let revealIdx = 0;
+
+  root.querySelectorAll('.card').forEach(card => {
+    const mat = matMap.get(card.id.slice(5)); // strip 'card-'
+    const matches = mat ? _searchHit(mat, words) : false;
+    const isHidden = card.classList.contains('card-search-hidden');
+    const isExiting = card.classList.contains('card-search-exit');
+
+    if (matches) {
+      matchCount++;
+      if (isExiting) {
+        // Cancelar salida en curso
+        card.classList.remove('card-search-exit');
+      } else if (isHidden) {
+        // Revelar con animación de entrada
+        card.style.animationDelay = `${Math.min(revealIdx * 28, 220)}ms`;
+        card.classList.remove('card-search-hidden');
+        void card.offsetWidth; // fuerza reflow para reiniciar cardSlideIn
+        revealIdx++;
+      }
+      // ya visible y sigue coincidiendo → sin cambios
+    } else {
+      if (!isHidden && !isExiting) {
+        card.classList.add('card-search-exit');
+        const done = () => {
+          card.removeEventListener('animationend', done);
+          card.classList.remove('card-search-exit');
+          card.classList.add('card-search-hidden');
+        };
+        card.addEventListener('animationend', done);
+      }
+    }
+  });
+
+  // Mensaje "Sin resultados"
+  let emptyEl = root.querySelector('.search-empty');
+  if (matchCount === 0 && words.length) {
+    if (!emptyEl) {
+      emptyEl = document.createElement('div');
+      emptyEl.className = 'search-empty';
+      emptyEl.textContent = 'Sin resultados';
+      root.appendChild(emptyEl);
+    }
+  } else if (emptyEl) {
+    emptyEl.remove();
   }
-  const q = norm((query || '').trim());
-  if (!q) {
-    const all = _allSearchMats();
-    return '<div class="sem-grid">' + all.map(renderCardTronco).join('') + '</div>';
-  }
-  const words = q.split(/\s+/);
-  function hit(text) {
-    const t = norm(text);
-    return words.every(w => t.includes(w));
-  }
-  const matches = _allSearchMats().filter(mat =>
-    hit(mat.name) || hit(mat.clave)
-  );
-  if (!matches.length) return '<div class="search-empty">Sin resultados</div>';
-  return '<div class="sem-grid">' + matches.map(renderCardTronco).join('') + '</div>';
 }
 

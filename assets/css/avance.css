@@ -417,7 +417,20 @@ body {
 .av-modal-title {
   font-family: 'Playfair Display', serif;
   font-size: 1rem; font-weight: 900;
-  color: var(--ink); margin-bottom: 14px;
+  color: var(--ink); margin-bottom: 0;
+}
+.av-modal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.av-modal-title-row .av-title-sem {
+  flex-shrink: 0;
+  width: auto;
+  font-size: 13px;
+  padding: 7px 28px 7px 11px;
 }
 .av-modal-inp {
   width: 100%;

@@ -282,8 +282,12 @@ function katexRoot(root) {
 }
 
 function stagger(root) {
-  root.querySelectorAll('.card').forEach((card, i) => {
-    card.style.animationDelay = `${Math.min(i * 38, 480)}ms`;
+  let i = 0;
+  root.querySelectorAll('.card').forEach(card => {
+    if (!card.classList.contains('card-search-hidden')) {
+      card.style.animationDelay = `${Math.min(i * 38, 480)}ms`;
+      i++;
+    }
   });
 }
 
@@ -370,9 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (searchClear) searchClear.style.display = TEM_QUERY ? 'flex' : 'none';
       clearTimeout(_searchTimer);
       _searchTimer = setTimeout(() => {
-        root.innerHTML = renderSearchResults(TEM_QUERY);
-        stagger(root);
-        katexRoot(root);
+        updateSearchResults(root, TEM_QUERY);
       }, 150);
     });
     if (searchClear) {
@@ -381,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.value = '';
         TEM_QUERY = '';
         searchClear.style.display = 'none';
-        root.innerHTML = renderSearchResults('');
+        updateSearchResults(root, '');
         searchInput.focus();
       });
     }

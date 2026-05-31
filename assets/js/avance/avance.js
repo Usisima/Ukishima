@@ -829,14 +829,16 @@ function fmtHora(h) {
   return `${h12}:${String(mm).padStart(2,'0')} ${ampm}`;
 }
 
-function mkDaysDots(dias, hora) {
+function mkDaysDots(dias, hora, horaFin) {
   const ALL = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
   const LBL = ['L','M','X','J','V','S'];
   const dots = ALL.map((d,i) => {
     const on = dias && dias.includes(d);
     return `<span class="av-day-dot${on?' av-day-dot--on':''}">${LBL[i]}</span>`;
   }).join('');
-  const horaHtml = hora ? `<span class="av-day-hora">${fmtHora(hora)}</span>` : '';
+  let horaHtml = '';
+  if (hora && horaFin) horaHtml = `<span class="av-day-hora">${fmtHora(hora)} – ${fmtHora(horaFin)}</span>`;
+  else if (hora)       horaHtml = `<span class="av-day-hora">${fmtHora(hora)}</span>`;
   return `<span class="av-days-wrap">${dots}${horaHtml}</span>`;
 }
 
@@ -883,15 +885,17 @@ const R = {
 
     let cardsHtml = '';
     for (const sem of semKeys) {
-      cardsHtml += `
+      if (sem) {
+        cardsHtml += `
         <div class="av-sem-label">
-          <span>${sem ? (SEM_ORD[Number(sem)] || `${esc(sem)}°`) + ' Semestre' : 'Sin semestre'}</span>
-          ${sem ? `<button class="av-sem-add" onclick="A.openSubModal('${esc(sem)}')" aria-label="Agregar al semestre ${esc(sem)}">
+          <span>${(SEM_ORD[Number(sem)] || `${esc(sem)}°`) + ' Semestre'}</span>
+          <button class="av-sem-add" onclick="A.openSubModal('${esc(sem)}')" aria-label="Agregar al semestre ${esc(sem)}">
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-          </button>` : ''}
+          </button>
         </div>`;
+      }
       for (const sub of bySem[sem]) {
         const {bg, ac} = getSubColor(sub);
         const prog0    = getProgress(sub.id);
@@ -925,7 +929,7 @@ const R = {
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin)}
               </div>
             </div>
             <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
@@ -947,6 +951,11 @@ const R = {
         <span class="av-cards-divider-line"></span>
         <span class="av-cards-divider-label">Materias</span>
         <span class="av-cards-divider-line"></span>
+        <button class="av-sem-add" onclick="A.openSubModal()" aria-label="Agregar materia">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
       </div>
 
       <!-- ═══ CARDS ═══ -->
@@ -1056,7 +1065,7 @@ const R = {
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin)}
               </div>
             </div>
             <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${displayGrade != null ? displayGrade : '—'}</span>
@@ -1247,6 +1256,7 @@ const SubModal = {
     this._selected = null;
     ['av-sub-name','av-sub-prof'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
+    document.getElementById('av-sub-hora-fin').value='';
     document.getElementById('av-sub-sem').value = sem || '';
     document.querySelectorAll('.av-day-btn').forEach(b=>b.classList.remove('av-day-btn--on'));
     const sug = document.getElementById('av-name-suggest');
@@ -1345,10 +1355,11 @@ const SubModal = {
     if(!name){document.getElementById('av-sub-name').focus();return;}
     const profesor=document.getElementById('av-sub-prof').value.trim();
     const hora=document.getElementById('av-sub-hora').value;
+    const horaFin=document.getElementById('av-sub-hora-fin').value;
     const semestre=document.getElementById('av-sub-sem').value;
     const dias=[...document.querySelectorAll('.av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
-    const newSub={id:uid(),name,profesor,dias,hora,semestre,colorIdx:subs.length};
+    const newSub={id:uid(),name,profesor,dias,hora,horaFin,semestre,colorIdx:subs.length};
     /* Guardar icono/clave/créditos/colorIdx del dropdown o buscar en data.js */
     const src = this._selected || _findInData({name,id:''});
     if (src) {

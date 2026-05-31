@@ -1268,6 +1268,7 @@ const Nav = {
 
     /* Home from book: restore snapshot instantly — no re-render, no animation */
     if (S.view === 'home' && Nav._prevView === 'book' && Nav._homeSnapshot) {
+      document.getElementById('header-title').textContent = 'Bibliografía';
       const main = document.getElementById('lib-main');
       main.innerHTML = Nav._homeSnapshot.html;
       main.querySelectorAll('.lib-subject-section').forEach(el => { el.style.animation = 'none'; });

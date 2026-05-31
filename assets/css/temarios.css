@@ -1239,8 +1239,22 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes cardSlideOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-10px) scale(0.96); }
+}
+
 .card {
   animation: cardSlideIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card-search-hidden {
+  display: none !important;
+}
+
+.card-search-exit {
+  animation: cardSlideOut 0.17s cubic-bezier(0.4, 0, 1, 1) both !important;
+  pointer-events: none;
 }
 
 /* ==================== CHECK POP ==================== */

@@ -64,7 +64,21 @@
   <div class="av-modal" id="av-sub-modal" role="dialog" aria-modal="true">
     <div class="av-modal-sheet av-sub-sheet">
       <div class="av-modal-handle"></div>
-      <div class="av-modal-title">Nueva materia</div>
+      <div class="av-modal-title-row">
+        <div class="av-modal-title">Nueva materia</div>
+        <select class="av-field-inp av-sel av-title-sem" id="av-sub-sem" autocomplete="off">
+          <option value="">Otros</option>
+          <option value="1">1°</option>
+          <option value="2">2°</option>
+          <option value="3">3°</option>
+          <option value="4">4°</option>
+          <option value="5">5°</option>
+          <option value="6">6°</option>
+          <option value="7">7°</option>
+          <option value="8">8°</option>
+          <option value="9">9°</option>
+        </select>
+      </div>
 
       <form autocomplete="off" onsubmit="return false" role="presentation">
 
@@ -96,27 +110,17 @@
           <button class="av-day-btn" data-day="Sáb" type="button">S</button>
         </div>
 
-        <!-- Hora + Semestre -->
+        <!-- Hora inicio + Hora fin -->
         <div class="av-two-col">
           <div class="av-field">
-            <div class="av-field-label">Hora</div>
+            <div class="av-field-label">Hora inicio</div>
             <input class="av-field-inp" id="av-sub-hora" type="time"
                    autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
           </div>
           <div class="av-field">
-            <div class="av-field-label">Semestre</div>
-            <select class="av-field-inp av-sel" id="av-sub-sem" autocomplete="off">
-              <option value="">—</option>
-              <option value="1">1°</option>
-              <option value="2">2°</option>
-              <option value="3">3°</option>
-              <option value="4">4°</option>
-              <option value="5">5°</option>
-              <option value="6">6°</option>
-              <option value="7">7°</option>
-              <option value="8">8°</option>
-              <option value="9">9°</option>
-            </select>
+            <div class="av-field-label">Hora fin</div>
+            <input class="av-field-inp" id="av-sub-hora-fin" type="time"
+                   autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
           </div>
         </div>
 
