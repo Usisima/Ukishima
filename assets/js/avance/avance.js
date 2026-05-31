@@ -326,7 +326,7 @@ function mkPlanetSvg(colorIdx, ac) {
    ══════════════════════════════════════════════════════ */
 const SolarSys = {
   canvas: null, ctx: null, subs: [],
-  t: 0, rotation: 0,
+  t: 0, _introT: 0, rotation: 0,
   el: Math.PI/2*0.97,           /* elevation: 0=edge-on, π/2=top-down */
   EL_MIN: 0.06, EL_MAX: Math.PI/2*0.97,
   dragging: false, dragStart: {x:0,y:0,rot:0,el:Math.PI/2*0.97}, dragDx: 0, dragDy: 0,
@@ -340,9 +340,11 @@ const SolarSys = {
     this.stop();
     this.subs = subs.filter(s => !isHidden(s.id));
     this.t    = 0;
+    this._introT = 0;
     const pose = getSolarPose();
     this.rotation = pose.rotation;
     this.el       = pose.el;
+    this._introStartAngles = this.subs.map((_, i) => i * 2.399 + this.rotation);
     const c   = document.createElement('canvas');
     c.className = 'av-solar-canvas';
     wrap.prepend(c);
@@ -484,14 +486,45 @@ const SolarSys = {
     // Static background (stars, nebulae, shooting stars) — screen-space, not tied to disc
     this._drawBg();
 
-    // Orbit ellipses
+    // Orbit ellipses — draw-on intro animation (todas arrancan al mismo tiempo, desde el planeta)
+    const DUR_MIN = 1.0, DUR_MAX = 2.6;
+    const _n = this.subs.length;
+    const _maxR = this._W * 0.43, _minR = Math.min(50, _maxR * 0.30);
     for (let i = 0; i < this.subs.length; i++) {
-      const r = this._orbitR(i);
+      const r      = this._orbitR(i);
+      const tRel   = _n <= 1 ? 0.5 : (r - _minR) / (_maxR - _minR);
+      const dur    = DUR_MIN + (DUR_MAX - DUR_MIN) * tRel;
+      const prog   = Math.max(0, Math.min(1, this._introT / dur));
+      if (prog <= 0) continue;
+
+      const startA = this._introStartAngles ? this._introStartAngles[i] : -Math.PI / 2;
+      const endA   = startA + prog * Math.PI * 2;
+
       ctx.beginPath();
-      ctx.ellipse(cx, cy, r, r * TILT, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(155,191,181,0.14)';
-      ctx.lineWidth = 1;
+      ctx.ellipse(cx, cy, r, r * TILT, 0, startA, endA);
+      ctx.strokeStyle = prog < 1
+        ? `rgba(155,191,181,${(0.18 + (1 - prog) * 0.22).toFixed(2)})`
+        : 'rgba(155,191,181,0.14)';
+      ctx.lineWidth = prog < 1 ? 1.4 : 1;
       ctx.stroke();
+
+      // Punto luminoso — se atenúa suavemente al completar la órbita
+      const FADE_FROM = 0.78;
+      const glowAlpha = prog < FADE_FROM
+        ? 1 - prog * 0.15
+        : Math.max(0, 1 - (prog - FADE_FROM) / (1 - FADE_FROM));
+      if (glowAlpha > 0.01) {
+        const tipX = cx + Math.cos(endA) * r;
+        const tipY = cy + Math.sin(endA) * (r * TILT);
+        const glow = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, 7);
+        glow.addColorStop(0, 'rgba(155,191,181,0.75)');
+        glow.addColorStop(1, 'rgba(155,191,181,0)');
+        ctx.save();
+        ctx.globalAlpha = glowAlpha;
+        ctx.fillStyle = glow;
+        ctx.fillRect(tipX - 7, tipY - 7, 14, 14);
+        ctx.restore();
+      }
     }
 
     // Central star glow
@@ -584,6 +617,7 @@ const SolarSys = {
       last = ts;
       if (!this.dragging) {
         this.t += 1/FPS;
+        this._introT += 1/FPS;
         /* Inertia */
         if (Math.abs(this.velRot) > 0.0001) {
           this.rotation += this.velRot;

@@ -194,9 +194,19 @@
                          .reduce(function(s, m) { return s + m.creditos; }, 0);
   const pct     = Math.min(100, Math.round(earned / (TOTAL_CREDITOS||1) * 100));
 
-  document.getElementById('hs-mats').textContent  = done + ' / ' + total;
-  document.getElementById('hs-creds').textContent = earned;
-  document.getElementById('hs-pct').textContent   = pct + '%';
+  function countUp(el, end, dur, fmt) {
+    var s = performance.now();
+    (function frame(now) {
+      var p = Math.min(1, (now - s) / dur);
+      var ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(end * ease);
+      if (p < 1) requestAnimationFrame(frame);
+    })(s);
+  }
+
+  countUp(document.getElementById('hs-mats'),  done,   650, function(v) { return Math.round(v) + ' / ' + total; });
+  countUp(document.getElementById('hs-creds'), earned, 750, function(v) { return Math.round(v); });
+  countUp(document.getElementById('hs-pct'),  pct,    800, function(v) { return Math.round(v) + '%'; });
 
   // Promedio general de materias cursadas (con calificación final)
   (function() {
@@ -209,7 +219,7 @@
       var el = document.getElementById('hs-avg');
       if (el && grades.length) {
         var avg = grades.reduce(function(s, g) { return s + g; }, 0) / grades.length;
-        el.textContent = avg.toFixed(1);
+        countUp(el, avg, 700, function(v) { return v.toFixed(1); });
       }
     } catch(e) {}
   })();
@@ -250,7 +260,7 @@
     document.getElementById('dash-sem-progress').innerHTML =
       '<div class="dash-sem-row">' +
         '<div class="dash-sem-bar-wrap">' +
-          '<div class="dash-sem-bar' + barExtra + '" style="width:' + displayPct + '%"></div>' +
+          '<div class="dash-sem-bar' + barExtra + '" id="dash-bar-fill" style="width:0"></div>' +
         '</div>' +
         '<span class="dash-sem-today">' + countLabel + '</span>' +
       '</div>' +
@@ -259,6 +269,10 @@
         '<span class="dash-sem-today dash-sem-hoy">&#9679; ' + fmt(now) + '</span>' +
         '<span class="dash-sem-date">29 may 2026</span>' +
       '</div>';
+    requestAnimationFrame(function() {
+      var fill = document.getElementById('dash-bar-fill');
+      if (fill) fill.style.width = displayPct + '%';
+    });
   })();
 })();
 </script>

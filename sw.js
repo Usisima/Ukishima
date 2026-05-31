@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v189';
+const CACHE = 'ukishima-v190';
 
 // App shell: all local assets cached on install
 const SHELL = [
@@ -119,6 +119,54 @@ const SHELL = [
   './assets/images/d50.jpg',
   './assets/images/d51.jpg',
   './assets/images/d52.jpg',
+  './assets/images/d53.jpg',
+  './assets/images/d54.jpg',
+  './assets/images/d55.jpg',
+  './assets/images/d56.jpg',
+  './assets/images/d57.jpg',
+  './assets/images/d58.jpg',
+  './assets/images/d59.jpg',
+  './assets/images/d60.jpg',
+  './assets/images/d61.jpg',
+  './assets/images/d62.jpg',
+  './assets/images/d63.jpg',
+  './assets/images/d64.jpg',
+  './assets/images/d65.jpg',
+  './assets/images/d66.jpg',
+  './assets/images/d67.jpg',
+  './assets/images/d68.jpg',
+  './assets/images/d69.jpg',
+  './assets/images/d70.jpg',
+  './assets/images/d71.jpg',
+  './assets/images/d72.jpg',
+  './assets/images/d73.jpg',
+  './assets/images/d74.jpg',
+  './assets/images/d75.jpg',
+  './assets/images/d76.jpg',
+  './assets/images/d77.jpg',
+  './assets/images/d78.jpg',
+  './assets/images/d79.jpg',
+  './assets/images/d80.jpg',
+  './assets/images/d81.jpg',
+  './assets/images/d82.jpg',
+  './assets/images/d83.jpg',
+  './assets/images/d84.jpg',
+  './assets/images/d85.jpg',
+  './assets/images/d86.jpg',
+  './assets/images/d87.jpg',
+  './assets/images/d88.jpg',
+  './assets/images/d89.jpg',
+  './assets/images/d90.jpg',
+  './assets/images/d91.jpg',
+  './assets/images/d92.jpg',
+  './assets/images/d93.jpg',
+  './assets/images/d94.jpg',
+  './assets/images/d95.jpg',
+  './assets/images/d96.jpg',
+  './assets/images/d97.jpg',
+  './assets/images/d98.jpg',
+  './assets/images/d99.jpg',
+  './assets/images/d100.jpg',
 ];
 
 self.addEventListener('install', e => {
@@ -139,12 +187,17 @@ self.addEventListener('activate', e => {
   );
 });
 
+// KaTeX CDN URLs to cache for offline/fast use
+const KATEX_CDN = 'cdn.jsdelivr.net';
+
 // Stale-while-revalidate: serve cache instantly, refresh in background
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
-  // Cross-origin (Google Fonts, CDN) — network only, no cache
-  if (url.origin !== self.location.origin) return;
+  // Cross-origin: cache KaTeX, skip everything else
+  if (url.origin !== self.location.origin) {
+    if (url.hostname !== KATEX_CDN) return;
+  }
   e.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(e.request);

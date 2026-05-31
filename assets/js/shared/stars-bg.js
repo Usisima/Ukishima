@@ -99,12 +99,13 @@
 
   let last = null, elapsed = 0, lastRender = 0;
   const FRAME_MS = 1000 / 30; // 30 fps cap
+  let rafId = null;
 
   function tick(ts) {
     if (last !== null) elapsed += ts - last;
     last = ts;
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
 
     if (ts - lastRender < FRAME_MS) return;
     lastRender = ts;
@@ -171,5 +172,17 @@
     pre.innerHTML = html;
   }
 
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(tick));
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+      last = null; // evita salto de tiempo al volver
+    } else if (!rafId) {
+      rafId = requestAnimationFrame(tick);
+    }
+  });
+
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    rafId = requestAnimationFrame(tick);
+  });
 })();
