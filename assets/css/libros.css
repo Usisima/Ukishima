@@ -28,9 +28,8 @@
 
 /* ── RESET ────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-html { scroll-behavior: smooth;
-  overscroll-behavior: none;
-  background: #000; }
+html { scroll-behavior: smooth; overscroll-behavior: none; background: #000; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
@@ -141,6 +140,8 @@ body {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .lib-tab {
@@ -237,6 +238,9 @@ body {
 /* ── MAIN AREA ───────────────────────────────── */
 .lib-main {
   min-height: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* ── HOME VIEW ─── subject sections ──────────── */

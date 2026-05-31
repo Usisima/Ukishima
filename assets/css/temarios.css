@@ -35,7 +35,9 @@ html {
   scroll-behavior: smooth;
   overscroll-behavior: none;
   background: #000;
+  scrollbar-width: none;
 }
+html::-webkit-scrollbar { display: none; }
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;

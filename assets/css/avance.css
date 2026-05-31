@@ -22,7 +22,8 @@
   -webkit-tap-highlight-color: transparent;
   user-select: none; -webkit-user-select: none;
 }
-html { scroll-behavior: smooth; overscroll-behavior: none; background: #000; }
+html { scroll-behavior: smooth; overscroll-behavior: none; background: #000; scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
@@ -99,6 +100,9 @@ body {
 
 /* ── MAIN ─────────────────────────────────────── */
 .av-main {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
   padding: 16px 0 24px;
   display: flex;
   flex-direction: column;

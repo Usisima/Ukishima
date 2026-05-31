@@ -396,7 +396,9 @@ const SolarSys = {
 
   _size() {
     const dpr = devicePixelRatio || 1;
-    const W   = window.innerWidth;
+    const W   = this.canvas.parentElement
+      ? Math.min(this.canvas.parentElement.clientWidth || window.innerWidth, window.innerWidth)
+      : window.innerWidth;
     /* Height = 2*(maxR + padding) so top-down view fits fully */
     const H   = Math.round((W * 0.43 + 26) * 2);
     this._W = W; this._H = H;
