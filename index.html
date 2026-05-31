@@ -46,7 +46,7 @@
       </svg>
       <script>
       (function () {
-        var DELAYS = [0, 0.8, 0.8, 1.3, 1.3];
+        var DELAYS = [0, 0.8, 0.8, 1.8, 1.8];
         var DURS   = [0.7, 0.7, 0.7, 0.45, 0.45];
         var EASE   = 'cubic-bezier(0.4,0,0.2,1)';
         document.querySelectorAll('.hdr-lp').forEach(function (p, i) {
@@ -74,10 +74,11 @@
             c.style.animationPlayState = 'paused';
             p.parentNode.insertBefore(c, p.nextSibling);
           } else {
+            var fDur = (i === 1 || i === 2) ? 0.7 : fadeDur;
             p.style.animation = [
-              'hdrDraw '       + dur     + 's ' + EASE + ' ' + delay           + 's forwards',
-              'hdrFill '       + fadeDur + 's ease '         + fillDelay       + 's forwards',
-              'hdrStrokeFade 0.2s ease ' +                    strokeFadeDelay  + 's forwards',
+              'hdrDraw '       + dur  + 's ' + EASE + ' ' + delay          + 's forwards',
+              'hdrFill '       + fDur + 's ease '         + fillDelay      + 's forwards',
+              'hdrStrokeFade 0.2s ease ' +                 strokeFadeDelay + 's forwards',
             ].join(', ');
           }
           p.style.animationPlayState = 'paused';
