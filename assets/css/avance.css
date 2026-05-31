@@ -1123,3 +1123,17 @@ body {
 }
 .av-modal-date-inp:focus { border-color: var(--gold); }
 .av-modal-date-inp::-webkit-calendar-picker-indicator { filter: invert(0.7); }
+
+/* ══════════════════════════════════════════════
+   PESO WARNING
+   ══════════════════════════════════════════════ */
+.av-peso-warn {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  color: #d6944e;
+  text-align: right;
+  padding: 5px 2px 2px;
+}
+.av-peso-warn::before {
+  content: '⚠ Pesos: ';
+}

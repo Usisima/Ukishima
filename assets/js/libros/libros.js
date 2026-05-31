@@ -89,28 +89,25 @@ function _libExtractVibrant(imgEl) {
 function _colorizeLibCovers() {
   var vc;
   try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}'); } catch(e){ vc={}; }
+  var pending = 0;
 
-  /* Opera sobre portadas y hero-bg con data-icon */
+  function save() {
+    try { localStorage.setItem('ukishima_vibrant', JSON.stringify(vc)); } catch(e){}
+  }
+
   document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
     var icon = coverEl.getAttribute('data-icon');
     if (!icon) return;
+    if (vc[icon]) { coverEl.style.background = vc[icon] + '80'; return; }
 
-    function apply(hex) {
-      coverEl.style.background = hex+'80';
-      try {
-        var cur=JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}');
-        cur[icon]=hex;
-        localStorage.setItem('ukishima_vibrant',JSON.stringify(cur));
-      } catch(e){}
-    }
-
-    if (vc[icon]) { apply(vc[icon]); return; }
-
+    pending++;
     var img = new Image();
     img.onload = function() {
       var hex = _libExtractVibrant(img);
-      if (hex) apply(hex);
+      if (hex) { vc[icon] = hex; coverEl.style.background = hex + '80'; }
+      if (--pending === 0) save();
     };
+    img.onerror = function() { if (--pending === 0) save(); };
     img.src = icon;
   });
 }
@@ -366,12 +363,12 @@ function renderTexBody(raw) {
 
   const processText = t =>
     t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     // LaTeX text formatting
-     .replace(/\\textbf\{([^}]*)\}/g, '<strong>$1</strong>')
-     .replace(/\\textit\{([^}]*)\}/g, '<em>$1</em>')
-     .replace(/\\emph\{([^}]*)\}/g,   '<em>$1</em>')
-     .replace(/\\textmd\{([^}]*)\}/g, '$1')
-     .replace(/\\textnormal\{([^}]*)\}/g, '$1')
+     // LaTeX text formatting — handles one level of nesting
+     .replace(/\\textbf\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<strong>$1</strong>')
+     .replace(/\\textit\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<em>$1</em>')
+     .replace(/\\emph\{((?:[^{}]|\{[^{}]*\})*)\}/g,   '<em>$1</em>')
+     .replace(/\\textmd\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
+     .replace(/\\textnormal\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
      // Structural whitespace
      .replace(/[ \t]*\n[ \t]*\n[ \t]*/g, '</p><p>')
      .replace(/\n/g, '<br>');
@@ -547,7 +544,7 @@ const R = {
     const _detailEntry = _libEntryFor(subject) || {};
     const _detailIcon  = _detailEntry.icon || '';
     /* Buscar subj en LIBRARY para palColor */
-    const _detailSubj  = [...LIBRARY, ...(LIBRARY_OPT||[])].find(s => s.subject === subject);
+    const _detailSubj  = _allLib().find(s => s.subject === subject);
     const color        = _detailSubj ? palColor(_detailSubj) : 'hsla(0,0%,10%,0.7)';
     document.getElementById('header-title').textContent = b.title;
 
@@ -632,7 +629,7 @@ const R = {
     const main = document.getElementById('lib-main');
     const q = norm(S.query.trim());
     if (!q) {
-      const allBooks = LIBRARY.flatMap(subj => {
+      const allBooks = _allLib().flatMap(subj => {
         const _ic = (_libEntryFor(subj.subject)||{}).icon||'';
         return subj.books.map(b => ({ book: b, subject: subj.subject, color: palColor(subj), icon: _ic }));
       }).sort((a, b) => a.book.title.localeCompare(b.book.title, 'es'));
@@ -657,7 +654,7 @@ const R = {
     const seenBooks   = new Set();
     const seenNkeys   = new Set();
 
-    for (const subj of LIBRARY) {
+    for (const subj of _allLib()) {
       for (const b of subj.books) {
         if (!seenBooks.has(b.id) &&
             (norm(b.title).includes(q) ||
@@ -808,6 +805,7 @@ const A = {
     const adding = !S.favBooks.has(id);
     toggleFavBook(id);
     const faved = isFavBook(id);
+    if (S.view === 'book') Nav._homeSnapshot = null;
     btn.blur();
     window.getSelection()?.removeAllRanges();
     btn.textContent = faved ? '♥' : '♡';
@@ -865,7 +863,10 @@ const A = {
   },
 
   toggleDem(noteEl) {
-    noteEl.classList.toggle('dem-open');
+    const dem = noteEl.querySelector('.note-dem');
+    const isOpen = noteEl.classList.contains('dem-open');
+    noteEl.classList.toggle('dem-open', !isOpen);
+    if (dem) dem.style.maxHeight = isOpen ? '0' : dem.scrollHeight + 'px';
   },
 
   search: (() => {
@@ -1020,7 +1021,7 @@ const Disc = {
         `<div class="disc-item${sec.isSect ? ' is-sect' : sec.isCh ? ' is-ch' : ' is-sub'}${isAct && !sec.isSect ? ' is-active' : ''}" ` +
         `data-i="${i}" ` +
         `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
-        `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
+        `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${esc(sec.label)}</div>`
       );
     });
 

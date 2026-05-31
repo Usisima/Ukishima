@@ -13,7 +13,13 @@ function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
 function getProgress(id)      { return(_load().progress||{})[id]||{tareas:[],examenes:[],proyectos:[],criterios:[],finalGrade:null}; }
 function saveProgress(id,p)   { const d=_load();(d.progress=d.progress||{})[id]=p;_persist(d); }
 function getCriterios(id)     { return getProgress(id).criterios||[]; }
-function saveCriterios(id,cs) { const p=getProgress(id);p.criterios=cs;saveProgress(id,p); }
+function saveCriterios(id, cs) {
+  const d = _load();
+  const prog = d.progress = d.progress || {};
+  if (!prog[id]) prog[id] = { tareas: [], examenes: [], proyectos: [], criterios: [], finalGrade: null };
+  prog[id].criterios = cs;
+  _persist(d);
+}
 function calcWeightedGrade(id) {
   const cs = getCriterios(id).filter(c => Number(c.peso) > 0);
   if (!cs.length) return null;
@@ -78,25 +84,7 @@ function _vibrantCtx() {
 }
 
 function _extractVibrant(imgEl) {
-  try {
-    var c = _vibrantCtx();
-    c.clearRect(0, 0, 20, 20);
-    c.drawImage(imgEl, 0, 0, 20, 20);
-    var px = c.getImageData(0, 0, 20, 20).data;
-    var best = -1, br = px[0], bg_ = px[1], bb = px[2];
-    for (var i = 0; i < px.length; i += 4) {
-      var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
-      var mx = Math.max(rn,gn,bn), mn = Math.min(rn,gn,bn);
-      var l  = (mx + mn) / 2;
-      if (l < 0.25) continue;
-      var d = mx - mn;
-      var s = d === 0 ? 0 : d / (1 - Math.abs(2*l - 1));
-      var sc = s * (1 - Math.abs(l - 0.52) * 1.6);
-      if (sc > best) { best = sc; br = px[i]; bg_ = px[i+1]; bb = px[i+2]; }
-    }
-    var h2 = function(v){ return ('0'+Math.round(v).toString(16)).slice(-2); };
-    return '#' + h2(br) + h2(bg_) + h2(bb);
-  } catch(e) { return null; }
+  return _extractVibrantL(imgEl, 0.25, 1) || _extractVibrantL(imgEl, 0, 1);
 }
 
 function _vibrantCache() {
@@ -770,12 +758,17 @@ const SolarSys = {
 
 /* ── MATH ────────────────────────────────────────────── */
 function calcPct(id) {
-  const {tareas,examenes} = getProgress(id);
+  const { tareas, examenes } = getProgress(id);
   const parts = [];
-  if (tareas.length) parts.push(tareas.filter(t=>t.done).length/tareas.length);
-  const graded = examenes.filter(e=>e.grade!=null);
-  if (graded.length) parts.push(graded.reduce((s,e)=>s+e.grade,0)/graded.length/10);
-  return parts.length ? Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100) : 0;
+  if (tareas.length) parts.push(tareas.filter(t => t.done).length / tareas.length);
+  const weighted = calcWeightedGrade(id);
+  if (weighted !== null) {
+    parts.push(weighted / 10);
+  } else {
+    const graded = examenes.filter(e => e.grade != null);
+    if (graded.length) parts.push(graded.reduce((s, e) => s + e.grade, 0) / graded.length / 10);
+  }
+  return parts.length ? Math.round(parts.reduce((a, b) => a + b, 0) / parts.length * 100) : 0;
 }
 
 function gradeColor(g) {
@@ -1051,6 +1044,8 @@ const R = {
         </div>`).join('')
       : `<div class="av-empty-msg">Sin proyectos registrados</div>`;
 
+    const pesoTotal = criterios.reduce((s, c) => s + Number(c.peso || 0), 0);
+
     document.getElementById('av-main').innerHTML = `
       <div class="av-detail">
         <div class="av-hero-card" style="background:${bg}">
@@ -1132,8 +1127,10 @@ const R = {
               <button class="av-del" onclick="A.delCriterio('${esc(subId)}','${c.id}')">
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
-            </div>`).join('')
-          : `<div class="av-empty-msg">Sin criterios — define los rubros y su peso en la calificación</div>`}
+            </div>`).join('') +
+            `<div id="av-peso-warn" class="av-peso-warn"${pesoTotal === 100 ? ' style="display:none"' : ''}>${pesoTotal}% / 100%</div>`
+          : `<div id="av-peso-warn" class="av-peso-warn" style="display:none"></div>
+          <div class="av-empty-msg">Sin criterios — define los rubros y su peso en la calificación</div>`}
         </div>
         <div class="av-section av-section--del">
           ${finalGrade!=null
@@ -1157,25 +1154,38 @@ const R = {
 
   _refreshHero(subId) {
     const prog = getProgress(subId);
-    /* si hay calificación final, tiene prioridad absoluta */
     if (prog.finalGrade != null) return;
     const p = calcPct(subId);
-    const {examenes} = prog;
-    const graded = examenes.filter(e=>e.grade!=null);
-    const avgEx  = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
-    const pEl=document.getElementById('av-hero-pct'), bEl=document.getElementById('av-hero-bar');
-    if(pEl){pEl.textContent=avgEx!=null?avgEx:'—';pEl.style.color=avgEx!=null?gradeColor(parseFloat(avgEx)):'';}
-    if(bEl) bEl.style.width=p+'%';
+    const { examenes } = prog;
+    const graded   = examenes.filter(e => e.grade != null);
+    const avgEx    = graded.length ? (graded.reduce((s, e) => s + e.grade, 0) / graded.length).toFixed(1) : null;
+    const weighted = calcWeightedGrade(subId);
+    const show     = weighted !== null ? weighted.toFixed(1) : avgEx;
+    const showClr  = show != null ? gradeColor(parseFloat(show)) : '';
+    const pEl = document.getElementById('av-hero-pct'), bEl = document.getElementById('av-hero-bar');
+    if (pEl) { pEl.textContent = show ?? '—'; pEl.style.color = showClr; }
+    if (bEl) bEl.style.width = p + '%';
   },
 };
 
 function _refreshWeightedDisplay(id) {
-  if (getProgress(id).finalGrade != null) return; /* calificación final tiene prioridad */
+  if (getProgress(id).finalGrade != null) return;
   const w = calcWeightedGrade(id);
   const pEl = document.getElementById('av-hero-pct');
   if (pEl && w !== null) { pEl.textContent = w.toFixed(1); pEl.style.color = gradeColor(w); }
   const tot = document.querySelector('.av-crit-total strong');
   if (tot) { tot.textContent = w !== null ? w.toFixed(1) : '—'; if (w !== null) tot.style.color = gradeColor(w); }
+  const warnEl = document.getElementById('av-peso-warn');
+  if (warnEl) {
+    const cs = getCriterios(id);
+    const pesoTotal = cs.reduce((s, c) => s + Number(c.peso || 0), 0);
+    if (cs.length && pesoTotal !== 100) {
+      warnEl.textContent = `${pesoTotal}% / 100%`;
+      warnEl.style.display = '';
+    } else {
+      warnEl.style.display = 'none';
+    }
+  }
 }
 
 /* ══════════════════════════════════════════════════════

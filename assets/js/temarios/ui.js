@@ -1,3 +1,20 @@
+// ==================== CONSTANTES DERIVADAS ====================
+const OPTATIVAS_OTRAS_SAFE = (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []);
+
+let _nameToIdCache = null;
+function _getNameToId() {
+  if (_nameToIdCache) return _nameToIdCache;
+  const map = {};
+  CURRICULUM.forEach(s => s.materias.forEach(m => { map[m.name] = m.id; }));
+  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III],
+   ['OTRAS', OPTATIVAS_OTRAS_SAFE]]
+    .forEach(([key, pool]) => pool.forEach((opt, i) => { map[opt.name] = `opt_${key}_${i}`; }));
+  _nameToIdCache = map;
+  return map;
+}
+
+let _allMatsCache = null;
+
 // ==================== COMP BIB SECTION ====================
 function renderCompBib(matId, bibComp) {
   if (!bibComp || !bibComp.length) return '';
@@ -14,12 +31,7 @@ function renderCompBib(matId, bibComp) {
 // ==================== SUBSECUENTES ====================
 function renderSubsecuentes(subsecuentes) {
   if (!subsecuentes || !subsecuentes.length) return '';
-  const nameToId = {};
-  CURRICULUM.forEach(s => s.materias.forEach(m => { nameToId[m.name] = m.id; }));
-  // Include optativas from all blocks
-  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III],
-   ['OTRAS', (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : [])]]
-    .forEach(([key, pool]) => pool.forEach((opt, i) => { nameToId[opt.name] = `opt_${key}_${i}`; }));
+  const nameToId = _getNameToId();
   const tags = subsecuentes.map(name => {
     const id = nameToId[name];
     const cls = id ? 'subsec-tag' : 'subsec-tag no-link';
@@ -115,7 +127,7 @@ function renderOptativasView() {
     { key: 'BI',    num: 'I',     pool: OPTATIVAS_BLOQUE_I,   semLabel: 'Semestre 2 · 3 · 4', creds: 40 },
     { key: 'BII',   num: 'II',   pool: OPTATIVAS_BLOQUE_II,  semLabel: 'Semestre 5 · 6',      creds: 40 },
     { key: 'BIII',  num: 'III',  pool: OPTATIVAS_BLOQUE_III, semLabel: 'Semestre 7 · 8',      creds: 80 },
-    { key: 'OTRAS', num: 'Otras', pool: (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []), semLabel: 'Sin bloque asignado', creds: null },
+    { key: 'OTRAS', num: 'Otras', pool: OPTATIVAS_OTRAS_SAFE, semLabel: 'Sin bloque asignado', creds: null },
   ];
   return BLOQUES.map(b => {
     const cards = b.pool.map((opt, i) => {
@@ -140,20 +152,17 @@ const _SRCH_POOLS = [
   { key: 'BI',    pool: OPTATIVAS_BLOQUE_I },
   { key: 'BII',   pool: OPTATIVAS_BLOQUE_II },
   { key: 'BIII',  pool: OPTATIVAS_BLOQUE_III },
-  { key: 'OTRAS', pool: (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []) },
+  { key: 'OTRAS', pool: OPTATIVAS_OTRAS_SAFE },
 ];
 
 function _allSearchMats() {
-  const fixed = CURRICULUM.flatMap(s =>
-    s.materias.map(m => ({ ...m }))
+  if (_allMatsCache) return _allMatsCache;
+  const fixed = CURRICULUM.flatMap(s => s.materias.map(m => ({ ...m })));
+  const opts = _SRCH_POOLS.flatMap(({ key, pool }) =>
+    pool.map((opt, i) => ({ ...enrichOptativa(opt), id: `opt_${key}_${i}` }))
   );
-  const opts = _SRCH_POOLS.flatMap(({ key, pool }, bi) =>
-    pool.map((opt, i) => ({
-      ...enrichOptativa(opt),
-      id: `opt_${key}_${i}`,
-    }))
-  );
-  return [...fixed, ...opts].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  _allMatsCache = [...fixed, ...opts].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  return _allMatsCache;
 }
 
 function renderSearchResults(query) {

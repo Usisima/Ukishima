@@ -36,7 +36,7 @@
 
 <header class="header">
   <div class="header-left">
-    <div class="header-logo" onclick="location.href='estadisticas.html'" style="cursor:pointer" title="Ver estadísticas">
+    <a href="estadisticas.html" class="header-logo" title="Ver estadísticas">
       <svg id="hdr-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 334.41 327.82" style="height:26px;width:auto;display:block;overflow:visible" aria-label="Ukishima">
         <path class="hdr-lp" d="M164.39,188.26c-1.63,25.05-9.18,41.61-23.9,52.89-13.38,10.33-31.85,12.5-45,12.5-22.69,0-39.17-5.67-50.36-17.34C29.19,219.54,26,198.34,26,169.57V138.74c0-25.33-.54-37.6-.82-44.18l0-.77c-.68-15.7-10-20.15-25.12-21.5V70.08H62.52v2.17C45.22,73.53,35,77.82,34,93.69l0,.62c-.58,7.91-1.39,18.74-1.39,44.43v29.12c0,52.94,16.87,75.52,56.39,75.52,17.59,0,31.52-5.82,41.21-16.72h.1l.8-1a58.3,58.3,0,0,0,10.79-20.3l.41-1.3,0,0a85.39,85.39,0,0,0,2.59-12.13c3.26-.83,6.89-1.57,11.28-2.31C158.66,189.17,161.41,188.73,164.39,188.26ZM120.77,70.08v2.18c9.64.69,16.37,1.79,20.4,6.45,3,3.52,4.18,8.59,4.56,16.79l.06,0v.09a15.31,15.31,0,0,1,3.74,13.2h0a15.06,15.06,0,0,1-3.64,7.48v48.33c.78-.34,1.56-.68,2.35-1a128,128,0,0,1,16.49-5.42V104.48c0-25.86,2.66-29.92,25.13-32.14V70.08Z"/>
         <path class="hdr-lp" d="M245.1,139.68c4.54-25.51,9.24-51.88,14.66-77.7,2.94-14,6.72-28.81,14.38-42.23l.59-1.07c1.36-2.51,3.06-5.63,6.71-6.74L285,10.87l.31,3.69c.08.85.14,1.68.2,2.5.12,1.7.24,3.31.46,4.88a16.64,16.64,0,0,0,14.39,14.2c8,.8,14.55-3.51,17.13-11.25a18,18,0,0,0-1.2-14.84c-2.72-4.7-7.6-8-13.74-9.25-10.42-2.14-21,0-31.49,6.37C253.57,17.79,244,34.81,236.91,50.06c-11.65,25.14-18,51.55-22.74,74.07-1.81,8.7-3.49,17.49-5.09,26.29,10.79-1.55,21.61-3,32.17-4.34l2.78-.37C244.39,143.7,244.75,141.68,245.1,139.68Z"/>
@@ -85,7 +85,7 @@
         });
       })();
       </script>
-    </div>
+    </a>
     <div class="header-divider"></div>
     <div class="header-text">
       <div class="header-title">Matemáticas <span class="dash-version" id="dash-version">· v59</span></div>
@@ -93,6 +93,12 @@
     </div>
   </div>
 </header>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+  </symbol>
+</svg>
 
 <div class="bh-container">
 <div class="bh-wrap">
@@ -105,7 +111,7 @@
   <p class="dash-browser-title">Matemáticas UNAM</p>
   <p class="dash-browser-sub">Instala la app para acceder a<br>temarios, bibliografía y calendario.</p>
   <button id="btn-install-prompt" class="dash-install-btn dash-install-btn--big" style="display:none">
-    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><use href="#icon-dl"/></svg>
     Instalar aplicación
   </button>
 </div>
@@ -135,7 +141,7 @@
   <div id="dash-sem-progress"></div>
 
   <button id="btn-install" class="dash-install-btn" style="display:none">
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><use href="#icon-dl"/></svg>
     Instalar aplicación
   </button>
 
@@ -183,14 +189,13 @@
 <script src="assets/js/shared/page-transitions.js"></script>
 <script src="assets/js/shared/stars-bg.js"></script>
 <script>
+var _isSA = window.matchMedia('(display-mode: standalone)').matches || !!navigator.standalone;
 (function () {
   if (!window.STANDALONE_GATE) return;
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
-  var prompt  = document.getElementById('dash-browser-prompt');
-  var bottom  = document.getElementById('dash-bottom');
-  var nav     = document.querySelector('.bottom-nav');
-
-  if (!isStandalone) {
+  var prompt = document.getElementById('dash-browser-prompt');
+  var bottom = document.getElementById('dash-bottom');
+  var nav    = document.querySelector('.bottom-nav');
+  if (!_isSA) {
     prompt.style.display = 'flex';
     bottom.style.display = 'none';
     nav.style.display    = 'none';
@@ -201,19 +206,21 @@
 <script src="assets/js/temarios/state.js"></script>
 <script>
 (function () {
-  if (window.STANDALONE_GATE && !(window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone)) return;
+  if (window.STANDALONE_GATE && !_isSA) return;
   const allMats = CURRICULUM.flatMap(function(s) { return s.materias; });
   const total   = allMats.length;
 
-  /* también contar materias acreditadas en avance (con calificación final) */
   var _avProg = {};
   try { _avProg = (JSON.parse(localStorage.getItem('ukishima_avance_v2')||'null')||{}).progress||{}; } catch(e){}
   function isCredited(m) { return isComplete(m) || (_avProg[m.id] && _avProg[m.id].finalGrade != null); }
 
-  const done    = allMats.filter(function(m) { return isCredited(m); }).length;
-  const earned  = allMats.filter(function(m) { return isCredited(m); })
-                         .reduce(function(s, m) { return s + m.creditos; }, 0);
-  const pct     = Math.min(100, Math.round(earned / (TOTAL_CREDITOS||1) * 100));
+  var _stats = allMats.reduce(function(acc, m) {
+    if (isCredited(m)) { acc.done++; acc.earned += m.creditos; }
+    return acc;
+  }, { done: 0, earned: 0 });
+  const done   = _stats.done;
+  const earned = _stats.earned;
+  const pct    = Math.min(100, Math.round(earned / (TOTAL_CREDITOS||1) * 100));
 
   function countUp(el, end, dur, fmt) {
     var s = performance.now();
@@ -232,10 +239,8 @@
   // Promedio general de materias cursadas (con calificación final)
   (function() {
     try {
-      var av = JSON.parse(localStorage.getItem('ukishima_avance_v2') || 'null') || {};
-      var prog = av.progress || {};
-      var _curricIds = new Set(CURRICULUM.flatMap(function(s){return s.materias;}).map(function(m){return m.id;}));
-      var grades = Object.entries(prog)
+      var _curricIds = new Set(allMats.map(function(m){return m.id;}));
+      var grades = Object.entries(_avProg)
         .filter(function(e) { return _curricIds.has(e[0]); })
         .map(function(e) { return e[1].finalGrade; })
         .filter(function(g) { return g != null && !isNaN(g); });
@@ -299,326 +304,7 @@
   })();
 })();
 </script>
-<script>
-
-(function () {
-  const pre      = document.getElementById('bh-art');
-  const preStars = document.getElementById('bh-stars');
-  if (!pre) return;
-
-  function init() {
-
-  // Fill screen width exactly: COLS capped at 160, font size computed to fill W perfectly
-  const _W   = window.innerWidth;
-  const COLS = Math.floor(_W / (4 * 0.6));   // fills full width, no cap
-  const fsPx = _W / (COLS * 0.6);            // exact fill, no gaps
-  pre.style.fontSize   = `${fsPx.toFixed(3)}px`;
-  pre.style.width      = '100%';
-  pre.style.overflowX  = 'hidden';
-  if (preStars) {
-    preStars.style.fontSize  = pre.style.fontSize;
-    preStars.style.width     = '100%';
-    preStars.style.overflowX = 'hidden';
-  }
-
-  // Available height: subtract header and nav from viewport
-  const lineH    = fsPx * 1.6;
-  const headerEl = document.querySelector('.header');
-  const navEl    = document.querySelector('.bottom-nav');
-  const wrapH    = window.innerHeight
-                 - (headerEl ? headerEl.getBoundingClientRect().height : 0)
-                 - (navEl    ? navEl.getBoundingClientRect().height    : 0);
-  const ROWS = Math.max(Math.ceil(wrapH / lineH), 20);
-
-  const CX = COLS >> 1;
-  // Content block pinned near bottom nav with fixed gap
-  // BH center floats just above the content block
-  const _dash      = document.getElementById('dash-bottom');
-  const _contentH  = _dash ? _dash.getBoundingClientRect().height : 0;
-  const _gapBottom = Math.round(wrapH * 0.15);  // 15% of available height from nav
-  const _gapBH     = Math.round(wrapH * 0.07);  // px between BH center and content top
-  const _contentTop = wrapH - _gapBottom - _contentH;
-  const CY = Math.max(5, Math.round((_contentTop - _gapBH) / lineH));
-  if (_dash) _dash.style.top = _contentTop + 'px';
-
-  // Exact BH center → CSS custom property → power-on animation from correct origin
-  const _bhCyPct = (CY * lineH / wrapH * 100).toFixed(1) + '%';
-  pre.style.setProperty('--bh-cy', _bhCyPct);
-  pre.classList.add('bh-on');
-  const AR = 0.375;
-  // Scale hole geometry proportionally with COLS (original tuned for COLS=160)
-  const _sc = Math.min(COLS, 160) / 160;   // BH geometry fixed at 160-col max, stars fill the rest
-  const SR  = Math.max(4, Math.round(8  * _sc)), SRB = SR * AR;
-  const INC = 78 * Math.PI / 180;
-  const DRA = Math.max(20, Math.round(62 * _sc)), DRB = DRA * Math.cos(INC) * AR;
-  const PERIOD = 4500;
-
-  // 4 Gaussian rings: { rc=center_dd, w=gaussian_width, hue, off }
-  // Edita hue para cambiar colores: 0°=rojo 60°=amarillo 120°=verde 180°=cian 240°=azul 300°=magenta
-  const RINGS = [
-    { rc: 0.24,  w: 0.090, hue: 333, off: 0.7 },  // esfera interna   — rosa intenso
-    { rc: 0.455, w: 0.085, hue: 315, off: 2.4 },  // anillo interior  — magenta
-    { rc: 0.645, w: 0.060, hue: 250, off: 4.0 },  // transición       — violeta
-    { rc: 0.880, w: 0.060, hue: 189, off: 5.6 },  // anillo exterior  — cian
-  ];
-  const RING_HUE    = 305;  // anillo fotónico  — lila
-  const SCATTER_HUE = 186;  // partículas/scatter — cian frío
-  const BASE_RC = 0.45;
-
-  const STAR_CH   = ['.', 'o', 'o', 'O', '0'];
-  const STAR_HUES = [215, 195, 52, 24];
-  const STARS = (() => {
-    let s = 0xabcdef01;
-    const r = () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967295; };
-    return Array.from({ length: Math.round(220 * ROWS / 26) }, () => ({
-      c: Math.floor(r() * COLS), r: Math.floor(r() * ROWS),
-      b: 0.06 + r() * 0.46, tw: 0.1 + r() * 0.9, ph: r() * 6.28,
-      sz: Math.min(4, Math.floor(r() * r() * 5.5)),
-      hz: Math.floor(r() * 4),
-    }));
-  })();
-  const starB  = new Float32Array(COLS * ROWS);
-  const starTw = new Float32Array(COLS * ROWS);
-  const starPh = new Float32Array(COLS * ROWS);
-  const starSz = new Uint8Array(COLS * ROWS);
-  const starHz = new Uint8Array(COLS * ROWS);
-  for (const s of STARS) {
-    const i = s.r * COLS + s.c;
-    starB[i] = s.b; starTw[i] = s.tw; starPh[i] = s.ph;
-    starSz[i] = s.sz; starHz[i] = s.hz;
-  }
-
-  const LV_RAW = " .'`,:;l!i~-_=+<>^?][)(|/\\1tjfrnxuvczXYUCLJQ0OZmwqpMW*#8B&@$";
-  const LV = [...LV_RAW].map(c => c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '&' ? '&amp;' : c);
-  const N  = LV.length - 1;
-  const lv = b => LV[Math.min(N, Math.max(0, Math.round(b * N)))];
-  const wrap = a => a - 2 * Math.PI * Math.round(a / (2 * Math.PI));
-
-  const meta = Array.from({ length: ROWS }, (_, r) =>
-    Array.from({ length: COLS }, (_, c) => ({
-      sd: Math.hypot((c - CX) / SR,  (r - CY) / SRB),
-      sa: Math.atan2((r - CY) / SRB, (c - CX) / SR),
-      dd: Math.hypot((c - CX) / DRA, (r - CY) / DRB),
-      da: Math.atan2((r - CY) / DRB, (c - CX) / DRA),
-    }))
-  );
-
-  // Shooting stars
-  const shoots = [];
-  let nextShootMs = 3000 + Math.random() * 3000;
-  const S_CH = ['0', '-', '-', '.', '.', '`'];
-  const S_LT = [96, 80, 62, 44, 28, 14];
-
-  function spawnShoot(elapsedMs) {
-    const spd = 220 + Math.random() * 160;
-    const d   = Math.random();
-    let x, y, vx, vy;
-    if (d < 0.11) {                              // izq → der, casi plano
-      x = -8; y = Math.floor(Math.random() * ROWS * 0.85);
-      vx = spd; vy = spd * (0.04 + Math.random() * 0.07);
-    } else if (d < 0.22) {                       // der → izq, casi plano
-      x = COLS + 8; y = Math.floor(Math.random() * ROWS * 0.85);
-      vx = -spd; vy = spd * (0.04 + Math.random() * 0.07);
-    } else if (d < 0.33) {                       // izq → der, diagonal arriba
-      x = -8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
-      vx = spd; vy = -spd * (0.07 + Math.random() * 0.12);
-    } else if (d < 0.44) {                       // der → izq, diagonal arriba
-      x = COLS + 8; y = Math.floor(ROWS * 0.25 + Math.random() * ROWS * 0.55);
-      vx = -spd; vy = -spd * (0.07 + Math.random() * 0.12);
-    } else if (d < 0.55) {                       // arriba → abajo-der
-      x = Math.floor(Math.random() * COLS * 0.65); y = -3;
-      vx = spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
-    } else if (d < 0.63) {                       // arriba → abajo-izq
-      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = -3;
-      vx = -spd * (0.12 + Math.random() * 0.18); vy = spd * 0.38;
-    } else if (d < 0.71) {                       // abajo → arriba-der
-      x = Math.floor(Math.random() * COLS * 0.65); y = ROWS + 3;
-      vx = spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
-    } else if (d < 0.79) {                       // abajo → arriba-izq
-      x = Math.floor(COLS * 0.35 + Math.random() * COLS * 0.65); y = ROWS + 3;
-      vx = -spd * (0.12 + Math.random() * 0.18); vy = -spd * 0.38;
-    } else if (d < 0.89) {                       // diagonal empinada der
-      x = Math.floor(Math.random() * COLS * 0.5); y = -3;
-      vx = spd * 0.35; vy = spd * 0.52;
-    } else {                                     // diagonal empinada izq
-      x = Math.floor(COLS * 0.5 + Math.random() * COLS * 0.5); y = -3;
-      vx = -spd * 0.35; vy = spd * 0.52;
-    }
-    const r2 = Math.random();
-    const len = r2 < 0.20 ? 4  + Math.floor(Math.random() * 5)
-              : r2 < 0.65 ? 9  + Math.floor(Math.random() * 8)
-              : r2 < 0.88 ? 17 + Math.floor(Math.random() * 7)
-              :              24 + Math.floor(Math.random() * 6);
-    const spread = 1.3 + Math.random() * 2.0;
-    const bri    = 0.28 + Math.random() * 0.80;
-    shoots.push({ x, y, vx, vy, len, spread, bri });
-    nextShootMs = elapsedMs + 3500 + Math.random() * 4500;
-  }
-
-  let elapsed = 0, last = null, lastRender = 0;
-  const FRAME_MS = 1000 / 30; // 30 fps cap
-
-  function tick(ts) {
-    if (last !== null) elapsed += ts - last;
-    last = ts;
-
-    requestAnimationFrame(tick);
-    if (ts - lastRender < FRAME_MS) return;
-    lastRender = ts;
-
-    const phase = (elapsed / PERIOD) * 2 * Math.PI;
-    const t_sec = elapsed / 1000;
-
-    // Spawn shooting star
-    if (elapsed > nextShootMs) spawnShoot(elapsed);
-
-    // Update + build overlay
-    const sMap = {};
-    for (let i = shoots.length - 1; i >= 0; i--) {
-      const s = shoots[i];
-      s.x += s.vx * (FRAME_MS / 1000);
-      s.y += s.vy * (FRAME_MS / 1000);
-      if (s.x > COLS + 14 || s.x < -14 || s.y > ROWS + 5 || s.y < -5) { shoots.splice(i, 1); continue; }
-      const spd = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
-      const ux = s.vx / spd, uy = s.vy / spd;
-      for (let t2 = 0; t2 < s.len; t2++) {
-        const cx = Math.round(s.x - ux * t2 * s.spread);
-        const cy = Math.round(s.y - uy * t2);
-        if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) {
-          const lit = Math.min(100, Math.round(S_LT[Math.min(t2, S_LT.length - 1)] * s.bri / 5) * 5);
-          sMap[cy * COLS + cx] = {
-            ch: S_CH[Math.min(t2, S_CH.length - 1)],
-            co: `hsl(195,45%,${lit}%)`,
-          };
-        }
-      }
-    }
-
-    let html = '', htmlStars = '';
-
-    for (let r = 0; r < ROWS; r++) {
-      if (r > 0) { html += '\n'; htmlStars += '\n'; }
-      let bhColor = null, bhChars = '';
-      let stColor = null, stChars = '';
-
-      for (let c = 0; c < COLS; c++) {
-        const { sd, sa, dd, da } = meta[r][c];
-
-        const nearSide = r > CY;
-
-        let diskB = 0, diskRelA = 0, diskHue = 30;
-        for (const ring of RINGS) {
-          const dt     = (dd - ring.rc) / ring.w;
-          const radial = Math.exp(-dt * dt * 1.8);
-          if (radial < 0.02) continue;
-          const phLocal  = phase * (BASE_RC / ring.rc) ** 1.5 + ring.off;
-          const relA     = wrap(da - phLocal);
-          const trailSq  = (0.28 + ring.rc * 1.9) ** 2 * 0.44;
-          const angular  = relA <= 0
-            ? Math.exp(-relA * relA * 6)
-            : Math.exp(-relA * relA / trailSq);
-          const contrib  = radial * (0.10 + 0.90 * angular);
-          if (contrib > diskB) { diskB = contrib; diskRelA = relA; diskHue = ring.hue; }
-        }
-
-        let ringB = 0, ringT = 0;
-        if (sd >= 0.78 && sd < 1.85) {
-          const boost = 0.65 + 0.35 * Math.max(0, Math.cos(wrap(sa - phase)));
-          ringT = sd < 1.0 ? (sd - 0.78) / 0.22 : Math.max(0, 1 - (sd - 1.0) / 0.85);
-          ringB = ringT * 0.88 * boost;
-        }
-
-        let scatterB = 0;
-        if (dd > 0.96 && dd < 1.65 && sd >= 0.78) {
-          const dist    = (dd - 0.96) / 0.69;
-          const falloff = Math.exp(-dist * dist * 5.5);
-          const phOuter = phase * (BASE_RC / 0.865) ** 1.5;
-          const relA    = wrap(da - phOuter);
-          const n1 = Math.abs(Math.sin(relA * 4.3 + t_sec * 0.5));
-          const n2 = Math.abs(Math.sin(c * 5.9 + r * 9.7  + t_sec * 1.9));
-          const n3 = Math.abs(Math.sin(c * 2.3 + r * 5.1  - t_sec * 1.5 + dd * 11));
-          scatterB = falloff * n1 * n2 * n3;
-        }
-
-        const showDisk    = nearSide ? diskB > 0.01 : (diskB > 0.01 && ringB <= 0.02);
-        const showRing    = !showDisk && ringB > 0.02 && sd >= 0.78;
-        const showScatter = !showDisk && !showRing && sd >= 0.78 && scatterB > 0.42;
-        const inVoid      = sd < 0.78;
-
-        const idx = r * COLS + c;
-
-        // ── BH disc layer ──────────────────────────────────────────────
-        let ch = ' ', color = null;
-        if (showDisk) {
-          ch = lv(diskB);
-          const dN = Math.max(0, Math.cos(diskRelA));
-          const h  = Math.round((diskHue + dN * 14) / 5) * 5;
-          const l  = Math.round((22 + dN * 44) / 5) * 5;
-          color = `hsl(${h},95%,${l}%)`;
-        } else if (showRing) {
-          ch = lv(ringB);
-          const l = Math.round((30 + ringT * 32) / 5) * 5;
-          const s = Math.round((90 - ringT * 40) / 10) * 10;
-          color = `hsl(${RING_HUE},${s}%,${l}%)`;
-        } else if (showScatter) {
-          ch = lv(scatterB * 0.44);
-          const sl = Math.round((12 + scatterB * 28) / 5) * 5;
-          color = `hsl(${SCATTER_HUE},95%,${sl}%)`;
-        }
-        // void & non-disc cells → space (transparent, page bg shows through)
-
-        if (color === bhColor) { bhChars += ch; }
-        else {
-          if (bhChars) html += bhColor ? `<span style="color:${bhColor}">${bhChars}</span>` : bhChars;
-          bhColor = color; bhChars = ch;
-        }
-
-        // ── Stars layer (always visible) ───────────────────────────────
-        let sch = ' ', scolor = null;
-        if (!showDisk && !showRing && !showScatter && !inVoid) {
-          if (starB[idx] > 0) {
-            const sb = starB[idx] * (0.55 + 0.45 * Math.sin(t_sec * starTw[idx] + starPh[idx]));
-            if (sb > 0.14) {
-              sch = STAR_CH[starSz[idx]];
-              const lit = Math.round((38 + sb * 58) / 5) * 5;
-              const op  = (0.3 + sb * 0.7).toFixed(2);
-              scolor = `hsla(210,18%,${lit}%,${op})`;
-            }
-          }
-          const shot = sMap[idx];
-          if (shot) { sch = shot.ch; scolor = shot.co; }
-        }
-
-        if (scolor === stColor) { stChars += sch; }
-        else {
-          if (stChars) htmlStars += stColor ? `<span style="color:${stColor}">${stChars}</span>` : stChars;
-          stColor = scolor; stChars = sch;
-        }
-      }
-
-      if (bhChars) html     += bhColor ? `<span style="color:${bhColor}">${bhChars}</span>` : bhChars;
-      if (stChars) htmlStars += stColor ? `<span style="color:${stColor}">${stChars}</span>` : stChars;
-    }
-
-    pre.innerHTML = html;
-    if (preStars) preStars.innerHTML = htmlStars;
-
-    if (!tick._revealed) {
-      tick._revealed = true;
-      document.body.style.opacity = '1';
-      document.querySelectorAll('.hdr-lp').forEach(function (p) {
-        p.style.animationPlayState = 'running';
-      });
-    }
-  }
-
-  requestAnimationFrame(tick);
-
-  } // end init
-  requestAnimationFrame(init);
-})();
-
-</script>
+<script src="assets/js/shared/bh-art.js"></script>
 <script>
 (function () {
   var deferredPrompt = null;

@@ -324,13 +324,18 @@ document.addEventListener('DOMContentLoaded', () => {
   renderView(root, 'tronco');
   updateGlobalBadge();
 
-  // ── Helper: navigate to a tab with history entry ─────
-  const navTo = (view) => {
+  // ── Helper: reset search state ───────────────────────
+  const resetSearch = () => {
     TEM_QUERY = '';
     const si = document.getElementById('tem-search-input');
     if (si) si.value = '';
     const sc = document.getElementById('tem-search-clear');
     if (sc) sc.style.display = 'none';
+  };
+
+  // ── Helper: navigate to a tab with history entry ─────
+  const navTo = (view) => {
+    resetSearch();
     history.pushState({ view }, '', view === 'tronco' ? '#' : `#${view}`);
     renderView(root, view);
     if (view === 'search') {
@@ -341,13 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Browser back/forward ─────────────────────────────
   window.addEventListener('popstate', e => {
-    const state = e.state || {};
-    TEM_QUERY = '';
-    const si = document.getElementById('tem-search-input');
-    if (si) si.value = '';
-    const sc = document.getElementById('tem-search-clear');
-    if (sc) sc.style.display = 'none';
-    renderView(root, state.view || 'tronco', '');
+    resetSearch();
+    renderView(root, (e.state || {}).view || 'tronco', '');
   });
 
   // ── Tab switching ────────────────────────────────────
@@ -364,15 +364,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('tem-search-input');
   const searchClear = document.getElementById('tem-search-clear');
   if (searchInput) {
+    let _searchTimer;
     searchInput.addEventListener('input', () => {
       TEM_QUERY = searchInput.value;
       if (searchClear) searchClear.style.display = TEM_QUERY ? 'flex' : 'none';
-      root.innerHTML = renderSearchResults(TEM_QUERY);
-      stagger(root);
-      katexRoot(root);
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(() => {
+        root.innerHTML = renderSearchResults(TEM_QUERY);
+        stagger(root);
+        katexRoot(root);
+      }, 150);
     });
     if (searchClear) {
       searchClear.addEventListener('click', () => {
+        clearTimeout(_searchTimer);
         searchInput.value = '';
         TEM_QUERY = '';
         searchClear.style.display = 'none';

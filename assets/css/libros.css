@@ -902,7 +902,6 @@ body {
 }
 
 .note-item.dem-open .note-dem {
-  max-height: 1200px;
   opacity: 1;
   margin-top: 0.65rem;
 }
@@ -1306,12 +1305,6 @@ body {
 }
 
 .lib-subject-section { animation: fadeIn 0.3s ease both; }
-.lib-subject-section:nth-child(1) { animation-delay: 0.03s; }
-.lib-subject-section:nth-child(2) { animation-delay: 0.06s; }
-.lib-subject-section:nth-child(3) { animation-delay: 0.09s; }
-.lib-subject-section:nth-child(4) { animation-delay: 0.12s; }
-.lib-subject-section:nth-child(5) { animation-delay: 0.15s; }
-.lib-subject-section:nth-child(6) { animation-delay: 0.18s; }
 
 .book-detail { animation: fadeIn 0.25s ease; }
 .search-results { animation: fadeIn 0.2s ease; }

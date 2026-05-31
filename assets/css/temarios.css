@@ -20,6 +20,8 @@
   --r: 20px;
   --r2: 12px;
   --ease: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-h: 64px;
+  --tabs-h: 43px;
 }
 
 * {
@@ -1261,7 +1263,7 @@ body {
 /* ==================== VIEW TABS BAR ==================== */
 .tem-tabs-bar {
   position: sticky;
-  top: 64px;
+  top: var(--header-h);
   z-index: 150;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px) saturate(150%);
@@ -1311,7 +1313,7 @@ body {
 /* ==================== SEARCH BAR (TEMARIOS) ==================== */
 .tem-search-bar {
   position: sticky;
-  top: 107px;
+  top: calc(var(--header-h) + var(--tabs-h));
   z-index: 140;
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(20px);

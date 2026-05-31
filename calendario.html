@@ -128,7 +128,8 @@
   function sd(a, b) {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
-  function isHol(d)  { return HOLIDAYS.some(function (h) { return sd(h, d); }); }
+  var HOL_SET = new Set(HOLIDAYS.map(function(h) { return h.getFullYear() + '-' + h.getMonth() + '-' + h.getDate(); }));
+  function isHol(d) { return HOL_SET.has(d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate()); }
 
   /* ─── NO-CLASS PERIODS (within semester, no teal fill) ─── */
   var NO_CLASS = [
@@ -438,9 +439,27 @@
       return html;
     }
 
+    /* ── subject color helper ── */
+    function subColor(colorIdx, alpha) {
+      var h = ((colorIdx || 0) * 30) % 360;
+      return alpha !== undefined
+        ? 'hsla(' + h + ',75%,10%,' + alpha + ')'
+        : 'hsl(' + h + ',75%,65%)';
+    }
+
+    /* ── chip HTML helper ── */
+    function buildChips(sub, progress, selIso) {
+      var prog      = progress[sub.id] || {};
+      var dueToday  = (Array.isArray(prog.tareas)   ? prog.tareas   : []).filter(function(t) { return !t.done && t.dueDate === selIso; }).length;
+      var pendExams = (Array.isArray(prog.examenes) ? prog.examenes : []).filter(function(e) { return e.grade === '' || e.grade === null || e.grade === undefined; }).length;
+      var chips = '';
+      if (dueToday)  chips += '<span class="cdv-chip cdv-chip--task">' + dueToday + ' entrega' + (dueToday > 1 ? 's' : '') + '</span>';
+      if (pendExams) chips += '<span class="cdv-chip cdv-chip--exam">' + pendExams + ' ex.</span>';
+      return chips;
+    }
+
     /* ── render the day view ── */
-    function renderDayView() {
-      var data     = loadData();
+    function renderDayView(data) {
       var subjects = data.subjects;
       var progress = data.progress;
       var isToday  = selDate.getTime() === todayZero.getTime();
@@ -489,13 +508,6 @@
           + '</div>'
         : '';
 
-      function subColor(colorIdx, alpha) {
-        var h = ((colorIdx || 0) * 30) % 360;
-        return alpha !== undefined
-          ? 'hsla(' + h + ',75%,10%,' + alpha + ')'
-          : 'hsl(' + h + ',75%,65%)';
-      }
-
       /* event blocks (subjects with a time) */
       var events = '';
       var noTimeSubs = [];
@@ -505,21 +517,13 @@
 
         var ac      = subColor(sub.colorIdx);
         var bg      = subColor(sub.colorIdx, 0.7);
-        var prog    = progress[sub.id] || {};
-        var tasks   = Array.isArray(prog.tareas)   ? prog.tareas   : [];
-        var exams   = Array.isArray(prog.examenes) ? prog.examenes : [];
-        var dueToday  = tasks.filter(function(t) { return !t.done && t.dueDate === selIso; }).length;
-        var pendExams = exams.filter(function(e) { return e.grade === '' || e.grade === null || e.grade === undefined; }).length;
-
-        var chips = '';
-        if (dueToday)  chips += '<span class="cdv-chip cdv-chip--task">' + dueToday + ' entrega' + (dueToday > 1 ? 's' : '') + '</span>';
-        if (pendExams) chips += '<span class="cdv-chip cdv-chip--exam">' + pendExams + ' ex.</span>';
+        var chips = buildChips(sub, progress, selIso);
 
         var topPx = (h - START_H) * HOUR_H;
         var hgtPx = 1.5 * HOUR_H;
 
         var icon = sub.icon || 'assets/images/d0.jpg';
-        events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';" onclick="location.href=\'avance.html#mat/' + esc(sub.id) + '\'">'
+        events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';" data-mat-id="' + esc(sub.id) + '">'
           + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
           + '<div class="cdv-ev-body">'
           + '<div class="cdv-ev-name">' + esc(sub.name || '') + '</div>'
@@ -531,18 +535,11 @@
 
       /* subjects without time — floating cards above timeline */
       var floats = noTimeSubs.map(function(sub) {
-        var ac  = subColor(sub.colorIdx);
-        var bg  = subColor(sub.colorIdx, 0.7);
-        var prog    = progress[sub.id] || {};
-        var tasks   = Array.isArray(prog.tareas)   ? prog.tareas   : [];
-        var exams   = Array.isArray(prog.examenes) ? prog.examenes : [];
-        var dueToday  = tasks.filter(function(t) { return !t.done && t.dueDate === selIso; }).length;
-        var pendExams = exams.filter(function(e) { return e.grade === '' || e.grade === null || e.grade === undefined; }).length;
-        var chips = '';
-        if (dueToday)  chips += '<span class="cdv-chip cdv-chip--task">' + dueToday + ' entrega' + (dueToday > 1 ? 's' : '') + '</span>';
-        if (pendExams) chips += '<span class="cdv-chip cdv-chip--exam">' + pendExams + ' ex.</span>';
-        var icon = sub.icon || 'assets/images/d0.jpg';
-        return '<div class="cdv-card" style="border-left-color:' + ac + ';background:' + bg + ';cursor:pointer" onclick="location.href=\'avance.html#mat/' + esc(sub.id) + '\'">'
+        var ac    = subColor(sub.colorIdx);
+        var bg    = subColor(sub.colorIdx, 0.7);
+        var chips = buildChips(sub, progress, selIso);
+        var icon  = sub.icon || 'assets/images/d0.jpg';
+        return '<div class="cdv-card" style="border-left-color:' + ac + ';background:' + bg + ';cursor:pointer" data-mat-id="' + esc(sub.id) + '">'
           + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
           + '<div class="cdv-card-body">'
           + '<div class="cdv-card-name">' + esc(sub.name || '') + '</div>'
@@ -584,8 +581,9 @@
 
     /* ── full repaint ── */
     function repaint() {
+      var data = loadData();
       document.getElementById('cdc-root').innerHTML = renderCarousel();
-      document.getElementById('cdv-root').innerHTML = renderDayView();
+      document.getElementById('cdv-root').innerHTML = renderDayView(data);
       bindCarousel();
       bindTimeline();
       /* in collapsed mode, scroll so now-line sits near the top */
@@ -605,21 +603,12 @@
       var tlEl = document.querySelector('.cdv-timeline');
       if (!tlEl) return;
       tlEl.addEventListener('click', function() {
-        /* visual position of now-line before toggle */
-        var prevNowPx    = parseFloat(tlEl.dataset.nowpx || '0');
-        var prevScrollTop = tlEl.scrollTop;
-        var visualNowY   = prevNowPx - prevScrollTop;   // px from top of box
-
+        var nowPx      = parseFloat(tlEl.dataset.nowpx || '0');
+        var visualNowY = nowPx - tlEl.scrollTop;
         tlExpanded = !tlExpanded;
-        repaint();
-
-        /* after re-render, restore visual position of now-line */
+        tlEl.classList.toggle('cdv-timeline--exp', tlExpanded);
         requestAnimationFrame(function() {
-          var newTl  = document.querySelector('.cdv-timeline');
-          var nowLn  = document.querySelector('.cdv-tl-now');
-          if (!newTl) return;
-          var newNowPx = nowLn ? parseFloat(nowLn.style.top) : 0;
-          newTl.scrollTop = Math.max(0, newNowPx - visualNowY);
+          tlEl.scrollTop = Math.max(0, nowPx - visualNowY);
         });
       });
     }
@@ -647,9 +636,18 @@
     function scheduleRefresh() {
       if (timerRef) clearInterval(timerRef);
       timerRef = setInterval(function () {
-        var isViewingToday = selDate.getTime() === todayZero.getTime();
-        if (isViewingToday) {
-          document.getElementById('cdv-root').innerHTML = renderDayView();
+        var now = new Date();
+        var newTodayZero = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        if (newTodayZero.getTime() !== todayZero.getTime()) {
+          todayZero = newTodayZero;
+          if (selDate < todayZero) selDate = new Date(todayZero);
+          repaint();
+          return;
+        }
+        if (selDate.getTime() === todayZero.getTime()) {
+          var data = loadData();
+          document.getElementById('cdv-root').innerHTML = renderDayView(data);
+          bindTimeline();
         }
       }, 60000);
     }
@@ -657,6 +655,12 @@
     /* ── init ── */
     repaint();
     scheduleRefresh();
+
+    var _cdvRoot = document.getElementById('cdv-root');
+    if (_cdvRoot) _cdvRoot.addEventListener('click', function(e) {
+      var el = e.target.closest('[data-mat-id]');
+      if (el) location.href = 'avance.html#mat/' + el.getAttribute('data-mat-id');
+    });
 
   })();
 
