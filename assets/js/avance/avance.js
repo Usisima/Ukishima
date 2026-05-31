@@ -125,12 +125,10 @@ function getColor(h) {
 }
 function getSubColor(sub) {
   var entry = _findInData(sub);
-  var icon  = (entry && entry.icon) || sub.icon;
-  if (icon) {
-    var key = _cacheKey(sub.id || '', icon);
-    var hex = _vibrantCache()[key] || _vibrantCache()[icon];
-    if (hex) return { bg: hex+'80', ac: hex };
-  }
+  var icon  = (entry && entry.icon) || sub.icon || 'assets/images/d0.jpg';
+  var key = _cacheKey(sub.id || '', icon);
+  var hex = _vibrantCache()[key] || _vibrantCache()[icon];
+  if (hex) return { bg: hex+'80', ac: hex };
   var def = DEFAULTS.find(function(d){ return d.id===sub.id; });
   var h = (def && def.hue!=null) ? def.hue
         : (entry && entry.colorIdx!=null) ? (entry.colorIdx*30)%360
@@ -950,7 +948,17 @@ const R = {
                 ${mkDaysDots(sub.dias, sub.hora, sub.horaFin)}
               </div>
             </div>
-            <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
+            <div class="av-card-right">
+              <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
+              <button class="av-vis-btn${isHidden(sub.id)?' av-vis-btn--off':''}"
+                      onclick="event.stopPropagation();A.toggleVis('${esc(sub.id)}')"
+                      aria-label="${isHidden(sub.id)?'Mostrar planeta':'Ocultar planeta'}">
+                <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
+                  <circle cx="8" cy="8" r="3" fill="currentColor"/>
+                  <ellipse cx="8" cy="8" rx="6.5" ry="2.6" stroke="currentColor" stroke-width="1.2" fill="none" transform="rotate(-25 8 8)"/>
+                </svg>
+              </button>
+            </div>
           </div>
           <div class="av-card-foot">
             <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>
@@ -979,7 +987,7 @@ const R = {
       <!-- ═══ CARDS ═══ -->
       ${cardsHtml}`;
 
-    SolarSys.init(document.getElementById('av-solar-wrap'), subs.filter(s => s.semestre));
+    SolarSys.init(document.getElementById('av-solar-wrap'), subs);
     _colorizeAvCards();
   },
 
@@ -1415,9 +1423,14 @@ const ConfirmDel = {
 const A = {
   openSubModal:      (sem)=>SubModal.open(sem),
   toggleVis(id) {
-    toggleHidden(id);
+    const hidden = toggleHidden(id);
     const solarWrap = document.getElementById('av-solar-wrap');
     if (solarWrap) { SolarSys.stop(); SolarSys.init(solarWrap, getSubjects()); }
+    const btn = document.querySelector(`.av-card[data-sub="${id}"] .av-vis-btn`);
+    if (btn) {
+      btn.classList.toggle('av-vis-btn--off', hidden);
+      btn.setAttribute('aria-label', hidden ? 'Mostrar planeta' : 'Ocultar planeta');
+    }
   },
   closeSubModal:     ()=>SubModal.close(),
   confirmAddSubject: ()=>SubModal.confirm(),
