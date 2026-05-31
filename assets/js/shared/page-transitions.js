@@ -1,13 +1,11 @@
-/* page-transitions.js — cross-page fade in/out */
+/* page-transitions.js */
 
-/* Fade-in: page starts invisible and transitions to visible after first paint */
-document.body.style.opacity = '0';
-requestAnimationFrame(function () {
-  requestAnimationFrame(function () {
-    document.body.style.transition = 'opacity 0.15s ease';
-    document.body.style.opacity = '1';
-  });
-});
+/* Cross-document View Transitions (Chrome 126+): crossfade nativo entre páginas */
+(function () {
+  var s = document.createElement('style');
+  s.textContent = '@view-transition { navigation: auto; }';
+  document.head.appendChild(s);
+})();
 
 /* STANDALONE_GATE: true = solo app instalada accede a subpáginas / false = acceso libre */
 window.STANDALONE_GATE = false;
@@ -33,17 +31,4 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
   var base = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
   vp.content = base + ', maximum-scale=1';
   setTimeout(function () { vp.content = base; }, 300);
-})();
-
-(function () {
-  document.addEventListener('click', function (e) {
-    const a = e.target.closest('a[href]');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || a.target === '_blank') return;
-    e.preventDefault();
-    document.body.style.transition = 'opacity 0.18s ease';
-    document.body.style.opacity = '0';
-    setTimeout(function () { window.location.href = href; }, 185);
-  });
 })();
