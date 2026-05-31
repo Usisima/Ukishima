@@ -608,6 +608,9 @@ body {
 .dash-sem-bar--neutral::after {
   display: none;
 }
+.dash-sem-bar--zero::after {
+  display: none;
+}
 .dash-sem-bar--finals {
   background: linear-gradient(90deg, #c47878, #d49a8a);
 }

@@ -161,25 +161,29 @@ async function run() {
 
   // 1. Tronco común images d1–d16
   status.textContent = 'Analizando tronco común (d1–d16)…';
-  const tImages = [];
-  for (let i = 1; i <= 16; i++) {
-    const file  = `d${i}`;
-    const color = await imageAvgColor(`assets/images/${file}.jpg`);
-    tImages.push({file, color});
-    status.textContent = `Tronco: ${file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
-  }
+  const tImages = await Promise.all(
+    Array.from({ length: 16 }, (_, i) => {
+      const file = `d${i + 1}`;
+      return imageAvgColor(`assets/images/${file}.jpg`).then(color => {
+        status.textContent = `Tronco: ${file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+        return { file, color };
+      });
+    })
+  );
 
   const tSubs    = TRONCO.map(s => ({...s, targetHue: s.colorIdx * 30}));
   const tAssign  = optimalAssign(tSubs, tImages);
 
   // 2. Optativas d17–d61
   status.textContent = 'Analizando optativas (d17–d61)…';
-  const optResults = [];
-  for (const opt of OPTATIVAS) {
-    const color = await imageAvgColor(`assets/images/${opt.file}.jpg`);
-    optResults.push({...opt, color});
-    status.textContent = `Opt: ${opt.file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
-  }
+  const optResults = await Promise.all(
+    OPTATIVAS.map(opt =>
+      imageAvgColor(`assets/images/${opt.file}.jpg`).then(color => {
+        status.textContent = `Opt: ${opt.file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+        return { ...opt, color };
+      })
+    )
+  );
 
   /* ── Guardar color completo {h,s,l} en localStorage ──────────────────────
      avance.js lo usa para bg y ac sin normalización adicional             */
@@ -243,11 +247,17 @@ async function run() {
   html += `<h2>Output JSON (para aplicar a data.js)</h2>
   <pre id="jout">${fullJSON}</pre>
   <div class="btns">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('jout').textContent).then(()=>this.textContent='✓ Copiado')">Copiar JSON</button>
+    <button data-action="copy-json">Copiar JSON</button>
   </div>`;
 
   out.innerHTML = html;
 }
+
+document.getElementById('results').addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-action="copy-json"]');
+  if (btn) navigator.clipboard.writeText(document.getElementById('jout').textContent)
+    .then(function() { btn.textContent = '✓ Copiado'; });
+});
 
 run();
 </script>

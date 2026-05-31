@@ -116,7 +116,7 @@
     if (elapsed > nextShootMs) spawnShoot(elapsed);
 
     // Update positions + build overlay map
-    const sMap = {};
+    const sMap = new Map();
     for (let i = shoots.length - 1; i >= 0; i--) {
       const s = shoots[i];
       s.x += s.vx * (FRAME_MS / 1000);
@@ -129,10 +129,10 @@
         const cy = Math.round(s.y - uy * t2);
         if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) {
           const lit = Math.min(100, Math.round(S_LT[Math.min(t2, S_LT.length - 1)] * s.bri / 5) * 5);
-          sMap[cy * COLS + cx] = {
+          sMap.set(cy * COLS + cx, {
             ch: S_CH[Math.min(t2, S_CH.length - 1)],
             co: `hsl(210,25%,${lit}%)`,
-          };
+          });
         }
       }
     }
@@ -156,7 +156,7 @@
         }
 
         // Shooting star overrides star field
-        const shot = sMap[idx];
+        const shot = sMap.get(idx);
         if (shot) { ch = shot.ch; color = shot.co; }
 
         if (color === rc) {

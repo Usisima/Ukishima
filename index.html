@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="assets/fonts/google-fonts.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
+  <noscript><style>body { opacity: 1 !important; }</style></noscript>
   <link rel="prefetch" href="temarios.html">
   <link rel="prefetch" href="libros.html">
   <link rel="prefetch" href="avance.html">
@@ -275,10 +276,11 @@ var _isSA = window.matchMedia('(display-mode: standalone)').matches || !!navigat
     const remain  = Math.max(0, Math.floor((LAST_END  - now) / 86400000));
     const daysVac = Math.max(0, Math.ceil( (NEXT_SEM  - now) / 86400000));
 
-    const barExtra = inFinals ? ' dash-sem-bar--finals'
-                   : afterSem ? ' dash-sem-bar--neutral'
-                   :            '';
     const displayPct = afterSem ? 100 : spct;
+    const barExtra = inFinals         ? ' dash-sem-bar--finals'
+                   : afterSem         ? ' dash-sem-bar--neutral'
+                   : displayPct === 0 ? ' dash-sem-bar--zero'
+                   :                   '';
     const countLabel = inFinals   ? '—'
                      : inVacation ? daysVac + 'd'
                      : afterSem   ? ''
