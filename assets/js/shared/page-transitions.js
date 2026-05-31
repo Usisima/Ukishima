@@ -24,6 +24,21 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
   }
 })();
 
+/* Start header logo animation when page is actually revealed to the user */
+(function () {
+  var _done = false;
+  function startLogo() {
+    if (_done) return;
+    _done = true;
+    if (document.body.dataset.deferLogo) return;
+    document.querySelectorAll('.hdr-lp').forEach(function (p) {
+      p.style.animationPlayState = 'running';
+    });
+  }
+  window.addEventListener('pagereveal', startLogo, { once: true });
+  requestAnimationFrame(function () { requestAnimationFrame(startLogo); });
+})();
+
 /* Reset pinch-zoom to 1× on every page load */
 (function () {
   var vp = document.querySelector('meta[name="viewport"]');

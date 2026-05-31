@@ -31,7 +31,7 @@
     @keyframes hdrStrokeFade { to { stroke-opacity: 0; } }
   </style>
 </head>
-<body>
+<body data-defer-logo="">
 
 <header class="header">
   <div class="header-left">
@@ -45,8 +45,8 @@
       </svg>
       <script>
       (function () {
-        var DELAYS = [0, 0.15, 0.28, 0.38, 0.48];
-        var DURS   = [1.1, 0.85, 0.85, 0.75, 0.8];
+        var DELAYS = [0, 0.42, 0.42, 0.20, 0.42];
+        var DURS   = [1.1, 0.85, 0.85, 0.75, 0.85];
         var EASE   = 'cubic-bezier(0.4,0,0.2,1)';
         document.querySelectorAll('.hdr-lp').forEach(function (p, i) {
           var len = p.getTotalLength();
@@ -63,6 +63,7 @@
             'hdrFill '       + fadeDur + 's ease '         + fillDelay         + 's forwards',
             'hdrStrokeFade 0.2s ease ' +                     strokeFadeDelay   + 's forwards',
           ].join(', ');
+          p.style.animationPlayState = 'paused';
         });
       })();
       </script>
@@ -587,6 +588,9 @@
     if (!tick._revealed) {
       tick._revealed = true;
       document.body.style.opacity = '1';
+      document.querySelectorAll('.hdr-lp').forEach(function (p) {
+        p.style.animationPlayState = 'running';
+      });
     }
   }
 
