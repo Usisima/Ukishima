@@ -59,13 +59,27 @@
           var fillDelay       = delay + dur;
           var fadeDur         = 0.3;
           var strokeFadeDelay = fillDelay + fadeDur;
-          var fillKf  = i >= 3 ? 'hdrFillRadial' : 'hdrFill';
-          var fillDur = i >= 3 ? 0.8 : fadeDur;
-          p.style.animation = [
-            'hdrDraw '       + dur     + 's ' + EASE + ' ' + delay             + 's forwards',
-            fillKf + ' '     + fillDur + 's ease-out '     + fillDelay         + 's forwards',
-            'hdrStrokeFade 0.2s ease ' +                     strokeFadeDelay   + 's forwards',
-          ].join(', ');
+          if (i >= 3) {
+            // Trazo: solo hdrDraw + hdrStrokeFade (el fill queda transparente)
+            p.style.animation = [
+              'hdrDraw '       + dur + 's ' + EASE + ' ' + delay + 's forwards',
+              'hdrStrokeFade 0.2s ease ' + (fillDelay + 0.85) + 's forwards',
+            ].join(', ');
+            // Clon: solo fill con reveal radial, sin stroke
+            var c = p.cloneNode(true);
+            c.style.stroke = 'none';
+            c.style.strokeDasharray  = '';
+            c.style.strokeDashoffset = '';
+            c.style.animation = 'hdrFillRadial 0.8s ease-out ' + fillDelay + 's both';
+            c.style.animationPlayState = 'paused';
+            p.parentNode.insertBefore(c, p.nextSibling);
+          } else {
+            p.style.animation = [
+              'hdrDraw '       + dur     + 's ' + EASE + ' ' + delay           + 's forwards',
+              'hdrFill '       + fadeDur + 's ease '         + fillDelay       + 's forwards',
+              'hdrStrokeFade 0.2s ease ' +                    strokeFadeDelay  + 's forwards',
+            ].join(', ');
+          }
           p.style.animationPlayState = 'paused';
         });
       })();
