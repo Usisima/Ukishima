@@ -361,10 +361,21 @@ const SolarSys = {
       const dm  = _findInData(sub);
       const src = (dm && dm.icon) || sub.icon || 'assets/images/d0.jpg';
       this._iconMap[sub.id] = src;
+      const key      = _cacheKey(sub.id, src);
+      const isTronco = !!_TRONCO_IDS[sub.id];
+      const extract  = img => {
+        if (_vibrantCache()[key]) return;
+        const hex = isTronco ? _extractVibrantL(img, 0.22, 0.75) : _extractVibrant(img);
+        if (hex) _saveVibrant(key, hex);
+      };
       if (!this._imgs[src]) {
         const img = new Image();
+        img.addEventListener('load', () => extract(img), { once: true });
         img.src = src;
         this._imgs[src] = img;
+      } else {
+        const img = this._imgs[src];
+        if (img.complete && img.naturalWidth > 0) extract(img);
       }
     });
   },
