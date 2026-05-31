@@ -1,4 +1,13 @@
-/* page-transitions.js — cross-page fade out before navigation */
+/* page-transitions.js — cross-page fade in/out */
+
+/* Fade-in: page starts invisible and transitions to visible after first paint */
+document.body.style.opacity = '0';
+requestAnimationFrame(function () {
+  requestAnimationFrame(function () {
+    document.body.style.transition = 'opacity 0.15s ease';
+    document.body.style.opacity = '1';
+  });
+});
 
 /* STANDALONE_GATE: true = solo app instalada accede a subpáginas / false = acceso libre */
 window.STANDALONE_GATE = false;

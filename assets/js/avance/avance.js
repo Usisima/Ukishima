@@ -55,7 +55,7 @@ const DEFAULTS = [
 ];
 
 /* ── SEMESTER ORDINALS ───────────────────────────────── */
-const SEM_ORD = ['','Primero','Segundo','Tercero','Cuarto','Quinto','Sexto','Séptimo','Octavo','Noveno','Décimo'];
+const SEM_ORD = ['','Primer','Segundo','Tercer','Cuarto','Quinto','Sexto','Séptimo','Octavo','Noveno','Décimo'];
 
 /* ═══════════════════════════════════════════════════════
    SISTEMA DE COLOR — idéntico a estadisticas.html
@@ -340,7 +340,7 @@ const SolarSys = {
     this.stop();
     this.subs = subs.filter(s => !isHidden(s.id));
     this.t    = 0;
-    this._introT = 0;
+    if (this._introT < 2.6) this._introT = 0;
     const pose = getSolarPose();
     this.rotation = pose.rotation;
     this.el       = pose.el;
@@ -883,7 +883,7 @@ const R = {
     const bySem = {};
     for (const sub of subs) { const k=sub.semestre||''; (bySem[k]=bySem[k]||[]).push(sub); }
     const semKeys = Object.keys(bySem).sort((a,b) => {
-      if(a===''&&b!=='') return 1; if(b===''&&a!=='') return -1; return Number(b)-Number(a);
+      if(a===''&&b!=='') return -1; if(b===''&&a!=='') return 1; return Number(b)-Number(a);
     });
 
     let cardsHtml = '';
@@ -921,7 +921,7 @@ const R = {
         const gradeClr = displayG != null ? gradeColor(parseFloat(displayG)) : ac;
 
         cardsHtml += `
-        <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')" style="background:${bg}">
+        <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')" >
           <div class="av-card-head">
             <div class="av-card-icon">
               <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
@@ -936,7 +936,7 @@ const R = {
             <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
           </div>
           <div class="av-card-foot">
-            <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%;background:${ac}"></div></div>
+            <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>
             ${chips ? `<div class="av-card-chips">${chips}</div>` : ''}
           </div>
         </div>`;
@@ -957,7 +957,7 @@ const R = {
       <!-- ═══ CARDS ═══ -->
       ${cardsHtml}`;
 
-    SolarSys.init(document.getElementById('av-solar-wrap'), subs);
+    SolarSys.init(document.getElementById('av-solar-wrap'), subs.filter(s => s.semestre));
     _colorizeAvCards();
   },
 

@@ -12,9 +12,11 @@
   <link rel="stylesheet" href="assets/css/dashboard.css">
   <link rel="prefetch" href="temarios.html">
   <link rel="prefetch" href="libros.html">
+  <link rel="prefetch" href="avance.html">
+  <link rel="prefetch" href="calendario.html">
   <link rel="preload" as="script" href="assets/js/data/data.js">
   <script type="speculationrules">
-    {"prerender":[{"source":"list","urls":["temarios.html","libros.html"]}]}
+    {"prerender":[{"source":"list","urls":["temarios.html","libros.html","avance.html","calendario.html"]}]}
   </script>
   <style>
     .hdr-lp {
@@ -213,8 +215,10 @@
     try {
       var av = JSON.parse(localStorage.getItem('ukishima_avance_v2') || 'null') || {};
       var prog = av.progress || {};
-      var grades = Object.values(prog)
-        .map(function(p) { return p.finalGrade; })
+      var _curricIds = new Set(CURRICULUM.flatMap(function(s){return s.materias;}).map(function(m){return m.id;}));
+      var grades = Object.entries(prog)
+        .filter(function(e) { return _curricIds.has(e[0]); })
+        .map(function(e) { return e[1].finalGrade; })
         .filter(function(g) { return g != null && !isNaN(g); });
       var el = document.getElementById('hs-avg');
       if (el && grades.length) {

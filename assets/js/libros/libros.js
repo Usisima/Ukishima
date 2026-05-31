@@ -96,7 +96,7 @@ function _colorizeLibCovers() {
     if (!icon) return;
 
     function apply(hex) {
-      coverEl.style.background = hex+'bf';
+      coverEl.style.background = hex+'80';
       try {
         var cur=JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}');
         cur[icon]=hex;
@@ -153,16 +153,16 @@ function palColor(subj) {
       var hex = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}')[icon];
       if (hex) {
         var h = _libHexToH(hex);
-        return 'hsla(' + h + ',75%,10%,0.7)';
+        return 'hsla(' + h + ',75%,10%,0.50)';
       }
     } catch(e) {}
     if (entry.colorIdx != null) {
       var h2 = (entry.colorIdx * 30) % 360;
-      return 'hsla(' + h2 + ',75%,10%,0.7)';
+      return 'hsla(' + h2 + ',75%,10%,0.50)';
     }
   }
   var idx = _allLib().indexOf(subj);
-  return 'hsla(' + ((Math.max(0,idx)*30)%360) + ',75%,10%,0.7)';
+  return 'hsla(' + ((Math.max(0,idx)*30)%360) + ',75%,10%,0.50)';
 }
 
 
@@ -1218,7 +1218,13 @@ _currentIdx() {
 
 /* ── NAVIGATION ───────────────────────────────── */
 const Nav = {
+  _prevView: null,
+  _savedScroll: 0,
+
   go(view, bookId, noteKey) {
+    Nav._prevView = S.view;
+    if (S.view !== 'book') Nav._savedScroll = window.scrollY;
+
     S.view    = view;
     S.bookId  = bookId  || null;
     S.noteKey = noteKey || null;
@@ -1257,8 +1263,13 @@ const Nav = {
     Disc.mode = 'home';
     Disc.setVisible(S.view === 'home');
 
-    /* scroll to top */
-    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    /* scroll: restaurar si se viene de un libro, si no ir al inicio */
+    const _scrollTop = Nav._prevView === 'book' ? Nav._savedScroll : 0;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: _scrollTop, behavior: 'instant' })
+      )
+    );
   },
 };
 
@@ -1325,6 +1336,8 @@ const Nav = {
   /* browser back/forward */
   window.addEventListener('popstate', e => {
     const state = e.state || {};
+    Nav._prevView = S.view;
+    if (S.view !== 'book') Nav._savedScroll = window.scrollY;
     S.view   = state.view   || 'home';
     S.bookId = state.bookId || null;
     // Clear search state on any back/forward navigation
