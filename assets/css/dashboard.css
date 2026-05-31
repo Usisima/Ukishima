@@ -44,12 +44,8 @@ body {
   flex-direction: column;
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
-  animation: pageFadeIn 0.18s ease both;
-}
-
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  opacity: 0;
+  transition: opacity 0.18s ease;
 }
 
 /* ==================== HEADER ==================== */
