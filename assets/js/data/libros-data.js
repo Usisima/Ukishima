@@ -3,168 +3,6 @@
    ═══════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────
-   PDF: bookId → { title, driveId }
-   driveId = ID del archivo en Google Drive.
-   Sustituir con los IDs reales de tus archivos.
-   ────────────────────────────────────────────── */
-const PDF = {
-  as1_b1: { title: "Álgebra Superior — Cárdenas, Lluis, Raggi & Tomás", driveId: "" },
-  as1_b2: { title: "Álgebra Elemental — Nachbin", driveId: "" },
-  as2_b1: { title: "Álgebra Superior — Cárdenas, Lluis, Raggi & Tomás", driveId: "" },
-  as2_b2: { title: "Álgebra Elemental — Nachbin", driveId: "" },
-  cd1_b1: { title: "Cálculo Infinitesimal — Spivak", driveId: "" },
-  cd1_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
-  ga1_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
-  ga1_b2: { title: "Geometría Superior — Efimov", driveId: "" },
-  al1_b1: { title: "Álgebra Lineal — Hoffman & Kunze", driveId: "" },
-  al1_b2: { title: "Álgebra Lineal — Friedberg, Insel & Spence", driveId: "" },
-  cd2_b1: { title: "Cálculo Infinitesimal — Spivak", driveId: "" },
-  cd2_b2: { title: "Cálculo con Geometría Analítica — Thomas & Finney", driveId: "" },
-  ga2_b1: { title: "Geometría Analítica — Ramírez Galarza", driveId: "" },
-  ga2_b2: { title: "Geometría Superior — Efimov", driveId: "" },
-  cd1_b3: { title: "Cálculo Diferencial e Integral — Arizmendi et al.", driveId: "" },
-  cd1_b4: { title: "Differential and Integral Calculus — Courant", driveId: "" },
-  cd1_b5: { title: "A First Course in Calculus — Lang", driveId: "" },
-  cd2_b3: { title: "Cálculo Diferencial e Integral — Arizmendi et al.", driveId: "" },
-  cd2_b4: { title: "Differential and Integral Calculus — Courant", driveId: "" },
-  cd2_b5: { title: "A First Course in Calculus — Lang", driveId: "" },
-  cd3_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
-  cd3_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
-  cd3_b3: { title: "Calculus Vol. II — Apostol", driveId: "" },
-  cd3_b4: { title: "Differential and Integral Calculus Vol. II — Courant", driveId: "" },
-  cd3_b5: { title: "Introduction to Calculus and Analysis Vol. II — Courant & John", driveId: "" },
-  cd3_b6: { title: "Calculus of Several Variables — Lang", driveId: "" },
-  al2_b1: { title: "Linear Algebra — Curtis", driveId: "" },
-  al2_b2: { title: "Álgebra Lineal — Lang", driveId: "" },
-  al2_b3: { title: "Fundamentals of Linear Algebra — Nomizu", driveId: "" },
-  al2_b4: { title: "Álgebra Lineal — Rincón Mora", driveId: "" },
-  cd4_b1: { title: "Cálculo Vectorial — Marsden & Tromba", driveId: "" },
-  cd4_b2: { title: "Cálculo — Thomas & Finney (Varias Variables)", driveId: "" },
-  cd4_b3: { title: "Calculus Vol. II — Apostol", driveId: "" },
-  cd4_b4: { title: "Differential and Integral Calculus Vol. II — Courant", driveId: "" },
-  cd4_b5: { title: "Introduction to Calculus and Analysis Vol. II — Courant & John", driveId: "" },
-  cd4_b6: { title: "Calculus of Several Variables — Lang", driveId: "" },
-  ga1_b3: { title: "Geometría — Bracho", driveId: "" },
-  ga1_b4: { title: "Modern Analytic Geometry — Preston & Lovaglia", driveId: "" },
-  ga2_b3: { title: "Geometría — Bracho", driveId: "" },
-  ga2_b4: { title: "Modern Analytic Geometry — Preston & Lovaglia", driveId: "" },
-  al1_b3: { title: "Linear Algebra — Curtis", driveId: "" },
-  al1_b4: { title: "Linear Algebra — Lang", driveId: "" },
-  al1_b5: { title: "Fundamentals of Linear Algebra — Nomizu", driveId: "" },
-  al1_b6: { title: "Álgebra Lineal — Rincón Mora", driveId: "" },
-  ed_b1:  { title: "Ordinary Differential Equations — Arnold", driveId: "" },
-  ed_b2:  { title: "Differential Equations — Blanchard, Devaney & Hall", driveId: "" },
-  ed_b3:  { title: "Differential Equations and Their Applications — Braun", driveId: "" },
-  ed_b4:  { title: "Elementary Differential Equations — Derrick & Grossman", driveId: "" },
-  ana_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
-  ana_b2: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
-  ana_b3: { title: "Mathematical Analysis — Apostol", driveId: "" },
-  ana_b4: { title: "Introduction to Real Analysis — Bartle & Sherbert", driveId: "" },
-  ana_b5: { title: "Postmodern Analysis — Jost", driveId: "" },
-  ana_b6: { title: "Measure and Integral — Wheeden & Zygmund", driveId: "" },
-  an2_b1: { title: "Principles of Mathematical Analysis — Rudin", driveId: "" },
-  an2_b2: { title: "Measure and Integral — Wheeden & Zygmund", driveId: "" },
-  an2_b3: { title: "Mathematical Analysis — Apostol", driveId: "" },
-  an2_b4: { title: "Introduction to Real Analysis — Bartle & Sherbert", driveId: "" },
-  an2_b5: { title: "Postmodern Analysis — Jost", driveId: "" },
-  an2_b6: { title: "Elementos de Análisis Funcional — Kolmogorov & Fomin", driveId: "" },
-  vc1_b1: { title: "Complex Analysis — Ahlfors", driveId: "" },
-  vc1_b2: { title: "Complex Variables and Applications — Churchill & Brown", driveId: "" },
-  vc1_b3: { title: "Variable Compleja — Lascurain Orive", driveId: "" },
-  vc1_b4: { title: "Basic Complex Analysis — Marsden & Hoffman", driveId: "" },
-  alm_b1: { title: "Topics in Algebra — Herstein", driveId: "" },
-  alm_b2: { title: "A First Course in Abstract Algebra — Fraleigh", driveId: "" },
-  alm_b3: { title: "An Introduction to the Theory of Groups — Rotman", driveId: "" },
-  // ── Conjuntos Convexos (optativa, Bloque I) ──
-  cc_b1:  { title: "Euclidean Geometry and Convexity — Benson", driveId: "" },
-  cc_b2:  { title: "División de Figuras en Partes Menores — Boltianski & Golberg", driveId: "" },
-  cc_b3:  { title: "Geometric Inequalities — Kazarinoff", driveId: "" },
-  cc_b4:  { title: "Lo Antiguo y lo Nuevo acerca de los Conjuntos Convexos — Hadwiger", driveId: "" },
-  cc_b5:  { title: "Combinatorial Geometry in the Plane — Hadwiger & Debrunner", driveId: "" },
-  cc_b6:  { title: "Convex Figures — Yaglom & Boltianski", driveId: "" },
-  // ── Diseño de Sistemas Digitales (optativa, Bloque I) ──
-  dsd_b1: { title: "Digital Design — Mano", driveId: "" },
-  // ── Electromagnetismo I (optativa, Bloque I) ──
-  em1_b1: { title: "Fundamentos de Física Vol. II — Halliday, Resnick & Walker", driveId: "" },
-  em1_b2: { title: "Electromagnetism: Principles and Applications — Lorrain & Corson", driveId: "" },
-  em1_b3: { title: "Electricidad y Magnetismo — Purcell", driveId: "" },
-  em1_b4: { title: "Física Vol. II — Resnick, Halliday & Krane", driveId: "" },
-  em1_b5: { title: "Física II — Serway & Jewett", driveId: "" },
-  em1_b6: { title: "Electricidad y Magnetismo — Serway", driveId: "" },
-  em1_b7: { title: "Space Time Physics — Taylor & Wheeler", driveId: "" },
-  em1_b8: { title: "Introducción a la Teoría Especial de la Relatividad — Resnick", driveId: "" },
-  // ── Fenómenos Colectivos (optativa, Bloque I) ──
-  fc_b1:  { title: "Introducción al estudio de la mecánica, materia y ondas — Ingard & Kraushaar", driveId: "" },
-  fc_b2:  { title: "Termodinámica Clásica — Carmona", driveId: "" },
-  fc_b3:  { title: "Physical Hydrodynamics — Guyon, Hullin, Petit & Mitescu", driveId: "" },
-  fc_b4:  { title: "Physics of Waves — Elmore & Heald", driveId: "" },
-  // ── Conjuntos y Lógica (optativa, Bloque I) ──
-  cyl_b1: { title: "Sobre un Curso de Análisis Lógico — Amor", driveId: "" },
-  cyl_b2: { title: "Elementos de Lógica Formal — Badesa, Jané & Jansana", driveId: "" },
-  cyl_b3: { title: "Lógica Elemental — Fernández, Preisser, Segura & Torres", driveId: "" },
-  cyl_b4: { title: "Teoría de Conjuntos y Temas Afines — Lipschutz", driveId: "" },
-  cyl_b5: { title: "Cómo Entender y Hacer Demostraciones en Matemáticas — Solow", driveId: "" },
-  cyl_b6: { title: "El Método de la Inducción Matemática — Sominski", driveId: "" },
-  cyl_b7: { title: "Manual de Lógica para Estudiantes de Matemáticas — Zubieta", driveId: "" },
-  cyl_b8: { title: "Taller de Lógica Matemática — Zubieta", driveId: "" },
-  // ── Geometría Moderna II (optativa, Bloque I) ──
-  gm2_b1: { title: "An Introduction to the Modern Geometry of the Triangle and the Circle — Altshiller", driveId: "" },
-  gm2_b2: { title: "Non-euclidean Geometry — Menschkowsky", driveId: "" },
-  gm2_b3: { title: "Introducción a la Geometría Moderna — Shively", driveId: "" },
-  // ── Geometría Proyectiva (optativa, Bloque I) ──
-  gp_b1:  { title: "The Octonians — Baez", driveId: "" },
-  gp_b2:  { title: "Projective Geometry: From Foundations to Applications — Beutelspacher & Rosenbaum", driveId: "" },
-  gp_b3:  { title: "Projective Geometry — Coxeter", driveId: "" },
-  gp_b4:  { title: "Foundations of Projective Geometry — Hartshorne", driveId: "" },
-  gp_b5:  { title: "Projective Geometry and its Application to Computer Graphics — Penna", driveId: "" },
-  gp_b6:  { title: "Elementos de Geometría Proyectiva — Seidenberg", driveId: "" },
-  // ── Gráficas y Juegos (optativa, Bloque I) ──
-  gyj_b1: { title: "Graphs — Berge", driveId: "" },
-  gyj_b2: { title: "Graph Theory with Applications — Bondy & Murty", driveId: "" },
-  gyj_b3: { title: "Introductory Graph Theory — Chartrand", driveId: "" },
-  gyj_b4: { title: "Graph Theory — Harary", driveId: "" },
-  // ── Introducción a Ciencias de la Computación II (optativa, Bloque I) ──
-  icc2_b1: { title: "Fundamentals of Computing II — Tucker, Bradley, Cupper et al.", driveId: "" },
-  icc2_b2: { title: "Estructuras de Datos — Magidin", driveId: "" },
-  // ── Introducción a la Geometría Avanzada (optativa, Bloque I) ──
-  iga_b1:  { title: "Fundamentos de Geometría — Coxeter", driveId: "" },
-  iga_b2:  { title: "Projective Geometry — Coxeter", driveId: "" },
-  iga_b3:  { title: "Non-euclidean Geometry — Coxeter", driveId: "" },
-  iga_b4:  { title: "Geometry Revisited — Coxeter", driveId: "" },
-  iga_b5:  { title: "Introducción a la Geometría Avanzada — Ramírez-Galarza & Seade", driveId: "" },
-  iga_b6:  { title: "Invitación a las Geometrías No-euclideanas — Ramírez-Galarza & Sienra", driveId: "" },
-  iga_b7:  { title: "Geometry and the Imagination — Hilbert & Cohn-Vossen", driveId: "" },
-  iga_b8:  { title: "Transformation Geometry — Martin", driveId: "" },
-  // ── Matemáticas Discretas (optativa, Bloque I) ──
-  md_b1:  { title: "Mathematical Structures For Computer Science — Gersting", driveId: "" },
-  md_b2:  { title: "A Logical Approach to Discrete Math — Gries & Schneider", driveId: "" },
-  // ── Probabilidad I (optativa, Bloque I) ──
-  prob1_b1: { title: "An Introduction to Probability Theory and its Applications Vol. I — Feller", driveId: "" },
-  prob1_b2: { title: "The Theory of Probability — Gnedenko", driveId: "" },
-  prob1_b3: { title: "Introduction to Probability Theory — Hoel, Port & Stone", driveId: "" },
-  prob1_b4: { title: "Introduction to the Theory of Statistics — Mood, Graybill & Boes", driveId: "" },
-  prob1_b5: { title: "A First Course in Probability Theory — Ross", driveId: "" },
-  prob1_b6: { title: "Statistical Inference — Casella & Berger", driveId: "" },
-  prob1_b7: { title: "Elementary Probability — Stirzaker", driveId: "" },
-  // ── Teoría de los Números I (optativa, Bloque I) ──
-  tn1_b1:  { title: "Number Theory — Andrews", driveId: "" },
-  tn1_b2:  { title: "The Queen of Mathematics — Goldman", driveId: "" },
-  tn1_b3:  { title: "Elementary Number Theory — Jones & Jones", driveId: "" },
-  tn1_b4:  { title: "Elementary Number Theory with Applications — Koshy", driveId: "" },
-  tn1_b5:  { title: "Elementary Methods in Number Theory — Nathanson", driveId: "" },
-  tn1_b6:  { title: "An Introduction to the Theory of Numbers — Niven, Zuckerman & Montgomery", driveId: "" },
-  tn1_b7:  { title: "Aritmética y Teoría de Grupos — Pineda R.M.", driveId: "" },
-  tn1_b8:  { title: "Fundamentos de la Teoría de los Números — Vinogradov", driveId: "" },
-  // ── Teoría de los Números II (optativa, Bloque I) ──
-  tn2_b1:  { title: "Introduction to p-adic Numbers and Valuation Theory — Bachman", driveId: "" },
-  tn2_b2:  { title: "Number Theory — Borevich & Shafarevich", driveId: "" },
-  // ── Álgebra Moderna II (optativa, Bloque II) ──
-  am2_b1: { title: "Álgebra Abstracta — Fraleigh", driveId: "" },
-  am2_b2: { title: "Álgebra Moderna — Herstein", driveId: "" },
-  am2_b3: { title: "Galois Theory — Stewart", driveId: "" },
-};
-
-/* ──────────────────────────────────────────────
    LIBRARY: organizado por materia.
    Tipos de nota:
      def  →  Definición
@@ -178,7 +16,6 @@ const LIBRARY = [
   {
     subject: "Álgebra Superior I",
     matId: "algebra_superior_1",
-    color: "linear-gradient(135deg,#061412,#0f2920)",
     books: [
       {
         id: "as1_b1",
@@ -198,7 +35,6 @@ const LIBRARY = [
   {
     subject: "Álgebra Superior II",
     matId: "algebra_superior_2",
-    color: "linear-gradient(135deg,#0a0612,#180e2a)",
     books: [
       {
         id: "as2_b1",
@@ -218,7 +54,6 @@ const LIBRARY = [
   {
     subject: "Cálculo Diferencial e Integral I",
     matId: "calculo_1",
-    color: "linear-gradient(135deg,#070d1a,#0e1f3a)",
     books: [
       {
         id: "cd1_b1",
@@ -256,7 +91,6 @@ const LIBRARY = [
   {
     subject: "Geometría Analítica I",
     matId: "geo_analitica_1",
-    color: "linear-gradient(135deg,#120a1a,#271540)",
     books: [
       {
         id: "ga1_b1",
@@ -288,7 +122,6 @@ const LIBRARY = [
   {
     subject: "Geometría Analítica II",
     matId: "geo_analitica_2",
-    color: "linear-gradient(135deg,#1a0e26,#301845)",
     books: [
       {
         id: "ga2_b1",
@@ -320,7 +153,6 @@ const LIBRARY = [
   {
     subject: "Álgebra Lineal I",
     matId: "algebra_lineal_1",
-    color: "linear-gradient(135deg,#0a1a0e,#133322)",
     books: [
       {
         id: "al1_b1",
@@ -364,7 +196,6 @@ const LIBRARY = [
   {
     subject: "Cálculo Diferencial e Integral II",
     matId: "calculo_2",
-    color: "linear-gradient(135deg,#070d1a,#0e1f3a)",
     books: [
       {
         id: "cd2_b1",
@@ -402,7 +233,6 @@ const LIBRARY = [
   {
     subject: "Ecuaciones Diferenciales I",
     matId: "ecuaciones_diferenciales_1",
-    color: "linear-gradient(135deg,#0d0a07,#2a1e0e)",
     books: [
       {
         id: "ed_b1",
@@ -434,7 +264,6 @@ const LIBRARY = [
   {
     subject: "Análisis Matemático I",
     matId: "analisis_matematico_1",
-    color: "linear-gradient(135deg,#0a1209,#162519)",
     books: [
       {
         id: "ana_b3",
@@ -477,7 +306,6 @@ const LIBRARY = [
   {
     subject: "Álgebra Moderna I",
     matId: "algebra_moderna_1",
-    color: "linear-gradient(135deg,#110714,#250e2e)",
     books: [
       {
         id: "alm_b1",
@@ -503,7 +331,6 @@ const LIBRARY = [
   {
     subject: "Cálculo Diferencial e Integral III",
     matId: "calculo_3",
-    color: "linear-gradient(135deg,#001a33,#003d7a)",
     books: [
       {
         id: "cd3_b1",
@@ -547,7 +374,6 @@ const LIBRARY = [
   {
     subject: "Álgebra Lineal II",
     matId: "algebra_lineal_2",
-    color: "linear-gradient(135deg,#0a001a,#220040)",
     books: [
       {
         id: "al2_b1",
@@ -579,7 +405,6 @@ const LIBRARY = [
   {
     subject: "Cálculo Diferencial e Integral IV",
     matId: "calculo_4",
-    color: "linear-gradient(135deg,#001a33,#004d99)",
     books: [
       {
         id: "cd4_b1",
@@ -623,7 +448,6 @@ const LIBRARY = [
   {
     subject: "Variable Compleja I",
     matId: "variable_compleja_1",
-    color: "linear-gradient(135deg,#1a0033,#3d0080)",
     books: [
       {
         id: "vc1_b1",
@@ -655,7 +479,6 @@ const LIBRARY = [
   {
     subject: "Análisis Matemático II",
     matId: "analisis_matematico_2",
-    color: "linear-gradient(135deg,#001a0d,#004d26)",
     books: [
       {
         id: "an2_b1",
@@ -707,7 +530,6 @@ const LIBRARY_OPT = [
   {
     subject: "Conjuntos Convexos",
     matId:   "conjuntos_convexos",
-    color:   "linear-gradient(135deg,#081209,#142618)",
     books: [
       { id: "cc_b1", title: "Euclidean Geometry and Convexity",               author: "R. Benson",               edition: "McGraw-Hill, 1966" },
       { id: "cc_b2", title: "División de Figuras en Partes Menores",          author: "V. Boltianski & I. Golberg", edition: "MIR, 1973" },
@@ -720,7 +542,6 @@ const LIBRARY_OPT = [
   {
     subject: "Conjuntos y Lógica",
     matId:   "conjuntos_y_logica",
-    color:   "linear-gradient(135deg,#0c0812,#1c1026)",
     books: [
       { id: "cyl_b1", title: "Sobre un Curso de Análisis Lógico",                    author: "J.A. Amor",                        edition: "Educación Matemática, GEI, 1994" },
       { id: "cyl_b2", title: "Elementos de Lógica Formal",                           author: "C. Badesa, I. Jané & R. Jansana",  edition: "Ariel, 1998" },
@@ -735,7 +556,6 @@ const LIBRARY_OPT = [
   {
     subject: "Diseño de Sistemas Digitales",
     matId:   "diseno_sistemas_digitales",
-    color:   "linear-gradient(135deg,#080c14,#101c2e)",
     books: [
       { id: "dsd_b1", title: "Digital Design", author: "M.M. Mano", edition: "2ª ed. Prentice Hall, 1991" },
     ]
@@ -743,7 +563,6 @@ const LIBRARY_OPT = [
   {
     subject: "Electromagnetismo I",
     matId:   "electromagnetismo_1",
-    color:   "linear-gradient(135deg,#14080a,#2a1014)",
     books: [
       { id: "em1_b1", title: "Fundamentos de Física Vol. II",                         author: "Halliday, Resnick & Walker",  edition: "8ª ed. Grupo Editorial Patria, 2011" },
       { id: "em1_b2", title: "Electromagnetism: Principles and Applications",         author: "P. Lorrain & D.R. Corson",   edition: "W.H. Freeman, 1990" },
@@ -758,7 +577,6 @@ const LIBRARY_OPT = [
   {
     subject: "Fenómenos Colectivos",
     matId:   "fenomenos_colectivos",
-    color:   "linear-gradient(135deg,#080e12,#0e1e28)",
     books: [
       { id: "fc_b1", title: "Introducción al estudio de la mecánica, materia y ondas", author: "U. Ingard & W.I. Kraushaar", edition: "Reverté, 1973" },
       { id: "fc_b2", title: "Termodinámica Clásica",                                   author: "G. Carmona",                edition: "Fac. de Ciencias-UNAM, 2007" },
@@ -769,7 +587,6 @@ const LIBRARY_OPT = [
   {
     subject: "Geometría Moderna II",
     matId:   "geometria_moderna_2",
-    color:   "linear-gradient(135deg,#080e0e,#0e2020)",
     books: [
       { id: "gm2_b1", title: "An Introduction to the Modern Geometry of the Triangle and the Circle", author: "C.N. Altshiller", edition: "Barnes and Noble, 1965" },
       { id: "gm2_b2", title: "Non-euclidean Geometry",                                               author: "H. Menschkowsky",  edition: "Academic Press, 1972" },
@@ -779,7 +596,6 @@ const LIBRARY_OPT = [
   {
     subject: "Geometría Proyectiva",
     matId:   "geometria_proyectiva",
-    color:   "linear-gradient(135deg,#08080e,#14142a)",
     books: [
       { id: "gp_b1", title: "The Octonians",                                             author: "J.C. Baez",                    edition: "Bulletin of the AMS, 2002" },
       { id: "gp_b2", title: "Projective Geometry: From Foundations to Applications",     author: "A. Beutelspacher & U. Rosenbaum", edition: "Cambridge University Press, 1998" },
@@ -792,7 +608,6 @@ const LIBRARY_OPT = [
   {
     subject: "Gráficas y Juegos",
     matId:   "graficas_y_juegos",
-    color:   "linear-gradient(135deg,#060e08,#0c1e10)",
     books: [
       { id: "gyj_b1", title: "Graphs",                        author: "C. Berge",          edition: "North Holland, 1985" },
       { id: "gyj_b2", title: "Graph Theory with Applications", author: "J.A. Bondy & U.S. Murty", edition: "Macmillan, 1976" },
@@ -803,7 +618,6 @@ const LIBRARY_OPT = [
   {
     subject: "Introducción a Ciencias de la Computación I",
     matId:   "icc1",
-    color:   "linear-gradient(135deg,#081218,#142430)",
     books: [
       { id: "icc1_b1", title: "Fundamentals of Computing I: Logic, Problem Solving, Programs and Computers", author: "A.B. Tucker; A. Bernat; W.J. Bradley; R.D. Cupper", edition: "2ª ed. McGraw-Hill, 1994" },
       { id: "icc1_b2", title: "Computer Science",                                                            author: "S.J. Warford",                                    edition: "D.C. Heath and Company, 1991" },
@@ -815,7 +629,6 @@ const LIBRARY_OPT = [
   {
     subject: "Introducción a Ciencias de la Computación II",
     matId:   "icc_2",
-    color:   "linear-gradient(135deg,#0a0c10,#141820)",
     books: [
       { id: "icc2_b1", title: "Fundamentals of Computing II: Abstraction, Data Structures, and Large Software Systems", author: "Tucker, Bradley, Cupper, Epstein & Kelemen", edition: "McGraw-Hill, 1994" },
       { id: "icc2_b2", title: "Estructuras de Datos",                                                                   author: "M. Magidin",                                edition: "Editorial Trillas, 1991" },
@@ -824,7 +637,6 @@ const LIBRARY_OPT = [
   {
     subject: "Introducción a la Geometría Avanzada",
     matId:   "intro_geometria_avanzada",
-    color:   "linear-gradient(135deg,#080a10,#10142a)",
     books: [
       { id: "iga_b1", title: "Fundamentos de Geometría",                          author: "H.S.M. Coxeter",                edition: "Limusa-Wiley, 1971" },
       { id: "iga_b2", title: "Projective Geometry",                               author: "H.S.M. Coxeter",                edition: "Springer-Verlag, 1994" },
@@ -839,7 +651,6 @@ const LIBRARY_OPT = [
   {
     subject: "Matemáticas Discretas",
     matId:   "matematicas_discretas",
-    color:   "linear-gradient(135deg,#060c0e,#0e1c20)",
     books: [
       { id: "md_b1", title: "Mathematical Structures For Computer Science", author: "J.L. Gersting",      edition: "3ª ed. W.H. Freeman, 1993" },
       { id: "md_b2", title: "A Logical Approach to Discrete Math",          author: "D. Gries & F.B. Schneider", edition: "Springer-Verlag, 1994" },
@@ -848,7 +659,6 @@ const LIBRARY_OPT = [
   {
     subject: "Mecánica Vectorial",
     matId:   "mecanica_vectorial",
-    color:   "linear-gradient(135deg,#181008,#302018)",
     books: [
       { id: "mv_b1", title: "Física",                                      author: "M. Alonso; J.E. Finn",                    edition: "Addison Wesley Iberoamericana, 1999" },
       { id: "mv_b2", title: "Physics for Scientists & Engineers",           author: "D. Giancoli",                             edition: "3ª ed. Prentice Hall, 2000" },
@@ -862,7 +672,6 @@ const LIBRARY_OPT = [
   {
     subject: "Probabilidad I",
     matId:   "probabilidad_1",
-    color:   "linear-gradient(135deg,#0e0a06,#261c10)",
     books: [
       { id: "prob1_b1", title: "An Introduction to Probability Theory and its Applications Vol. I", author: "W. Feller",                         edition: "Wiley, 1968" },
       { id: "prob1_b2", title: "The Theory of Probability",                                        author: "B.V. Gnedenko",                      edition: "Chelsea, 1975" },
@@ -876,7 +685,6 @@ const LIBRARY_OPT = [
   {
     subject: "Teoría de los Números I",
     matId:   "teoria_numeros_1",
-    color:   "linear-gradient(135deg,#0e0c06,#241e0c)",
     books: [
       { id: "tn1_b1", title: "Number Theory",                              author: "G. Andrews",                                edition: "Dover, 2000" },
       { id: "tn1_b2", title: "The Queen of Mathematics",                   author: "J. Goldman",                                edition: "A.K. Peters, 1998" },
@@ -891,7 +699,6 @@ const LIBRARY_OPT = [
   {
     subject: "Teoría de los Números II",
     matId:   "teoria_numeros_2",
-    color:   "linear-gradient(135deg,#080c0a,#101e14)",
     books: [
       { id: "tn2_b1", title: "Introduction to p-adic Numbers and Valuation Theory", author: "G. Bachman",                    edition: "Academic Press, 1964" },
       { id: "tn2_b2", title: "Number Theory",                                       author: "Z.I. Borevich & I.R. Shafarevich", edition: "Academic Press, 1966" },
@@ -901,7 +708,6 @@ const LIBRARY_OPT = [
   {
     subject: "Álgebra Moderna II",
     matId:   "algebra_moderna_2",
-    color:   "linear-gradient(135deg,#120810,#261020)",
     books: [
       { id: "am2_b1", title: "Álgebra Abstracta",                    author: "J.B. Fraleigh",   edition: "Sistemas Técnicos de Edición, 1988" },
       { id: "am2_b2", title: "Álgebra Moderna",                      author: "I.N. Herstein",   edition: "Editorial Trillas, 1970" },
@@ -911,7 +717,6 @@ const LIBRARY_OPT = [
   {
     subject: "Análisis de Algoritmos I",
     matId:   "analisis_algoritmos_1",
-    color:   "linear-gradient(135deg,#081810,#104020)",
     books: [
       { id: "aa1_b1",  title: "Applied and Algorithmic Graph Theory",                              author: "G. Chartrand; O.R. Oellermann",          edition: "McGraw-Hill, 1993" },
       { id: "aa1_b2",  title: "Introduction to Algorithms",                                        author: "T.H. Cormen; C.E. Leiserson; R.L. Rivest", edition: "McGraw-Hill, 1990" },
@@ -930,7 +735,6 @@ const LIBRARY_OPT = [
   {
     subject: "Arquitectura de Computadoras",
     matId:   "arquitectura_computadoras",
-    color:   "linear-gradient(135deg,#101010,#203040)",
     books: [
       { id: "ac_b1", title: "Computer Architecture: A Quantitative Approach",          author: "J.L. Hennessy; D.A. Patterson",        edition: "3ª ed. Morgan Kaufmann, 2003" },
       { id: "ac_b2", title: "Computer Organization",                                   author: "V.C. Hamacher; Z. Vranesic; S. Zaky",  edition: "5ª ed. McGraw-Hill, 2002" },
@@ -944,7 +748,6 @@ const LIBRARY_OPT = [
   {
     subject: "Cálculo de Variaciones",
     matId:   "calculo_variaciones",
-    color:   "linear-gradient(135deg,#100818,#201030)",
     books: [
       { id: "cv_b1", title: "Methods of Mathematical Physics, Vol. I",                   author: "R. Courant; D. Hilbert",    edition: "Wiley Interscience, 1953" },
       { id: "cv_b2", title: "Cálculo de Variaciones (Serie FENOMEC Vol. 3)",             author: "J. Ize",                    edition: "UNAM" },
@@ -957,7 +760,6 @@ const LIBRARY_OPT = [
   {
     subject: "Economía I",
     matId:   "economia_1",
-    color:   "linear-gradient(135deg,#0a1008,#182008)",
     books: [
       { id: "eco1_b1", title: "Teoría Económica en Retrospección",         author: "M. Blaug",                  edition: "FCE, 1985" },
       { id: "eco1_b2", title: "Macroeconomía",                             author: "R. Dornbusch; S. Fischer",  edition: "McGraw-Hill, 1991" },
@@ -970,7 +772,6 @@ const LIBRARY_OPT = [
   {
     subject: "Ecuaciones Diferenciales II",
     matId:   "ecuaciones_diferenciales_2",
-    color:   "linear-gradient(135deg,#081418,#102830)",
     books: [
       { id: "ed2_b1", title: "The Qualitative Theory of Ordinary Differential Equations",      author: "F. Brauer; J.A. Nohel",        edition: "Dover, 1989" },
       { id: "ed2_b2", title: "Differential Equations, Dynamical Systems and Linear Algebra",   author: "M.W. Hirsch; S. Smale",        edition: "Academic Press, 1974" },
@@ -984,7 +785,6 @@ const LIBRARY_OPT = [
   {
     subject: "Electromagnetismo II",
     matId:   "electromagnetismo_2",
-    color:   "linear-gradient(135deg,#080a18,#10142c)",
     books: [
       { id: "em2_b1", title: "Foundations of Electromagnetic Theory",                author: "J.R. Reitz; F.J. Milford; R.W. Christy", edition: "Addison-Wesley, 1979" },
       { id: "em2_b2", title: "Electromagnetic Fields and Waves",                     author: "P. Lorrain; D.R. Corson",                edition: "W.H. Freeman, 1970" },
@@ -1000,7 +800,6 @@ const LIBRARY_OPT = [
   {
     subject: "Estadística I",
     matId:   "estadistica_1",
-    color:   "linear-gradient(135deg,#180a08,#301410)",
     books: [
       { id: "est1_b1", title: "Probabilidad y Estadística: Aplicaciones y Métodos",           author: "G.C. Canavos",                    edition: "McGraw-Hill, 1987" },
       { id: "est1_b2", title: "Statistical Inference",                                         author: "G. Casella; R.L. Berger",         edition: "Wadsworth, 1990" },
@@ -1015,7 +814,6 @@ const LIBRARY_OPT = [
   {
     subject: "Estadística II",
     matId:   "estadistica_2",
-    color:   "linear-gradient(135deg,#141408,#282808)",
     books: [
       { id: "est2_b1", title: "Practical Nonparametric Statistics",                 author: "W.J. Conover",                      edition: "2ª ed. Wiley, 1980" },
       { id: "est2_b2", title: "Applied Nonparametric Statistics",                   author: "W. Daniel",                         edition: "2ª ed. PWS Kent, 1990" },
@@ -1030,7 +828,6 @@ const LIBRARY_OPT = [
   {
     subject: "Geometría Diferencial I",
     matId:   "geometria_diferencial_1",
-    color:   "linear-gradient(135deg,#081208,#142418)",
     books: [
       { id: "gd1_b1", title: "Differential Geometry of Curves and Surfaces in ℝ³",      author: "M.P. Do Carmo",                       edition: "Prentice Hall, 1976" },
       { id: "gd1_b2", title: "Geometry and the Imagination (Vínculos Matemáticos 150)",  author: "D. Hilbert; S. Cohn-Vossen",          edition: "FC-UNAM, 2000" },
@@ -1043,7 +840,6 @@ const LIBRARY_OPT = [
   {
     subject: "Geometría Diferencial II",
     matId:   "geometria_diferencial_2",
-    color:   "linear-gradient(135deg,#101208,#201a08)",
     books: [
       { id: "gd2_b1", title: "Differential Geometry of Curves and Surfaces in ℝ³",      author: "M.P. Do Carmo",                       edition: "Prentice Hall, 1976" },
       { id: "gd2_b2", title: "Geometry and the Imagination (Vínculos Matemáticos 150)",  author: "D. Hilbert; S. Cohn-Vossen",          edition: "FC-UNAM, 2000" },
@@ -1056,7 +852,6 @@ const LIBRARY_OPT = [
   {
     subject: "Historia de las Matemáticas I",
     matId:   "historia_matematicas_1",
-    color:   "linear-gradient(135deg,#181008,#301808)",
     books: [
       { id: "hm1_b1", title: "Euclid, the Creation of Mathematics",                              author: "B. Artmann",          edition: "Springer-Verlag, 1999" },
       { id: "hm1_b2", title: "The Beginnings and Evolution of Algebra",                          author: "I. Bashmakova; G. Smirnova", edition: "MAA, 2000" },
@@ -1068,7 +863,6 @@ const LIBRARY_OPT = [
   {
     subject: "Historia de las Matemáticas II",
     matId:   "historia_matematicas_2",
-    color:   "linear-gradient(135deg,#180810,#300818)",
     books: [
       { id: "hm2_b1", title: "The Beginnings and Evolution of Algebra",                          author: "I. Bashmakova; G. Smirnova", edition: "MAA, 2000" },
       { id: "hm2_b2", title: "The History of Calculus and its Conceptual Development",           author: "C.B. Boyer",          edition: "Dover, 1959" },
