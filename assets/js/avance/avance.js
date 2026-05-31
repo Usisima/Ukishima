@@ -339,6 +339,20 @@ const SolarSys = {
     this.ctx    = c.getContext('2d');
     this._size();
     this._genStars();
+    // Precarga d0 antes que cualquier sub — es el planeta por defecto para materias sin icono
+    if (!this._imgs['assets/images/d0.jpg']) {
+      const d0img = new Image();
+      d0img.addEventListener('load', () => {
+        // Extrae color vibrante para el namespace 'opt' (el único que usa d0 como default)
+        const vcKey = 'ukishima_opt_v:assets/images/d0.jpg';
+        if (!_vibrantCache()[vcKey]) {
+          const hex = _extractVibrant(d0img);
+          if (hex) _saveVibrant(vcKey, hex);
+        }
+      }, { once: true });
+      d0img.src = 'assets/images/d0.jpg';
+      this._imgs['assets/images/d0.jpg'] = d0img;
+    }
     this._preload(this.subs);
     this._bind();
     this._loop();
@@ -576,8 +590,12 @@ const SolarSys = {
       ctx.clip();
       const _src = this._iconMap[sub.id] || 'assets/images/d0.jpg';
       const _img = this._imgs[_src];
+      const _d0  = this._imgs['assets/images/d0.jpg'];
       if (_img && _img.complete && _img.naturalWidth > 0) {
         ctx.drawImage(_img, pos.x - pr, pos.y - pr, pr * 2, pr * 2);
+      } else if (_d0 && _d0.complete && _d0.naturalWidth > 0) {
+        // El icono específico aún carga o falló — usar d0 como planeta por defecto
+        ctx.drawImage(_d0, pos.x - pr, pos.y - pr, pr * 2, pr * 2);
       } else {
         ctx.fillStyle = ac;
         ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2); ctx.fill();
