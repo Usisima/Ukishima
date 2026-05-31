@@ -3,7 +3,9 @@
 /* Cross-document View Transitions (Chrome 126+): crossfade nativo entre páginas */
 (function () {
   var s = document.createElement('style');
-  s.textContent = '@view-transition { navigation: auto; }';
+  s.textContent =
+    '@view-transition { navigation: auto; }' +
+    '@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }';
   document.head.appendChild(s);
 })();
 

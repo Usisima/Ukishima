@@ -1,7 +1,7 @@
 (function () {
   const pre      = document.getElementById('bh-art');
   const preStars = document.getElementById('bh-stars');
-  if (!pre) return;
+  if (!pre) { document.body.style.opacity = '1'; return; }
 
   var _rafId    = null;
   var _revealed = false;

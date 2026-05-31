@@ -33,8 +33,6 @@ body {
   animation: pageFadeIn 0.18s ease both;
 }
 
-@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
-
 /* ── HEADER ── */
 .header {
   position: static;
