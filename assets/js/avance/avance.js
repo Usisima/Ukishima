@@ -185,15 +185,26 @@ function _colorizeAvCards() {
     var key   = _cacheKey(subId, src);
     var isTronco = !!_TRONCO_IDS[subId];
 
+    function applyHex(hex) {
+      card.style.background = hex+'80';
+      var progress = card.querySelector('.av-card-progress');
+      if (progress) progress.style.background = hex+'28';
+      var bar = card.querySelector('.av-card-bar');
+      if (bar) bar.style.background = hex;
+      card.querySelectorAll('.av-day-dot--on').forEach(function(dot) {
+        dot.style.background = hex;
+        dot.style.borderColor = hex;
+        dot.style.color = 'rgba(0,0,0,0.75)';
+      });
+    }
+
     function apply(imgEl) {
       /* Tronco: filtra blancos/negros; optativas: sin filtro */
       var hex = isTronco
         ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl))
         : _extractVibrant(imgEl);
       if (!hex) return;
-      card.style.background = hex+'80';
-      var bar = card.querySelector('.av-card-bar');
-      if (bar) bar.style.background = hex;
+      applyHex(hex);
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
@@ -203,14 +214,69 @@ function _colorizeAvCards() {
 
     /* Cache hit */
     if (key && vc[key]) {
-      card.style.background = vc[key]+'80';
-      var bar2 = card.querySelector('.av-card-bar');
-      if (bar2) bar2.style.background = vc[key];
+      applyHex(vc[key]);
       return;
     }
     if (img.complete && img.naturalWidth > 0) { apply(img); }
     else { img.addEventListener('load', function(){ apply(img); }, {once:true}); }
   });
+}
+
+function _colorizeDetailHero(sub) {
+  var img = document.querySelector('.av-hero-card .av-card-icon img');
+  if (!img) return;
+  var src = img.getAttribute('src') || 'assets/images/d0.jpg';
+  var key = _cacheKey(sub.id, src);
+  var vc  = _vibrantCache();
+  var hex = vc[key] || vc[src];
+
+  function applyDetail(hex) {
+    document.body.style.setProperty('--sub-ac', hex);
+    document.body.style.setProperty('--sub-bg', hexRgba(hex, 0.10));
+    document.body.style.setProperty('--sub-br', hexRgba(hex, 0.21));
+    var hero = document.querySelector('.av-hero-card');
+    if (!hero) return;
+    hero.style.background = hexRgba(hex, 0.50);
+    var track = hero.querySelector('.av-card-progress');
+    if (track) track.style.background = hexRgba(hex, 0.16);
+    var bar = hero.querySelector('.av-card-bar');
+    if (bar) bar.style.background = hex;
+    hero.querySelectorAll('.av-day-dot--on').forEach(function(dot) {
+      dot.style.background = hex;
+      dot.style.borderColor = hex;
+      dot.style.color = 'rgba(0,0,0,0.75)';
+    });
+    document.querySelectorAll('.av-sec-add').forEach(function(btn) {
+      btn.style.background = hexRgba(hex, 0.10);
+      btn.style.borderColor = hexRgba(hex, 0.21);
+      btn.style.color = hex;
+    });
+    document.querySelectorAll('.av-crit-peso-inp').forEach(function(inp) {
+      inp.style.background = hexRgba(hex, 0.10);
+      inp.style.borderColor = hexRgba(hex, 0.21);
+      inp.style.color = hex;
+    });
+    document.querySelectorAll('.av-section[data-cid] .av-grade-inp').forEach(function(inp) {
+      inp.style.background = hexRgba(hex, 0.10);
+      inp.style.borderColor = hexRgba(hex, 0.21);
+    });
+    document.querySelectorAll('.av-exam-item').forEach(function(el) {
+      el.style.background = hexRgba(hex, 0.07);
+      el.style.borderColor = hexRgba(hex, 0.18);
+    });
+  }
+
+  if (hex) { applyDetail(hex); return; }
+
+  var isTronco = !!_TRONCO_IDS[sub.id];
+  function tryExtract(imgEl) {
+    var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
+    if (!h) return;
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant', JSON.stringify(cur)); } catch(e) {}
+    applyDetail(h);
+  }
+  if (img.complete && img.naturalWidth > 0) tryExtract(img);
+  else img.addEventListener('load', function(){ tryExtract(img); }, {once:true});
 }
 
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
@@ -567,9 +633,8 @@ const SolarSys = {
     const hits = [];
     for (const {sub, i, pos} of sorted) {
       const {ac} = getSubColor(sub);
-      const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
-      const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
+      const pr    = 14 * (0.70 + depth * 0.30);
       const clipR = pr * 0.82;
       const alpha = 0.48 + depth * 0.52;
 
@@ -600,15 +665,6 @@ const SolarSys = {
       }
       ctx.restore();
 
-      // Progress arc ring
-      if (p > 0) {
-        ctx.globalAlpha = alpha * 0.72;
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, clipR + 2.8, -Math.PI/2, -Math.PI/2 + (p/100)*Math.PI*2);
-        ctx.strokeStyle = ac;
-        ctx.lineWidth = 1.6;
-        ctx.stroke();
-      }
       ctx.globalAlpha = 1;
 
       // Label (doble renglón)
@@ -622,11 +678,6 @@ const SolarSys = {
       const lineH = fSize + 1;
       let lblY = pos.y + clipR + 3;
       for (const line of lines) { ctx.fillText(line, pos.x, lblY); lblY += lineH; }
-      if (p > 0) {
-        ctx.font = `500 8px 'DM Sans',sans-serif`;
-        ctx.fillStyle = ac;
-        ctx.fillText(p + '%', pos.x, lblY);
-      }
       ctx.globalAlpha = 1;
 
       hits.push({sub, x: pos.x, y: pos.y, r: clipR * 1.8});
@@ -845,17 +896,21 @@ function fmtHora(h) {
   return `${h12}:${String(mm).padStart(2,'0')} ${ampm}`;
 }
 
-function mkDaysDots(dias, hora, horaFin) {
+function mkDaysDots(dias, hora, horaFin, salon) {
   const ALL = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
   const LBL = ['L','M','X','J','V','S'];
   const dots = ALL.map((d,i) => {
     const on = dias && dias.includes(d);
     return `<span class="av-day-dot${on?' av-day-dot--on':''}">${LBL[i]}</span>`;
   }).join('');
-  let horaHtml = '';
-  if (hora && horaFin) horaHtml = `<span class="av-day-hora">${fmtHora(hora)} – ${fmtHora(horaFin)}</span>`;
-  else if (hora)       horaHtml = `<span class="av-day-hora">${fmtHora(hora)}</span>`;
-  return `<span class="av-days-wrap">${dots}${horaHtml}</span>`;
+  let timeHtml = '';
+  if (hora && horaFin) {
+    timeHtml = `<span class="av-day-time-block"><span class="av-day-hora-line">${fmtHora(hora)}</span><span class="av-day-hora-line av-day-hora-fin">${fmtHora(horaFin)}</span></span>`;
+  } else if (hora) {
+    timeHtml = `<span class="av-day-hora">${fmtHora(hora)}</span>`;
+  }
+  const salonHtml = salon ? `<span class="av-day-salon">${esc(salon)}</span>` : '';
+  return `<span class="av-days-wrap">${dots}${timeHtml}${salonHtml}</span>`;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -866,6 +921,9 @@ const R = {
   /* ── HOME: solar system + cards below ── */
   home() {
     SolarSys.stop();
+    document.body.style.removeProperty('--sub-ac');
+    document.body.style.removeProperty('--sub-bg');
+    document.body.style.removeProperty('--sub-br');
     document.getElementById('av-header-title').textContent = 'Avance';
     document.getElementById('av-back').style.display = 'none';
 
@@ -922,7 +980,6 @@ const R = {
         const avgEx    = graded.length?(graded.reduce((s,e)=>s+e.grade,0)/graded.length).toFixed(1):null;
         const weighted = calcWeightedGrade(sub.id);
         const displayG = prog0.finalGrade!=null ? prog0.finalGrade.toFixed(1) : weighted!==null ? weighted.toFixed(1) : avgEx;
-        const dotClass = prog0.finalGrade!=null ? 'av-status-dot--done' : (!tareas.length&&!examenes.length) ? 'av-status-dot--empty' : p===100 ? 'av-status-dot--done' : 'av-status-dot--partial';
         let chips = '';
         if (tareas.length)   chips += `<span class="av-chip${done===tareas.length?' av-chip--done':''}">${done}/${tareas.length} tareas</span>`;
         if (examenes.length && !weighted) {
@@ -937,33 +994,32 @@ const R = {
 
         cardsHtml += `
         <div class="av-card" data-sub="${esc(sub.id)}" onclick="Nav.detail('${esc(sub.id)}')" >
+          <button class="av-vis-btn${isHidden(sub.id)?' av-vis-btn--off':''}"
+                  onclick="event.stopPropagation();A.toggleVis('${esc(sub.id)}')"
+                  aria-label="${isHidden(sub.id)?'Mostrar en sistema solar':'Ocultar en sistema solar'}">
+            ${isHidden(sub.id) ? `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>` : `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>`}
+          </button>
           <div class="av-card-head">
             <div class="av-card-icon">
               <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
-              <span class="av-status-dot ${dotClass}"></span>
             </div>
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.salon)}
               </div>
             </div>
-            <div class="av-card-right">
-              <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
-              <button class="av-vis-btn${isHidden(sub.id)?' av-vis-btn--off':''}"
-                      onclick="event.stopPropagation();A.toggleVis('${esc(sub.id)}')"
-                      aria-label="${isHidden(sub.id)?'Mostrar planeta':'Ocultar planeta'}">
-                <svg viewBox="0 0 16 16" width="12" height="12" fill="none">
-                  <circle cx="8" cy="8" r="3" fill="currentColor"/>
-                  <ellipse cx="8" cy="8" rx="6.5" ry="2.6" stroke="currentColor" stroke-width="1.2" fill="none" transform="rotate(-25 8 8)"/>
-                </svg>
-              </button>
-            </div>
+            <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
           </div>
-          <div class="av-card-foot">
-            <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>
-            ${chips ? `<div class="av-card-chips">${chips}</div>` : ''}
-          </div>
+          ${chips ? `<div class="av-card-foot"><div class="av-card-chips">${chips}</div></div>` : ''}
+          <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>
         </div>`;
       }
     }
@@ -1091,7 +1147,7 @@ const R = {
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.salon)}
               </div>
             </div>
             <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${displayGrade != null ? displayGrade : '—'}</span>
@@ -1107,7 +1163,7 @@ const R = {
           const cGraded = cItems.filter(i=>i.grade!=null);
           const cAvg    = cGraded.length ? (cGraded.reduce((s,i)=>s+i.grade,0)/cGraded.length).toFixed(1) : null;
           return `
-        <div class="av-section">
+        <div class="av-section" data-cid="${c.id}">
           <div class="av-sec-head">
             <span class="av-sec-title">${esc(c.nombre||'Sin nombre')}</span>
             <button class="av-sec-add" onclick="A.addCriterioItem('${esc(subId)}','${c.id}')">
@@ -1119,11 +1175,16 @@ const R = {
           ${cItems.length ? cItems.map(item=>`
             <div class="av-exam-item">
               <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
-                type="search" autocomplete="off" autocorrect="off" spellcheck="false"
+                type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
+                enterkeyhint="done"
                 data-lpignore="true" data-1p-ignore data-form-type="other"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
                 onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
               <div class="av-grade-wrap">
-                <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v"
+                <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
+                  onfocus="this._v=this.value;this.value=''"
+                  onblur="if(this.value==='')this.value=this._v;A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
                   value="${item.grade!=null?item.grade:''}" placeholder="—"
                   style="color:${gradeColor(item.grade)}"
                   oninput="this.style.color=gradeColor(parseFloat(this.value))"
@@ -1136,10 +1197,10 @@ const R = {
               </button>
             </div>`).join('')
           : `<div class="av-empty-msg">Sin ítems</div>`}
-          ${cAvg ? `<div class="av-crit-avg-row"><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg))}">${cAvg}</strong></div>` : ''}
+          <div class="av-crit-avg-row" data-cid="${c.id}"${!cAvg ? ' style="display:none"' : ''}><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg||0))}">${cAvg||'—'}</strong></div>
         </div>`;
         }).join('') : ''}
-        ${weighted!==null?`<div class="av-section"><div class="av-crit-total"><span>Calificación ponderada</span><strong style="color:${gradeColor(weighted)}">${weighted.toFixed(1)}</strong></div></div>`:''}
+        <div class="av-section av-crit-total-wrap"${weighted===null?' style="display:none"':''}><div class="av-crit-total"><span>Calificación ponderada</span><strong style="color:${gradeColor(weighted||0)}">${weighted!==null?weighted.toFixed(1):'—'}</strong></div></div>
         <div class="av-section">
           <div class="av-sec-head">
             <span class="av-sec-title">Criterios de evaluación</span>
@@ -1152,20 +1213,24 @@ const R = {
           ${criterios.length ? criterios.map(c=>`
             <div class="av-crit-row">
               <input class="av-crit-name-inp" type="search" value="${esc(c.nombre||'')}" placeholder="Criterio"
-                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
+                enterkeyhint="done"
                 data-lpignore="true" data-1p-ignore data-form-type="other"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                onblur="A.updateCriterio('${esc(subId)}','${c.id}','nombre',this.value)"
                 onchange="A.updateCriterio('${esc(subId)}','${c.id}','nombre',this.value)">
-              <input class="av-crit-peso-inp" type="search" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" onfocus="this._v=this.value;this.value=''" onblur="if(this.value==='')this.value=this._v" value="${c.peso||0}"
-                autocomplete="off" title="Peso %"
+              <input class="av-crit-peso-inp" type="search" inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
+                onfocus="this._v=this.value;this.value=''"
+                onblur="if(this.value==='')this.value=this._v;A.updateCriterio('${esc(subId)}','${c.id}','peso',this.value)"
+                value="${c.peso||0}" autocomplete="off" title="Peso %"
                 onchange="A.updateCriterio('${esc(subId)}','${c.id}','peso',this.value)">
               <span class="av-crit-unit">%</span>
               <button class="av-del" onclick="A.delCriterio('${esc(subId)}','${c.id}')">
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>`).join('') +
-            `<div id="av-peso-warn" class="av-peso-warn"${pesoTotal === 100 ? ' style="display:none"' : ''}>${pesoTotal}% / 100%</div>`
-          : `<div id="av-peso-warn" class="av-peso-warn" style="display:none"></div>
-          <div class="av-empty-msg">Sin criterios — define los rubros y su peso en la calificación</div>`}
+            ``
+          : `<div class="av-empty-msg">Sin criterios — define los rubros y su peso en la calificación</div>`}
         </div>
         <div class="av-section av-section--del">
           ${finalGrade!=null
@@ -1185,6 +1250,7 @@ const R = {
       </div>`;
 
     window.scrollTo({top:0,behavior:'instant'});
+    _colorizeDetailHero(sub);
   },
 
   _refreshHero(subId) {
@@ -1204,23 +1270,31 @@ const R = {
 };
 
 function _refreshWeightedDisplay(id) {
-  if (getProgress(id).finalGrade != null) return;
-  const w = calcWeightedGrade(id);
+  const hasFinal = getProgress(id).finalGrade != null;
+  const cs = getCriterios(id);
+  /* Siempre actualizar promedios individuales de cada criterio */
+  for (const c of cs) {
+    const rowEl = document.querySelector(`.av-crit-avg-row[data-cid="${c.id}"]`);
+    if (!rowEl) continue;
+    const graded = (c.items||[]).filter(i => i.grade != null);
+    if (graded.length) {
+      const avg = (graded.reduce((s,i) => s+i.grade, 0) / graded.length).toFixed(1);
+      const strong = rowEl.querySelector('strong');
+      if (strong) { strong.textContent = avg; strong.style.color = gradeColor(parseFloat(avg)); }
+      rowEl.style.display = '';
+    } else {
+      rowEl.style.display = 'none';
+    }
+  }
+  /* Solo actualizar el pct del hero y la ponderada total si no hay calificación final manual */
+  if (hasFinal) return;
+  const w  = calcWeightedGrade(id);
   const pEl = document.getElementById('av-hero-pct');
   if (pEl && w !== null) { pEl.textContent = w.toFixed(1); pEl.style.color = gradeColor(w); }
   const tot = document.querySelector('.av-crit-total strong');
+  const totWrap = document.querySelector('.av-crit-total-wrap');
+  if (totWrap) totWrap.style.display = w !== null ? '' : 'none';
   if (tot) { tot.textContent = w !== null ? w.toFixed(1) : '—'; if (w !== null) tot.style.color = gradeColor(w); }
-  const warnEl = document.getElementById('av-peso-warn');
-  if (warnEl) {
-    const cs = getCriterios(id);
-    const pesoTotal = cs.reduce((s, c) => s + Number(c.peso || 0), 0);
-    if (cs.length && pesoTotal !== 100) {
-      warnEl.textContent = `${pesoTotal}% / 100%`;
-      warnEl.style.display = '';
-    } else {
-      warnEl.style.display = 'none';
-    }
-  }
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1280,7 +1354,7 @@ const SubModal = {
 
   open(sem) {
     this._selected = null;
-    ['av-sub-name','av-sub-prof'].forEach(id=>document.getElementById(id).value='');
+    ['av-sub-name','av-sub-prof','av-sub-salon'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
     document.getElementById('av-sub-hora-fin').value='';
     document.getElementById('av-sub-sem').value = sem || '';
@@ -1380,12 +1454,13 @@ const SubModal = {
     const name=document.getElementById('av-sub-name').value.trim();
     if(!name){document.getElementById('av-sub-name').focus();return;}
     const profesor=document.getElementById('av-sub-prof').value.trim();
+    const salon=document.getElementById('av-sub-salon').value.trim();
     const hora=document.getElementById('av-sub-hora').value;
     const horaFin=document.getElementById('av-sub-hora-fin').value;
     const semestre=document.getElementById('av-sub-sem').value;
     const dias=[...document.querySelectorAll('.av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
-    const newSub={id:uid(),name,profesor,dias,hora,horaFin,semestre,colorIdx:subs.length};
+    const newSub={id:uid(),name,profesor,salon,dias,hora,horaFin,semestre,colorIdx:subs.length};
     /* Guardar icono/clave/créditos/colorIdx del dropdown o buscar en data.js */
     const src = this._selected || _findInData({name,id:''});
     if (src) {
@@ -1429,7 +1504,10 @@ const A = {
     const btn = document.querySelector(`.av-card[data-sub="${id}"] .av-vis-btn`);
     if (btn) {
       btn.classList.toggle('av-vis-btn--off', hidden);
-      btn.setAttribute('aria-label', hidden ? 'Mostrar planeta' : 'Ocultar planeta');
+      btn.setAttribute('aria-label', hidden ? 'Mostrar en sistema solar' : 'Ocultar en sistema solar');
+      btn.innerHTML = hidden
+        ? `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+        : `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
     }
   },
   closeSubModal:     ()=>SubModal.close(),
@@ -1447,6 +1525,10 @@ const A = {
     if(f==='peso'){const n=parseInt(v);c.peso=isNaN(n)?0:Math.max(0,Math.min(100,n));}
     else c[f]=v;
     saveCriterios(id,cs);
+    if(f==='nombre'){
+      const titleEl=document.querySelector(`.av-section[data-cid="${cid}"] .av-sec-title`);
+      if(titleEl) titleEl.textContent=v||'Sin nombre';
+    }
     _refreshWeightedDisplay(id);
   },
   addCriterioItem(id,cid)           { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;(c.items=c.items||[]).push({id:uid(),text:'',grade:null});saveCriterios(id,cs);R.detail(id); },

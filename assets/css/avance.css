@@ -119,7 +119,7 @@ body {
 .av-cards-divider {
   display: flex; align-items: center;
   gap: 10px;
-  padding: 14px 20px 6px;
+  padding: 14px 16px 6px 20px;
 }
 .av-cards-divider-line {
   flex: 1; height: 1px;
@@ -279,9 +279,9 @@ body {
 }
 .av-sec-add {
   display: flex; align-items: center; gap: 5px;
-  background: var(--border);
-  border: 1px solid var(--border2);
-  color: var(--gold);
+  background: var(--sub-bg, rgba(155,191,181,0.10));
+  border: 1px solid var(--sub-br, rgba(155,191,181,0.22));
+  color: var(--sub-ac, var(--gold));
   border-radius: 99px;
   padding: 5px 13px;
   font-size: 11px; font-weight: 600;
@@ -313,7 +313,7 @@ body {
   transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 .av-check--on {
-  background: var(--gold); border-color: var(--gold); color: #000;
+  background: var(--sub-ac, var(--gold)); border-color: var(--sub-ac, var(--gold)); color: #000;
 }
 
 .av-item-text {
@@ -361,7 +361,7 @@ body {
 }
 .av-grade-inp::-webkit-inner-spin-button,
 .av-grade-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
-.av-grade-inp:focus { border-color: var(--gold); }
+.av-grade-inp:focus { border-color: var(--sub-ac, var(--gold)); }
 .av-grade-inp::placeholder { color: var(--ink3); }
 .av-grade-slash { font-size: 11px; color: var(--ink3); }
 
@@ -443,7 +443,7 @@ body {
   user-select: text; -webkit-user-select: text;
   transition: border-color 0.15s;
 }
-.av-modal-inp:focus { border-color: var(--gold); }
+.av-modal-inp:focus { border-color: var(--sub-ac, var(--gold)); }
 .av-modal-inp::placeholder { color: var(--ink3); }
 .av-modal-row { display: flex; gap: 10px; }
 .av-modal-cancel, .av-modal-ok {
@@ -453,7 +453,7 @@ body {
   cursor: pointer; transition: opacity 0.15s;
 }
 .av-modal-cancel { background: var(--border2); color: var(--ink2); }
-.av-modal-ok     { background: var(--gold);    color: #000; }
+.av-modal-ok     { background: var(--sub-ac, var(--gold)); color: #000; }
 .av-modal-cancel:active, .av-modal-ok:active { opacity: 0.7; }
 
 /* ── BOTTOM NAV ───────────────────────────────── */
@@ -788,10 +788,12 @@ body {
   background: transparent; /* overridden per-card with pastel gradient */
   border: 1px solid rgba(255,255,255,0.07);
   overflow: hidden; cursor: pointer;
+  position: relative;
   transition: transform .13s ease, opacity .13s ease;
   box-shadow: 0 2px 14px rgba(0,0,0,0.3);
 }
 .av-card:active { transform: scale(0.977); opacity: .88; }
+.av-card:has(.av-vis-btn:active) { transform: none; opacity: 1; }
 
 /* Card head — idéntico a temarios .card-head */
 .av-card-head {
@@ -814,16 +816,6 @@ body {
   object-fit: cover; display: block;
 }
 
-/* Status dot sobre el ícono */
-.av-status-dot {
-  position: absolute; bottom: 3px; right: 3px;
-  width: 7px; height: 7px; border-radius: 50%;
-  border: 1.5px solid rgba(0,0,0,.65);
-  z-index: 1;
-}
-.av-status-dot--done    { background: #3fc99a; }
-.av-status-dot--partial { background: #d6b44e; }
-.av-status-dot--empty   { background: rgba(155,191,181,0.22); }
 
 /* Info column */
 .av-card-info { flex: 1; min-width: 0; }
@@ -882,37 +874,70 @@ body {
   letter-spacing: 0.03em;
   margin-left: 5px;
 }
+.av-day-time-block {
+  display: flex; flex-direction: column;
+  gap: 1px; margin-left: 5px;
+}
+.av-day-hora-line {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--ink3); letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+.av-day-hora-fin { opacity: 0.6; }
+.av-day-salon {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--ink); letter-spacing: 0.04em;
+  margin-left: 4px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 99px;
+}
 
 /* Porcentaje a la derecha */
-.av-card-right {
-  display: flex; flex-direction: column; align-items: flex-end;
-  gap: 5px; flex-shrink: 0;
-}
 .av-card-pct {
   font-family: 'DM Mono', monospace;
   font-size: 12px; font-weight: 800;
   letter-spacing: -0.03em; flex-shrink: 0;
 }
-.av-vis-btn {
-  background: none; border: none; cursor: pointer; padding: 0;
-  color: rgba(155,191,181,0.55);
-  display: flex; align-items: center; justify-content: center;
-  width: 18px; height: 18px;
-  transition: color 0.15s, opacity 0.15s;
-}
-.av-vis-btn:active { opacity: 0.45; }
-.av-vis-btn--off { color: rgba(155,191,181,0.18); }
 
-/* Footer: barra de progreso + chips */
+/* Botón planeta — esquina inferior derecha de la pill */
+.av-vis-btn {
+  position: absolute;
+  right: 10px; bottom: 12px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: none; border: none;
+  cursor: pointer; padding: 0;
+  color: rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.av-vis-btn:active { opacity: 0.5; }
+.av-vis-btn--off { color: rgba(255,255,255,0.07); }
+
+/* Footer: chips */
 .av-card-foot {
-  padding: 0 1rem 0.75rem;
+  padding: 0 1rem 0.65rem;
   display: flex; flex-direction: column; gap: 6px;
 }
-.av-card-progress {
+
+/* Barra de progreso pegada al borde inferior de la pill */
+.av-card > .av-card-progress {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+/* Hero card (detalle) — mantiene estilo anterior */
+.av-hero-card .av-card-progress {
   height: 3px; background: rgba(255,255,255,0.08);
   border-radius: 99px; overflow: hidden;
+  margin-bottom: 0;
 }
-.av-card-bar { height: 100%; border-radius: 99px; transition: width .45s ease; background: rgba(155,191,181,0.5); }
+.av-card-bar { height: 100%; transition: width .45s ease; background: rgba(155,191,181,0.6); }
+.av-hero-card .av-card-bar { border-radius: 99px; }
 .av-card-chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .av-chip {
   font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px;
@@ -999,13 +1024,13 @@ body {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif;
-  font-size: 1rem; font-weight: 900; color: var(--gold); letter-spacing: -0.03em;
+  font-size: 1rem; font-weight: 900; color: var(--sub-ac, var(--gold)); letter-spacing: -0.03em;
 }
 .av-summary-body { flex: 1; }
 .av-summary-msg  { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 3px; }
 .av-summary-stats { font-size: 11px; color: var(--ink3); font-weight: 500; display: flex; gap: 10px; margin-bottom: 7px; }
 .av-summary-bar-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
-.av-summary-bar { height: 100%; background: var(--gold); border-radius: 99px; transition: width .5s ease; }
+.av-summary-bar { height: 100%; background: var(--sub-ac, var(--gold)); border-radius: 99px; transition: width .5s ease; }
 
 /* ══════════════════════════════════════════════
    CRITERIOS DE EVALUACIÓN
@@ -1035,8 +1060,8 @@ body {
 
 .av-crit-peso-inp {
   width: 42px;
-  background: rgba(155,191,181,0.08);
-  border: 1px solid var(--border2);
+  background: var(--sub-bg, rgba(155,191,181,0.08));
+  border: 1px solid var(--sub-br, rgba(155,191,181,0.22));
   border-radius: 7px;
   font-family: 'DM Mono', monospace;
   font-size: 13px;
@@ -1044,7 +1069,7 @@ body {
   text-align: center;
   padding: 4px 2px;
   outline: none;
-  color: var(--ink);
+  color: var(--sub-ac, var(--gold));
   -webkit-appearance: none;
   -moz-appearance: textfield;
   flex-shrink: 0;
@@ -1053,7 +1078,7 @@ body {
 }
 .av-crit-peso-inp::-webkit-inner-spin-button,
 .av-crit-peso-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
-.av-crit-peso-inp:focus { border-color: var(--gold); }
+.av-crit-peso-inp:focus { border-color: var(--sub-ac, var(--gold)); }
 
 .av-crit-unit {
   font-family: 'DM Mono', monospace;
@@ -1147,17 +1172,3 @@ body {
 }
 .av-modal-date-inp:focus { border-color: var(--gold); }
 .av-modal-date-inp::-webkit-calendar-picker-indicator { filter: invert(0.7); }
-
-/* ══════════════════════════════════════════════
-   PESO WARNING
-   ══════════════════════════════════════════════ */
-.av-peso-warn {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; font-weight: 700;
-  color: #d6944e;
-  text-align: right;
-  padding: 5px 2px 2px;
-}
-.av-peso-warn::before {
-  content: '⚠ Pesos: ';
-}

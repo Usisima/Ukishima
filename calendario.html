@@ -517,19 +517,17 @@
 
         var ac      = subColor(sub.colorIdx);
         var bg      = subColor(sub.colorIdx, 0.7);
-        var chips = buildChips(sub, progress, selIso);
-
         var topPx = (h - START_H) * HOUR_H;
         var hgtPx = 1.5 * HOUR_H;
 
         var icon = sub.icon || 'assets/images/d0.jpg';
         events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';" data-mat-id="' + esc(sub.id) + '">'
-          + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
+          + '<div class="av-card-icon" style="width:34px;height:34px;border-radius:8px"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt=""></div>'
           + '<div class="cdv-ev-body">'
           + '<div class="cdv-ev-name">' + esc(sub.name || '') + '</div>'
-          + (sub.hora ? '<div class="cdv-ev-meta">' + esc(sub.hora) + '</div>' : '')
-          + (chips ? '<div class="cdv-card-chips" style="margin-top:3px">' + chips + '</div>' : '')
+          + (sub.profesor ? '<div class="cdv-card-prof">' + esc(sub.profesor) + '</div>' : '')
           + '</div>'
+          + (sub.salon ? '<span class="cdv-salon-badge" style="color:' + ac + '">' + esc(sub.salon) + '</span>' : '')
           + '</div>';
       });
 
@@ -537,14 +535,17 @@
       var floats = noTimeSubs.map(function(sub) {
         var ac    = subColor(sub.colorIdx);
         var bg    = subColor(sub.colorIdx, 0.7);
-        var chips = buildChips(sub, progress, selIso);
         var icon  = sub.icon || 'assets/images/d0.jpg';
-        return '<div class="cdv-card" style="border-left-color:' + ac + ';background:' + bg + ';cursor:pointer" data-mat-id="' + esc(sub.id) + '">'
-          + '<img class="cdv-ev-icon" src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt="">'
-          + '<div class="cdv-card-body">'
-          + '<div class="cdv-card-name">' + esc(sub.name || '') + '</div>'
-          + (chips ? '<div class="cdv-card-chips">' + chips + '</div>' : '')
-          + '</div></div>';
+        return '<div class="av-card" style="background:' + bg + '" data-mat-id="' + esc(sub.id) + '">'
+          + '<div class="av-card-head">'
+          + '<div class="av-card-icon"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt=""></div>'
+          + '<div class="av-card-info">'
+          + '<div class="av-card-name">' + esc(sub.name || '') + '</div>'
+          + (sub.profesor ? '<div class="cdv-card-prof" style="margin-top:0.3rem">' + esc(sub.profesor) + '</div>' : '')
+          + '</div>'
+          + (sub.salon ? '<span class="av-card-pct" style="color:' + ac + '">' + esc(sub.salon) + '</span>' : '')
+          + '</div>'
+          + '</div>';
       }).join('');
 
       /* due tasks section */
@@ -579,6 +580,27 @@
         + '</div>';
     }
 
+    /* ── vibrant coloring (same cache as avance.js) ── */
+    function colorizeCards() {
+      var vc;
+      try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}'); } catch(e) { vc = {}; }
+      document.querySelectorAll('.av-card[data-mat-id], .cdv-tl-event[data-mat-id]').forEach(function(card) {
+        var img = card.querySelector('img');
+        if (!img) return;
+        function apply(el) {
+          var src = el.getAttribute('src') || '';
+          var hex = vc['ukishima_tronco_v:' + src] || vc['ukishima_opt_v:' + src] || vc[src];
+          if (!hex) return;
+          card.style.background = hex + '80';
+          card.style.borderLeftColor = hex;
+          var salon = card.querySelector('.av-card-pct, .cdv-salon-badge');
+          if (salon) salon.style.color = hex;
+        }
+        apply(img);
+        if (!img.complete) img.addEventListener('load', function(){ apply(img); }, {once:true});
+      });
+    }
+
     /* ── full repaint ── */
     function repaint() {
       var data = loadData();
@@ -586,6 +608,7 @@
       document.getElementById('cdv-root').innerHTML = renderDayView(data);
       bindCarousel();
       bindTimeline();
+      colorizeCards();
       /* in collapsed mode, scroll so now-line sits near the top */
       if (!tlExpanded) {
         requestAnimationFrame(function() {
