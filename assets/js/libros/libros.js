@@ -432,6 +432,7 @@ const R = {
 
   /* ── HOME: list subjects with horizontal book scroll ── */
   home() {
+    document.getElementById('header-title').textContent = 'Bibliografía';
     const main = document.getElementById('lib-main');
     const hasOpt = LIBRARY_OPT && LIBRARY_OPT.length > 0;
     if (!LIBRARY.length && !hasOpt) {

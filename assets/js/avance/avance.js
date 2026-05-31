@@ -36,10 +36,10 @@ function uid()               { return Date.now().toString(36)+Math.random().toSt
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
 const DEFAULTS = [
-  {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  hue:272, profesor:'', dias:[], hora:''},
+  {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  hue:270, profesor:'', dias:[], hora:''},
   {id:'calculo_1',                 name:'Cálculo Diferencial e Integral I',  semestre:'1', colorIdx:1,  hue:305, profesor:'', dias:[], hora:''},
-  {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  hue:325, profesor:'', dias:[], hora:''},
-  {id:'geo_moderna_1',             name:'Geometría Moderna I',               semestre:'1', colorIdx:3,  hue:30,  profesor:'', dias:[], hora:''},
+  {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  hue:355, profesor:'', dias:[], hora:''},
+  {id:'geo_moderna_1',             name:'Geometría Moderna I',               semestre:'1', colorIdx:3,  hue:355, profesor:'', dias:[], hora:''},
   {id:'algebra_superior_2',        name:'Álgebra Superior II',               semestre:'2', colorIdx:4,  hue:215, profesor:'', dias:[], hora:''},
   {id:'calculo_2',                 name:'Cálculo Diferencial e Integral II', semestre:'2', colorIdx:5,  hue:237, profesor:'', dias:[], hora:''},
   {id:'geo_analitica_2',           name:'Geometría Analítica II',            semestre:'2', colorIdx:6,  hue:270, profesor:'', dias:[], hora:''},

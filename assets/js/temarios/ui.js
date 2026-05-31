@@ -17,7 +17,8 @@ function renderSubsecuentes(subsecuentes) {
   const nameToId = {};
   CURRICULUM.forEach(s => s.materias.forEach(m => { nameToId[m.name] = m.id; }));
   // Include optativas from all blocks
-  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III]]
+  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III],
+   ['OTRAS', (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : [])]]
     .forEach(([key, pool]) => pool.forEach((opt, i) => { nameToId[opt.name] = `opt_${key}_${i}`; }));
   const tags = subsecuentes.map(name => {
     const id = nameToId[name];
@@ -111,9 +112,10 @@ function renderSemesterTronco(sem) {
 // ==================== OPTATIVAS VIEW ====================
 function renderOptativasView() {
   const BLOQUES = [
-    { key: 'BI',   num: 'I',   pool: OPTATIVAS_BLOQUE_I,   semLabel: 'Semestre 2 · 3 · 4', creds: 40 },
-    { key: 'BII',  num: 'II',  pool: OPTATIVAS_BLOQUE_II,  semLabel: 'Semestre 5 · 6',      creds: 40 },
-    { key: 'BIII', num: 'III', pool: OPTATIVAS_BLOQUE_III, semLabel: 'Semestre 7 · 8',      creds: 80 },
+    { key: 'BI',    num: 'I',     pool: OPTATIVAS_BLOQUE_I,   semLabel: 'Semestre 2 · 3 · 4', creds: 40 },
+    { key: 'BII',   num: 'II',   pool: OPTATIVAS_BLOQUE_II,  semLabel: 'Semestre 5 · 6',      creds: 40 },
+    { key: 'BIII',  num: 'III',  pool: OPTATIVAS_BLOQUE_III, semLabel: 'Semestre 7 · 8',      creds: 80 },
+    { key: 'OTRAS', num: 'Otras', pool: (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []), semLabel: 'Sin bloque asignado', creds: null },
   ];
   return BLOQUES.map(b => {
     const cards = b.pool.map((opt, i) => {
@@ -126,7 +128,7 @@ function renderOptativasView() {
           <span class="opt-bloque-title">Bloque ${b.num}</span>
           <span class="opt-bloque-sem-label">${b.semLabel}</span>
         </div>
-        <span class="opt-bloque-badge">${b.creds} créditos</span>
+        ${b.creds != null ? `<span class="opt-bloque-badge">${b.creds} créditos</span>` : ''}
       </div>
       <div class="sem-grid">${cards}</div>
     </div>`;
@@ -135,9 +137,10 @@ function renderOptativasView() {
 
 // ==================== SEARCH RESULTS ====================
 const _SRCH_POOLS = [
-  { key: 'BI',   pool: OPTATIVAS_BLOQUE_I },
-  { key: 'BII',  pool: OPTATIVAS_BLOQUE_II },
-  { key: 'BIII', pool: OPTATIVAS_BLOQUE_III },
+  { key: 'BI',    pool: OPTATIVAS_BLOQUE_I },
+  { key: 'BII',   pool: OPTATIVAS_BLOQUE_II },
+  { key: 'BIII',  pool: OPTATIVAS_BLOQUE_III },
+  { key: 'OTRAS', pool: (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []) },
 ];
 
 function _allSearchMats() {

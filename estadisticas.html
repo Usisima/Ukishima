@@ -61,10 +61,12 @@
   });
 
   var allOptativas = OPTATIVAS_BLOQUE_I.concat(OPTATIVAS_BLOQUE_II).concat(OPTATIVAS_BLOQUE_III);
+  var allOtras = typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : [];
 
-  var totalMats = troncoMats.length + allOptativas.length;
+  var totalMats = troncoMats.length + allOptativas.length + allOtras.length;
   var conTem = troncoMats.filter(hasTem).length +
-               allOptativas.filter(hasOptTem).length;
+               allOptativas.filter(hasOptTem).length +
+               allOtras.filter(hasOptTem).length;
   var sinTem = totalMats - conTem;
   var pct    = Math.round(conTem / totalMats * 100);
 
@@ -135,6 +137,20 @@
     });
     html += '</div>';
   });
+
+  /* Otras */
+  if (allOtras.length > 0) {
+    var otraConTem = allOtras.filter(hasOptTem).length;
+    html += '<div class="section-heading">' +
+      '<h2>Otras</h2>' +
+      '<span class="section-count">' + otraConTem + ' / ' + allOtras.length + ' con temario · SIAE sin bloque asignado</span>' +
+    '</div>';
+    html += '<div class="cards-grid">';
+    allOtras.forEach(function(opt) {
+      html += matCard(opt.name, opt.icon, hasOptTem(opt));
+    });
+    html += '</div>';
+  }
 
   container.innerHTML = html;
 
