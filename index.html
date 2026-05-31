@@ -47,7 +47,7 @@
       <script>
       (function () {
         var DELAYS = [0, 0.8, 0.8, 1.8, 1.8];
-        var DURS   = [0.7, 0.7, 0.7, 0.45, 0.45];
+        var DURS   = [1.1, 0.7, 0.7, 0.45, 0.45];
         var EASE   = 'cubic-bezier(0.4,0,0.2,1)';
         document.querySelectorAll('.hdr-lp').forEach(function (p, i) {
           var len = p.getTotalLength();
@@ -56,7 +56,7 @@
           p.style.strokeDashoffset = len;
           var delay           = DELAYS[i] !== undefined ? DELAYS[i] : i * 0.15;
           var dur             = DURS[i]   !== undefined ? DURS[i]   : 0.8;
-          var fillDelay       = delay + dur;
+          var fillDelay       = delay + dur - 0.2;
           var fadeDur         = 0.3;
           var strokeFadeDelay = fillDelay + fadeDur;
           if (i >= 3) {
