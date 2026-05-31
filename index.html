@@ -583,6 +583,11 @@
 
     pre.innerHTML = html;
     if (preStars) preStars.innerHTML = htmlStars;
+
+    if (!tick._revealed) {
+      tick._revealed = true;
+      document.body.style.opacity = '1';
+    }
   }
 
   requestAnimationFrame(tick);
