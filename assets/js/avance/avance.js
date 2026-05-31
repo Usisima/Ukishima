@@ -344,7 +344,6 @@ const SolarSys = {
     const pose = getSolarPose();
     this.rotation = pose.rotation;
     this.el       = pose.el;
-    this._introStartAngles = this.subs.map((_, i) => i * 2.399 + this.rotation);
     const c   = document.createElement('canvas');
     c.className = 'av-solar-canvas';
     wrap.prepend(c);
@@ -497,14 +496,25 @@ const SolarSys = {
       const prog   = Math.max(0, Math.min(1, this._introT / dur));
       if (prog <= 0) continue;
 
-      const startA = this._introStartAngles ? this._introStartAngles[i] : -Math.PI / 2;
-      const endA   = startA + prog * Math.PI * 2;
+      const speed_i = 0.20 / Math.pow(1 + i * 0.55, 0.72);
+      const startA  = i * 2.399 + this.t * speed_i + this.rotation;
+      const endA    = startA + prog * Math.PI * 2;
 
+      // Arco restante — porción aún no trazada, tenue, estática
+      if (prog < 1) {
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r, r * TILT, 0, endA, startA + Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      // Arco activo — trazo que avanza
       ctx.beginPath();
       ctx.ellipse(cx, cy, r, r * TILT, 0, startA, endA);
       ctx.strokeStyle = prog < 1
-        ? `rgba(155,191,181,${(0.18 + (1 - prog) * 0.22).toFixed(2)})`
-        : 'rgba(155,191,181,0.14)';
+        ? `rgba(255,255,255,${(0.10 + (1 - prog) * 0.12).toFixed(2)})`
+        : 'rgba(255,255,255,0.10)';
       ctx.lineWidth = prog < 1 ? 1.4 : 1;
       ctx.stroke();
 
@@ -517,8 +527,8 @@ const SolarSys = {
         const tipX = cx + Math.cos(endA) * r;
         const tipY = cy + Math.sin(endA) * (r * TILT);
         const glow = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, 7);
-        glow.addColorStop(0, 'rgba(155,191,181,0.75)');
-        glow.addColorStop(1, 'rgba(155,191,181,0)');
+        glow.addColorStop(0, 'rgba(255,255,255,0.28)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
         ctx.save();
         ctx.globalAlpha = glowAlpha;
         ctx.fillStyle = glow;
@@ -547,7 +557,7 @@ const SolarSys = {
       const p     = calcPct(sub.id);
       const depth = (pos.z + 1) / 2;
       const pr    = (12 + (p / 100) * 3) * (0.70 + depth * 0.30);
-      const clipR = pr * 0.82;   /* radio del clip = círculo interior del ícono */
+      const clipR = pr * 0.82;
       const alpha = 0.48 + depth * 0.52;
 
       ctx.globalAlpha = alpha;
@@ -563,7 +573,6 @@ const SolarSys = {
       ctx.save();
       ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2);
       ctx.clip();
-
       const _src = this._iconMap[sub.id] || 'assets/images/d0.jpg';
       const _img = this._imgs[_src];
       if (_img && _img.complete && _img.naturalWidth > 0) {
@@ -572,7 +581,6 @@ const SolarSys = {
         ctx.fillStyle = ac;
         ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2); ctx.fill();
       }
-
       ctx.restore();
 
       // Progress arc ring
