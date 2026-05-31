@@ -440,13 +440,15 @@ const R = {
       return;
     }
 
+    const fromBook = Nav._prevView === 'book';
     const renderSubj = (subj, si, isOpt) => {
       const ordered = subj.books
         .map((b, i) => ({ b, i }))
         .sort((a, b) => (isFavBook(a.b.id) ? 0 : 1) - (isFavBook(b.b.id) ? 0 : 1) || a.i - b.i);
       const list = isOpt ? LIBRARY_OPT : LIBRARY;
+      const animStyle = fromBook ? 'animation:none' : `animation-delay:${si * 0.04}s`;
       return `
-        <div class="lib-subject-section${isOpt ? ' is-opt' : ''}" style="animation-delay:${si * 0.04}s">
+        <div class="lib-subject-section${isOpt ? ' is-opt' : ''}" style="${animStyle}">
           <div class="lib-subject-header">
             <div class="lib-subject-name">${esc(subj.subject)}</div>
             <div class="lib-subject-count">${subj.books.length} libro${subj.books.length !== 1 ? 's' : ''}</div>
@@ -1220,8 +1222,17 @@ _currentIdx() {
 const Nav = {
   _prevView: null,
   _savedScroll: 0,
+  _homeSnapshot: null,   // { html, scrollY } — cached home DOM for instant back-nav
 
   go(view, bookId, noteKey) {
+    // Save home DOM before entering a book so returning is instant
+    if (S.view === 'home' && view === 'book') {
+      const main = document.getElementById('lib-main');
+      if (main) Nav._homeSnapshot = { html: main.innerHTML, scrollY: window.scrollY };
+    } else if (view !== 'book') {
+      Nav._homeSnapshot = null;  // invalidate if navigating anywhere other than a book
+    }
+
     Nav._prevView = S.view;
     if (S.view !== 'book') Nav._savedScroll = window.scrollY;
 
@@ -1254,7 +1265,19 @@ const Nav = {
     /* book: async — handles disc, scroll, and noteKey internally */
     if (S.view === 'book') { R.book(S.bookId); return; }
 
-    /* other views: sync */
+    /* Home from book: restore snapshot instantly — no re-render, no animation */
+    if (S.view === 'home' && Nav._prevView === 'book' && Nav._homeSnapshot) {
+      const main = document.getElementById('lib-main');
+      main.innerHTML = Nav._homeSnapshot.html;
+      main.querySelectorAll('.lib-subject-section').forEach(el => { el.style.animation = 'none'; });
+      window.scrollTo({ top: Nav._homeSnapshot.scrollY, behavior: 'instant' });
+      Disc.mode = 'home';
+      Disc.reset();
+      Disc.setVisible(true);
+      return;
+    }
+
+    /* other views: render fresh */
     if (S.view === 'home')   R.home();
     if (S.view === 'search') R.search();
     if (S.view === 'favs')   R.favs();
@@ -1263,7 +1286,7 @@ const Nav = {
     Disc.mode = 'home';
     Disc.setVisible(S.view === 'home');
 
-    /* scroll: restaurar si se viene de un libro, si no ir al inicio */
+    /* scroll: ir al inicio o restaurar si vuelve de libro sin snapshot */
     const _scrollTop = Nav._prevView === 'book' ? Nav._savedScroll : 0;
     requestAnimationFrame(() =>
       requestAnimationFrame(() =>
