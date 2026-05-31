@@ -28,6 +28,7 @@
     }
     @keyframes hdrDraw       { to { stroke-dashoffset: 0; } }
     @keyframes hdrFill       { from { fill: rgba(255,255,255,0); } to { fill: rgba(255,255,255,1); } }
+    @keyframes hdrFillRadial { from { fill: rgba(255,255,255,1); clip-path: circle(0% at 50% 50%); } to { fill: rgba(255,255,255,1); clip-path: circle(150% at 50% 50%); } }
     @keyframes hdrStrokeFade { to { stroke-opacity: 0; } }
   </style>
 </head>
@@ -45,8 +46,8 @@
       </svg>
       <script>
       (function () {
-        var DELAYS = [0, 0.42, 0.42, 0.20, 0.42];
-        var DURS   = [1.1, 0.85, 0.85, 0.75, 0.85];
+        var DELAYS = [0, 0.8, 0.8, 1.3, 1.3];
+        var DURS   = [0.7, 0.7, 0.7, 0.45, 0.45];
         var EASE   = 'cubic-bezier(0.4,0,0.2,1)';
         document.querySelectorAll('.hdr-lp').forEach(function (p, i) {
           var len = p.getTotalLength();
@@ -58,9 +59,11 @@
           var fillDelay       = delay + dur;
           var fadeDur         = 0.3;
           var strokeFadeDelay = fillDelay + fadeDur;
+          var fillKf  = i >= 3 ? 'hdrFillRadial' : 'hdrFill';
+          var fillDur = i >= 3 ? 0.8 : fadeDur;
           p.style.animation = [
             'hdrDraw '       + dur     + 's ' + EASE + ' ' + delay             + 's forwards',
-            'hdrFill '       + fadeDur + 's ease '         + fillDelay         + 's forwards',
+            fillKf + ' '     + fillDur + 's ease-out '     + fillDelay         + 's forwards',
             'hdrStrokeFade 0.2s ease ' +                     strokeFadeDelay   + 's forwards',
           ].join(', ');
           p.style.animationPlayState = 'paused';
