@@ -1541,6 +1541,10 @@ const SubModal = {
           if (src.creditos) subs[idx].creditos = src.creditos;
         }
       }
+      const returnId = this._editId;
+      saveSubjects(subs);
+      SubModal.close();
+      R.detail(returnId);
     } else {
       const newSub={id:uid(),name,profesor,salon,grupo,dias,diasAy,hora,horaFin,semestre,colorIdx:subs.length};
       const src = this._selected || _findInData({name,id:''});
@@ -1551,10 +1555,10 @@ const SubModal = {
         if (src.colorIdx != null)    newSub.colorIdx = src.colorIdx;
       }
       subs.push(newSub);
+      saveSubjects(subs);
+      SubModal.close();
+      R.home();
     }
-    saveSubjects(subs);
-    SubModal.close();
-    R.home();
   },
 };
 

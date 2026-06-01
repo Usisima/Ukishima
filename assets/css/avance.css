@@ -714,7 +714,7 @@ body {
   transition: border-color 0.15s;
   -webkit-appearance: none;
 }
-.av-field-inp:focus { border-color: var(--gold); }
+.av-field-inp:focus { border-color: var(--sub-ac, var(--gold)); }
 
 /* Select arrow override */
 .av-sel {
@@ -748,9 +748,13 @@ body {
   transition: background 0.14s, border-color 0.14s, color 0.14s;
 }
 .av-day-btn--on {
-  background: var(--gold);
-  border-color: var(--gold);
+  background: var(--sub-ac, var(--gold));
+  border-color: var(--sub-ac, var(--gold));
   color: #000;
+}
+/* Clase: fondo del color de la materia + borde blanco (igual que av-day-dot--clase) */
+#av-days-row .av-day-btn--on {
+  border-color: rgba(232,245,242,0.42);
 }
 
 /* ══════════════════════════════════════════════
@@ -883,7 +887,7 @@ body {
 }
 .av-day-dot--clase {
   background: rgba(155,191,181,0.18);
-  border: 1.5px solid rgba(232,245,242,0.75);
+  border: 1.5px solid rgba(232,245,242,0.42);
   color: rgba(0,0,0,0.75);
 }
 .av-day-hora {
