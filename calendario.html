@@ -296,7 +296,7 @@
         var hlRad = (tL?'0':'8px')+' '+(tR?'0':'8px')+' '+(tR?'0':'8px')+' '+(tL?'0':'8px');
         trmHl = '<div style="position:absolute;left:0;right:0;height:14px;top:50%;transform:translateY(-50%);background:rgba(72,80,210,0.28);border-radius:'+hlRad+';z-index:1;pointer-events:none"></div>';
       }
-      cells += '<div class="' + cls + '"' + styleAttr + '>'
+      cells += '<div class="' + cls + '" onclick="if(window._calNavTo)window._calNavTo(' + year + ',' + month + ',' + d.day + ')" style="cursor:pointer"' + styleAttr + '>'
         + trmHl
         + '<span class="day-num">' + d.day + '</span>'
         + '</div>';
@@ -674,6 +674,13 @@
         }
       }, 60000);
     }
+
+    /* ── expose nav for month-calendar cell clicks ── */
+    window._calNavTo = function(y, m, d) {
+      selDate = new Date(y, m, d);
+      repaint();
+      document.getElementById('cdc-root').scrollIntoView({behavior:'smooth', block:'nearest'});
+    };
 
     /* ── init ── */
     repaint();

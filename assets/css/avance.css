@@ -666,7 +666,20 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  padding-left: 16px; padding-right: 16px;
 }
+
+/* ── Compactar contenido del sheet de materia ── */
+.av-sub-sheet .av-modal-title-row { margin-bottom: 10px; }
+.av-sub-sheet .av-name-wrap       { margin-bottom: 9px; }
+.av-sub-sheet .av-modal-inp {
+  font-size: 14px; padding: 9px 12px; margin-bottom: 9px;
+}
+.av-sub-sheet .av-field-inp  { font-size: 14px; padding: 8px 10px; }
+.av-sub-sheet .av-field-label { margin: 1px 0 4px; font-size: 9px; }
+.av-sub-sheet .av-two-col    { margin-bottom: 9px; }
+.av-sub-sheet .av-days-row   { margin-bottom: 9px; }
+.av-sub-sheet .av-day-btn    { max-width: 38px; font-size: 12px; }
 
 /* Field labels inside subject modal */
 .av-field-label {
@@ -800,7 +813,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  padding: 0.9rem 1rem;
+  padding: 0.9rem 1rem 0.55rem;
   min-height: 66px;
 }
 
@@ -831,7 +844,7 @@ body {
 /* Fila de meta-pills */
 .av-card-meta-row {
   display: flex; flex-wrap: wrap;
-  gap: 0.3rem; margin-top: 0.38rem;
+  gap: 0.3rem; margin-top: 0.22rem;
 }
 
 /* Meta pills — igual que temarios .meta-pill */
@@ -867,6 +880,11 @@ body {
   border-color: rgba(155,191,181,0.55);
   color: var(--gold);
 }
+.av-day-dot--clase {
+  background: rgba(155,191,181,0.18);
+  border: 1.5px solid rgba(232,245,242,0.75);
+  color: rgba(0,0,0,0.75);
+}
 .av-day-hora {
   font-family: 'DM Mono', monospace;
   font-size: 9px; font-weight: 600;
@@ -885,14 +903,34 @@ body {
   line-height: 1.25;
 }
 .av-day-hora-fin { opacity: 0.6; }
-.av-day-salon {
+
+/* ── Arco SVG: barra delgada en bordes, curva al centro ── */
+.av-notch-wrap {
+  position: relative;
+  width: 100%;
+  margin-top: -5px;
+}
+.av-bar-svg {
+  display: block;
+  width: 100%;
+  height: 16px;
+}
+.av-bar-track { fill: rgba(255,255,255,0.08); }
+.av-bar-fill  { fill: rgba(155,191,181,0.6); }
+.av-notch-grupo { color: var(--gold); } /* overridden per-card por colorize */
+.av-notch-sep   { color: rgba(232,245,242,0.25); margin: 0 1px; }
+.av-notch-salon { color: rgba(232,245,242,0.75); }
+.av-notch-label {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
   font-family: 'DM Mono', monospace;
-  font-size: 9px; font-weight: 600;
-  color: var(--ink); letter-spacing: 0.04em;
-  margin-left: 4px;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid var(--border);
-  padding: 2px 8px; border-radius: 99px;
+  font-size: 8px; font-weight: 500;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: rgba(232,245,242,0.82); /* fallback */
+  white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none;
 }
 
 /* Porcentaje a la derecha */
@@ -905,7 +943,7 @@ body {
 /* Botón planeta — esquina inferior derecha de la pill */
 .av-vis-btn {
   position: absolute;
-  right: 10px; bottom: 12px;
+  right: 10px; bottom: 4px;
   width: 16px; height: 16px;
   border-radius: 50%;
   background: none; border: none;

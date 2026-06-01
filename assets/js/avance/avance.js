@@ -191,10 +191,21 @@ function _colorizeAvCards() {
       if (progress) progress.style.background = hex+'28';
       var bar = card.querySelector('.av-card-bar');
       if (bar) bar.style.background = hex;
+      var trackPath = card.querySelector('.av-bar-track');
+      var fillPath  = card.querySelector('.av-bar-fill');
+      if (trackPath) trackPath.style.fill = hexRgba(hex, 0.22);
+      if (fillPath)  fillPath.style.fill  = hex;
+      var grupoEl = card.querySelector('.av-notch-grupo');
+      if (grupoEl) grupoEl.style.color = hex;
       card.querySelectorAll('.av-day-dot--on').forEach(function(dot) {
         dot.style.background = hex;
         dot.style.borderColor = hex;
         dot.style.color = 'rgba(0,0,0,0.75)';
+      });
+      card.querySelectorAll('.av-day-dot--clase').forEach(function(dot) {
+        dot.style.background = hex;
+        dot.style.color = 'rgba(0,0,0,0.75)';
+        /* border-color stays white per CSS — no override */
       });
     }
 
@@ -896,21 +907,48 @@ function fmtHora(h) {
   return `${h12}:${String(mm).padStart(2,'0')} ${ampm}`;
 }
 
-function mkDaysDots(dias, hora, horaFin, salon) {
+function mkDaysDots(dias, hora, horaFin, diasAy) {
   const ALL = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
   const LBL = ['L','M','X','J','V','S'];
   const dots = ALL.map((d,i) => {
-    const on = dias && dias.includes(d);
-    return `<span class="av-day-dot${on?' av-day-dot--on':''}">${LBL[i]}</span>`;
+    const onClase = dias  && dias.includes(d);
+    const onAy    = diasAy && diasAy.includes(d);
+    const cls = onClase ? ' av-day-dot--clase' : onAy ? ' av-day-dot--on' : '';
+    return `<span class="av-day-dot${cls}">${LBL[i]}</span>`;
   }).join('');
   let timeHtml = '';
-  if (hora && horaFin) {
-    timeHtml = `<span class="av-day-time-block"><span class="av-day-hora-line">${fmtHora(hora)}</span><span class="av-day-hora-line av-day-hora-fin">${fmtHora(horaFin)}</span></span>`;
-  } else if (hora) {
-    timeHtml = `<span class="av-day-hora">${fmtHora(hora)}</span>`;
-  }
-  const salonHtml = salon ? `<span class="av-day-salon">${esc(salon)}</span>` : '';
-  return `<span class="av-days-wrap">${dots}${timeHtml}${salonHtml}</span>`;
+  if (hora && horaFin) timeHtml = `<span class="av-day-hora">${fmtHora(hora)} – ${fmtHora(horaFin)}</span>`;
+  else if (hora)       timeHtml = `<span class="av-day-hora">${fmtHora(hora)}</span>`;
+  return `<span class="av-days-wrap">${dots}${timeHtml}</span>`;
+}
+
+/* ── Arco SVG adaptativo para grupo·salón ─────────── */
+function _mkNotchBar(sub, p) {
+  var grupo = sub.grupo || '', salon = sub.salon || '';
+  var txt = [grupo, salon].filter(Boolean).join(' · ');
+  /* Ancho estimado del texto: DM Mono 9px ≈ 6.2px/char */
+  var tw  = Math.ceil(txt.length * 6.2) + 20;
+  var cx  = 180, crv = 36;
+  var half = Math.min(tw / 2, 100);
+  var fl = Math.round(Math.max(cx - half, 70));
+  var fr = Math.round(Math.min(cx + half, 290));
+  var tl = fl - crv, tr = fr + crv;
+  /* S-curve: tangente horizontal en ambos extremos → rampa suave */
+  var h = Math.round(crv * 0.5);
+  var d = 'M0,12 L'+tl+',12 C'+(tl+h)+',12 '+(fl-h)+',0 '+fl+',0 L'+fr+',0 C'+(fr+h)+',0 '+(tr-h)+',12 '+tr+',12 L360,12 L360,16 L0,16 Z';
+  var cw = Math.round(p * 3.6), sid = esc(sub.id);
+  return '<div class="av-notch-wrap">'
+    +'<svg class="av-bar-svg" viewBox="0 0 360 16" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><clipPath id="avfc-'+sid+'"><rect x="0" y="0" width="'+cw+'" height="16"/></clipPath></defs>'
+    +'<path class="av-bar-track" d="'+d+'"/>'
+    +'<path class="av-bar-fill" d="'+d+'" clip-path="url(#avfc-'+sid+')"/>'
+    +'</svg>'
+    +'<span class="av-notch-label">'
+    +(grupo?'<span class="av-notch-grupo">'+esc(grupo)+'</span>':'')
+    +(grupo&&salon?'<span class="av-notch-sep"> · </span>':'')
+    +(salon?'<span class="av-notch-salon">'+esc(salon)+'</span>':'')
+    +'</span>'
+    +'</div>';
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1013,13 +1051,13 @@ const R = {
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.salon)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.diasAy)}
               </div>
             </div>
             <span class="av-card-pct" style="color:${gradeClr}">${displayG != null ? displayG : '—'}</span>
           </div>
           ${chips ? `<div class="av-card-foot"><div class="av-card-chips">${chips}</div></div>` : ''}
-          <div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>
+          ${(sub.grupo||sub.salon)?_mkNotchBar(sub,p):`<div class="av-card-progress"><div class="av-card-bar" style="width:${p}%"></div></div>`}
         </div>`;
       }
     }
@@ -1147,7 +1185,7 @@ const R = {
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
               <div class="av-card-meta-row">
-                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.salon)}
+                ${mkDaysDots(sub.dias, sub.hora, sub.horaFin, sub.diasAy)}
               </div>
             </div>
             <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${displayGrade != null ? displayGrade : '—'}</span>
@@ -1354,7 +1392,7 @@ const SubModal = {
 
   open(sem) {
     this._selected = null;
-    ['av-sub-name','av-sub-prof','av-sub-salon'].forEach(id=>document.getElementById(id).value='');
+    ['av-sub-name','av-sub-prof','av-sub-salon','av-sub-grupo'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
     document.getElementById('av-sub-hora-fin').value='';
     document.getElementById('av-sub-sem').value = sem || '';
@@ -1455,12 +1493,14 @@ const SubModal = {
     if(!name){document.getElementById('av-sub-name').focus();return;}
     const profesor=document.getElementById('av-sub-prof').value.trim();
     const salon=document.getElementById('av-sub-salon').value.trim();
+    const grupo=document.getElementById('av-sub-grupo').value.trim();
     const hora=document.getElementById('av-sub-hora').value;
     const horaFin=document.getElementById('av-sub-hora-fin').value;
     const semestre=document.getElementById('av-sub-sem').value;
-    const dias=[...document.querySelectorAll('.av-day-btn--on')].map(b=>b.dataset.day);
+    const dias  =[...document.querySelectorAll('#av-days-row .av-day-btn--on')].map(b=>b.dataset.day);
+    const diasAy=[...document.querySelectorAll('#av-days-row-ay .av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
-    const newSub={id:uid(),name,profesor,salon,dias,hora,horaFin,semestre,colorIdx:subs.length};
+    const newSub={id:uid(),name,profesor,salon,grupo,dias,diasAy,hora,horaFin,semestre,colorIdx:subs.length};
     /* Guardar icono/clave/créditos/colorIdx del dropdown o buscar en data.js */
     const src = this._selected || _findInData({name,id:''});
     if (src) {
@@ -1718,12 +1758,14 @@ const Nav={
     if (document.activeElement === _nameInp) { e.preventDefault(); _profInp.focus(); }
   }, { passive: false });
   /* días: preventDefault en mousedown/touchstart para que el teclado no se cierre */
-  document.getElementById('av-days-row').addEventListener('mousedown', e => {
-    const b = e.target.closest('.av-day-btn');
-    if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
+  ['av-days-row','av-days-row-ay'].forEach(function(rowId) {
+    document.getElementById(rowId).addEventListener('mousedown', e => {
+      const b = e.target.closest('.av-day-btn');
+      if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
+    });
+    document.getElementById(rowId).addEventListener('touchstart', e => {
+      const b = e.target.closest('.av-day-btn');
+      if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
+    }, { passive: false });
   });
-  document.getElementById('av-days-row').addEventListener('touchstart', e => {
-    const b = e.target.closest('.av-day-btn');
-    if (b) { e.preventDefault(); b.classList.toggle('av-day-btn--on'); }
-  }, { passive: false });
 })();

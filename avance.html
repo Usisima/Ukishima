@@ -99,16 +99,40 @@
                autocapitalize="words" spellcheck="false"
                data-lpignore="true" data-1p-ignore data-form-type="other">
 
-        <!-- Salón -->
-        <input class="av-modal-inp" id="av-sub-salon" type="search"
-               placeholder="Salón" maxlength="20"
-               autocomplete="off" autocorrect="off"
-               autocapitalize="characters" spellcheck="false"
-               data-lpignore="true" data-1p-ignore data-form-type="other">
+        <!-- Grupo + Salón -->
+        <div class="av-two-col">
+          <div class="av-field">
+            <div class="av-field-label">Grupo</div>
+            <input class="av-field-inp" id="av-sub-grupo" type="search"
+                   placeholder="4451" maxlength="20"
+                   autocomplete="off" autocorrect="off"
+                   autocapitalize="characters" spellcheck="false"
+                   data-lpignore="true" data-1p-ignore data-form-type="other">
+          </div>
+          <div class="av-field">
+            <div class="av-field-label">Salón</div>
+            <input class="av-field-inp" id="av-sub-salon" type="search"
+                   placeholder="T-101" maxlength="20"
+                   autocomplete="off" autocorrect="off"
+                   autocapitalize="characters" spellcheck="false"
+                   data-lpignore="true" data-1p-ignore data-form-type="other">
+          </div>
+        </div>
 
-        <!-- Días -->
-        <div class="av-field-label">Días</div>
+        <!-- Clase -->
+        <div class="av-field-label">Clase</div>
         <div class="av-days-row" id="av-days-row">
+          <button class="av-day-btn" data-day="Lun" type="button">L</button>
+          <button class="av-day-btn" data-day="Mar" type="button">M</button>
+          <button class="av-day-btn" data-day="Mié" type="button">X</button>
+          <button class="av-day-btn" data-day="Jue" type="button">J</button>
+          <button class="av-day-btn" data-day="Vie" type="button">V</button>
+          <button class="av-day-btn" data-day="Sáb" type="button">S</button>
+        </div>
+
+        <!-- Ayudantía -->
+        <div class="av-field-label">Ayudantía</div>
+        <div class="av-days-row" id="av-days-row-ay">
           <button class="av-day-btn" data-day="Lun" type="button">L</button>
           <button class="av-day-btn" data-day="Mar" type="button">M</button>
           <button class="av-day-btn" data-day="Mié" type="button">X</button>
