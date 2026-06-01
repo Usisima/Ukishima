@@ -472,10 +472,13 @@
       var START_H = 7;
       var END_H   = 22;
 
-      /* subjects with class this day */
-      var todaySubs = subjects.filter(function(sub) {
+      /* subjects with class this day — solo dentro del semestre */
+      var SEM_START = new Date(2026, 1, 3);   // 3 feb 2026
+      var SEM_END   = new Date(2026, 4, 30);  // medianoche 30 may (último día: 29 may)
+      var inSem     = selDate >= SEM_START && selDate < SEM_END;
+      var todaySubs = inSem ? subjects.filter(function(sub) {
         return Array.isArray(sub.dias) && sub.dias.indexOf(dowFull) !== -1;
-      });
+      }) : [];
 
       /* parse "HH:MM" → decimal hours, null if absent/invalid */
       function parseH(s) {
