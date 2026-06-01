@@ -260,6 +260,7 @@ body {
   background: rgba(155,191,181,0.04);
   border: 1px solid rgba(155,191,181,0.1);
   overflow: hidden;
+  position: relative;
   box-shadow: 0 2px 12px rgba(0,0,0,0.35);
 }
 
@@ -798,12 +799,12 @@ body {
 .av-card {
   margin: 0 12px;
   border-radius: 16px;
-  background: transparent; /* overridden per-card with pastel gradient */
-  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(155,191,181,0.04);
+  border: 1px solid rgba(155,191,181,0.1);
   overflow: hidden; cursor: pointer;
   position: relative;
   transition: transform .13s ease, opacity .13s ease;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
 }
 .av-card:active { transform: scale(0.977); opacity: .88; }
 .av-card:has(.av-vis-btn:active) { transform: none; opacity: 1; }
@@ -940,7 +941,7 @@ body {
   letter-spacing: -0.03em; flex-shrink: 0;
 }
 
-/* Botón planeta — esquina inferior derecha de la pill */
+/* Botón visualizar/ocultar — home cards */
 .av-vis-btn {
   position: absolute;
   right: 10px; bottom: 4px;
@@ -956,6 +957,21 @@ body {
 .av-vis-btn:active { opacity: 0.5; }
 .av-vis-btn--off { color: rgba(255,255,255,0.07); }
 
+/* Botón editar — hero card de la página individual */
+.av-edit-btn {
+  position: absolute;
+  right: 10px; bottom: 4px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: none; border: none;
+  cursor: pointer; padding: 0;
+  color: rgba(255,255,255,0.28);
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.av-edit-btn:active { opacity: 0.5; }
+
 /* Footer: chips */
 .av-card-foot {
   padding: 0 1rem 0.65rem;
@@ -964,8 +980,9 @@ body {
 
 /* Barra de progreso pegada al borde inferior de la pill */
 .av-card > .av-card-progress {
-  height: 5px;
-  background: rgba(255,255,255,0.06);
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
   overflow: hidden;
 }
 /* Hero card (detalle) — mantiene estilo anterior */
@@ -974,8 +991,7 @@ body {
   border-radius: 99px; overflow: hidden;
   margin-bottom: 0;
 }
-.av-card-bar { height: 100%; transition: width .45s ease; background: rgba(155,191,181,0.6); }
-.av-hero-card .av-card-bar { border-radius: 99px; }
+.av-card-bar { height: 100%; border-radius: 99px; transition: width .45s ease; background: rgba(155,191,181,0.6); }
 .av-card-chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .av-chip {
   font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px;

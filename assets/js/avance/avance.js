@@ -252,9 +252,19 @@ function _colorizeDetailHero(sub) {
     if (track) track.style.background = hexRgba(hex, 0.16);
     var bar = hero.querySelector('.av-card-bar');
     if (bar) bar.style.background = hex;
+    var trackPath = hero.querySelector('.av-bar-track');
+    var fillPath  = hero.querySelector('.av-bar-fill');
+    if (trackPath) trackPath.style.fill = hexRgba(hex, 0.22);
+    if (fillPath)  fillPath.style.fill  = hex;
+    var grupoEl = hero.querySelector('.av-notch-grupo');
+    if (grupoEl) grupoEl.style.color = hex;
     hero.querySelectorAll('.av-day-dot--on').forEach(function(dot) {
       dot.style.background = hex;
       dot.style.borderColor = hex;
+      dot.style.color = 'rgba(0,0,0,0.75)';
+    });
+    hero.querySelectorAll('.av-day-dot--clase').forEach(function(dot) {
+      dot.style.background = hex;
       dot.style.color = 'rgba(0,0,0,0.75)';
     });
     document.querySelectorAll('.av-sec-add').forEach(function(btn) {
@@ -1178,6 +1188,11 @@ const R = {
     document.getElementById('av-main').innerHTML = `
       <div class="av-detail">
         <div class="av-hero-card" style="background:${bg}">
+          <button class="av-edit-btn" onclick="A.editSub('${esc(subId)}')" aria-label="Editar materia">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </button>
           <div class="av-card-head">
             <div class="av-card-icon">
               <img src="${esc(iconD)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
@@ -1190,11 +1205,7 @@ const R = {
             </div>
             <span class="av-card-pct" id="av-hero-pct" style="color:${gradeClrD}">${displayGrade != null ? displayGrade : '—'}</span>
           </div>
-          <div class="av-card-foot">
-            <div class="av-card-progress">
-              <div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div>
-            </div>
-          </div>
+          ${(sub.grupo||sub.salon)?_mkNotchBar(sub,barPct):`<div class="av-card-progress"><div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div></div>`}
         </div>
         ${criterios.length ? criterios.map(c => {
           const cItems  = c.items||[];
@@ -1304,6 +1315,8 @@ const R = {
     const pEl = document.getElementById('av-hero-pct'), bEl = document.getElementById('av-hero-bar');
     if (pEl) { pEl.textContent = show ?? '—'; pEl.style.color = showClr; }
     if (bEl) bEl.style.width = p + '%';
+    const clipEl = document.getElementById('avfc-' + subId);
+    if (clipEl) { const r = clipEl.querySelector('rect'); if (r) r.setAttribute('width', String(Math.round(p * 3.6))); }
   },
 };
 
@@ -1388,15 +1401,31 @@ const Modal = {
 };
 
 const SubModal = {
-  _selected: null,   /* datos del item elegido en el dropdown */
+  _selected: null,
+  _editId:   null,
 
-  open(sem) {
+  open(sem, sub) {
     this._selected = null;
+    this._editId   = sub ? sub.id : null;
+    document.querySelector('#av-sub-modal .av-modal-title').textContent = sub ? 'Editar materia' : 'Nueva materia';
     ['av-sub-name','av-sub-prof','av-sub-salon','av-sub-grupo'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('av-sub-hora').value='';
     document.getElementById('av-sub-hora-fin').value='';
     document.getElementById('av-sub-sem').value = sem || '';
     document.querySelectorAll('.av-day-btn').forEach(b=>b.classList.remove('av-day-btn--on'));
+    if (sub) {
+      document.getElementById('av-sub-name').value  = sub.name     || '';
+      document.getElementById('av-sub-prof').value  = sub.profesor || '';
+      document.getElementById('av-sub-salon').value = sub.salon    || '';
+      document.getElementById('av-sub-grupo').value = sub.grupo    || '';
+      document.getElementById('av-sub-hora').value     = sub.hora    || '';
+      document.getElementById('av-sub-hora-fin').value = sub.horaFin || '';
+      document.getElementById('av-sub-sem').value = sub.semestre || '';
+      document.querySelectorAll('#av-days-row .av-day-btn').forEach(b =>
+        b.classList.toggle('av-day-btn--on', (sub.dias||[]).includes(b.dataset.day)));
+      document.querySelectorAll('#av-days-row-ay .av-day-btn').forEach(b =>
+        b.classList.toggle('av-day-btn--on', (sub.diasAy||[]).includes(b.dataset.day)));
+    }
     const sug = document.getElementById('av-name-suggest');
     if (sug) { sug.innerHTML=''; sug.style.display='none'; }
     /* bloquear scroll del fondo sin tocar scrollY */
@@ -1500,16 +1529,29 @@ const SubModal = {
     const dias  =[...document.querySelectorAll('#av-days-row .av-day-btn--on')].map(b=>b.dataset.day);
     const diasAy=[...document.querySelectorAll('#av-days-row-ay .av-day-btn--on')].map(b=>b.dataset.day);
     const subs=getSubjects();
-    const newSub={id:uid(),name,profesor,salon,grupo,dias,diasAy,hora,horaFin,semestre,colorIdx:subs.length};
-    /* Guardar icono/clave/créditos/colorIdx del dropdown o buscar en data.js */
-    const src = this._selected || _findInData({name,id:''});
-    if (src) {
-      if (src.icon)                newSub.icon     = src.icon;
-      if (src.clave)               newSub.clave    = src.clave;
-      if (src.creditos)            newSub.creditos = src.creditos;
-      if (src.colorIdx != null)    newSub.colorIdx = src.colorIdx;
+    if (this._editId) {
+      const idx = subs.findIndex(s => s.id === this._editId);
+      if (idx >= 0) {
+        const existing = subs[idx];
+        subs[idx] = {...existing, name, profesor, salon, grupo, dias, diasAy, hora, horaFin, semestre};
+        const src = this._selected || _findInData({name, id: this._editId});
+        if (src) {
+          if (src.icon)     subs[idx].icon     = src.icon;
+          if (src.clave)    subs[idx].clave    = src.clave;
+          if (src.creditos) subs[idx].creditos = src.creditos;
+        }
+      }
+    } else {
+      const newSub={id:uid(),name,profesor,salon,grupo,dias,diasAy,hora,horaFin,semestre,colorIdx:subs.length};
+      const src = this._selected || _findInData({name,id:''});
+      if (src) {
+        if (src.icon)                newSub.icon     = src.icon;
+        if (src.clave)               newSub.clave    = src.clave;
+        if (src.creditos)            newSub.creditos = src.creditos;
+        if (src.colorIdx != null)    newSub.colorIdx = src.colorIdx;
+      }
+      subs.push(newSub);
     }
-    subs.push(newSub);
     saveSubjects(subs);
     SubModal.close();
     R.home();
@@ -1537,6 +1579,7 @@ const ConfirmDel = {
 
 const A = {
   openSubModal:      (sem)=>SubModal.open(sem),
+  editSub:           (id)=>{ const s=getSubjects().find(x=>x.id===id); if(s) SubModal.open(s.semestre,s); },
   toggleVis(id) {
     const hidden = toggleHidden(id);
     const solarWrap = document.getElementById('av-solar-wrap');
