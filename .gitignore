@@ -1,3 +1,7 @@
+# PDFs y transcripciones — archivos de trabajo, no subir a GitHub
+pdfs/entrada/*.pdf
+pdfs/salida/*.txt
+
 # Archivos auxiliares dentro de texto/ — no subir a GitHub
 texto/*
 # Excepto los archivos de notas (.tex) — la app los necesita

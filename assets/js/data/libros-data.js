@@ -85,6 +85,12 @@ const LIBRARY = [
         author: "Serge Lang",
         edition: "5ª ed. Springer, 1986"
       },
+      {
+        id: "cd1_b6",
+        title: "Cálculo. Primer curso, nivel superior",
+        author: "Arizmendi, Carrillo Hoyo & Lara Aparicio",
+        edition: "Addison-Wesley Iberoamericana, 1987"
+      },
     ]
   },
 

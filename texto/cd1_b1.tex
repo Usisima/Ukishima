@@ -1,0 +1,518 @@
+% BookID: cd1_b1
+% Libro: Cálculo Infinitesimal
+% Autor: Michael Spivak
+% Edición: 2ª ed. Editorial Reverté, 1992 (trad. B. Frontera Marqués)
+
+\documentclass[12pt]{article}
+\usepackage{ukishima-notas}
+
+\begin{document}
+
+\section{Capítulo 1: Propiedades Básicas de los Números}
+
+El propósito de este capítulo es sintetizar el viejo saber en un reducido número de propiedades sencillas e inmediatas de los números. De las doce propiedades que se estudian, las nueve primeras se refieren a las operaciones fundamentales de suma y multiplicación.
+
+\subsection{Propiedades de la adición}
+
+\begin{axioma}[P1]{Asociatividad de la suma}
+Si $a$, $b$ y $c$ son números cualesquiera, entonces
+\[ a + (b + c) = (a + b) + c. \]
+\end{axioma}
+
+\begin{nota}[]{}
+P1 hace innecesaria una definición por separado de suma de tres números: $a + b + c$ representa el número $a + (b+c) = (a+b)+c$. Análogamente se definen sumas de cuatro o más números; todas las disposiciones posibles son iguales.
+\end{nota}
+
+\begin{axioma}[P2]{Neutro aditivo}
+Si $a$ es un número cualquiera, entonces
+\[ a + 0 = 0 + a = a. \]
+\end{axioma}
+
+\begin{axioma}[P3]{Inverso aditivo}
+Para todo número $a$ existe un número $-a$ tal que
+\[ a + (-a) = (-a) + a = 0. \]
+\end{axioma}
+
+\begin{nota}[]{}
+La resta se define como operación derivada de la suma: $a - b$ es una abreviación de $a + (-b)$. La unicidad del $0$ y de $-a$ se deduce de P1--P3.
+\end{nota}
+
+\begin{axioma}[P4]{Conmutatividad de la suma}
+Si $a$ y $b$ son números cualesquiera, entonces
+\[ a + b = b + a. \]
+\end{axioma}
+
+\subsection{Propiedades de la multiplicación}
+
+\begin{axioma}[P5]{Asociatividad del producto}
+Si $a$, $b$ y $c$ son números cualesquiera, entonces
+\[ a \cdot (b \cdot c) = (a \cdot b) \cdot c. \]
+\end{axioma}
+
+\begin{axioma}[P6]{Neutro multiplicativo}
+Si $a$ es un número cualquiera, entonces
+\[ a \cdot 1 = 1 \cdot a = a. \]
+Además, $1 \neq 0$.
+\end{axioma}
+
+\begin{nota}[]{}
+La condición $1 \neq 0$ es necesaria; de lo contrario todas las demás propiedades se satisfarían con un único elemento, el $0$.
+\end{nota}
+
+\begin{axioma}[P7]{Inverso multiplicativo}
+Para todo número $a \neq 0$ existe un número $a^{-1}$ tal que
+\[ a \cdot a^{-1} = a^{-1} \cdot a = 1. \]
+\end{axioma}
+
+\begin{nota}[]{}
+La división se define como operación derivada: $a/b = a \cdot b^{-1}$ (con $b \neq 0$). La división por $0$ es siempre indefinida. De P7 se sigue: si $a \cdot b = 0$ entonces $a = 0$ ó $b = 0$.
+\end{nota}
+
+\begin{axioma}[P8]{Conmutatividad del producto}
+Si $a$ y $b$ son números cualesquiera, entonces
+\[ a \cdot b = b \cdot a. \]
+\end{axioma}
+
+\begin{axioma}[P9]{Distributividad}
+Si $a$, $b$ y $c$ son números cualesquiera, entonces
+\[ a \cdot (b + c) = a \cdot b + a \cdot c. \]
+\end{axioma}
+
+\begin{nota}[]{}
+P9 es la justificación de casi todas las manipulaciones algebraicas. De P1--P9 se deducen:
+\begin{itemize}
+  \item $a \cdot 0 = 0$: pues $a \cdot 0 + a \cdot 0 = a \cdot (0+0) = a \cdot 0$, luego $a \cdot 0 = 0$.
+  \item $(-a) \cdot b = -(a \cdot b)$: pues $(-a) \cdot b + a \cdot b = [(-a)+a] \cdot b = 0 \cdot b = 0$.
+  \item $(-a) \cdot (-b) = a \cdot b$: consecuencia de lo anterior.
+\end{itemize}
+\end{nota}
+
+\subsection{Propiedades de orden}
+
+Las tres propiedades restantes hacen referencia a desigualdades. Se considera el conjunto $P$ de todos los números positivos como concepto básico.
+
+\begin{axioma}[P10]{Ley de tricotomía}
+Para todo número $a$ se cumple una y sólo una de las siguientes igualdades:
+\begin{enumerate}
+  \item[(i)] $a = 0$.
+  \item[(ii)] $a$ pertenece al conjunto $P$.
+  \item[(iii)] $-a$ pertenece al conjunto $P$.
+\end{enumerate}
+\end{axioma}
+
+\begin{axioma}[P11]{La suma es cerrada}
+Si $a$ y $b$ pertenecen a $P$, entonces $a + b$ pertenece a $P$.
+\end{axioma}
+
+\begin{axioma}[P12]{La multiplicación es cerrada}
+Si $a$ y $b$ pertenecen a $P$, entonces $a \cdot b$ pertenece a $P$.
+\end{axioma}
+
+\begin{nota}[]{}
+Se definen las desigualdades en función de $P$:
+\[ a > b \;\text{ si }\; a - b \in P; \qquad a < b \;\text{ si }\; b > a; \]
+\[ a \geq b \;\text{ si }\; a > b \text{ o } a = b; \qquad a \leq b \;\text{ si }\; a < b \text{ o } a = b. \]
+En particular $a > 0$ si y sólo si $a$ pertenece a $P$. Todos los hechos conocidos sobre desigualdades son consecuencias de P10--P12. Destaca que $1 > 0$ (pues $1 = 1^2 \in P$) y, por tanto, $1 + 1 \neq 0$, lo cual valida la división por $1 + 1$.
+\end{nota}
+
+\subsection{Valor Absoluto}
+
+\begin{definicion}[]{Valor absoluto}
+Para todo número $a$ se define el \textbf{valor absoluto} $|a|$ como
+\[ |a| = \begin{cases} a & \text{si } a \geq 0, \\ -a & \text{si } a \leq 0. \end{cases} \]
+$|a|$ es siempre positivo excepto cuando $a = 0$. Equivalentemente, $|a| = \sqrt{a^2}$.
+\end{definicion}
+
+\begin{teorema}[1]{Desigualdad del triángulo}
+Para todos los números $a$ y $b$ se tiene
+\[ |a + b| \leq |a| + |b|. \]
+\end{teorema}
+
+\begin{proof}
+\textbf{Demostración por casos.} Se distinguen cuatro casos según los signos de $a$ y $b$:
+\begin{enumerate}
+  \item $a \geq 0,\; b \geq 0$: entonces $a + b \geq 0$ y $|a+b| = a+b = |a|+|b|$. \checkmark
+  \item $a \leq 0,\; b \leq 0$: entonces $|a+b| = -(a+b) = (-a)+(-b) = |a|+|b|$. \checkmark
+  \item $a \geq 0,\; b \leq 0$: hay que demostrar $|a+b| \leq a - b$. Si $a+b \geq 0$, basta ver $a+b \leq a-b$, es decir $b \leq -b$, que es cierto pues $b \leq 0$. Si $a+b \leq 0$, basta ver $-a-b \leq a-b$, es decir $-a \leq a$, que es cierto pues $a \geq 0$. \checkmark
+  \item $a \leq 0,\; b \geq 0$: idéntico al caso (3) intercambiando $a$ y $b$. \checkmark
+\end{enumerate}
+\textbf{Demostración breve.} Usando $|a| = \sqrt{a^2}$:
+\begin{align*}
+(|a+b|)^2 &= (a+b)^2 = a^2 + 2ab + b^2 \\
+           &\leq a^2 + 2|a||b| + b^2 = (|a|+|b|)^2.
+\end{align*}
+Como $x^2 < y^2$ implica $x < y$ para $x, y \geq 0$, se concluye $|a+b| \leq |a|+|b|$.
+$\blacksquare$
+\end{proof}
+
+\begin{observacion}[]{}
+La igualdad $|a+b| = |a| + |b|$ se cumple si y sólo si $a$ y $b$ tienen el mismo signo (o uno de ellos es $0$).
+\end{observacion}
+
+\section{Capítulo 2: Distintas Clases de Números}
+
+Los números más sencillos son los \textbf{números naturales} $\mathbb{N} = \{1, 2, 3, \ldots\}$.
+
+\subsection{Principio de inducción matemática}
+
+\begin{axioma}[]{Principio de inducción matemática}
+Supóngase que $P(x)$ es una propiedad sobre números naturales. Entonces $P(x)$ es verdad para todos los números naturales $x$ siempre que:
+\begin{enumerate}
+  \item[(1)] $P(1)$ sea verdad.
+  \item[(2)] Si $P(k)$ es verdad, también lo es $P(k+1)$.
+\end{enumerate}
+\end{axioma}
+
+\begin{nota}[]{}
+Formulación equivalente en términos de conjuntos: si $A$ es una colección de números naturales tal que (1) $1 \in A$ y (2) $k+1 \in A$ siempre que $k \in A$, entonces $A$ es el conjunto de todos los números naturales.
+\end{nota}
+
+\begin{proposicion}[]{Suma de los $n$ primeros naturales}
+Para todo número natural $n$:
+\[ 1 + 2 + \cdots + n = \frac{n(n+1)}{2}. \]
+\end{proposicion}
+
+\begin{proof}
+Para $n = 1$: $1 = \tfrac{1 \cdot 2}{2}$. \checkmark
+
+Supóngase que $1 + \cdots + k = \tfrac{k(k+1)}{2}$. Entonces
+\[
+  1 + \cdots + k + (k+1) = \frac{k(k+1)}{2} + (k+1) = \frac{k(k+1) + 2(k+1)}{2} = \frac{(k+1)(k+2)}{2}.
+\]
+Por inducción, la fórmula es válida para todo $n \in \mathbb{N}$.
+$\blacksquare$
+\end{proof}
+
+\begin{axioma}[]{Principio de buena ordenación}
+Todo conjunto no vacío de números naturales tiene un elemento mínimo.
+\end{axioma}
+
+\begin{nota}[]{}
+El principio de buena ordenación puede demostrarse a partir del principio de inducción, y viceversa. Cualquiera de ellos puede tomarse como postulado básico de $\mathbb{N}$.
+\end{nota}
+
+\begin{nota}[]{Inducción completa}
+Variante: si $A$ es un conjunto de naturales tal que (1) $1 \in A$ y (2) $k+1 \in A$ siempre que $1, \ldots, k \in A$, entonces $A = \mathbb{N}$. Esta forma puede parecer más fuerte pero es consecuencia del principio ordinario.
+\end{nota}
+
+\begin{definicion}[]{Factorial}
+El \textbf{factorial} de $n \in \mathbb{N}$, denotado $n!$, es el producto de todos los números naturales menores o iguales a $n$:
+\[ n! = 1 \cdot 2 \cdot \ldots \cdot (n-1) \cdot n. \]
+Equivalentemente: $1! = 1$ y $(k+1)! = (k+1) \cdot k!$ para todo $k \geq 1$. Por convenio, $0! = 1$.
+\end{definicion}
+
+\subsection{Notación $\Sigma$}
+
+\begin{nota}[]{Suma con notación sigma}
+En lugar de $a_1 + \cdots + a_n$ se escribe $\displaystyle\sum_{i=1}^{n} a_i$, donde $i$ es un índice mudo (puede sustituirse por cualquier letra excepto $n$). Definición recursiva formal:
+\[ \sum_{i=1}^{1} a_i = a_1, \qquad \sum_{i=1}^{n} a_i = \sum_{i=1}^{n-1} a_i + a_n. \]
+Así, $\displaystyle\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$.
+\end{nota}
+
+\subsection{Conjuntos numéricos}
+
+\begin{definicion}[]{Enteros, racionales y reales}
+\begin{itemize}
+  \item $\mathbb{Z} = \{\ldots,-2,-1,0,1,2,\ldots\}$: \textbf{enteros}. De P1--P12, sólo P7 falla en $\mathbb{Z}$.
+  \item $\mathbb{Q} = \{m/n \mid m,n \in \mathbb{Z},\; n \neq 0\}$: \textbf{racionales}. Satisfacen todas las propiedades P1--P12.
+  \item $\mathbb{R}$: \textbf{números reales}. Incluyen $\mathbb{Q}$ y los \textbf{irracionales} (decimales no periódicos). $\pi$ y $\sqrt{2}$ son irracionales.
+\end{itemize}
+\end{definicion}
+
+\begin{proposicion}[]{Irracionalidad de $\sqrt{2}$}
+No existe ningún número racional $x$ tal que $x^2 = 2$.
+\end{proposicion}
+
+\begin{proof}
+Supóngase que $p/q$ (con $p, q$ naturales sin divisores comunes) satisface $(p/q)^2 = 2$, es decir, $p^2 = 2q^2$. Entonces $p^2$ es par, luego $p = 2k$, y $4k^2 = 2q^2$, luego $q^2 = 2k^2$, luego $q$ es par. Contradicción: $p$ y $q$ no pueden ser ambos pares si no tienen divisores comunes.
+$\blacksquare$
+\end{proof}
+
+\begin{nota}[]{}
+Esta demostración muestra que no existe ningún racional cuyo cuadrado sea $2$. No demuestra (todavía) que exista algún número —irracional— con esa propiedad; eso requiere la propiedad del supremo.
+\end{nota}
+
+\subsection{Coeficientes binomiales y teorema del binomio}
+
+\begin{definicion}[]{Coeficiente binomial}
+Para $0 \leq k \leq n$ enteros no negativos:
+\[ \binom{n}{k} = \frac{n!}{k!\,(n-k)!}. \]
+En particular $\binom{n}{0} = \binom{n}{n} = 1$. Relación de Pascal:
+\[ \binom{n+1}{k} = \binom{n}{k-1} + \binom{n}{k}. \]
+\end{definicion}
+
+\begin{teorema}[]{Teorema del binomio}
+Para cualesquiera números $a$ y $b$ y $n \in \mathbb{N}$:
+\[ (a+b)^n = \sum_{j=0}^{n} \binom{n}{j} a^{n-j} b^j. \]
+\end{teorema}
+
+\begin{proposicion}[]{Desigualdad de Bernoulli}
+Si $h > -1$, entonces para todo $n \in \mathbb{N}$:
+\[ (1+h)^n \geq 1 + nh. \]
+\end{proposicion}
+
+\begin{definicion}[]{Sucesión de Fibonacci}
+La sucesión $a_1, a_2, a_3, \ldots$ definida por
+\[ a_1 = 1, \quad a_2 = 1, \quad a_n = a_{n-1} + a_{n-2} \;\text{ para } n \geq 3. \]
+Sus primeros términos son $1, 1, 2, 3, 5, 8, 13, \ldots$ Fórmula explícita:
+\[ a_n = \frac{\left(\tfrac{1+\sqrt{5}}{2}\right)^n - \left(\tfrac{1-\sqrt{5}}{2}\right)^n}{\sqrt{5}}. \]
+\end{definicion}
+
+\begin{proposicion}[]{Desigualdad AM-GM}
+Si $a_1, \ldots, a_n \geq 0$, la \textbf{media aritmética} $A_n = \tfrac{a_1+\cdots+a_n}{n}$ y la \textbf{media geométrica} $G_n = \sqrt[n]{a_1 \cdots a_n}$ satisfacen
+\[ G_n \leq A_n. \]
+\end{proposicion}
+
+\section{Capítulo 3: Funciones}
+
+El concepto más importante de todas las matemáticas es, sin duda, el de función.
+
+\begin{definicion}[]{Función (provisional)}
+Una \textbf{función} es una regla que asigna a cada uno de ciertos números reales un número real.
+\end{definicion}
+
+\begin{definicion}[]{Dominio y valor}
+El conjunto de los números a los cuales se aplica una función $f$ recibe el nombre de \textbf{dominio} de $f$. Si $x$ pertenece al dominio de $f$, el número que $f$ le asigna se denota $f(x)$ y se llama \textbf{valor de $f$ en $x$}.
+\end{definicion}
+
+\begin{nota}[]{}
+Una función es una regla \textit{cualquiera} que hace corresponder números reales a ciertos otros números; no necesariamente expresable mediante una fórmula algebraica. El dominio puede estar implícito (todos los $x$ para los que la expresión tiene sentido) o declarado explícitamente.
+\end{nota}
+
+\begin{definicion}[]{Función (formal)}
+Una \textbf{función} es una colección de pares de números con la siguiente propiedad: si $(a, b)$ y $(a, c)$ pertenecen ambos a la colección, entonces $b = c$. En otras palabras, la colección no debe contener dos pares distintos con el mismo primer elemento.
+\end{definicion}
+
+\begin{definicion}[]{Dominio y valor (formal)}
+Si $f$ es una función, el \textbf{dominio} de $f$ es el conjunto de todos los $a$ para los que existe algún $b$ tal que $(a, b)$ está en $f$. Si $a$ está en el dominio de $f$, el único $b$ tal que $(a, b) \in f$ se designa por $\mathbf{f(a)}$.
+\end{definicion}
+
+\subsection{Operaciones con funciones}
+
+\begin{definicion}[]{Operaciones sobre funciones}
+Si $f$ y $g$ son funciones, se definen:
+\begin{itemize}
+  \item \textbf{Suma:} $(f + g)(x) = f(x) + g(x)$. Dominio: dominio $f \cap$ dominio $g$.
+  \item \textbf{Producto:} $(f \cdot g)(x) = f(x) \cdot g(x)$. Ídem.
+  \item \textbf{Cociente:} $\displaystyle\left(\frac{f}{g}\right)(x) = \frac{f(x)}{g(x)}$. Dominio: dominio $f \cap$ dominio $g \cap \{x : g(x) \neq 0\}$.
+  \item \textbf{Escalar:} $(c \cdot g)(x) = c \cdot g(x)$ para $c \in \mathbb{R}$.
+\end{itemize}
+\end{definicion}
+
+\begin{definicion}[]{Composición}
+Si $f$ y $g$ son funciones, la \textbf{composición} $f \circ g$ se define por
+\[ (f \circ g)(x) = f(g(x)). \]
+Dominio de $f \circ g$: $\{x : x \in \text{dom}\, g \text{ y } g(x) \in \text{dom}\, f\}$.
+\end{definicion}
+
+\begin{nota}[]{}
+En general $f \circ g \neq g \circ f$. La composición es asociativa: $(f \circ g) \circ h = f \circ (g \circ h)$.
+\end{nota}
+
+\begin{definicion}[]{Función polinómica}
+Una función $f$ es \textbf{polinómica} si existen números reales $a_0, \ldots, a_n$ tales que
+\[ f(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0, \quad \text{para todo } x \]
+(con $a_n \neq 0$). El número $n$ recibe el nombre de \textbf{grado} de $f$.
+\end{definicion}
+
+\begin{definicion}[]{Función racional}
+Una función $f$ es \textbf{racional} si $f = p/q$ donde $p$ y $q$ son funciones polinómicas ($q$ no es la función que toma siempre el valor 0).
+\end{definicion}
+
+\begin{definicion}[]{Función par e impar}
+Una función $f$ es \textbf{par} si $f(x) = f(-x)$ para todo $x$, e \textbf{impar} si $f(x) = -f(-x)$ para todo $x$.
+\end{definicion}
+
+\subsection{Apéndice: Pares Ordenados}
+
+\begin{definicion}[]{Par ordenado}
+El \textbf{par ordenado} $(a, b)$ se define como el conjunto
+\[ (a, b) = \bigl\{\{a\},\, \{a, b\}\bigr\}. \]
+\end{definicion}
+
+\begin{teorema}[]{}
+Si $(a, b) = (c, d)$, entonces $a = c$ y $b = d$.
+\end{teorema}
+
+\begin{proof}
+La hipótesis significa $\{\{a\}, \{a,b\}\} = \{\{c\}, \{c,d\}\}$. El elemento $\{a\}$ es el único elemento de $\{\{a\},\{a,b\}\}$ que también es elemento del otro; luego $a = c$. Distinguiendo casos $b = a$ y $b \neq a$ se deduce $b = d$.
+$\blacksquare$
+\end{proof}
+
+\section{Capítulo 4: Gráficas}
+
+La \textbf{gráfica} de una función $f$ es el conjunto de todos los pares $(x, f(x))$:
+\[ \{(x, f(x)) : x \in \text{dom}\, f\} \subseteq \mathbb{R}^2. \]
+Para representarla se usa un sistema de dos rectas coordenadas perpendiculares (eje horizontal $= $ eje $x$, eje vertical $= $ eje $y$) que se cortan en el origen.
+
+\begin{nota}[]{}
+$|a - b|$ es la distancia entre $a$ y $b$ en la recta real. El conjunto $\{x : |x - a| < \varepsilon\}$ es el intervalo abierto $(a - \varepsilon,\, a + \varepsilon)$.
+\end{nota}
+
+\begin{definicion}[]{Distancia en el plano}
+La distancia entre los puntos $(a, b)$ y $(c, d)$ del plano se define como
+\[ \sqrt{(a - c)^2 + (b - d)^2}. \]
+\end{definicion}
+
+\begin{definicion}[]{Función lineal}
+Las funciones de la forma $f(x) = cx + d$ reciben el nombre de \textbf{funciones lineales}. Su gráfica es una recta de \textbf{pendiente} $c$ que pasa por $(0, d)$. Dados dos puntos distintos $(a, b)$ y $(c, d)$ con $a \neq c$, la única función lineal cuya gráfica pasa por ambos es
+\[ f(x) = \frac{d - b}{c - a}(x - a) + b. \]
+\end{definicion}
+
+\begin{nota}[]{}
+Una recta vertical no es gráfica de ninguna función (dos puntos sobre la misma vertical dan par $(a, b)$ y $(a, c)$ con $b \neq c$, violando la definición).
+\end{nota}
+
+\begin{definicion}[]{Círculo}
+El \textbf{círculo} de centro $(a, b)$ y radio $r > 0$ es el conjunto
+\[ \{(x, y) : (x - a)^2 + (y - b)^2 = r^2\}. \]
+El círculo de centro $(0,0)$ y radio $1$ se llama \textbf{círculo unidad}.
+\end{definicion}
+
+\begin{definicion}[]{Elipse}
+La \textbf{elipse} con focos $(-c, 0)$ y $(c, 0)$ y suma de distancias $2a$ (con $a > c$) es el conjunto de puntos $(x, y)$ que satisfacen
+\[ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1, \quad \text{donde } b = \sqrt{a^2 - c^2}. \]
+Corta los ejes en $(\pm a, 0)$ y $(0, \pm b)$.
+\end{definicion}
+
+\begin{definicion}[]{Hipérbola}
+La \textbf{hipérbola} con focos $(-c, 0)$ y $(c, 0)$ y diferencia de distancias $2a$ (con $c > a$) es el conjunto de puntos que satisfacen
+\[ \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1, \quad \text{donde } b = \sqrt{c^2 - a^2}. \]
+Corta el eje horizontal en $(\pm a, 0)$ pero no corta el eje vertical.
+\end{definicion}
+
+\subsection{Apéndice: Coordenadas Polares}
+
+\begin{definicion}[]{Coordenadas polares}
+Las \textbf{coordenadas polares} de un punto $P$ son el par $(r, \theta)$ donde $r$ es la distancia de $P$ al origen y $\theta$ es el ángulo que forma la recta $OP$ con el eje horizontal. Relación con coordenadas cartesianas:
+\[ x = r\cos\theta, \quad y = r\sen\theta. \]
+Recíprocamente: $r = \pm\sqrt{x^2 + y^2}$, $\;\tg\theta = y/x$ (si $x \neq 0$).
+\end{definicion}
+
+\begin{nota}[]{}
+La \textbf{gráfica de $f$ en coordenadas polares} es el conjunto de todos los puntos $P$ cuyas coordenadas polares $(r, \theta)$ satisfacen $r = f(\theta)$. Por ejemplo, $r = a$ (constante) describe la circunferencia de radio $a$ centrada en el origen. La gráfica de $r = \cos\theta$ en cartesianas es la circunferencia $x^2 + y^2 = x$.
+\end{nota}
+
+\section{Capítulo 5: Límites}
+
+\begin{definicion}[]{Límite de una función (provisional)}
+La función $f$ \textbf{tiende hacia el límite $l$ cerca de $a$} si se puede hacer que $f(x)$ esté tan cerca como se quiera de $l$ haciendo que $x$ esté suficientemente cerca de $a$, pero siendo distinto de $a$.
+\end{definicion}
+
+\begin{nota}[]{}
+La definición no requiere que $f$ esté definida en $a$, ni importa el valor $f(a)$ incluso si existe; sólo interesa el comportamiento de $f(x)$ para $x$ próximo a $a$ pero $x \neq a$.
+\end{nota}
+
+\begin{nota}[]{Interpretación gráfica}
+Para que $f$ tienda a $l$ cerca de $a$: dado cualquier intervalo abierto $B$ alrededor de $l$ (intervalo sobre el eje vertical), existe un intervalo abierto $A$ alrededor de $a$ (sobre el eje horizontal) tal que $f(x) \in B$ para todo $x \in A$ con $x \neq a$.
+\end{nota}
+
+\begin{observacion}[]{Ejemplos motivadores}
+\begin{itemize}
+  \item $f(x) = x\operatorname{sen}\tfrac{1}{x}$: $\lim_{x \to 0} f(x) = 0$.
+    Demostración: $\left|\operatorname{sen}\tfrac{1}{x}\right| \leq 1$ para todo $x \neq 0$, luego $|f(x)| \leq |x|$. Dado $\varepsilon > 0$, si $|x| < \varepsilon$ y $x \neq 0$, entonces $|f(x)| < \varepsilon$.
+
+  \item $f(x) = x^2\operatorname{sen}\tfrac{1}{x}$: $\lim_{x \to 0} f(x) = 0$.
+    Análogamente, $|f(x)| \leq |x|^2$. Dado $\varepsilon > 0$, basta que $|x| < \varepsilon$ (y $x \neq 0$).
+
+  \item $f(x) = \sqrt{|x|}\operatorname{sen}\tfrac{1}{x}$: $\lim_{x \to 0} f(x) = 0$.
+    $|f(x)| \leq \sqrt{|x|}$. Basta que $|x| < \varepsilon^2$.
+
+  \item $f(x) = \operatorname{sen}\tfrac{1}{x}$: \textbf{no tiene límite} en $0$ (oscila entre $-1$ y $1$ indefinidamente).
+\end{itemize}
+\end{observacion}
+
+\begin{definicion}[]{Límite de una función ($\varepsilon$-$\delta$)}
+La función $f$ \textbf{tiende hacia el límite $l$ en $a$} si: para todo $\varepsilon > 0$ existe algún $\delta > 0$ tal que, para todo $x$,
+\[ 0 < |x - a| < \delta \implies |f(x) - l| < \varepsilon. \]
+Se escribe $\displaystyle\lim_{x \to a} f(x) = l$.
+\end{definicion}
+
+\begin{nota}[]{Negación}
+$f$ \textbf{no} tiende hacia $l$ en $a$ si: existe algún $\varepsilon > 0$ tal que para todo $\delta > 0$ existe algún $x$ con $0 < |x - a| < \delta$ pero $|f(x) - l| \geq \varepsilon$.
+\end{nota}
+
+\begin{teorema}[1]{Unicidad del límite}
+Una función no puede tender hacia dos límites diferentes en $a$. Es decir, si $\displaystyle\lim_{x \to a} f(x) = l$ y $\displaystyle\lim_{x \to a} f(x) = m$, entonces $l = m$.
+\end{teorema}
+
+\begin{proof}
+Supóngase $l \neq m$; tómese $\varepsilon = |l - m|/2 > 0$. Existen $\delta_1, \delta_2 > 0$ tales que
+\[ 0 < |x-a| < \delta_i \implies |f(x) - l| < \tfrac{|l-m|}{2} \text{ y } |f(x) - m| < \tfrac{|l-m|}{2}. \]
+Con $\delta = \min(\delta_1, \delta_2)$ y cualquier $x$ con $0 < |x-a| < \delta$:
+\[ |l - m| = |l - f(x) + f(x) - m| \leq |f(x) - l| + |f(x) - m| < \tfrac{|l-m|}{2} + \tfrac{|l-m|}{2} = |l-m|. \]
+Contradicción.
+$\blacksquare$
+\end{proof}
+
+\subsection{Lema y Teorema 2}
+
+\begin{lema}[]{}
+Sean $x_0, y_0$ números reales y $\varepsilon > 0$.
+\begin{enumerate}
+  \item[(1)] Si $|x - x_0| < \varepsilon/2$ y $|y - y_0| < \varepsilon/2$, entonces $|(x+y)-(x_0+y_0)| < \varepsilon$.
+  \item[(2)] Si $|x - x_0| < \min\!\left(1,\, \dfrac{\varepsilon}{2(|y_0|+1)}\right)$ y $|y - y_0| < \dfrac{\varepsilon}{2(|x_0|+1)}$, entonces $|xy - x_0 y_0| < \varepsilon$.
+  \item[(3)] Si $y_0 \neq 0$ y $|y - y_0| < \min\!\left(\dfrac{|y_0|}{2},\, \dfrac{\varepsilon |y_0|^2}{2}\right)$, entonces $y \neq 0$ y $\left|\dfrac{1}{y} - \dfrac{1}{y_0}\right| < \varepsilon$.
+\end{enumerate}
+\end{lema}
+
+\begin{proof}
+(1) $|(x+y)-(x_0+y_0)| \leq |x-x_0|+|y-y_0| < \varepsilon/2+\varepsilon/2 = \varepsilon$.
+
+(2) De $|x-x_0|<1$ se sigue $|x|<1+|x_0|$. Entonces
+$|xy-x_0y_0| = |x(y-y_0)+y_0(x-x_0)| \leq |x|\,|y-y_0|+|y_0|\,|x-x_0| < \varepsilon/2+\varepsilon/2 = \varepsilon$.
+
+(3) De $|y-y_0|<|y_0|/2$ se sigue $|y|>|y_0|/2$, luego $1/|y|<2/|y_0|$. Entonces
+$|1/y-1/y_0| = |y_0-y|/(|y|\,|y_0|) < (2/|y_0|)\cdot(1/|y_0|)\cdot(\varepsilon|y_0|^2/2) = \varepsilon$.
+$\blacksquare$
+\end{proof}
+
+\begin{teorema}[2]{Álgebra de límites}
+Si $\displaystyle\lim_{x \to a} f(x) = l$ y $\displaystyle\lim_{x \to a} g(x) = m$, entonces:
+\begin{enumerate}
+  \item[(1)] $\displaystyle\lim_{x \to a}(f + g)(x) = l + m$.
+  \item[(2)] $\displaystyle\lim_{x \to a}(f \cdot g)(x) = l \cdot m$.
+  \item[(3)] Si $m \neq 0$: $\displaystyle\lim_{x \to a}\!\left(\frac{1}{g}\right)\!(x) = \frac{1}{m}$.
+\end{enumerate}
+\end{teorema}
+
+\begin{proof}
+En cada caso se fija $\varepsilon > 0$ y se usan las tres partes del lema. Sea $\delta = \min(\delta_1, \delta_2)$ donde $\delta_i$ son los $\delta$ correspondientes a $f$ y $g$ respectivamente (con $\varepsilon/2$ o los mínimos del lema). El lema garantiza la desigualdad deseada.
+$\blacksquare$
+\end{proof}
+
+\begin{corolario}[]{}
+Para toda función polinómica $f$ y todo número $a$: $\displaystyle\lim_{x \to a} f(x) = f(a)$.
+Para toda función racional $f = p/q$ y todo $a$ con $q(a) \neq 0$: $\displaystyle\lim_{x \to a} f(x) = f(a)$.
+\end{corolario}
+
+\begin{proof}
+Se parte de $\lim_{x \to a} c = c$ y $\lim_{x \to a} x = a$, y se aplica repetidamente el Teorema~2.
+$\blacksquare$
+\end{proof}
+
+\subsection{Límites laterales y al infinito}
+
+\begin{definicion}[]{Límite por la derecha}
+$\displaystyle\lim_{x \to a^+} f(x) = l$ significa: para todo $\varepsilon > 0$ existe $\delta > 0$ tal que, para todo $x$,
+\[ 0 < x - a < \delta \implies |f(x) - l| < \varepsilon. \]
+\end{definicion}
+
+\begin{definicion}[]{Límite por la izquierda}
+$\displaystyle\lim_{x \to a^-} f(x) = l$ significa: para todo $\varepsilon > 0$ existe $\delta > 0$ tal que, para todo $x$,
+\[ 0 < a - x < \delta \implies |f(x) - l| < \varepsilon. \]
+\end{definicion}
+
+\begin{proposicion}[]{}
+$\displaystyle\lim_{x \to a} f(x) = l$ existe si y sólo si $\displaystyle\lim_{x \to a^+} f(x) = l$ y $\displaystyle\lim_{x \to a^-} f(x) = l$.
+\end{proposicion}
+
+\begin{definicion}[]{Límite en el infinito}
+$\displaystyle\lim_{x \to \infty} f(x) = l$ significa: para todo $\varepsilon > 0$ existe $N$ tal que, para todo $x$,
+\[ x > N \implies |f(x) - l| < \varepsilon. \]
+Análogamente se define $\displaystyle\lim_{x \to -\infty} f(x) = l$.
+\end{definicion}
+
+% [Continúa — Capítulo 6: Continuidad]
+
+\end{document}

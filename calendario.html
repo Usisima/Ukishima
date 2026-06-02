@@ -201,7 +201,7 @@
     for (var day = 1; day <= last.getDate(); day++) {
       var date = new Date(year, month, day);
       var dow  = (date.getDay() + 6) % 7;
-      var traced = date >= FIRST && date <= today;
+      var traced = date >= FIRST && date <= LAST && date <= today;
       var inSem  = date >= FIRST && date <= LAST;
       var evs    = getEvs(date).filter(function(e) { return e.key !== 'ciclo'; });
       var topEv  = evs.length ? evs[0] : null;
@@ -264,7 +264,7 @@
       var br = (!fR && !fB) ? '4px' : '0';
       var bl = (!fL && !fB) ? '4px' : '0';
 
-      var st = [];
+      var st = ['cursor:pointer'];
       if (bg) st.push('background:' + bg);
       if (fL || fR || fT || fB) st.push('border-radius:' + tl + ' ' + tr + ' ' + br + ' ' + bl);
 
@@ -281,7 +281,7 @@
           + (!eR&&!eB?'4px':'0') + ' '
           + (!eL&&!eB?'4px':'0'));
       }
-      var styleAttr = st.length ? ' style="' + st.join(';') + '"' : '';
+      var styleAttr = ' style="' + st.join(';') + '"';
 
       var cls = 'cal-cell'
         + (d.wknd              ? ' wknd'       : '')
@@ -296,7 +296,7 @@
         var hlRad = (tL?'0':'8px')+' '+(tR?'0':'8px')+' '+(tR?'0':'8px')+' '+(tL?'0':'8px');
         trmHl = '<div style="position:absolute;left:0;right:0;height:14px;top:50%;transform:translateY(-50%);background:rgba(72,80,210,0.28);border-radius:'+hlRad+';z-index:1;pointer-events:none"></div>';
       }
-      cells += '<div class="' + cls + '" onclick="if(window._calNavTo)window._calNavTo(' + year + ',' + month + ',' + d.day + ')" style="cursor:pointer"' + styleAttr + '>'
+      cells += '<div class="' + cls + '" onclick="if(window._calNavTo)window._calNavTo(' + year + ',' + month + ',' + d.day + ')"' + styleAttr + '>'
         + trmHl
         + '<span class="day-num">' + d.day + '</span>'
         + '</div>';

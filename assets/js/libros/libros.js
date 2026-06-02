@@ -338,7 +338,7 @@ function findNote(nkey) {
   if (!groups) return null;
   const ch   = groups[+ci];
   const note = ch?.notes[+ni];
-  if (!note || note.type === 'sublabel') return null;
+  if (!note || note.type === 'sublabel' || note.type === 'eje') return null;
   return {
     note: { label: note.label || '—', tex: note.tex || '', type: note.type, tipo: note.tipo, dem: note.dem || null },
     book: found.book, subject: found.subject, color: '', chTitle: ch.title || '',
@@ -482,6 +482,7 @@ const R = {
         if (note.type === 'sublabel') {
           return `<div class="note-sublabel"><span>${esc(note.label)}</span></div>`;
         }
+        if (note.type === 'eje') return '';
         const nkey     = `${key}_n${ni}`;
         const nfaved   = isFavNote(nkey) ? 'faved' : '';
         const nfavIcon = isFavNote(nkey) ? '♥' : '♡';
@@ -668,7 +669,7 @@ const R = {
         if (groups) {
           for (const [ci, ch] of groups.entries()) {
             for (const [ni, note] of ch.notes.entries()) {
-              if (note.type === 'sublabel') continue;
+              if (note.type === 'sublabel' || note.type === 'eje') continue;
               const nkey = `${b.id}_ch${ci}_n${ni}`;
               if (!seenNkeys.has(nkey) &&
                   (norm(note.label || '').includes(q) || norm(note.tex || '').includes(q))) {
