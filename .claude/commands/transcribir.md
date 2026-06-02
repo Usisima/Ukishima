@@ -1,28 +1,28 @@
-Eres un agente de transcripción de PDFs para el proyecto Ukishima.
+Eres un agente de transcripción para el proyecto Ukishima.
 
-Tu tarea es procesar todos los archivos PDF que encuentres en la carpeta `pdfs/entrada/` del proyecto y guardar su transcripción en `pdfs/salida/` en **formato LaTeX**.
+Tu tarea es procesar los archivos `.txt` en `pdfs/salida/` (generados por `ocr.py`) y convertirlos en archivos LaTeX en `texto/`.
 
 ## Instrucciones paso a paso
 
-1. **Escanea la carpeta de entrada**
-   - Usa el tool Glob con patrón `pdfs/entrada/**/*.pdf` para listar todos los PDFs disponibles.
-   - Si no hay PDFs, informa al usuario y termina.
+1. **Escanea la carpeta de salida OCR**
+   - Usa Glob con patrón `pdfs/salida/**/*.txt` para listar los `.txt` disponibles.
+   - Si no hay archivos, informa al usuario y termina.
 
-2. **Para cada PDF encontrado:**
+2. **Para cada `.txt` encontrado:**
 
-   a. Usa el tool Read para leer el archivo. Funciona con PDFs de texto y PDFs escaneados (imágenes).
-      - Si tiene más de 20 páginas, procésalo en bloques de 20 usando el parámetro `pages` (ej. "1-20", "21-40", etc.)
-      - Lee tanto el texto como el contenido visual de cada página.
+   a. Usa Read para leer el archivo de texto.
+      - Si tiene más de 2000 líneas, procésalo en bloques usando `offset` y `limit`.
 
-   b. **PDFs escaneados:** no los saltes. Como modelo multimodal puedes *ver* las páginas y transcribir el texto.
-      - Fórmulas matemáticas impresas o a mano → LaTeX (ej. `\frac{d}{dx}`, `\int_a^b`, `\sqrt{2}`)
-      - Texto ilegible → `% [ilegible]`
-      - Página en blanco → `% [Página en blanco]`
-      - Figuras no reproducibles → `% [Figura N.N: descripción breve]`
+   b. **Interpreta el contenido como texto de libro matemático:**
+      - El texto viene del OCR o de extracción digital, puede tener ruido: saltos de línea irregulares, guiones de separación de palabras, números de página sueltos, encabezados repetidos.
+      - Reconstruye párrafos y fórmulas a partir del texto crudo.
+      - Fórmulas matemáticas en texto → LaTeX (ej. `x^2 + y^2 = r^2` → `$x^2 + y^2 = r^2$`)
+      - Texto ilegible o corrupto → `% [ilegible]`
+      - Página en blanco o solo número de página → omite
 
    c. **Formato de salida: LaTeX sin preámbulo**
       El archivo es el cuerpo del documento (entre `\begin{document}` y `\end{document}`), listo para `\input{}`.
-      Primera línea: comentario con nombre y fecha, ej. `% arizmendi.pdf — transcripción LaTeX — 2026-06-01`
+      Primera línea: comentario con nombre y fecha, ej. `% arizmendi.txt — transcripción LaTeX — 2026-06-02`
 
       **Estructura del documento:**
       - Capítulos → `\section{Capítulo N: Título}`
@@ -71,13 +71,14 @@ Tu tarea es procesar todos los archivos PDF que encuentres en la carpeta `pdfs/e
 
       **NO incluyas** `\documentclass`, `\usepackage`, `\begin{document}` ni `\end{document}`.
 
-   d. Determina el ID del libro y el nombre del archivo de salida:
-      - El ID del libro lo lees del archivo `assets/js/data/libros-data.js`; busca el libro por título y autor para obtener su `id` (ej. `cd1_b6`).
-      - Si el libro no está registrado aún en `libros-data.js`, díselo al usuario y usa el nombre del PDF como identificador provisional.
-      - El archivo de salida va directamente en `texto/` con el ID como nombre: `texto/{id}.tex`
-      - Ejemplo: Arizmendi "Primer curso" → `cd1_b6` → `texto/cd1_b6.tex`
+   d. Determina el ID del libro y la carpeta de salida:
+      - El nombre del `.txt` corresponde al PDF original (ej. `arizmendi.txt` viene de `arizmendi.pdf`).
+      - Busca el libro en `assets/js/data/libros-data.js` por título y autor para obtener su `id` (ej. `cd1_b6`) y el `matId` de su materia (ej. `calculo_1`).
+      - Si el libro no está registrado, díselo al usuario y usa el nombre del `.txt` como identificador provisional en `texto/sin_materia/`.
+      - El archivo de salida va en `texto/{matId}/{id}.tex` (ej. `texto/calculo_1/cd1_b6.tex`).
+      - Esa carpeta ya existe — fue creada por `crear-estructura.py`. El archivo stub `% [Por transcribir]` también existe; reemplázalo completo con Write.
 
-   e. El archivo en `texto/` tiene esta estructura (igual que los demás `.tex` del proyecto):
+   e. El archivo en `texto/{matId}/` tiene esta estructura:
       ```latex
       % BookID: {id}
       % Libro: {título}
@@ -94,16 +95,17 @@ Tu tarea es procesar todos los archivos PDF que encuentres en la carpeta `pdfs/e
       \end{document}
       ```
 
-   f. Guarda con Write el archivo completo. Si el PDF es muy largo y debes procesar en múltiples bloques, usa Edit para añadir al final del archivo antes de `\end{document}` (old_string = `% [Continúa...]\n\n\\end{document}`, new_string = nuevo contenido + marcador + `\end{document}`).
+   f. Guarda con Write el archivo completo en `texto/{matId}/{id}.tex`. Si el `.txt` es muy largo y debes procesar en múltiples bloques, usa Edit para añadir al final antes de `\end{document}` (old_string = `% [Continúa...]\n\n\\end{document}`, new_string = nuevo contenido + marcador + `\end{document}`).
 
-3. **Al terminar**, muestra un resumen: PDFs procesados, archivos generados, páginas totales.
+3. **Al terminar**, muestra un resumen: archivos procesados, archivos `.tex` generados, tamaño aproximado.
 
 ## Argumento opcional
 
-Si el usuario pasó `$ARGUMENTS`, úsalo como filtro de nombre. Ej: `arizmendi` procesa solo PDFs cuyo nombre contenga "arizmendi".
+Si el usuario pasó `$ARGUMENTS`, úsalo como filtro de nombre. Ej: `arizmendi` procesa solo `.txt` cuyo nombre contenga "arizmendi".
 
 ## Notas
 
-- Nunca abandones ante un PDF escaneado: siempre intenta leer visualmente.
-- Si una página es completamente ilegible, escribe `% [Página ilegible]` y continúa.
-- No sobreescribas transcripciones existentes sin avisar al usuario.
+- El texto OCR puede tener errores tipográficos menores — corrígelos al transcribir.
+- Los números de página sueltos (ej. una línea que solo dice `42`) se omiten.
+- Encabezados repetidos de página (título del libro, nombre del capítulo) se omiten.
+- No sobreescribas archivos `.tex` existentes sin avisar al usuario.
