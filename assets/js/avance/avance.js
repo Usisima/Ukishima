@@ -291,13 +291,17 @@ function _colorizeDetailHero(sub) {
       inp.style.borderColor = hexRgba(hex, 0.21);
       inp.style.color = hex;
     });
-    document.querySelectorAll('.av-section[data-cid] .av-grade-inp').forEach(function(inp) {
-      inp.style.background = hexRgba(hex, 0.10);
-      inp.style.borderColor = hexRgba(hex, 0.21);
+    document.querySelectorAll('.av-folder[data-cid] .av-grade-inp').forEach(function(inp) {
+      inp.style.background = '';
+      inp.style.borderColor = '';
     });
-    document.querySelectorAll('.av-exam-item').forEach(function(el) {
-      el.style.background = hexRgba(hex, 0.07);
-      el.style.borderColor = hexRgba(hex, 0.18);
+    var folderBg = hexRgba(hex, 0.13);
+    document.querySelectorAll('.av-folder-body').forEach(function(el) {
+      el.style.background = folderBg;
+    });
+    document.querySelectorAll('.av-folder-tab').forEach(function(el) {
+      el.style.background = folderBg;
+      el.style.setProperty('--folder-bg', folderBg);
     });
   }
 
@@ -1227,44 +1231,48 @@ const R = {
           const cGraded = cItems.filter(i=>i.grade!=null);
           const cAvg    = cGraded.length ? (cGraded.reduce((s,i)=>s+i.grade,0)/cGraded.length).toFixed(1) : null;
           return `
-        <div class="av-section" data-cid="${c.id}">
-          <div class="av-sec-head">
-            <span class="av-sec-title">${esc(c.nombre||'Sin nombre')}</span>
+        <div class="av-folder" data-cid="${c.id}">
+          <div class="av-folder-header">
+            <div class="av-folder-tab">
+              <span class="av-folder-tab-title">${esc(c.nombre||'Sin nombre')}</span>
+            </div>
             <button class="av-sec-add" onclick="A.addCriterioItem('${esc(subId)}','${c.id}')">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>Agregar
             </button>
           </div>
-          ${cItems.length ? cItems.map(item=>`
-            <div class="av-exam-item">
-              <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
-                type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
-                enterkeyhint="done"
-                data-lpignore="true" data-1p-ignore data-form-type="other"
-                onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
-                onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
-              <div class="av-grade-wrap">
-                <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
-                  onfocus="this._v=this.value;this.value=''"
-                  onblur="if(this.value==='')this.value=this._v;A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
-                  value="${item.grade!=null?item.grade:''}" placeholder="—"
-                  style="color:${gradeColor(item.grade)}"
-                  oninput="this.style.color=gradeColor(parseFloat(this.value))"
-                  onchange="A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
-                  autocomplete="off" data-form-type="other">
-                <span class="av-grade-slash">/10</span>
-              </div>
-              <button class="av-del" onclick="A.delCriterioItem('${esc(subId)}','${c.id}','${item.id}')">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-            </div>`).join('')
-          : `<div class="av-empty-msg">Sin ítems</div>`}
-          <div class="av-crit-avg-row" data-cid="${c.id}"${!cAvg ? ' style="display:none"' : ''}><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg||0))}">${cAvg||'—'}</strong></div>
+          <div class="av-folder-body">
+            ${cItems.length ? cItems.map(item=>`
+              <div class="av-folder-row">
+                <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
+                  type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
+                  enterkeyhint="done"
+                  data-lpignore="true" data-1p-ignore data-form-type="other"
+                  onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                  onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
+                  onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
+                <div class="av-grade-wrap">
+                  <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
+                    onfocus="this._v=this.value;this.value=''"
+                    onblur="if(this.value==='')this.value=this._v;A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
+                    value="${item.grade!=null?item.grade:''}" placeholder="—"
+                    style="color:${gradeColor(item.grade)}"
+                    oninput="this.style.color=gradeColor(parseFloat(this.value))"
+                    onchange="A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
+                    autocomplete="off" data-form-type="other">
+                  <span class="av-grade-slash">/10</span>
+                </div>
+                <button class="av-del" onclick="A.delCriterioItem('${esc(subId)}','${c.id}','${item.id}')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>`).join('')
+            : `<div class="av-empty-msg">Sin calificaciones</div>`}
+            <div class="av-crit-avg-row" data-cid="${c.id}"${!cAvg ? ' style="display:none"' : ''}><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg||0))}">${cAvg||'—'}</strong></div>
+          </div>
         </div>`;
         }).join('') : ''}
-        <div class="av-section av-crit-total-wrap"${weighted===null?' style="display:none"':''}><div class="av-crit-total"><span>Calificación ponderada</span><strong style="color:${gradeColor(weighted||0)}">${weighted!==null?weighted.toFixed(1):'—'}</strong></div></div>
+        <div class="av-section av-crit-total-wrap"${weighted===null?' style="display:none"':''}><div class="av-crit-total"><span>Promedio general</span><strong style="color:${gradeColor(weighted||0)}">${weighted!==null?weighted.toFixed(1):'—'}</strong></div></div>
         <div class="av-section">
           <div class="av-sec-head">
             <span class="av-sec-title">Criterios de evaluación</span>
@@ -1650,7 +1658,7 @@ const A = {
     else c[f]=v;
     saveCriterios(id,cs);
     if(f==='nombre'){
-      const titleEl=document.querySelector(`.av-section[data-cid="${cid}"] .av-sec-title`);
+      const titleEl=document.querySelector(`.av-folder[data-cid="${cid}"] .av-folder-tab-title`);
       if(titleEl) titleEl.textContent=v||'Sin nombre';
     }
     _refreshWeightedDisplay(id);

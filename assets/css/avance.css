@@ -265,7 +265,7 @@ body {
 
 /* Section */
 .av-section {
-  margin: 0 12px 18px;
+  margin: 0 12px 14px;
 }
 .av-sec-head {
   display: flex; align-items: center;
@@ -1095,6 +1095,109 @@ body {
 .av-summary-stats { font-size: 11px; color: var(--ink3); font-weight: 500; display: flex; gap: 10px; margin-bottom: 7px; }
 .av-summary-bar-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
 .av-summary-bar { height: 100%; background: var(--sub-ac, var(--gold)); border-radius: 99px; transition: width .5s ease; }
+
+/* ══════════════════════════════════════════════
+   FOLDER — criterio sections
+   ══════════════════════════════════════════════ */
+.av-folder {
+  margin: 0 12px 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.av-folder-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.av-folder-header .av-sec-add {
+  margin-top: 4px;
+  margin-bottom: 7px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.av-folder-tab {
+  --folder-bg: rgba(155,191,181,0.13);
+  display: inline-flex;
+  align-items: center;
+  background: rgba(155,191,181,0.13);
+  border-radius: 10px 10px 0 0;
+  padding: 7px 16px 9px;
+  position: relative;
+}
+
+/* curva cóncava entre la esquina inferior-derecha de la pestaña y el cuerpo */
+.av-folder-tab::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 100% 0%, transparent 12px, var(--folder-bg) 12px);
+  pointer-events: none;
+}
+
+.av-folder-tab-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sub-ac, var(--gold));
+}
+
+.av-folder-body {
+  border-radius: 0 12px 12px 12px;
+  background: rgba(155,191,181,0.13);
+  overflow: hidden;
+  padding: 4px 0 0;
+}
+
+.av-folder-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+}
+
+.av-folder-row .av-grade-wrap {
+  gap: 3px;
+}
+
+.av-folder-row .av-grade-inp {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  width: 3ch;
+  text-align: right;
+}
+
+.av-folder-body .av-empty-msg {
+  padding: 14px 14px;
+}
+
+.av-folder-body .av-crit-avg-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0 6px;
+  margin: 6px 14px 0;
+  border-top: 1px solid var(--sub-br, rgba(155,191,181,0.22));
+  font-size: 9px;
+  color: var(--ink3);
+  letter-spacing: 0.04em;
+}
+
+.av-folder-body .av-crit-avg-row strong {
+  font-size: 11px;
+  opacity: 0.75;
+}
 
 /* ══════════════════════════════════════════════
    CRITERIOS DE EVALUACIÓN
