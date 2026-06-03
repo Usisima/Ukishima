@@ -175,6 +175,12 @@ function _extractVibrantL(imgEl, minL, maxL) {
   } catch(e){ return null; }
 }
 
+function _syncCardVis() {
+  const cards   = document.querySelectorAll('.av-card[data-sub]');
+  const anyHide = [...cards].some(c => isHidden(c.dataset.sub));
+  cards.forEach(c => c.classList.toggle('av-card--dimmed', anyHide && isHidden(c.dataset.sub)));
+}
+
 function _colorizeAvCards() {
   var vc = _vibrantCache();
   document.querySelectorAll('.av-card').forEach(function(card) {
@@ -1093,6 +1099,7 @@ const R = {
 
     SolarSys.init(document.getElementById('av-solar-wrap'), subs);
     _colorizeAvCards();
+    _syncCardVis();
   },
 
   /* ── DETAIL ── */
@@ -1609,6 +1616,7 @@ const A = {
     const hidden = toggleHidden(id);
     const solarWrap = document.getElementById('av-solar-wrap');
     if (solarWrap) { SolarSys.stop(); SolarSys.init(solarWrap, getSubjects()); }
+    _syncCardVis();
     const btn = document.querySelector(`.av-card[data-sub="${id}"] .av-vis-btn`);
     if (btn) {
       btn.classList.toggle('av-vis-btn--off', hidden);

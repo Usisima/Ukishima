@@ -371,9 +371,11 @@ function findNote(nkey) {
 function renderTexBody(raw) {
   if (!raw) return '';
 
-  // Paso 1: extraer listas y reemplazar con tokens \x00Ln\x00
+  const MATH_RE = /(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\$[^$\n]*?\$|\\\([^)]*?\\\))/g;
+
+  // Paso 1: listas → tokens \x00Ln\x00
   const listHTML = [];
-  const withTokens = raw.replace(
+  const s1 = raw.replace(
     /\\begin\{(enumerate|itemize)\}([\s\S]*?)\\end\{\1\}/g,
     (_, type, body) => {
       const tag = type === 'enumerate' ? 'ol' : 'ul';
@@ -383,42 +385,31 @@ function renderTexBody(raw) {
         .slice(1);
       const lis = items.map(item => {
         const lm = item.match(/^\[([^\]]*)\]([\s\S]*)/);
-        if (lm) return `<li><span class="item-label">${lm[1].trim()}</span> ${lm[2].trim()}</li>`;
-        return `<li>${item.trim()}</li>`;
+        const label   = lm ? `<span class="item-label">${lm[1].trim()}</span> ` : '';
+        const content = (lm ? lm[2] : item).trim().replace(/\n/g, '<br>');
+        return `<li>${label}${content}</li>`;
       }).join('');
       listHTML.push(`<${tag} class="tex-list">${lis}</${tag}>`);
       return `\x00L${listHTML.length - 1}\x00`;
     }
   );
 
-  // Paso 2: procesar math y texto normalmente
-  const MATH_RE = /(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\$[^$\n]*?\$|\\\([^)]*?\\\))/g;
+  // Paso 2: math → tokens \x00Mn\x00
+  const mathSpans = [];
+  const s2 = s1.replace(MATH_RE, m => { mathSpans.push(m); return `\x00M${mathSpans.length-1}\x00`; });
 
-  let result = '';
-  let last = 0;
-  let m;
+  // Paso 3: HTML-escape + saltos de párrafo
+  let s3 = s2
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/[ \t]*\n[ \t]*\n[ \t]*/g, '</p><p>')
+    .replace(/\n/g, '<br>');
 
-  const processText = t =>
-    t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     .replace(/\\textbf\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<strong>$1</strong>')
-     .replace(/\\textit\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<em>$1</em>')
-     .replace(/\\emph\{((?:[^{}]|\{[^{}]*\})*)\}/g,   '<em>$1</em>')
-     .replace(/\\textmd\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
-     .replace(/\\textnormal\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
-     .replace(/[ \t]*\n[ \t]*\n[ \t]*/g, '</p><p>')
-     .replace(/\n/g, '<br>');
+  // Paso 4: restaurar math y listas
+  s3 = s3
+    .replace(/\x00M(\d+)\x00/g, (_, i) => mathSpans[+i])
+    .replace(/\x00L(\d+)\x00/g, (_, i) => listHTML[+i]);
 
-  while ((m = MATH_RE.exec(withTokens)) !== null) {
-    result += processText(withTokens.slice(last, m.index));
-    result += m[0];
-    last = m.index + m[0].length;
-  }
-  result += processText(withTokens.slice(last));
-
-  // Paso 3: restaurar HTML de listas
-  result = result.replace(/\x00L(\d+)\x00/g, (_, i) => listHTML[+i]);
-
-  return result.includes('</p><p>') ? '<p>' + result + '</p>' : result;
+  return s3.includes('</p><p>') ? '<p>' + s3 + '</p>' : s3;
 }
 
 /* ── NORMALIZE: accent-insensitive, case-insensitive ── */

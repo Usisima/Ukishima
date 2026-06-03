@@ -89,6 +89,8 @@ Si existe `.mmd` y `.txt` para el mismo libro, **prefiere el `.mmd`**.
 
       **Caracteres especiales fuera de modo math:** escapa `\%`, `\$`, `\_`, `\&`, `\{`, `\}`, `\~{}`, `\^{}`
 
+      **NUNCA uses comandos de formato de texto:** `\textbf`, `\textit`, `\emph`, `\textmd`, `\textnormal`, `\texttt`, `\textrm`, `\underline`, `\bfseries`, `\itshape`, ni ningún otro comando de estilo tipográfico. El renderer no los soporta — escribe el texto plano sin marcar.
+
       **NO incluyas** `\documentclass`, `\usepackage`, `\begin{document}` ni `\end{document}`.
 
    d. Determina el ID del libro y la carpeta de salida:

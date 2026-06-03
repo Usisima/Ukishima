@@ -813,6 +813,13 @@ body {
 .av-card:active { transform: scale(0.977); opacity: .88; }
 .av-card:has(.av-vis-btn:active) { transform: none; opacity: 1; }
 
+.av-card--dimmed {
+  opacity: 0.52;
+  filter: saturate(0.55);
+  transition: opacity 0.35s ease, filter 0.35s ease, transform .13s ease;
+}
+.av-card--dimmed:active { opacity: 0.7; }
+
 /* Card head — idéntico a temarios .card-head */
 .av-card-head {
   display: flex;
