@@ -36,7 +36,6 @@ body {
   background: var(--bg);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
   overscroll-behavior: none;
   padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
   animation: pageFadeIn 0.18s ease both;
@@ -464,7 +463,8 @@ body {
   display: flex; align-items: stretch;
   background: #000;
   border-top: 1px solid var(--border);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: 18px;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 18px);
 }
 .bottom-nav::before {
   content: '';

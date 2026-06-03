@@ -175,10 +175,18 @@ function _extractVibrantL(imgEl, minL, maxL) {
   } catch(e){ return null; }
 }
 
-function _syncCardVis() {
+function _syncCardVis(instant) {
   const cards   = document.querySelectorAll('.av-card[data-sub]');
   const anyHide = [...cards].some(c => isHidden(c.dataset.sub));
-  cards.forEach(c => c.classList.toggle('av-card--dimmed', anyHide && isHidden(c.dataset.sub)));
+  if (instant) {
+    cards.forEach(c => {
+      c.style.transition = 'none';
+      c.classList.toggle('av-card--dimmed', anyHide && isHidden(c.dataset.sub));
+    });
+    requestAnimationFrame(() => cards.forEach(c => { c.style.transition = ''; }));
+  } else {
+    cards.forEach(c => c.classList.toggle('av-card--dimmed', anyHide && isHidden(c.dataset.sub)));
+  }
 }
 
 function _colorizeAvCards() {
@@ -1099,7 +1107,7 @@ const R = {
 
     SolarSys.init(document.getElementById('av-solar-wrap'), subs);
     _colorizeAvCards();
-    _syncCardVis();
+    _syncCardVis(true);
   },
 
   /* ── DETAIL ── */
@@ -1749,7 +1757,12 @@ const Nav={
           targetCard.style.transform  = '';
 
           Array.from(main.querySelectorAll('.av-card, .av-sem-label, .av-summary, .av-solar-wrap, .av-cards-divider'))
-            .forEach(el => { if (el !== targetCard) { el.style.transition='opacity 0.4s ease 0.05s'; el.style.opacity='1'; } });
+            .forEach(el => {
+              if (el !== targetCard) {
+                el.style.transition = 'opacity 0.4s ease 0.05s';
+                el.style.opacity = el.classList.contains('av-card--dimmed') ? '0.52' : '1';
+              }
+            });
 
           setTimeout(() => {
             targetCard.style.transition = '';

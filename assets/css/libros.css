@@ -41,11 +41,9 @@ body {
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--ink);
-  
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
   overscroll-behavior: none;
-  padding-bottom: 5rem;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
   animation: pageFadeIn 0.18s ease both;
 }
 
@@ -618,7 +616,7 @@ body {
 
 /* Chapters content below the hero */
 .book-chapters-wrap {
-  padding-bottom: 0.5rem;
+  padding-bottom: 2rem;
 }
 
 /* ── TRANSCRIPTION NOTES SECTION ─────────────── */
@@ -689,7 +687,7 @@ body {
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--ink);
-  flex-shrink: 0;
+  min-width: 0;
 }
 
 .chapter-title {
@@ -697,7 +695,8 @@ body {
   font-size: 1.08rem;
   font-weight: 700;
   color: var(--ink);
-  flex-shrink: 0;
+  min-width: 0;
+  word-break: break-word;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -879,8 +878,9 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink3);
-  white-space: nowrap;
-  flex-shrink: 0;
+  white-space: normal;
+  word-break: break-word;
+  min-width: 0;
   padding: 0.18rem 0 0.18rem 0.65rem;
   border-left: 2px solid rgba(155, 191, 181, 0.3);
 }
@@ -1235,7 +1235,8 @@ body {
   align-items: stretch;
   background: #000;
   border-top: 1px solid var(--border);
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-bottom: 18px;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 18px);
 }
 
 .bottom-nav::before {
@@ -1335,7 +1336,7 @@ body {
 /* ── DISC SCRUBBER ────────────────────────────── */
 #bk-disc-btn {
   position: fixed;
-  right: 3px;
+  right: 10px;
   top: 50%;
   top: 50svh;
   transform: translateY(-50%);
