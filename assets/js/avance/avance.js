@@ -1316,7 +1316,27 @@ const R = {
     if (pEl) { pEl.textContent = show ?? '—'; pEl.style.color = showClr; }
     if (bEl) bEl.style.width = p + '%';
     const clipEl = document.getElementById('avfc-' + subId);
-    if (clipEl) { const r = clipEl.querySelector('rect'); if (r) r.setAttribute('width', String(Math.round(p * 3.6))); }
+    if (clipEl) {
+      const r = clipEl.querySelector('rect');
+      if (r) {
+        const target = Math.round(p * 3.6);
+        const from   = parseFloat(r.getAttribute('width')) || 0;
+        if (clipEl._rafId) cancelAnimationFrame(clipEl._rafId);
+        if (Math.abs(from - target) > 0.5) {
+          const t0 = performance.now(), dur = 1600;
+          const ease = t => 1 - Math.pow(1 - t, 3);
+          const step = now => {
+            const prc = Math.min((now - t0) / dur, 1);
+            r.setAttribute('width', String(Math.round(from + (target - from) * ease(prc))));
+            if (prc < 1) { clipEl._rafId = requestAnimationFrame(step); }
+            else { clipEl._rafId = null; }
+          };
+          clipEl._rafId = requestAnimationFrame(step);
+        } else {
+          r.setAttribute('width', String(target));
+        }
+      }
+    }
   },
 };
 
@@ -1346,6 +1366,7 @@ function _refreshWeightedDisplay(id) {
   const totWrap = document.querySelector('.av-crit-total-wrap');
   if (totWrap) totWrap.style.display = w !== null ? '' : 'none';
   if (tot) { tot.textContent = w !== null ? w.toFixed(1) : '—'; if (w !== null) tot.style.color = gradeColor(w); }
+  R._refreshHero(id);
 }
 
 /* ══════════════════════════════════════════════════════

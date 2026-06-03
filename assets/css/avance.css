@@ -995,7 +995,7 @@ body {
   border-radius: 99px; overflow: hidden;
   margin-bottom: 0;
 }
-.av-card-bar { height: 100%; border-radius: 99px; transition: width .45s ease; background: rgba(155,191,181,0.6); }
+.av-card-bar { height: 100%; border-radius: 99px; transition: width 1.6s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(155,191,181,0.6); }
 .av-card-chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .av-chip {
   font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px;

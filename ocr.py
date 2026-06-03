@@ -14,18 +14,16 @@ import os
 import subprocess
 import tempfile
 from pathlib import Path
-from io import StringIO
 
 os.environ["PATH"] += r";C:\Users\aramg\AppData\Local\Programs\Tesseract-OCR"
 os.environ["PATH"] += r";C:\Program Files\gs\gs10.07.1\bin"
 
 import ocrmypdf
-from pdfminer.high_level import extract_text_to_fp
-from pdfminer.layout import LAParams
+import pypdfium2 as pdfium
 
 ENTRADA = Path("pdfs/entrada")
 SALIDA  = Path("pdfs/salida")
-MIN_CHARS_POR_PAGINA = 30  # umbral para considerar que una página tiene texto real
+MIN_CHARS_POR_PAGINA = 30
 
 LANG = "spa+eng" if "spa" in subprocess.run(
     [r"C:\Users\aramg\AppData\Local\Programs\Tesseract-OCR\tesseract.exe", "--list-langs"],
@@ -33,10 +31,13 @@ LANG = "spa+eng" if "spa" in subprocess.run(
 ).stdout else "eng"
 
 def extraer_texto_digital(pdf: Path) -> str:
-    buf = StringIO()
-    with open(pdf, "rb") as f:
-        extract_text_to_fp(f, buf, laparams=LAParams())
-    return buf.getvalue()
+    doc = pdfium.PdfDocument(str(pdf))
+    paginas = []
+    for i in range(len(doc)):
+        page = doc[i]
+        textpage = page.get_textpage()
+        paginas.append(textpage.get_text_range())
+    return "\n".join(paginas)
 
 def es_escaneado(texto: str, num_paginas_aprox: int) -> bool:
     chars_por_pag = len(texto.strip()) / max(num_paginas_aprox, 1)

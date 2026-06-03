@@ -832,6 +832,18 @@ body {
   margin-top: 0.55em;
 }
 
+.note-tex .tex-list {
+  margin: 0.4em 0 0.4em 1.2em;
+  padding: 0;
+}
+.note-tex .tex-list li {
+  margin-bottom: 0.2em;
+}
+.note-tex .tex-list .item-label {
+  font-weight: 600;
+  margin-right: 0.25em;
+}
+
 /* KaTeX overrides for dark theme */
 .note-tex .katex { color: var(--ink); }
 .note-tex .katex-display {

@@ -1,28 +1,48 @@
 Eres un agente de transcripción para el proyecto Ukishima.
 
-Tu tarea es procesar los archivos `.txt` en `pdfs/salida/` (generados por `ocr.py`) y convertirlos en archivos LaTeX en `texto/`.
+Tu tarea es procesar los archivos en `pdfs/salida/` y convertirlos en archivos LaTeX en `texto/`.
+
+Acepta dos formatos de entrada:
+- **`.mmd`** — generado por Nougat (ya contiene LaTeX matemático, mejor calidad)
+- **`.txt`** — generado por `ocr.py` (texto plano, requiere más interpretación)
+
+Si existe `.mmd` y `.txt` para el mismo libro, **prefiere el `.mmd`**.
 
 ## Instrucciones paso a paso
 
-1. **Escanea la carpeta de salida OCR**
-   - Usa Glob con patrón `pdfs/salida/**/*.txt` para listar los `.txt` disponibles.
+1. **Escanea la carpeta de salida**
+   - Usa Glob con patrón `pdfs/salida/**/*.mmd` y `pdfs/salida/**/*.txt` para listar los archivos disponibles.
    - Si no hay archivos, informa al usuario y termina.
+   - Construye una lista unificada: si un nombre tiene `.mmd` y `.txt`, quédate solo con el `.mmd`.
 
-2. **Para cada `.txt` encontrado:**
+2. **Para cada archivo encontrado:**
 
-   a. Usa Read para leer el archivo de texto.
+   a. Usa Read para leer el archivo.
       - Si tiene más de 2000 líneas, procésalo en bloques usando `offset` y `limit`.
 
-   b. **Interpreta el contenido como texto de libro matemático:**
-      - El texto viene del OCR o de extracción digital, puede tener ruido: saltos de línea irregulares, guiones de separación de palabras, números de página sueltos, encabezados repetidos.
+   b. **Interpreta según el formato:**
+
+      **Si es `.mmd` (Nougat):**
+      - El contenido ya viene en Markdown con LaTeX matemático (`$...$`, `\[...\]`, entornos).
+      - Las fórmulas ya están en LaTeX — no las reescribas, solo ajusta formato si es necesario.
+      - Convierte la estructura Markdown a LaTeX:
+        - `# Título` → `\section{Título}`
+        - `## Título` → `\subsection{Título}`
+        - `### Título` → `\subsubsection{Título}`
+        - `**texto**` → `\textbf{texto}`
+        - `*texto*` → `\textit{texto}`
+        - Listas `- item` → `\begin{itemize}\item...\end{itemize}`
+      - Artefactos de Nougat a ignorar: líneas `[MISSING]`, `[ILLEGIBLE]`, bloques de `\begin{table}` vacíos.
+
+      **Si es `.txt` (ocr.py):**
+      - Texto plano con posible ruido: saltos de línea irregulares, guiones de separación, números de página sueltos, encabezados repetidos.
       - Reconstruye párrafos y fórmulas a partir del texto crudo.
       - Fórmulas matemáticas en texto → LaTeX (ej. `x^2 + y^2 = r^2` → `$x^2 + y^2 = r^2$`)
       - Texto ilegible o corrupto → `% [ilegible]`
       - Página en blanco o solo número de página → omite
 
-   c. **Formato de salida: LaTeX sin preámbulo**
-      El archivo es el cuerpo del documento (entre `\begin{document}` y `\end{document}`), listo para `\input{}`.
-      Primera línea: comentario con nombre y fecha, ej. `% arizmendi.txt — transcripción LaTeX — 2026-06-02`
+   c. **Formato de salida: LaTeX**
+      Primera línea: comentario con nombre y fecha, ej. `% arizmendi.mmd — transcripción LaTeX — 2026-06-02`
 
       **Estructura del documento:**
       - Capítulos → `\section{Capítulo N: Título}`
@@ -42,7 +62,7 @@ Tu tarea es procesar los archivos `.txt` en `pdfs/salida/` (generados por `ocr.p
       Demostración... $\blacksquare$
       \end{proof}
 
-      \begin{proposicion}[5]{}   % para propiedades numeradas
+      \begin{proposicion}[5]{}
       \begin{corolario}[1.1]{}
       \begin{lema}[1.1]{}
       \begin{axioma}[A1]{Cerradura}
@@ -72,13 +92,14 @@ Tu tarea es procesar los archivos `.txt` en `pdfs/salida/` (generados por `ocr.p
       **NO incluyas** `\documentclass`, `\usepackage`, `\begin{document}` ni `\end{document}`.
 
    d. Determina el ID del libro y la carpeta de salida:
-      - El nombre del `.txt` corresponde al PDF original (ej. `arizmendi.txt` viene de `arizmendi.pdf`).
+      - El nombre del archivo (sin extensión) corresponde al PDF original.
       - Busca el libro en `assets/js/data/libros-data.js` por título y autor para obtener su `id` (ej. `cd1_b6`) y el `matId` de su materia (ej. `calculo_1`).
-      - Si el libro no está registrado, díselo al usuario y usa el nombre del `.txt` como identificador provisional en `texto/sin_materia/`.
+      - Si el libro no está registrado, díselo al usuario y usa el nombre del archivo como identificador provisional en `texto/sin_materia/`.
       - El archivo de salida va en `texto/{matId}/{id}.tex` (ej. `texto/calculo_1/cd1_b6.tex`).
-      - Esa carpeta ya existe — fue creada por `crear-estructura.py`. El archivo stub `% [Por transcribir]` también existe; reemplázalo completo con Write.
+      - Para optativas: `texto/optativas/bloque_1/{matId}/{id}.tex` o `bloque_2`.
+      - Esa carpeta ya existe. El stub `% [Por transcribir]` también existe; reemplázalo con Write.
 
-   e. El archivo en `texto/{matId}/` tiene esta estructura:
+   e. El archivo en `texto/` tiene esta estructura:
       ```latex
       % BookID: {id}
       % Libro: {título}
@@ -95,17 +116,17 @@ Tu tarea es procesar los archivos `.txt` en `pdfs/salida/` (generados por `ocr.p
       \end{document}
       ```
 
-   f. Guarda con Write el archivo completo en `texto/{matId}/{id}.tex`. Si el `.txt` es muy largo y debes procesar en múltiples bloques, usa Edit para añadir al final antes de `\end{document}` (old_string = `% [Continúa...]\n\n\\end{document}`, new_string = nuevo contenido + marcador + `\end{document}`).
+   f. Guarda con Write el archivo completo. Si el archivo es muy largo y debes procesar en múltiples bloques, usa Edit para añadir al final antes de `\end{document}` (old_string = `% [Continúa...]\n\n\\end{document}`, new_string = nuevo contenido + marcador + `\end{document}`).
 
-3. **Al terminar**, muestra un resumen: archivos procesados, archivos `.tex` generados, tamaño aproximado.
+3. **Al terminar**, muestra un resumen: archivos procesados, formato usado (`.mmd`/`.txt`), archivos `.tex` generados.
 
 ## Argumento opcional
 
-Si el usuario pasó `$ARGUMENTS`, úsalo como filtro de nombre. Ej: `arizmendi` procesa solo `.txt` cuyo nombre contenga "arizmendi".
+Si el usuario pasó `$ARGUMENTS`, úsalo como filtro de nombre. Ej: `arizmendi` procesa solo archivos cuyo nombre contenga "arizmendi".
 
 ## Notas
 
-- El texto OCR puede tener errores tipográficos menores — corrígelos al transcribir.
-- Los números de página sueltos (ej. una línea que solo dice `42`) se omiten.
-- Encabezados repetidos de página (título del libro, nombre del capítulo) se omiten.
-- No sobreescribas archivos `.tex` existentes sin avisar al usuario.
+- Los `.mmd` de Nougat son preferibles porque las fórmulas ya vienen en LaTeX.
+- Los números de página sueltos se omiten.
+- Encabezados repetidos de página se omiten.
+- No sobreescribas archivos `.tex` con contenido real sin avisar al usuario.

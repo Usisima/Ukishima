@@ -313,13 +313,29 @@ function parseTeX(text) {
   return groups.filter(g => g.notes.length > 0);
 }
 
+/* ── TEX PATH RESOLVER ─────────────────────────── */
+function texPath(bookId) {
+  for (const subj of LIBRARY) {
+    if (subj.books.some(b => b.id === bookId))
+      return `./texto/${subj.matId}/${bookId}.tex`;
+  }
+  for (let i = 0; i < LIBRARY_OPT.length; i++) {
+    const subj = LIBRARY_OPT[i];
+    if (subj.books.some(b => b.id === bookId)) {
+      const bloque = i < LIBRARY_OPT_BLOQUE_STARTS[1] ? 'bloque_1' : 'bloque_2';
+      return `./texto/optativas/${bloque}/${subj.matId}/${bookId}.tex`;
+    }
+  }
+  return `./texto/${bookId}.tex`; // fallback
+}
+
 /* ── TEX FETCH + CACHE ─────────────────────────── */
 const _texCache = {};
 
 async function fetchTexNotes(bookId) {
   if (bookId in _texCache) return _texCache[bookId];
   try {
-    const res = await fetch(`./texto/${bookId}.tex`);
+    const res = await fetch(texPath(bookId));
     if (!res.ok) { _texCache[bookId] = null; return null; }
     const groups = parseTeX(await res.text());
     _texCache[bookId] = groups.length ? groups : null;
@@ -354,7 +370,28 @@ function findNote(nkey) {
    ─────────────────────────────────────────────── */
 function renderTexBody(raw) {
   if (!raw) return '';
-  // Regex que captura spans de matemáticas; el resto es texto plano.
+
+  // Paso 1: extraer listas y reemplazar con tokens \x00Ln\x00
+  const listHTML = [];
+  const withTokens = raw.replace(
+    /\\begin\{(enumerate|itemize)\}([\s\S]*?)\\end\{\1\}/g,
+    (_, type, body) => {
+      const tag = type === 'enumerate' ? 'ol' : 'ul';
+      const items = body
+        .replace(/\\setcounter\{[^}]*\}\{[^}]*\}/g, '')
+        .split(/\\item/)
+        .slice(1);
+      const lis = items.map(item => {
+        const lm = item.match(/^\[([^\]]*)\]([\s\S]*)/);
+        if (lm) return `<li><span class="item-label">${lm[1].trim()}</span> ${lm[2].trim()}</li>`;
+        return `<li>${item.trim()}</li>`;
+      }).join('');
+      listHTML.push(`<${tag} class="tex-list">${lis}</${tag}>`);
+      return `\x00L${listHTML.length - 1}\x00`;
+    }
+  );
+
+  // Paso 2: procesar math y texto normalmente
   const MATH_RE = /(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\$[^$\n]*?\$|\\\([^)]*?\\\))/g;
 
   let result = '';
@@ -363,22 +400,23 @@ function renderTexBody(raw) {
 
   const processText = t =>
     t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     // LaTeX text formatting — handles one level of nesting
      .replace(/\\textbf\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<strong>$1</strong>')
      .replace(/\\textit\{((?:[^{}]|\{[^{}]*\})*)\}/g, '<em>$1</em>')
      .replace(/\\emph\{((?:[^{}]|\{[^{}]*\})*)\}/g,   '<em>$1</em>')
      .replace(/\\textmd\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
      .replace(/\\textnormal\{((?:[^{}]|\{[^{}]*\})*)\}/g, '$1')
-     // Structural whitespace
      .replace(/[ \t]*\n[ \t]*\n[ \t]*/g, '</p><p>')
      .replace(/\n/g, '<br>');
 
-  while ((m = MATH_RE.exec(raw)) !== null) {
-    result += processText(raw.slice(last, m.index));
-    result += m[0]; // math span intacto para KaTeX
+  while ((m = MATH_RE.exec(withTokens)) !== null) {
+    result += processText(withTokens.slice(last, m.index));
+    result += m[0];
     last = m.index + m[0].length;
   }
-  result += processText(raw.slice(last));
+  result += processText(withTokens.slice(last));
+
+  // Paso 3: restaurar HTML de listas
+  result = result.replace(/\x00L(\d+)\x00/g, (_, i) => listHTML[+i]);
 
   return result.includes('</p><p>') ? '<p>' + result + '</p>' : result;
 }
