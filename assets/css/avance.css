@@ -1142,6 +1142,20 @@ body {
   pointer-events: none;
 }
 
+.av-folder-expand {
+  background: none;
+  border: none;
+  padding: 0 0 0 7px;
+  color: var(--sub-ac, var(--gold));
+  opacity: 0.75;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.av-folder-expand:active { opacity: 0.4; }
+.av-folder-tab--expandable { cursor: pointer; }
+
 .av-folder-tab-title {
   font-size: 11px;
   font-weight: 700;
@@ -1154,7 +1168,7 @@ body {
   border-radius: 0 12px 12px 12px;
   background: rgba(155,191,181,0.13);
   overflow: hidden;
-  padding: 4px 0 0;
+  padding: 0;
 }
 
 .av-folder-row {

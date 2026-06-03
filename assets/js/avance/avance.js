@@ -1115,7 +1115,7 @@ const R = {
   },
 
   /* ── DETAIL ── */
-  detail(subId) {
+  detail(subId, noScroll) {
     SolarSys.stop();
     const subs = getSubjects();
     const sub  = subs.find(s=>s.id===subId);
@@ -1227,14 +1227,22 @@ const R = {
           ${(sub.grupo||sub.salon)?_mkNotchBar(sub,barPct):`<div class="av-card-progress"><div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div></div>`}
         </div>
         ${criterios.length ? criterios.map(c => {
-          const cItems  = c.items||[];
-          const cGraded = cItems.filter(i=>i.grade!=null);
-          const cAvg    = cGraded.length ? (cGraded.reduce((s,i)=>s+i.grade,0)/cGraded.length).toFixed(1) : null;
+          const cItems   = c.items||[];
+          const expanded = !!_folderExpanded[c.id];
+          const hasMore  = cItems.length > 3;
+          const showItems = (hasMore && !expanded) ? cItems.slice(0,3) : cItems;
+          const cGraded  = cItems.filter(i=>i.grade!=null);
+          const cAvg     = cGraded.length ? (cGraded.reduce((s,i)=>s+i.grade,0)/cGraded.length).toFixed(1) : null;
           return `
         <div class="av-folder" data-cid="${c.id}">
           <div class="av-folder-header">
-            <div class="av-folder-tab">
+            <div class="av-folder-tab${hasMore ? ' av-folder-tab--expandable' : ''}"${hasMore ? ` onclick="A.toggleFolderExpand('${esc(subId)}','${c.id}')"` : ''}>
               <span class="av-folder-tab-title">${esc(c.nombre||'Sin nombre')}</span>
+              ${hasMore ? `<button class="av-folder-expand" onclick="event.stopPropagation();A.toggleFolderExpand('${esc(subId)}','${c.id}')">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  ${expanded ? '<polyline points="18 15 12 9 6 15"/>' : '<polyline points="6 9 12 15 18 9"/>'}
+                </svg>
+              </button>` : ''}
             </div>
             <button class="av-sec-add" onclick="A.addCriterioItem('${esc(subId)}','${c.id}')">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
@@ -1243,7 +1251,7 @@ const R = {
             </button>
           </div>
           <div class="av-folder-body">
-            ${cItems.length ? cItems.map(item=>`
+            ${showItems.length ? showItems.map(item=>`
               <div class="av-folder-row">
                 <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
                   type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
@@ -1252,7 +1260,7 @@ const R = {
                   onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                   onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
                   onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
-                <div class="av-grade-wrap">
+                <label class="av-grade-wrap">
                   <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
                     onfocus="this._v=this.value;this.value=''"
                     onblur="if(this.value==='')this.value=this._v;A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
@@ -1262,7 +1270,7 @@ const R = {
                     onchange="A.setCriterioItemGrade('${esc(subId)}','${c.id}','${item.id}',this.value)"
                     autocomplete="off" data-form-type="other">
                   <span class="av-grade-slash">/10</span>
-                </div>
+                </label>
                 <button class="av-del" onclick="A.delCriterioItem('${esc(subId)}','${c.id}','${item.id}')">
                   <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
@@ -1321,7 +1329,7 @@ const R = {
         </div>
       </div>`;
 
-    window.scrollTo({top:0,behavior:'instant'});
+    if (!noScroll) window.scrollTo({top:0,behavior:'instant'});
     _colorizeDetailHero(sub);
   },
 
@@ -1396,6 +1404,7 @@ function _refreshWeightedDisplay(id) {
    MODALS
    ══════════════════════════════════════════════════════ */
 let _ctx = null;
+const _folderExpanded = {};
 const Modal = {
   _blockScroll: null,
   open(type,subId) {
@@ -1663,7 +1672,89 @@ const A = {
     }
     _refreshWeightedDisplay(id);
   },
-  addCriterioItem(id,cid)           { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;(c.items=c.items||[]).push({id:uid(),text:'',grade:null});saveCriterios(id,cs);R.detail(id); },
+  addCriterioItem(id,cid) {
+    const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;
+    const folderEl=document.querySelector(`.av-folder[data-cid="${cid}"]`);
+    const prevRows=folderEl?[...folderEl.querySelectorAll('.av-folder-row')]:[];
+    const prevRects=prevRows.map(r=>r.getBoundingClientRect());
+    (c.items=c.items||[]).unshift({id:uid(),text:'',grade:null});
+    saveCriterios(id,cs);
+    R.detail(id,true);
+    requestAnimationFrame(()=>{
+      const nf=document.querySelector(`.av-folder[data-cid="${cid}"]`);
+      if(!nf)return;
+      const nRows=[...nf.querySelectorAll('.av-folder-row')];
+      const first=nRows[0];
+      if(first){
+        first.style.opacity='0';first.style.transform='translateY(-12px)';first.style.transition='none';
+        requestAnimationFrame(()=>{
+          first.style.transition='opacity 0.22s ease,transform 0.22s cubic-bezier(0.4,0,0.2,1)';
+          first.style.opacity='';first.style.transform='';
+          setTimeout(()=>{first.style.transition='';},260);
+        });
+      }
+      for(let i=0;i<prevRects.length&&i+1<nRows.length;i++){
+        const el=nRows[i+1];
+        const dy=prevRects[i].top-el.getBoundingClientRect().top;
+        if(Math.abs(dy)<0.5)continue;
+        el.style.transform=`translateY(${dy}px)`;el.style.transition='none';
+        requestAnimationFrame(()=>{
+          el.style.transition='transform 0.22s cubic-bezier(0.4,0,0.2,1)';
+          el.style.transform='';
+          setTimeout(()=>{el.style.transition='';},260);
+        });
+      }
+    });
+  },
+  toggleFolderExpand(subId, cid) {
+    const wasExpanded = !!_folderExpanded[cid];
+    const folderEl = document.querySelector(`.av-folder[data-cid="${cid}"]`);
+    const bodyEl   = folderEl?.querySelector('.av-folder-body');
+    const oldH     = bodyEl ? bodyEl.offsetHeight : 0;
+
+    _folderExpanded[cid] = !wasExpanded;
+    R.detail(subId, true);
+
+    requestAnimationFrame(() => {
+      const nf = document.querySelector(`.av-folder[data-cid="${cid}"]`);
+      const nb = nf?.querySelector('.av-folder-body');
+      if (!nb) return;
+      const newH = nb.offsetHeight;
+      if (Math.abs(newH - oldH) < 1) return;
+
+      nb.style.overflow = 'hidden';
+      nb.style.height   = oldH + 'px';
+      nb.style.transition = 'none';
+
+      if (!wasExpanded) {
+        [...nb.querySelectorAll('.av-folder-row')].slice(3).forEach(r => {
+          r.style.opacity = '0';
+          r.style.transform = 'translateY(-8px)';
+          r.style.transition = 'none';
+        });
+      }
+
+      requestAnimationFrame(() => {
+        nb.style.transition = 'height 0.26s cubic-bezier(0.4,0,0.2,1)';
+        nb.style.height = newH + 'px';
+
+        if (!wasExpanded) {
+          [...nb.querySelectorAll('.av-folder-row')].slice(3).forEach((r, i) => {
+            r.style.transition = `opacity 0.2s ease ${0.08 + i * 0.05}s, transform 0.2s ease ${0.08 + i * 0.05}s`;
+            r.style.opacity   = '';
+            r.style.transform = '';
+          });
+        }
+
+        setTimeout(() => {
+          nb.style.height = nb.style.overflow = nb.style.transition = '';
+          nb.querySelectorAll('.av-folder-row').forEach(r => {
+            r.style.transition = r.style.opacity = r.style.transform = '';
+          });
+        }, 300);
+      });
+    });
+  },
   delCriterioItem(id,cid,iid)       { const cs=getCriterios(id),c=cs.find(x=>x.id===cid);if(!c)return;c.items=(c.items||[]).filter(i=>i.id!==iid);saveCriterios(id,cs);R.detail(id); },
   setCriterioItemGrade(id,cid,iid,v){
     const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);
