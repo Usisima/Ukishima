@@ -92,14 +92,14 @@ function _extractVibrant(imgEl) {
 }
 
 function _vibrantCache() {
-  try { return JSON.parse(localStorage.getItem('ukishima_vibrant2') || '{}'); }
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant3') || '{}'); }
   catch { return {}; }
 }
 
 function _saveVibrant(src, hex) {
   try {
     var vc = _vibrantCache(); vc[src] = hex;
-    localStorage.setItem('ukishima_vibrant2', JSON.stringify(vc));
+    localStorage.setItem('ukishima_vibrant3', JSON.stringify(vc));
   } catch(e) {}
 }
 
@@ -158,7 +158,7 @@ function _cacheKey(subId, icon) {
 }
 
 /* ── Paleta acotada: 12 matices (pasos de 30°), S/L fijas ── */
-var PAL_HUE_STEP = 30, PAL_S = 55, PAL_L = 58;
+var PAL_HUE_STEP = 30, PAL_S = 40, PAL_L = 48;
 
 function _hslToHexPal(h, s, l) {
   s/=100; l/=100;
@@ -258,7 +258,7 @@ function _colorizeAvCards() {
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
-        localStorage.setItem('ukishima_vibrant2', JSON.stringify(cur));
+        localStorage.setItem('ukishima_vibrant3', JSON.stringify(cur));
       } catch(e) {}
     }
 
@@ -336,7 +336,7 @@ function _colorizeDetailHero(sub) {
   function tryExtract(imgEl) {
     var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
     if (!h) return;
-    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant2', JSON.stringify(cur)); } catch(e) {}
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant3', JSON.stringify(cur)); } catch(e) {}
     applyDetail(h);
   }
   if (img.complete && img.naturalWidth > 0) tryExtract(img);

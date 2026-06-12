@@ -121,7 +121,7 @@
       offCtx.clearRect(0, 0, 20, 20);
       offCtx.drawImage(img, 0, 0, 20, 20);
       var px = offCtx.getImageData(0, 0, 20, 20).data;
-      var STEP = 30, S_PAL = 55, L_PAL = 58, BINS = 360/STEP;
+      var STEP = 30, S_PAL = 40, L_PAL = 48, BINS = 360/STEP;
       var binW = new Float32Array(BINS);
       for (var i = 0; i < px.length; i += 4) {
         var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
@@ -158,9 +158,9 @@
         chip.classList.add('loaded');
         try {
           var src = img.getAttribute('src');
-          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant2') || '{}');
+          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant3') || '{}');
           vc[src] = hex;
-          localStorage.setItem('ukishima_vibrant2', JSON.stringify(vc));
+          localStorage.setItem('ukishima_vibrant3', JSON.stringify(vc));
         } catch(e) {}
       }
       if (img.complete && img.naturalWidth > 0) { apply(); }
