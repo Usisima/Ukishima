@@ -26,6 +26,16 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
   }
 })();
 
+/* Con view transition activa, el crossfade nativo reemplaza al pageFadeIn.
+   Si el body entra con opacity 0, los snapshots del VT se capturan
+   transparentes (nav inferior incluido) y se ve un parpadeo al navegar. */
+window.addEventListener('pagereveal', function (e) {
+  if (e.viewTransition) {
+    document.body.style.animation = 'none';
+    document.body.style.opacity = '1';
+  }
+});
+
 /* Start header logo animation when page is actually revealed to the user */
 (function () {
   var _done = false;
