@@ -80,7 +80,7 @@ function _libExtractVibrant(imgEl) {
     _libVibCtx.clearRect(0,0,20,20);
     _libVibCtx.drawImage(imgEl,0,0,20,20);
     var px = _libVibCtx.getImageData(0,0,20,20).data;
-    var STEP = 30, S_PAL = 40, L_PAL = 48, BINS = 360/STEP;
+    var STEP = 30, S_PAL = 28, L_PAL = 40, BINS = 360/STEP;
     var binW = new Float32Array(BINS);
     for (var i=0;i<px.length;i+=4) {
       var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
@@ -105,11 +105,11 @@ function _libExtractVibrant(imgEl) {
    igual que colorizeCards() en estadisticas.html                    */
 function _colorizeLibCovers() {
   var vc;
-  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant3')||'{}'); } catch(e){ vc={}; }
+  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant4')||'{}'); } catch(e){ vc={}; }
   var pending = 0;
 
   function save() {
-    try { localStorage.setItem('ukishima_vibrant3', JSON.stringify(vc)); } catch(e){}
+    try { localStorage.setItem('ukishima_vibrant4', JSON.stringify(vc)); } catch(e){}
   }
 
   document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
@@ -164,7 +164,7 @@ function palColor(subj) {
   var icon  = entry && entry.icon;
   if (icon) {
     try {
-      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant3') || '{}')[icon];
+      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant4') || '{}')[icon];
       if (hex) {
         var h = _libHexToH(hex);
         return 'hsla(' + h + ',75%,10%,0.50)';
