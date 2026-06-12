@@ -591,7 +591,7 @@
     /* ── vibrant coloring (same cache as avance.js) ── */
     function colorizeCards() {
       var vc;
-      try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}'); } catch(e) { vc = {}; }
+      try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant2') || '{}'); } catch(e) { vc = {}; }
       document.querySelectorAll('.av-card[data-mat-id], .cdv-tl-event[data-mat-id]').forEach(function(card) {
         var img = card.querySelector('img');
         if (!img) return;

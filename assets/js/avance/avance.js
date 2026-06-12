@@ -70,8 +70,8 @@ const SEM_ORD = ['','Primer','Segundo','Tercer','Cuarto','Quinto','Sexto','Sépt
 /* ═══════════════════════════════════════════════════════
    SISTEMA DE COLOR — idéntico a estadisticas.html
    ═══════════════════════════════════════════════════════
-   extractVibrant: elige el píxel con mayor score de
-   (saturación × proximidad a mid-lightness 0.52).
+   extractVibrant: matiz dominante por histograma (el color
+   que más aparece), ajustado a paleta de 12 matices.
    Los resultados se cachean en ukishima_vibrant y se
    aplican a las cards DESPUÉS de que la imagen carga,
    igual que colorizeCards() en estadisticas.html.        */
@@ -92,14 +92,14 @@ function _extractVibrant(imgEl) {
 }
 
 function _vibrantCache() {
-  try { return JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}'); }
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant2') || '{}'); }
   catch { return {}; }
 }
 
 function _saveVibrant(src, hex) {
   try {
     var vc = _vibrantCache(); vc[src] = hex;
-    localStorage.setItem('ukishima_vibrant', JSON.stringify(vc));
+    localStorage.setItem('ukishima_vibrant2', JSON.stringify(vc));
   } catch(e) {}
 }
 
@@ -157,25 +157,46 @@ function _cacheKey(subId, icon) {
                              : 'ukishima_opt_v:'    + icon;
 }
 
-/* extractVibrant con rango de luminosidad configurable */
+/* ── Paleta acotada: 12 matices (pasos de 30°), S/L fijas ── */
+var PAL_HUE_STEP = 30, PAL_S = 55, PAL_L = 58;
+
+function _hslToHexPal(h, s, l) {
+  s/=100; l/=100;
+  var a = s * Math.min(l, 1-l);
+  var f = function(n){
+    var k=(n+h/30)%12;
+    var c=l - a*Math.max(-1, Math.min(k-3, Math.min(9-k, 1)));
+    return ('0'+Math.round(c*255).toString(16)).slice(-2);
+  };
+  return '#'+f(0)+f(8)+f(4);
+}
+
+/* Color dominante por histograma de matiz: cada píxel cromático vota
+   por su bin de matiz (ponderado por saturación); gana el matiz que
+   más aparece y se ajusta a la paleta (S/L fijas). Los grises no votan. */
 function _extractVibrantL(imgEl, minL, maxL) {
   try {
     var c = _vibrantCtx();
     c.clearRect(0,0,20,20); c.drawImage(imgEl,0,0,20,20);
     var px = c.getImageData(0,0,20,20).data;
-    var best=-1, br=px[0], bg_=px[1], bb=px[2];
+    var BINS = 360 / PAL_HUE_STEP;
+    var binW = new Float32Array(BINS);
     for (var i=0;i<px.length;i+=4) {
       var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
-      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn);
+      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
       var l=(mx+mn)/2;
       if (l < minL || l > maxL) continue;
-      var d=mx-mn, s=d===0?0:d/(1-Math.abs(2*l-1));
-      var sc=s*(1-Math.abs(l-0.52)*1.6);
-      if(sc>best){best=sc;br=px[i];bg_=px[i+1];bb=px[i+2];}
+      var s=d===0?0:d/(1-Math.abs(2*l-1));
+      if (s < 0.18) continue; // grises/neutros no votan
+      var h;
+      if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
+      if (h<0) h+=360;
+      binW[Math.round(h/PAL_HUE_STEP)%BINS] += s;
     }
-    if (best < 0 && (minL > 0 || maxL < 1)) return null; // sin resultado con filtro estricto
-    var h2=function(v){return('0'+Math.round(v).toString(16)).slice(-2);};
-    return '#'+h2(br)+h2(bg_)+h2(bb);
+    var best=0, bw=binW[0];
+    for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
+    if (bw<=0) return null; // sin píxeles cromáticos en el rango
+    return _hslToHexPal(best*PAL_HUE_STEP, PAL_S, PAL_L);
   } catch(e){ return null; }
 }
 
@@ -237,7 +258,7 @@ function _colorizeAvCards() {
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
-        localStorage.setItem('ukishima_vibrant', JSON.stringify(cur));
+        localStorage.setItem('ukishima_vibrant2', JSON.stringify(cur));
       } catch(e) {}
     }
 
@@ -315,7 +336,7 @@ function _colorizeDetailHero(sub) {
   function tryExtract(imgEl) {
     var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
     if (!h) return;
-    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant', JSON.stringify(cur)); } catch(e) {}
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant2', JSON.stringify(cur)); } catch(e) {}
     applyDetail(h);
   }
   if (img.complete && img.naturalWidth > 0) tryExtract(img);

@@ -57,8 +57,19 @@ function esc(s) {
 
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
-/* ── extractVibrant — idéntico a estadisticas.html ──────────────── */
+/* ── extractVibrant — matiz dominante por histograma, paleta acotada
+   (12 matices en pasos de 30°, S/L fijas) — idéntico a avance.js ── */
 var _libVibCv = null, _libVibCtx = null;
+function _libHslToHex(h, s, l) {
+  s/=100; l/=100;
+  var a = s * Math.min(l, 1-l);
+  var f = function(n){
+    var k=(n+h/30)%12;
+    var c=l - a*Math.max(-1, Math.min(k-3, Math.min(9-k, 1)));
+    return ('0'+Math.round(c*255).toString(16)).slice(-2);
+  };
+  return '#'+f(0)+f(8)+f(4);
+}
 function _libExtractVibrant(imgEl) {
   try {
     if (!_libVibCv) {
@@ -69,18 +80,24 @@ function _libExtractVibrant(imgEl) {
     _libVibCtx.clearRect(0,0,20,20);
     _libVibCtx.drawImage(imgEl,0,0,20,20);
     var px = _libVibCtx.getImageData(0,0,20,20).data;
-    var best=-1, br=px[0], bg_=px[1], bb=px[2];
+    var STEP = 30, S_PAL = 55, L_PAL = 58, BINS = 360/STEP;
+    var binW = new Float32Array(BINS);
     for (var i=0;i<px.length;i+=4) {
       var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
-      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn);
+      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
       var l=(mx+mn)/2;
-      if (l<0.25) continue;
-      var d=mx-mn, s=d===0?0:d/(1-Math.abs(2*l-1));
-      var sc=s*(1-Math.abs(l-0.52)*1.6);
-      if (sc>best){best=sc;br=px[i];bg_=px[i+1];bb=px[i+2];}
+      if (l<0.12 || l>0.92) continue;
+      var s=d===0?0:d/(1-Math.abs(2*l-1));
+      if (s<0.18) continue; // grises/neutros no votan
+      var h;
+      if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
+      if (h<0) h+=360;
+      binW[Math.round(h/STEP)%BINS] += s;
     }
-    var h2=function(v){return('0'+Math.round(v).toString(16)).slice(-2);};
-    return '#'+h2(br)+h2(bg_)+h2(bb);
+    var best=0, bw=binW[0];
+    for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
+    if (bw<=0) return null;
+    return _libHslToHex(best*STEP, S_PAL, L_PAL);
   } catch(e){ return null; }
 }
 
@@ -88,11 +105,11 @@ function _libExtractVibrant(imgEl) {
    igual que colorizeCards() en estadisticas.html                    */
 function _colorizeLibCovers() {
   var vc;
-  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant')||'{}'); } catch(e){ vc={}; }
+  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant2')||'{}'); } catch(e){ vc={}; }
   var pending = 0;
 
   function save() {
-    try { localStorage.setItem('ukishima_vibrant', JSON.stringify(vc)); } catch(e){}
+    try { localStorage.setItem('ukishima_vibrant2', JSON.stringify(vc)); } catch(e){}
   }
 
   document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
@@ -147,7 +164,7 @@ function palColor(subj) {
   var icon  = entry && entry.icon;
   if (icon) {
     try {
-      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant') || '{}')[icon];
+      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant2') || '{}')[icon];
       if (hex) {
         var h = _libHexToH(hex);
         return 'hsla(' + h + ',75%,10%,0.50)';
