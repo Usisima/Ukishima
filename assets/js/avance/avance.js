@@ -4,10 +4,14 @@
    avance.js  —  Sistema solar de materias
    ═══════════════════════════════════════════════════════ */
 
+/* ── MOTION ──────────────────────────────────────────── */
+const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /* ── STORAGE ─────────────────────────────────────────── */
 const SK = 'ukishima_avance_v2';
-function _load()             { try{return JSON.parse(localStorage.getItem(SK)||'null')||{subjects:[],progress:{}};}catch{return{subjects:[],progress:{}};} }
-function _persist(d)         { localStorage.setItem(SK,JSON.stringify(d)); }
+let _dbCache = null; // write-through: un solo JSON.parse por sesión
+function _load()             { if(!_dbCache){ try{_dbCache=JSON.parse(localStorage.getItem(SK)||'null')||{subjects:[],progress:{}};}catch{_dbCache={subjects:[],progress:{}};} } return _dbCache; }
+function _persist(d)         { _dbCache=d; localStorage.setItem(SK,JSON.stringify(d)); }
 function getSubjects()       { return _load().subjects||[]; }
 function saveSubjects(s)     { const d=_load();d.subjects=s;_persist(d); }
 function getProgress(id)      { return(_load().progress||{})[id]||{tareas:[],examenes:[],proyectos:[],criterios:[],finalGrade:null}; }
@@ -125,7 +129,7 @@ function getColor(h) {
 }
 function getSubColor(sub) {
   var entry = _findInData(sub);
-  var icon  = (entry && entry.icon) || sub.icon || 'assets/images/d0.jpg';
+  var icon  = (entry && entry.icon) || sub.icon || 'assets/images/d0.webp';
   var key = _cacheKey(sub.id || '', icon);
   var hex = _vibrantCache()[key] || _vibrantCache()[icon];
   if (hex) return { bg: hex+'80', ac: hex };
@@ -250,7 +254,7 @@ function _colorizeAvCards() {
 function _colorizeDetailHero(sub) {
   var img = document.querySelector('.av-hero-card .av-card-icon img');
   if (!img) return;
-  var src = img.getAttribute('src') || 'assets/images/d0.jpg';
+  var src = img.getAttribute('src') || 'assets/images/d0.webp';
   var key = _cacheKey(sub.id, src);
   var vc  = _vibrantCache();
   var hex = vc[key] || vc[src];
@@ -443,18 +447,18 @@ const SolarSys = {
     this._size();
     this._genStars();
     // Precarga d0 antes que cualquier sub — es el planeta por defecto para materias sin icono
-    if (!this._imgs['assets/images/d0.jpg']) {
+    if (!this._imgs['assets/images/d0.webp']) {
       const d0img = new Image();
       d0img.addEventListener('load', () => {
         // Extrae color vibrante para el namespace 'opt' (el único que usa d0 como default)
-        const vcKey = 'ukishima_opt_v:assets/images/d0.jpg';
+        const vcKey = 'ukishima_opt_v:assets/images/d0.webp';
         if (!_vibrantCache()[vcKey]) {
           const hex = _extractVibrant(d0img);
           if (hex) _saveVibrant(vcKey, hex);
         }
       }, { once: true });
-      d0img.src = 'assets/images/d0.jpg';
-      this._imgs['assets/images/d0.jpg'] = d0img;
+      d0img.src = 'assets/images/d0.webp';
+      this._imgs['assets/images/d0.webp'] = d0img;
     }
     this._preload(this.subs);
     this._bind();
@@ -464,7 +468,7 @@ const SolarSys = {
   _preload(subs) {
     subs.forEach(sub => {
       const dm  = _findInData(sub);
-      const src = (dm && dm.icon) || sub.icon || 'assets/images/d0.jpg';
+      const src = (dm && dm.icon) || sub.icon || 'assets/images/d0.webp';
       this._iconMap[sub.id] = src;
       const key      = _cacheKey(sub.id, src);
       const isTronco = !!_TRONCO_IDS[sub.id];
@@ -690,9 +694,9 @@ const SolarSys = {
       ctx.save();
       ctx.beginPath(); ctx.arc(pos.x, pos.y, clipR, 0, Math.PI * 2);
       ctx.clip();
-      const _src = this._iconMap[sub.id] || 'assets/images/d0.jpg';
+      const _src = this._iconMap[sub.id] || 'assets/images/d0.webp';
       const _img = this._imgs[_src];
-      const _d0  = this._imgs['assets/images/d0.jpg'];
+      const _d0  = this._imgs['assets/images/d0.webp'];
       if (_img && _img.complete && _img.naturalWidth > 0) {
         ctx.drawImage(_img, pos.x - pr, pos.y - pr, pr * 2, pr * 2);
       } else if (_d0 && _d0.complete && _d0.naturalWidth > 0) {
@@ -731,9 +735,13 @@ const SolarSys = {
       if (ts - last < 1000/FPS - 1) return;
       last = ts;
       if (!this.dragging) {
-        this.t += 1/FPS;
-        this._introT += 1/FPS;
-        /* Inertia */
+        if (!REDUCED_MOTION) {
+          this.t += 1/FPS;
+          this._introT += 1/FPS;
+        } else if (this._introT < 2.6) {
+          this._introT = 2.6; /* sin intro: órbitas estáticas, arrastre sigue activo */
+        }
+        /* Inertia (movimiento iniciado por el usuario, se conserva) */
         if (Math.abs(this.velRot) > 0.0001) {
           this.rotation += this.velRot;
           this.velRot   *= 0.88;
@@ -1055,7 +1063,7 @@ const R = {
 
         /* Siempre preferir el ícono actual de data.js sobre el guardado en localStorage */
         const dataMat  = _findInData(sub);
-        const icon     = (dataMat && dataMat.icon) || sub.icon || 'assets/images/d0.jpg';
+        const icon     = (dataMat && dataMat.icon) || sub.icon || 'assets/images/d0.webp';
         const gradeClr = displayG != null ? gradeColor(parseFloat(displayG)) : ac;
 
         cardsHtml += `
@@ -1074,7 +1082,7 @@ const R = {
           </button>
           <div class="av-card-head">
             <div class="av-card-icon">
-              <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
+              <img src="${esc(icon)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.webp'">
             </div>
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
@@ -1141,7 +1149,7 @@ const R = {
 
     /* Siempre preferir el ícono actual de data.js sobre el guardado en localStorage */
     const dataMatD = _findInData(sub);
-    const iconD    = (dataMatD && dataMatD.icon) || sub.icon || 'assets/images/d0.jpg';
+    const iconD    = (dataMatD && dataMatD.icon) || sub.icon || 'assets/images/d0.webp';
 
     const tareaRows = tareas.length
       ? tareas.map((t,i)=>`
@@ -1214,7 +1222,7 @@ const R = {
           </button>
           <div class="av-card-head">
             <div class="av-card-icon">
-              <img src="${esc(iconD)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.jpg'">
+              <img src="${esc(iconD)}" alt="${esc(sub.name)}" onerror="this.src='assets/images/d0.webp'">
             </div>
             <div class="av-card-info">
               <div class="av-card-name">${esc(sub.name)}</div>
@@ -1536,11 +1544,11 @@ const SubModal = {
     box.innerHTML = matches.map(m => `
       <div class="av-suggest-item"
            data-name="${esc(m.name)}"
-           data-icon="${esc(m.icon||'assets/images/d0.jpg')}"
+           data-icon="${esc(m.icon||'assets/images/d0.webp')}"
            data-clave="${esc(m.clave||'')}"
            data-creditos="${m.creditos||''}">
-        <img class="av-suggest-icon" src="${esc(m.icon||'assets/images/d0.jpg')}"
-             onerror="this.src='assets/images/d0.jpg'" alt="">
+        <img class="av-suggest-icon" src="${esc(m.icon||'assets/images/d0.webp')}"
+             onerror="this.src='assets/images/d0.webp'" alt="">
         <span class="av-suggest-name">${esc(m.name)}</span>
         ${m.clave&&m.clave!=='—'?`<span class="av-suggest-clave">${esc(m.clave)}</span>`:''}
       </div>`).join('');

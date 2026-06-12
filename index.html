@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
   <title>Inicio · UNAM</title>
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="assets/fonts/google-fonts.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
@@ -17,7 +18,7 @@
   <link rel="prefetch" href="calendario.html">
   <link rel="preload" as="script" href="assets/js/data/data.js">
   <script type="speculationrules">
-    {"prerender":[{"source":"list","urls":["temarios.html","libros.html","avance.html","calendario.html"]}]}
+    {"prefetch":[{"source":"list","urls":["temarios.html","libros.html","avance.html","calendario.html"],"eagerness":"moderate"}]}
   </script>
   <style>
     .hdr-lp {
@@ -161,6 +162,12 @@
       Calendario
     </a>
   </div>
+
+  <div class="dash-data-row" style="display:flex;gap:1rem;justify-content:center;margin-top:0.9rem">
+    <button id="btn-export-data" style="background:none;border:none;color:rgba(232,245,242,0.35);font-size:11px;font-family:inherit;cursor:pointer;padding:4px 8px;text-decoration:underline;text-underline-offset:3px">Exportar datos</button>
+    <button id="btn-import-data" style="background:none;border:none;color:rgba(232,245,242,0.35);font-size:11px;font-family:inherit;cursor:pointer;padding:4px 8px;text-decoration:underline;text-underline-offset:3px">Importar datos</button>
+    <input type="file" id="import-file-input" accept="application/json,.json" style="display:none">
+  </div>
 </div>
 </div>
 
@@ -224,6 +231,10 @@ var _isSA = window.matchMedia('(display-mode: standalone)').matches || !!navigat
   const pct    = Math.min(100, Math.round(earned / (TOTAL_CREDITOS||1) * 100));
 
   function countUp(el, end, dur, fmt) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = fmt(end);
+      return;
+    }
     var s = performance.now();
     (function frame(now) {
       var p = Math.min(1, (now - s) / dur);
@@ -341,9 +352,70 @@ var _isSA = window.matchMedia('(display-mode: standalone)').matches || !!navigat
 })();
 </script>
 <script>
+/* Exportar / importar todo el progreso (localStorage con prefijos de la app) */
+(function () {
+  var PREFIXES = ['mat_', 'ukishima_'];
+  function appKeys() {
+    return Object.keys(localStorage).filter(function (k) {
+      return PREFIXES.some(function (p) { return k.indexOf(p) === 0; });
+    });
+  }
+
+  var btnExp = document.getElementById('btn-export-data');
+  if (btnExp) btnExp.addEventListener('click', function () {
+    var data = { _app: 'ukishima', _exported: new Date().toISOString(), keys: {} };
+    appKeys().forEach(function (k) { data.keys[k] = localStorage.getItem(k); });
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ukishima-progreso-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  var btnImp = document.getElementById('btn-import-data');
+  var input  = document.getElementById('import-file-input');
+  if (btnImp && input) {
+    btnImp.addEventListener('click', function () { input.click(); });
+    input.addEventListener('change', function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          var data = JSON.parse(reader.result);
+          if (!data || data._app !== 'ukishima' || typeof data.keys !== 'object') {
+            alert('Archivo no válido: no es un respaldo de Ukishima.');
+            return;
+          }
+          if (!confirm('Esto reemplazará el progreso guardado en este dispositivo. ¿Continuar?')) return;
+          Object.keys(data.keys).forEach(function (k) {
+            if (PREFIXES.some(function (p) { return k.indexOf(p) === 0; }) && typeof data.keys[k] === 'string') {
+              localStorage.setItem(k, data.keys[k]);
+            }
+          });
+          location.reload();
+        } catch (e) {
+          alert('No se pudo leer el archivo: ' + e.message);
+        }
+      };
+      reader.readAsText(file);
+      input.value = '';
+    });
+  }
+})();
+</script>
+<script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(function(e) {
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).catch(function(e) {
     console.warn('[SW] Registro fallido:', e);
+  });
+  // Recarga única cuando un SW nuevo toma control: evita quedar en versión fantasma
+  var _swRefreshed = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (_swRefreshed) return;
+    _swRefreshed = true;
+    location.reload();
   });
   caches.keys().then(function(keys) {
     var k = keys.find(function(k) { return k.startsWith('ukishima-'); });

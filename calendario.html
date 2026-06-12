@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
   <title>Horario · UNAM</title>
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="assets/fonts/google-fonts.css">
   <link rel="stylesheet" href="assets/css/calendario.css">
@@ -523,9 +524,9 @@
         var topPx = (h - START_H) * HOUR_H;
         var hgtPx = 1.5 * HOUR_H;
 
-        var icon = sub.icon || 'assets/images/d0.jpg';
+        var icon = sub.icon || 'assets/images/d0.webp';
         events += '<div class="cdv-tl-event" style="top:' + topPx.toFixed(1) + 'px;height:' + hgtPx.toFixed(1) + 'px;border-left-color:' + ac + ';background:' + bg + ';" data-mat-id="' + esc(sub.id) + '">'
-          + '<div class="av-card-icon" style="width:34px;height:34px;border-radius:8px"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt=""></div>'
+          + '<div class="av-card-icon" style="width:34px;height:34px;border-radius:8px"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.webp\'" alt=""></div>'
           + '<div class="cdv-ev-body">'
           + '<div class="cdv-ev-name">' + esc(sub.name || '') + '</div>'
           + (sub.profesor ? '<div class="cdv-card-prof">' + esc(sub.profesor) + '</div>' : '')
@@ -538,10 +539,10 @@
       var floats = noTimeSubs.map(function(sub) {
         var ac    = subColor(sub.colorIdx);
         var bg    = subColor(sub.colorIdx, 0.7);
-        var icon  = sub.icon || 'assets/images/d0.jpg';
+        var icon  = sub.icon || 'assets/images/d0.webp';
         return '<div class="av-card" style="background:' + bg + '" data-mat-id="' + esc(sub.id) + '">'
           + '<div class="av-card-head">'
-          + '<div class="av-card-icon"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.jpg\'" alt=""></div>'
+          + '<div class="av-card-icon"><img src="' + esc(icon) + '" onerror="this.src=\'assets/images/d0.webp\'" alt=""></div>'
           + '<div class="av-card-info">'
           + '<div class="av-card-name">' + esc(sub.name || '') + '</div>'
           + (sub.profesor ? '<div class="cdv-card-prof" style="margin-top:0.3rem">' + esc(sub.profesor) + '</div>' : '')

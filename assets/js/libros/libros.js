@@ -31,7 +31,7 @@ const NOTE_LABELS = {
   alg:  'Algoritmo',   eje: 'Ejemplo',     obs:  'Observación',
 };
 
-const DISC_TOTAL = 52; // d1.jpg … d52.jpg
+const DISC_TOTAL = 52; // d1.webp … d52.webp
 
 /* ── HELPERS ──────────────────────────────────── */
 function isFavBook(id) { return S.favBooks.has(id); }
@@ -524,7 +524,7 @@ const R = {
         return `
         <div class="note-item${hasDem ? ' has-dem' : ''}" data-type="${esc(note.type)}" data-nkey="${esc(nkey)}"${hasDem ? ' onclick="A.toggleDem(this)"' : ''}>
           <div class="note-header">
-            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.jpg" alt="" loading="lazy" decoding="async"></div>
+            <div class="note-art" aria-hidden="true"><img src="assets/images/d${imgN}.webp" alt="" loading="lazy" decoding="async"></div>
             <div class="note-meta">
               <div class="note-label">${esc(note.label)}</div>
               <div class="note-type-badge">${esc(badge)}${chevron}</div>

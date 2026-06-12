@@ -1,4 +1,5 @@
 (function () {
+  const REDUCED  = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pre      = document.getElementById('bh-art');
   const preStars = document.getElementById('bh-stars');
   if (!pre) { document.body.style.opacity = '1'; return; }
@@ -156,7 +157,8 @@
     if (last !== null) elapsed += ts - last;
     last = ts;
 
-    _rafId = requestAnimationFrame(tick);
+    // Motion reducido: renderiza un frame (necesario para revelar el body) y se detiene
+    if (!REDUCED || !_revealed) _rafId = requestAnimationFrame(tick);
     if (ts - lastRender < FRAME_MS) return;
     lastRender = ts;
 

@@ -1,6 +1,15 @@
 // ==================== CONSTANTES DERIVADAS ====================
 const OPTATIVAS_OTRAS_SAFE = (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []);
 
+// Escapado HTML para todo texto interpolado en innerHTML
+function esc(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 let _nameToIdCache = null;
 function _getNameToId() {
   if (_nameToIdCache) return _nameToIdCache;
@@ -18,7 +27,7 @@ let _allMatsCache = null;
 // ==================== COMP BIB SECTION ====================
 function renderCompBib(matId, bibComp) {
   if (!bibComp || !bibComp.length) return '';
-  const entries = bibComp.map(b => `<div class="comp-entry">${b}</div>`).join('');
+  const entries = bibComp.map(b => `<div class="comp-entry">${esc(b)}</div>`).join('');
   return `<div class="comp-section" id="comp-${matId}">
     <div class="comp-toggle" data-comp-toggle="${matId}">
       <span class="comp-title">Bibliografía complementaria</span>
@@ -36,7 +45,7 @@ function renderSubsecuentes(subsecuentes) {
     const id = nameToId[name];
     const cls = id ? 'subsec-tag' : 'subsec-tag no-link';
     const attr = id ? `data-scroll-to="${id}"` : '';
-    return `<span class="${cls}" ${attr}>${name} <span class="subsec-tag-arrow">→</span></span>`;
+    return `<span class="${cls}" ${attr}>${esc(name)} <span class="subsec-tag-arrow">→</span></span>`;
   }).join('');
   return `<div class="subsec-block">
     <div class="subsec-label">Materias subsecuentes</div>
@@ -46,12 +55,12 @@ function renderSubsecuentes(subsecuentes) {
 
 // ==================== TRONCO COMÚN — renderers ====================
 function renderTemaItemTronco(tema, i) {
-  const subtemas = (tema.subtemas || []).map(s => `<div class="subtema">${s}</div>`).join('');
+  const subtemas = (tema.subtemas || []).map(s => `<div class="subtema">${esc(s)}</div>`).join('');
   return `<div class="tema-item">
     <div class="tema-head">
       <div class="tema-head-left">
         <span class="tema-num">${tema.num || i + 1}</span>
-        <span class="tema-name">${tema.name}</span>
+        <span class="tema-name">${esc(tema.name)}</span>
       </div>
       <div class="tema-meta"><span class="tema-hrs-badge">${tema.horas}h</span></div>
     </div>
@@ -70,7 +79,7 @@ function renderCardBodyTronco(mat) {
     const titlePart  = parts[1] || '';
     return `<a class="bib-btn" href="${url}">
       <span class="bib-btn-dot"></span>
-      <span class="bib-btn-name"><b>${authorPart}</b>${titlePart ? ' — ' + titlePart : ''}</span>
+      <span class="bib-btn-name"><b>${esc(authorPart)}</b>${titlePart ? ' — ' + esc(titlePart) : ''}</span>
       <span class="bib-btn-arrow">→</span>
     </a>`;
   }).join('');
@@ -89,16 +98,16 @@ function renderCardBodyTronco(mat) {
 }
 
 function renderCardTronco(mat, extraClass) {
-  const iconSrc = mat.icon || 'assets/images/d0.jpg';
+  const iconSrc = mat.icon || 'assets/images/d0.webp';
   const cls = extraClass ? `card ${extraClass}` : 'card';
   return `<div class="${cls}" id="card-${mat.id}">
     <div class="card-head" data-toggle="${mat.id}">
-      <div class="card-icon"><img src="${iconSrc}" alt="${mat.name}" onerror="this.src='assets/images/d0.jpg'"></div>
+      <div class="card-icon"><img src="${iconSrc}" alt="${esc(mat.name)}" loading="lazy" decoding="async" onerror="this.src='assets/images/d0.webp'"></div>
       <div class="card-info">
-        <div class="card-name">${mat.name}</div>
+        <div class="card-name">${esc(mat.name)}</div>
         <div class="card-meta">
-          ${mat._tag ? `<span class="meta-pill meta-tag">${mat._tag}</span>` : ''}
-          <span class="meta-pill">Clave <b>${mat.clave || '—'}</b></span>
+          ${mat._tag ? `<span class="meta-pill meta-tag">${esc(mat._tag)}</span>` : ''}
+          <span class="meta-pill">Clave <b>${esc(mat.clave || '—')}</b></span>
           <span class="meta-pill"><b>${mat.creditos}</b> créditos</span>
         </div>
       </div>
@@ -115,7 +124,7 @@ function renderSemesterTronco(sem) {
   const cards = sem.materias.map(renderCardTronco).join('');
   return `<div class="semester" id="sem-${sem.semestre}">
     <div class="sem-header">
-      <span class="sem-title">${sem.titulo}</span>
+      <span class="sem-title">${esc(sem.titulo)}</span>
       <span class="sem-credits-badge">${totalCreds} créditos</span>
     </div>
     <div class="sem-grid">${cards}</div>
@@ -163,6 +172,13 @@ function _allSearchMats() {
     pool.map((opt, i) => ({ ...enrichOptativa(opt), id: `opt_${key}_${i}` }))
   );
   _allMatsCache = [...fixed, ...opts].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  // Índice de búsqueda precalculado: nombre + clave + temario + subtemas
+  _allMatsCache.forEach(m => {
+    m._idx = _searchNorm([
+      m.name, m.clave,
+      ...(m.temario || []).flatMap(t => [t.name, ...(t.subtemas || [])]),
+    ].join(' '));
+  });
   return _allMatsCache;
 }
 
@@ -172,8 +188,8 @@ function _searchNorm(s) {
 
 function _searchHit(mat, words) {
   if (!words.length) return true;
-  const n = _searchNorm(mat.name), c = _searchNorm(mat.clave);
-  return words.every(w => n.includes(w) || c.includes(w));
+  const idx = mat._idx || _searchNorm(`${mat.name} ${mat.clave}`);
+  return words.every(w => idx.includes(w));
 }
 
 // Renderiza TODAS las cards de una vez; las no-coincidentes quedan ocultas.

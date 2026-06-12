@@ -1721,3 +1721,45 @@ body {
   border: none;
   padding-left: 8px;
 }
+/* ==================== OPTIMIZACIÓN: layout perezoso de cards ==================== */
+.card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 88px;
+}
+
+/* ==================== SELECCIÓN DE TEXTO: contenido de estudio ==================== */
+.tema-name,
+.subtema,
+.comp-entry,
+.bib-btn-name {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ==================== ACCESIBILIDAD: prefers-reduced-motion ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto !important; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+/* ==================== ANIMACIÓN DE EXPANSIÓN CON ALTURA REAL ====================
+   Con interpolate-size, la transición anima hasta la altura real del contenido
+   en lugar del hack max-height:9999px (que distorsiona la duración percibida,
+   sobre todo al cerrar). Mejora progresiva: Chrome 129+. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .card.open .card-body        { max-height: max-content; }
+  .card.open .card-body-tronco { max-height: max-content; }
+  .tema-subtemas               { max-height: max-content; }
+  .book-card.open .book-body   { max-height: max-content; }
+  .comp-section.open .comp-body { max-height: max-content; }
+  .opt-carousel-wrap.open      { max-height: max-content; }
+}

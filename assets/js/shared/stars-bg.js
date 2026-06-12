@@ -1,5 +1,6 @@
 /* stars-bg.js — animated ASCII star field background, shared by all pages */
 (function () {
+  const REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pre = document.createElement('pre');
   pre.id = 'stars-bg-pre';
   pre.setAttribute('aria-hidden', 'true');
@@ -105,7 +106,8 @@
     if (last !== null) elapsed += ts - last;
     last = ts;
 
-    rafId = requestAnimationFrame(tick);
+    // Motion reducido: un solo frame estático y el loop se detiene
+    if (!REDUCED || !pre.innerHTML) rafId = requestAnimationFrame(tick);
 
     if (ts - lastRender < FRAME_MS) return;
     lastRender = ts;
@@ -177,7 +179,7 @@
       cancelAnimationFrame(rafId);
       rafId = null;
       last = null; // evita salto de tiempo al volver
-    } else if (!rafId) {
+    } else if (!rafId && !(REDUCED && pre.innerHTML)) {
       rafId = requestAnimationFrame(tick);
     }
   });

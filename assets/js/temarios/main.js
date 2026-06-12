@@ -9,10 +9,11 @@ const TemDisc = {
   secs: [], rot: 0, isOpen: false,
   R: 580, LEDGE: 460, STEP: 0.07, SPEED: 4.5,
 
-  reset() { this.secs = []; this.rot = 0; },
+  reset() { this.secs = []; this.rot = 0; this._nodes = null; },
 
   build() {
     this.secs = [];
+    this._nodes = null;
     if (TEM_VIEW === 'optativas') {
       document.querySelectorAll('.opt-bloque-section').forEach(bloqEl => {
         const headEl = bloqEl.querySelector('.opt-bloque-head');
@@ -40,27 +41,24 @@ const TemDisc = {
 
   _clamp(v) { return Math.max(0, Math.min(Math.max(0, this.secs.length - 1), v)); },
 
-  _render() {
+  _nodes: null, _cy: 0, _W: 0, _H: 0,
+
+  // Crea los nodos una sola vez por apertura; _render solo actualiza estilos
+  _buildNodes() {
     const wrap = document.getElementById('tem-disc-wrap');
     if (!wrap) return;
     const W = window.innerWidth, H = window.innerHeight;
-    const R = this.R, L = this.LEDGE, S = this.STEP;
+    const R = this.R, L = this.LEDGE;
     const btnRect = document.getElementById('tem-disc-btn')?.getBoundingClientRect();
     const cy = btnRect ? (btnRect.top + btnRect.bottom) / 2 : H / 2;
-    const active = Math.round(this._clamp(this.rot));
-    const buf = [];
+    this._cy = cy; this._W = W; this._H = H;
 
-    // ── Arc guide (dashed circle) ────────────────────────────────
-    buf.push(
+    const armLen = R - L - 48; // tip aligns with active tick mark
+    wrap.innerHTML =
       `<svg style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible" aria-hidden="true">` +
       `<circle cx="${(W + L).toFixed(0)}" cy="${cy.toFixed(0)}" r="${R}" ` +
       `fill="none" stroke="rgba(155,191,181,0.13)" stroke-width="1" stroke-dasharray="2 8" stroke-linecap="round"/>` +
-      `</svg>`
-    );
-
-    // ── Selector needle ─────────────────────────────────────────
-    const armLen = R - L - 48; // tip aligns with active tick mark
-    buf.push(
+      `</svg>` +
       `<div style="position:absolute;right:36px;top:${(cy - 0.5).toFixed(0)}px;` +
       `width:${armLen}px;height:1px;` +
       `background:linear-gradient(to left,rgba(155,191,181,0.7),rgba(155,191,181,0.04));` +
@@ -68,44 +66,80 @@ const TemDisc = {
       `<div style="position:absolute;right:${(35 + armLen).toFixed(0)}px;top:${(cy - 3.5).toFixed(0)}px;` +
       `width:7px;height:7px;border-radius:50%;` +
       `background:rgba(155,191,181,0.6);box-shadow:0 0 6px rgba(155,191,181,0.4);` +
-      `pointer-events:none;z-index:4;"></div>`
-    );
+      `pointer-events:none;z-index:4;"></div>`;
 
-    // ── Items ───────────────────────────────────────────────────
-    this.secs.forEach((sec, i) => {
-      const theta = (i - this.rot) * S;
-      const arcX  = W + L - R * Math.cos(theta);
-      const arcY  = cy + R * Math.sin(theta);
-      if (arcY < -40 || arcY > H + 40) return;
-      const rightDist = W - arcX;
-      const maxW = Math.max(50, W + L - R - 8);
-      const opacity = Math.max(0.04, 1 - Math.abs(theta) * 0.9);
-      const isAct  = i === active;
-      const tickW  = sec.isCh ? 9 : 5;
-      const tickH  = sec.isCh ? 2 : 1;
-      const tickC  = `rgba(155,191,181,${(opacity * 0.85).toFixed(3)})`;
-      const tickR  = Math.max(3, rightDist - tickW - 3);
-
-      buf.push(
-        `<div style="position:absolute;right:${tickR.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
-        `width:${tickW}px;height:${tickH}px;background:${tickC};` +
-        `transform:translateY(-50%);pointer-events:none;z-index:3;border-radius:1px;"></div>` +
-        `<div class="disc-item${sec.isCh ? ' is-ch' : ' is-sub'}${isAct ? ' is-active' : ''}" data-i="${i}" ` +
-        `style="right:${rightDist.toFixed(1)}px;top:${arcY.toFixed(1)}px;` +
-        `max-width:${maxW.toFixed(0)}px;opacity:${opacity.toFixed(3)}">${sec.label}</div>`
-      );
+    const maxW = Math.max(50, W + L - R - 8);
+    const frag = document.createDocumentFragment();
+    this._nodes = this.secs.map((sec, i) => {
+      const tick = document.createElement('div');
+      const tickW = sec.isCh ? 9 : 5;
+      tick.style.cssText =
+        `position:absolute;width:${tickW}px;height:${sec.isCh ? 2 : 1}px;` +
+        `transform:translateY(-50%);pointer-events:none;z-index:3;border-radius:1px;display:none;`;
+      const label = document.createElement('div');
+      label.className = `disc-item${sec.isCh ? ' is-ch' : ' is-sub'}`;
+      label.dataset.i = i;
+      label.style.maxWidth = `${maxW.toFixed(0)}px`;
+      label.style.display = 'none';
+      label.textContent = sec.label;
+      frag.appendChild(tick);
+      frag.appendChild(label);
+      return { tick, label, tickW };
     });
-
-    wrap.innerHTML = buf.join('');
+    wrap.appendChild(frag);
   },
 
+  _render() {
+    if (!this._nodes || window.innerWidth !== this._W || window.innerHeight !== this._H) {
+      this._buildNodes();
+      if (!this._nodes) return;
+    }
+    const W = this._W, H = this._H, cy = this._cy;
+    const R = this.R, L = this.LEDGE, S = this.STEP;
+    const active = Math.round(this._clamp(this.rot));
+
+    this._nodes.forEach((node, i) => {
+      const theta = (i - this.rot) * S;
+      const arcY  = cy + R * Math.sin(theta);
+      if (arcY < -40 || arcY > H + 40) {
+        node.tick.style.display = 'none';
+        node.label.style.display = 'none';
+        return;
+      }
+      const arcX = W + L - R * Math.cos(theta);
+      const rightDist = W - arcX;
+      const opacity = Math.max(0.04, 1 - Math.abs(theta) * 0.9);
+      const top = `${arcY.toFixed(1)}px`;
+
+      node.tick.style.display = '';
+      node.tick.style.top = top;
+      node.tick.style.right = `${Math.max(3, rightDist - node.tickW - 3).toFixed(1)}px`;
+      node.tick.style.background = `rgba(155,191,181,${(opacity * 0.85).toFixed(3)})`;
+
+      node.label.style.display = '';
+      node.label.style.top = top;
+      node.label.style.right = `${rightDist.toFixed(1)}px`;
+      node.label.style.opacity = opacity.toFixed(3);
+      node.label.classList.toggle('is-active', i === active);
+    });
+
+    const btn = document.getElementById('tem-disc-btn');
+    if (btn) {
+      btn.setAttribute('aria-valuenow', active);
+      const lbl = this.secs[active]?.label;
+      if (lbl) btn.setAttribute('aria-valuetext', lbl);
+    }
+  },
+
+  _snapId: 0,
   _snapTo(target, cb) {
+    cancelAnimationFrame(this._snapId);
     const go = () => {
       const diff = target - this.rot;
       if (Math.abs(diff) < 0.02) { this.rot = target; this._render(); cb?.(); return; }
       this.rot += diff * 0.22;
       this._render();
-      requestAnimationFrame(go);
+      this._snapId = requestAnimationFrame(go);
     };
     go();
   },
@@ -166,6 +200,7 @@ const TemDisc = {
       wrap.classList.add('disc-opening');
     }
     document.getElementById('tem-disc-btn')?.classList.add('is-open');
+    this._buildNodes();
     this._render();
   },
 
@@ -206,6 +241,57 @@ const TemDisc = {
     const btn  = document.getElementById('tem-disc-btn');
     const wrap = document.getElementById('tem-disc-wrap');
     if (!btn) return;
+
+    // ── Accesibilidad: el botón es un slider operable con teclado ──
+    btn.tabIndex = 0;
+    btn.setAttribute('role', 'slider');
+    btn.setAttribute('aria-label', 'Navegador de secciones');
+    btn.setAttribute('aria-orientation', 'vertical');
+    btn.setAttribute('aria-valuemin', '0');
+
+    const ensureOpen = () => {
+      if (!this.secs.length) this.build();
+      if (!this.secs.length) return false;
+      btn.setAttribute('aria-valuemax', String(this.secs.length - 1));
+      if (!this.isOpen) { this.rot = this._currentIdx(); this.open(); }
+      return true;
+    };
+
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!ensureOpen()) return;
+        const t = this._clamp(Math.round(this.rot) + (e.key === 'ArrowDown' ? 1 : -1));
+        this._snapTo(t);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        if (!this.isOpen) return;
+        e.preventDefault();
+        const t = Math.round(this._clamp(this.rot));
+        this.scrollTo(t);
+        this.close();
+      } else if (e.key === 'Escape' && this.isOpen) {
+        e.preventDefault();
+        this.close();
+      }
+    });
+
+    // ── Rueda del mouse (desktop) ──
+    let _wheelT = null;
+    const onWheel = e => {
+      e.preventDefault();
+      if (!ensureOpen()) return;
+      cancelAnimationFrame(this._snapId);
+      this.rot = this._clamp(this.rot + (e.deltaY > 0 ? 0.6 : -0.6));
+      this._render();
+      clearTimeout(_wheelT);
+      _wheelT = setTimeout(() => {
+        const t = Math.round(this._clamp(this.rot));
+        this._snapTo(t, () => { this.scrollTo(t); this.close(); });
+      }, 350);
+    };
+    btn.addEventListener('wheel', onWheel, { passive: false });
+    if (wrap) wrap.addEventListener('wheel', onWheel, { passive: false });
+
     let startY = 0, startRot = 0, dragging = false;
     let _tmm = null, _tmu = null;
     const _detach = () => {
@@ -281,6 +367,23 @@ function katexRoot(root) {
   } catch(e) {}
 }
 
+// Abre una card por id, la resalta y hace scroll hasta ella
+function scrollToCard(id) {
+  const card = document.getElementById(`card-${id}`);
+  if (!card) return;
+  const hH = document.querySelector('.header')?.offsetHeight      || 0;
+  const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+  let absTop = 0, el = card;
+  while (el) { absTop += el.offsetTop; el = el.offsetParent; }
+  card.getAnimations().forEach(a => a.finish());
+  card.classList.add('open', 'highlight-pulse');
+  setTimeout(() => {
+    card.classList.remove('highlight-pulse');
+    requestAnimationFrame(() => card.getAnimations().forEach(a => a.finish()));
+  }, 1600);
+  window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
+}
+
 function stagger(root) {
   let i = 0;
   root.querySelectorAll('.card').forEach(card => {
@@ -321,12 +424,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   if (!root) return;
 
+  // Deep-link inicial: #optativas, #search, o #mat/<id> (compartible)
+  const _hash = location.hash || '';
+  let _initView = 'tronco';
+  let _deepLinkId = null;
+  if (_hash === '#optativas' || _hash === '#search') {
+    _initView = _hash.slice(1);
+  } else if (_hash.startsWith('#mat/')) {
+    _deepLinkId = decodeURIComponent(_hash.slice(5));
+    _initView = _deepLinkId.startsWith('opt_') ? 'optativas' : 'tronco';
+  }
+
   // Stamp initial entry so back from #search stays in the SPA
   history.scrollRestoration = 'manual';
-  history.replaceState({ view: 'tronco' }, '', location.href);
+  history.replaceState({ view: _initView }, '', location.href);
 
-  renderView(root, 'tronco');
+  renderView(root, _initView);
   updateGlobalBadge();
+
+  if (_deepLinkId) {
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollToCard(_deepLinkId)));
+  }
 
   // ── Helper: reset search state ───────────────────────
   const resetSearch = () => {
@@ -408,26 +526,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const needSwitch = TEM_VIEW !== targetView;
       if (needSwitch) renderView(root, targetView);
 
-      const doScroll = () => {
-        const card = document.getElementById(`card-${id}`);
-        if (!card) return;
-        const hH = document.querySelector('.header')?.offsetHeight      || 0;
-        const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
-        let absTop = 0, el = card;
-        while (el) { absTop += el.offsetTop; el = el.offsetParent; }
-        card.getAnimations().forEach(a => a.finish());
-        card.classList.add('open', 'highlight-pulse');
-        setTimeout(() => {
-          card.classList.remove('highlight-pulse');
-          requestAnimationFrame(() => card.getAnimations().forEach(a => a.finish()));
-        }, 1600);
-        window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
-      };
-
       if (needSwitch) {
-        requestAnimationFrame(() => requestAnimationFrame(doScroll));
+        requestAnimationFrame(() => requestAnimationFrame(() => scrollToCard(id)));
       } else {
-        doScroll();
+        scrollToCard(id);
       }
       return;
     }

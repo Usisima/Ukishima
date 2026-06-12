@@ -164,8 +164,8 @@ async function run() {
   const tImages = await Promise.all(
     Array.from({ length: 16 }, (_, i) => {
       const file = `d${i + 1}`;
-      return imageAvgColor(`assets/images/${file}.jpg`).then(color => {
-        status.textContent = `Tronco: ${file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+      return imageAvgColor(`assets/images/${file}.webp`).then(color => {
+        status.textContent = `Tronco: ${file}.webp → hsl(${color.h},${color.s}%,${color.l}%)`;
         return { file, color };
       });
     })
@@ -178,8 +178,8 @@ async function run() {
   status.textContent = 'Analizando optativas (d17–d61)…';
   const optResults = await Promise.all(
     OPTATIVAS.map(opt =>
-      imageAvgColor(`assets/images/${opt.file}.jpg`).then(color => {
-        status.textContent = `Opt: ${opt.file}.jpg → hsl(${color.h},${color.s}%,${color.l}%)`;
+      imageAvgColor(`assets/images/${opt.file}.webp`).then(color => {
+        status.textContent = `Opt: ${opt.file}.webp → hsl(${color.h},${color.s}%,${color.l}%)`;
         return { ...opt, color };
       })
     )
@@ -191,11 +191,11 @@ async function run() {
   // Tronco común (por icono actual asignado)
   for (let i = 1; i <= 16; i++) {
     const img = tImages[i-1];
-    colorStore[`assets/images/${img.file}.jpg`] = img.color;
+    colorStore[`assets/images/${img.file}.webp`] = img.color;
   }
   // Optativas
   for (const o of optResults) {
-    colorStore[`assets/images/${o.file}.jpg`] = o.color;
+    colorStore[`assets/images/${o.file}.webp`] = o.color;
   }
   localStorage.setItem('ukishima_colors', JSON.stringify(colorStore));
   // Backward compat: también guardar solo hue
@@ -219,12 +219,12 @@ async function run() {
     const a = tAssign[s.id];
     if (!a) continue;
     html += `<div class="row">
-      <img class="thumb" src="assets/images/${a.file}.jpg">
+      <img class="thumb" src="assets/images/${a.file}.webp">
       <div class="swatch" style="background:${bgColor(a.color)};border-color:${acColor(a.color)}"></div>
       <div class="swatch" style="background:${acColor(a.color)}"></div>
       <div class="name">${s.name}</div>
       <span class="badge">hsl(${a.color.h},${a.color.s}%,${a.color.l}%)</span>
-      <span class="ok">${a.file}.jpg</span>
+      <span class="ok">${a.file}.webp</span>
     </div>`;
   }
 
@@ -232,12 +232,12 @@ async function run() {
   html += `<h2>Optativas — color real promediado</h2>`;
   for (const opt of optResults) {
     html += `<div class="row">
-      <img class="thumb" src="assets/images/${opt.file}.jpg">
+      <img class="thumb" src="assets/images/${opt.file}.webp">
       <div class="swatch" style="background:${bgColor(opt.color)};border-color:${acColor(opt.color)}"></div>
       <div class="swatch" style="background:${acColor(opt.color)}"></div>
       <div class="name">${opt.name}</div>
       <span class="badge">hsl(${opt.color.h},${opt.color.s}%,${opt.color.l}%)</span>
-      <span class="ok">${opt.file}.jpg</span>
+      <span class="ok">${opt.file}.webp</span>
     </div>`;
   }
 

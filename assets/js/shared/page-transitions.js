@@ -49,3 +49,35 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
   vp.content = base + ', maximum-scale=1';
   setTimeout(function () { vp.content = base; }, 300);
 })();
+
+/* Pedir almacenamiento persistente: evita que el navegador purgue el progreso */
+(function () {
+  if (navigator.storage && navigator.storage.persist) {
+    navigator.storage.persist().catch(function () {});
+  }
+})();
+
+/* Indicador de modo offline (todas las páginas) */
+(function () {
+  function setup() {
+    var badge = document.createElement('div');
+    badge.id = 'offline-badge';
+    badge.textContent = 'Sin conexión · los cambios se guardan en este dispositivo';
+    badge.style.cssText =
+      'position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));' +
+      'transform:translateX(-50%);z-index:9999;padding:6px 14px;border-radius:999px;' +
+      'background:rgba(20,30,28,0.92);color:rgba(232,245,242,0.75);font-size:11.5px;' +
+      'font-family:inherit;border:1px solid rgba(155,191,181,0.25);white-space:nowrap;' +
+      'backdrop-filter:blur(8px);display:none;pointer-events:none;';
+    document.body.appendChild(badge);
+    function update() { badge.style.display = navigator.onLine ? 'none' : 'block'; }
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    update();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup, { once: true });
+  } else {
+    setup();
+  }
+})();

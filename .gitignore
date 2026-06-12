@@ -17,3 +17,7 @@ ocr.py
 extraer-bloques.py
 crear-estructura.py
 nougat_colab.ipynb
+
+# -- Instaladores / herramientas locales (no son assets web) --------
+tools/
+*.exe
