@@ -296,7 +296,8 @@ var _isSA = window.matchMedia('(display-mode: standalone)').matches || !!navigat
                    : afterSem         ? ' dash-sem-bar--neutral'
                    : displayPct === 0 ? ' dash-sem-bar--zero'
                    :                   '';
-    const countLabel = inFinals   ? '—'
+    const daysFin = Math.max(0, Math.ceil((FINALS - now) / 86400000));
+    const countLabel = inFinals   ? 'Finales · ' + daysFin + 'd'
                      : inVacation ? daysVac + 'd'
                      : afterSem   ? ''
                      : remain === 0 ? spct + '% · ' + Math.ceil((LAST_END - now) / 3600000) + 'h'

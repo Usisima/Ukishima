@@ -317,20 +317,84 @@ body {
 .book-cover-bg {
   width: 100%;
   height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.55rem 1.3rem;
+  text-align: center;
+}
+
+/* Iluminación diagonal + sombra inferior + lomo izquierdo */
+.book-cover-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.32) 0px, rgba(0,0,0,0.32) 3px, rgba(255,255,255,0.07) 4px, transparent 8px),
+    linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 38%, transparent 60%),
+    linear-gradient(180deg, transparent 52%, rgba(0,0,0,0.38) 100%);
+  pointer-events: none;
+}
+
+/* Marco interior fino */
+.book-cover-bg::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.book-cover-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.book-cover-rule {
+  width: 16px;
+  height: 1px;
+  background: rgba(255,255,255,0.32);
+  flex-shrink: 0;
 }
 
 .book-cover-title {
   font-family: 'Playfair Display', serif;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  color: rgba(232, 245, 242, 0.85);
-  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.35;
   text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  text-wrap: balance;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-cover-author {
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.65rem;
+  z-index: 1;
+  font-family: 'DM Mono', monospace;
+  font-size: 6.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.48);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .book-fav-dot {
@@ -1548,4 +1612,48 @@ body {
 /* El nav no participa del crossfade entre páginas: se mantiene estable */
 .bottom-nav {
   view-transition-name: bottom-nav;
+}
+
+/* ── Portada tipográfica: adaptaciones por tamaño ── */
+/* Sin autor (hero y minis): centrado vertical real */
+.book-cover-bg:not(:has(.book-cover-author)) { padding-bottom: 0.7rem; }
+
+/* Portadas miniatura (búsqueda, favoritos): sin ornamentos */
+.search-book-cover .book-cover-rule,
+.fav-book-cover .book-cover-rule,
+.search-book-cover .book-cover-bg::after,
+.fav-book-cover .book-cover-bg::after { display: none; }
+
+.search-book-cover .book-cover-bg,
+.fav-book-cover .book-cover-bg { padding: 3px; }
+
+.search-book-cover .book-cover-title,
+.fav-book-cover .book-cover-title {
+  font-size: 5.5px;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* Hero del libro: arte del disco difuminado tras el banner */
+.hero-bg { overflow: hidden; }
+.hero-bg-art {
+  position: absolute;
+  right: -14%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 72%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: blur(22px) saturate(1.3);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+/* Veladura inferior para legibilidad del texto del hero */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.42) 100%);
 }

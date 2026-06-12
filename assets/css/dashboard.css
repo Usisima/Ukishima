@@ -533,8 +533,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 0.5rem 0.2rem;
+  gap: 5px;
+  padding: 0.65rem 0.2rem 0.55rem;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -547,16 +547,17 @@ body {
 
 .dash-stat-val {
   font-family: 'DM Mono', monospace;
-  font-size: 0.78rem;
+  font-size: 1.05rem;
   font-weight: 500;
   color: var(--gold);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .dash-stat-key {
-  font-size: 7px;
+  font-size: 8.5px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--ink3);
   font-weight: 600;
 }

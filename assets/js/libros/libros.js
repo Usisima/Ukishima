@@ -163,11 +163,17 @@ function palColor(subj) {
 }
 
 
-/* Cover background element — icon añade data-icon para _colorizeLibCovers */
-function coverDiv(color, titleText, icon) {
+/* Cover background element — icon añade data-icon para _colorizeLibCovers.
+   author es opcional: solo las portadas grandes (grid principal) lo muestran. */
+function coverDiv(color, titleText, icon, author) {
   const attr = icon ? ` data-icon="${esc(icon)}"` : '';
   return `<div class="book-cover-bg"${attr} style="background:${color}">
-    <div class="book-cover-title">${esc(titleText)}</div>
+    <div class="book-cover-inner">
+      <span class="book-cover-rule"></span>
+      <div class="book-cover-title">${esc(titleText)}</div>
+      <span class="book-cover-rule"></span>
+    </div>
+    ${author ? `<div class="book-cover-author">${esc(author)}</div>` : ''}
   </div>`;
 }
 
@@ -553,7 +559,7 @@ const R = {
     return `
       <div class="book-card" data-book-id="${esc(b.id)}" data-orig-idx="${idx}" onclick="Nav.go('book','${esc(b.id)}')">
         <div class="book-cover">
-          ${coverDiv(color, b.title, icon)}
+          ${coverDiv(color, b.title, icon, b.author)}
           <button class="book-fav-dot ${faved}"
             onclick="event.stopPropagation();A.toggleFavBook('${esc(b.id)}',this)"
             aria-label="${isFavBook(b.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
@@ -588,7 +594,9 @@ const R = {
       <div class="book-detail">
 
         <div class="book-hero-banner">
-          <div class="hero-bg" data-icon="${_detailIcon}" style="background:${color}"></div>
+          <div class="hero-bg" data-icon="${_detailIcon}" style="background:${color}">
+            ${_detailIcon ? `<img class="hero-bg-art" src="${esc(_detailIcon)}" alt="" aria-hidden="true" decoding="async">` : ''}
+          </div>
           <div class="hero-bands" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
