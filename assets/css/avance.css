@@ -1367,3 +1367,21 @@ body {
   ::view-transition-old(*),
   ::view-transition-new(*) { animation: none !important; }
 }
+
+/* ==================== NAV INFERIOR: relleno bajo zona de gestos ====================
+   Faldón negro que se extiende por debajo del nav: cubre la franja de gestos
+   aunque el viewport de layout quede corto durante transiciones de página. */
+.bottom-nav::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: #000;
+  pointer-events: none;
+}
+/* El nav no participa del crossfade entre páginas: se mantiene estable */
+.bottom-nav {
+  view-transition-name: bottom-nav;
+}
