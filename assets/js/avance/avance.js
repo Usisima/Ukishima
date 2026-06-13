@@ -88,18 +88,19 @@ function _vibrantCtx() {
 }
 
 function _extractVibrant(imgEl) {
-  return _extractVibrantL(imgEl, 0.25, 1) || _extractVibrantL(imgEl, 0, 1);
+  return _extractVibrantL(imgEl, 0.25, 1) || _extractVibrantL(imgEl, 0, 1) ||
+         _hslToHexPal(165, 8, PAL_L); // disco totalmente neutro: gris salvia
 }
 
 function _vibrantCache() {
-  try { return JSON.parse(localStorage.getItem('ukishima_vibrant4') || '{}'); }
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant5') || '{}'); }
   catch { return {}; }
 }
 
 function _saveVibrant(src, hex) {
   try {
     var vc = _vibrantCache(); vc[src] = hex;
-    localStorage.setItem('ukishima_vibrant4', JSON.stringify(vc));
+    localStorage.setItem('ukishima_vibrant5', JSON.stringify(vc));
   } catch(e) {}
 }
 
@@ -172,31 +173,39 @@ function _hslToHexPal(h, s, l) {
 }
 
 /* Color dominante por histograma de matiz: cada píxel cromático vota
-   por su bin de matiz (ponderado por saturación); gana el matiz que
-   más aparece y se ajusta a la paleta (S/L fijas). Los grises no votan. */
+   por su bin de matiz con peso s² — los tonos vivos dominan sobre los
+   apagados (plástico de la caja) aunque éstos sean más abundantes.
+   Si ningún píxel supera s≥0.18, segunda pasada con s≥0.05 para discos
+   casi grises con un tinte sutil (p.ej. d21). Gana el matiz con más
+   peso y se ajusta a la paleta (S/L fijas). Los grises no votan. */
+function _tallyHue(px, minL, maxL, minS) {
+  var BINS = 360 / PAL_HUE_STEP;
+  var binW = new Float32Array(BINS);
+  for (var i=0;i<px.length;i+=4) {
+    var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
+    var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
+    var l=(mx+mn)/2;
+    if (l < minL || l > maxL) continue;
+    var s=d===0?0:d/(1-Math.abs(2*l-1));
+    if (s < minS) continue;
+    var h;
+    if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
+    if (h<0) h+=360;
+    binW[Math.round(h/PAL_HUE_STEP)%BINS] += s*s;
+  }
+  var best=0, bw=binW[0];
+  for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
+  return bw > 0 ? best*PAL_HUE_STEP : -1;
+}
 function _extractVibrantL(imgEl, minL, maxL) {
   try {
     var c = _vibrantCtx();
     c.clearRect(0,0,20,20); c.drawImage(imgEl,0,0,20,20);
     var px = c.getImageData(0,0,20,20).data;
-    var BINS = 360 / PAL_HUE_STEP;
-    var binW = new Float32Array(BINS);
-    for (var i=0;i<px.length;i+=4) {
-      var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
-      var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
-      var l=(mx+mn)/2;
-      if (l < minL || l > maxL) continue;
-      var s=d===0?0:d/(1-Math.abs(2*l-1));
-      if (s < 0.18) continue; // grises/neutros no votan
-      var h;
-      if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
-      if (h<0) h+=360;
-      binW[Math.round(h/PAL_HUE_STEP)%BINS] += s;
-    }
-    var best=0, bw=binW[0];
-    for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
-    if (bw<=0) return null; // sin píxeles cromáticos en el rango
-    return _hslToHexPal(best*PAL_HUE_STEP, PAL_S, PAL_L);
+    var h = _tallyHue(px, minL, maxL, 0.18);
+    if (h < 0) h = _tallyHue(px, minL, maxL, 0.05);
+    if (h < 0) return null; // sin píxeles cromáticos en el rango
+    return _hslToHexPal(h, PAL_S, PAL_L);
   } catch(e){ return null; }
 }
 
@@ -258,7 +267,7 @@ function _colorizeAvCards() {
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
-        localStorage.setItem('ukishima_vibrant4', JSON.stringify(cur));
+        localStorage.setItem('ukishima_vibrant5', JSON.stringify(cur));
       } catch(e) {}
     }
 
@@ -336,7 +345,7 @@ function _colorizeDetailHero(sub) {
   function tryExtract(imgEl) {
     var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
     if (!h) return;
-    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant4', JSON.stringify(cur)); } catch(e) {}
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant5', JSON.stringify(cur)); } catch(e) {}
     applyDetail(h);
   }
   if (img.complete && img.naturalWidth > 0) tryExtract(img);
@@ -495,7 +504,7 @@ const SolarSys = {
       const isTronco = !!_TRONCO_IDS[sub.id];
       const extract  = img => {
         if (_vibrantCache()[key]) return;
-        const hex = isTronco ? _extractVibrantL(img, 0.22, 0.75) : _extractVibrant(img);
+        const hex = isTronco ? (_extractVibrantL(img, 0.22, 0.75) || _extractVibrant(img)) : _extractVibrant(img);
         if (hex) _saveVibrant(key, hex);
       };
       if (!this._imgs[src]) {

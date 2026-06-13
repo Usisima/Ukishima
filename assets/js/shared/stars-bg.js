@@ -1,30 +1,43 @@
-/* stars-bg.js — animated ASCII star field background, shared by all pages */
+/* stars-bg.js — animated ASCII star field background, shared by all pages.
+   Render en canvas: regenerar el campo vía innerHTML a 30fps creaba/destruía
+   cientos de nodos DOM por frame y el GC congelaba la página (~3 s tras cargar). */
 (function () {
   const REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const pre = document.createElement('pre');
-  pre.id = 'stars-bg-pre';
-  pre.setAttribute('aria-hidden', 'true');
-  document.body.insertBefore(pre, document.body.firstChild);
+  const cv = document.createElement('canvas');
+  cv.id = 'stars-bg-pre';
+  cv.setAttribute('aria-hidden', 'true');
+  document.body.insertBefore(cv, document.body.firstChild);
 
-  // Fill screen width exactly at ≥4px font
+  // Misma retícula que la versión <pre>: columnas de 0.6em a ≥4px de fuente
   const _W   = window.innerWidth;
-  const COLS = Math.floor(_W / (4 * 0.6));   // fills full width, no cap
-  const fsPx = _W / (COLS * 0.6);                          // exact fill, no gaps
+  const _H   = window.innerHeight;
+  const COLS = Math.floor(_W / (4 * 0.6));
+  const fsPx = _W / (COLS * 0.6);
+  const colW  = fsPx * 0.6;
   const lineH = fsPx * 1.6;
-  const ROWS  = Math.max(Math.ceil(window.innerHeight / lineH) + 2, 18);
+  const ROWS  = Math.max(Math.ceil(_H / lineH) + 2, 18);
 
-  pre.style.cssText =
-    'position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;' +
-    'pointer-events:none;overflow:hidden;' +
-    'font-family:\'DM Mono\',monospace;' +
-    `font-size:${fsPx.toFixed(3)}px;` +
-    'width:100%;' +
-    'line-height:1.6;white-space:pre;' +
-    'margin:0;padding:0;' +
-    'opacity:0.22;mix-blend-mode:screen;' +
-    'user-select:none;-webkit-user-select:none;';
+  cv.style.cssText =
+    'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;' +
+    'pointer-events:none;opacity:0.22;mix-blend-mode:screen;';
+
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width  = Math.round(_W * DPR);
+  cv.height = Math.round(_H * DPR);
+  const ctx = cv.getContext('2d');
+  ctx.scale(DPR, DPR);
+  const FONT = fsPx.toFixed(3) + "px 'DM Mono',monospace";
+  ctx.font = FONT;
+  ctx.textBaseline = 'middle';
 
   const STAR_CH = ['.', 'o', 'o', 'O', '0'];
+
+  // Colores cacheados (lit siempre es múltiplo de 5): cero strings por frame
+  const GREY = [], BLUE = [];
+  for (let l = 0; l <= 100; l += 5) {
+    GREY[l] = 'hsl(0,0%,' + l + '%)';
+    BLUE[l] = 'hsl(210,25%,' + l + '%)';
+  }
 
   // Seeded PRNG — deterministic field so no re-randomisation on resize
   let seed = 0xabcdef01;
@@ -35,11 +48,13 @@
   const starTw = new Float32Array(COLS * ROWS);
   const starPh = new Float32Array(COLS * ROWS);
   const starSz = new Uint8Array(COLS * ROWS);
+  const starIdx = [];
 
   for (let k = 0; k < nStars; k++) {
     const c = Math.floor(rand() * COLS);
     const r = Math.floor(rand() * ROWS);
     const i = r * COLS + c;
+    if (starB[i] === 0) starIdx.push(i);
     starB[i]  = 0.18 + rand() * 0.62;
     starTw[i] = 1.4  + rand() * 7.5;   // fast: 1.4–8.9 Hz
     starPh[i] = rand() * 6.2832;
@@ -98,19 +113,21 @@
     nextShootMs = elapsedMs + 500 + Math.random() * 800;
   }
 
-  let last = null, elapsed = 0, lastRender = 0;
+  let last = null, elapsed = 0, lastRender = 0, drawn = false;
   const FRAME_MS = 1000 / 30; // 30 fps cap
   let rafId = null;
+  const sMap = new Map(); // reutilizado entre frames
 
   function tick(ts) {
     if (last !== null) elapsed += ts - last;
     last = ts;
 
     // Motion reducido: un solo frame estático y el loop se detiene
-    if (!REDUCED || !pre.innerHTML) rafId = requestAnimationFrame(tick);
+    if (!REDUCED || !drawn) rafId = requestAnimationFrame(tick);
 
     if (ts - lastRender < FRAME_MS) return;
     lastRender = ts;
+    drawn = true;
 
     const t = elapsed / 1000;
 
@@ -118,7 +135,7 @@
     if (elapsed > nextShootMs) spawnShoot(elapsed);
 
     // Update positions + build overlay map
-    const sMap = new Map();
+    sMap.clear();
     for (let i = shoots.length - 1; i >= 0; i--) {
       const s = shoots[i];
       s.x += s.vx * (FRAME_MS / 1000);
@@ -131,47 +148,29 @@
         const cy = Math.round(s.y - uy * t2);
         if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) {
           const lit = Math.min(100, Math.round(S_LT[Math.min(t2, S_LT.length - 1)] * s.bri / 5) * 5);
-          sMap.set(cy * COLS + cx, {
-            ch: S_CH[Math.min(t2, S_CH.length - 1)],
-            co: `hsl(210,25%,${lit}%)`,
-          });
+          sMap.set(cy * COLS + cx, (lit << 3) | Math.min(t2, S_CH.length - 1));
         }
       }
     }
 
-    let html = '';
-    for (let r = 0; r < ROWS; r++) {
-      if (r > 0) html += '\n';
-      let rc = null, buf = '';
+    ctx.clearRect(0, 0, _W, _H);
 
-      for (let c = 0; c < COLS; c++) {
-        const idx = r * COLS + c;
-        let ch = ' ', color = null;
-
-        if (starB[idx] > 0) {
-          const sb = starB[idx] * Math.max(0, 0.5 + 0.5 * Math.sin(t * starTw[idx] + starPh[idx]));
-          if (sb > 0.11) {
-            ch    = STAR_CH[starSz[idx]];
-            const lit = Math.round((26 + sb * 60) / 5) * 5;
-            color = `hsl(0,0%,${lit}%)`;
-          }
-        }
-
-        // Shooting star overrides star field
-        const shot = sMap.get(idx);
-        if (shot) { ch = shot.ch; color = shot.co; }
-
-        if (color === rc) {
-          buf += ch;
-        } else {
-          if (buf) html += rc ? `<span style="color:${rc}">${buf}</span>` : buf;
-          rc = color; buf = ch;
-        }
-      }
-      if (buf) html += rc ? `<span style="color:${rc}">${buf}</span>` : buf;
+    // Estrellas fijas (las celdas con fugaz encima se pintan después)
+    for (let k = 0; k < starIdx.length; k++) {
+      const idx = starIdx[k];
+      if (sMap.has(idx)) continue;
+      const sb = starB[idx] * Math.max(0, 0.5 + 0.5 * Math.sin(t * starTw[idx] + starPh[idx]));
+      if (sb <= 0.11) continue;
+      const lit = Math.round((26 + sb * 60) / 5) * 5;
+      ctx.fillStyle = GREY[lit];
+      ctx.fillText(STAR_CH[starSz[idx]], (idx % COLS) * colW, ((idx / COLS | 0) + 0.5) * lineH);
     }
 
-    pre.innerHTML = html;
+    // Estrellas fugaces
+    sMap.forEach((packed, idx) => {
+      ctx.fillStyle = BLUE[packed >> 3];
+      ctx.fillText(S_CH[packed & 7], (idx % COLS) * colW, ((idx / COLS | 0) + 0.5) * lineH);
+    });
   }
 
   document.addEventListener('visibilitychange', () => {
@@ -179,12 +178,13 @@
       cancelAnimationFrame(rafId);
       rafId = null;
       last = null; // evita salto de tiempo al volver
-    } else if (!rafId && !(REDUCED && pre.innerHTML)) {
+    } else if (!rafId && !(REDUCED && drawn)) {
       rafId = requestAnimationFrame(tick);
     }
   });
 
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    ctx.font = FONT; // re-asigna ya con DM Mono cargada
     rafId = requestAnimationFrame(tick);
   });
 })();

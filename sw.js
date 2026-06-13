@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v200';
+const CACHE = 'ukishima-v201';
 
 // App shell crítico: si algo de esto falla, el SW no se instala
 const CORE = [
@@ -120,6 +120,11 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(e.request);
+      // Inmutables (imágenes, fuentes, KaTeX versionado): caché directa, sin
+      // revalidación — evita decenas de fetch+cache.put de fondo en cada página
+      if (cached && (/\/assets\/(images|fonts)\//.test(url.pathname) || url.hostname === KATEX_CDN)) {
+        return cached;
+      }
       const networkFetch = fetch(e.request)
         .then(res => {
           if (res.ok && res.type !== 'opaque') cache.put(e.request, res.clone());
