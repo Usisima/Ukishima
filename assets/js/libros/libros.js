@@ -110,11 +110,11 @@ function _libExtractVibrant(imgEl) {
    igual que colorizeCards() en estadisticas.html                    */
 function _colorizeLibCovers() {
   var vc;
-  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant25')||'{}'); } catch(e){ vc={}; }
+  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant26')||'{}'); } catch(e){ vc={}; }
   var pending = 0;
 
   function save() {
-    try { localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc)); } catch(e){}
+    try { localStorage.setItem('ukishima_vibrant26', JSON.stringify(vc)); } catch(e){}
   }
 
   document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
@@ -169,7 +169,7 @@ function palColor(subj) {
   var icon  = entry && entry.icon;
   if (icon) {
     try {
-      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}')[icon];
+      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant26') || '{}')[icon];
       if (hex) {
         var h = _libHexToH(hex);
         return 'hsla(' + h + ',75%,10%,0.50)';

@@ -93,14 +93,14 @@ function _extractVibrant(imgEl) {
 }
 
 function _vibrantCache() {
-  try { return JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}'); }
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant26') || '{}'); }
   catch { return {}; }
 }
 
 function _saveVibrant(src, hex) {
   try {
     var vc = _vibrantCache(); vc[src] = hex;
-    localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc));
+    localStorage.setItem('ukishima_vibrant26', JSON.stringify(vc));
   } catch(e) {}
 }
 
@@ -259,7 +259,7 @@ function _colorizeAvCards() {
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
-        localStorage.setItem('ukishima_vibrant25', JSON.stringify(cur));
+        localStorage.setItem('ukishima_vibrant26', JSON.stringify(cur));
       } catch(e) {}
     }
 
@@ -337,7 +337,7 @@ function _colorizeDetailHero(sub) {
   function tryExtract(imgEl) {
     var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
     if (!h) return;
-    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant25', JSON.stringify(cur)); } catch(e) {}
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant26', JSON.stringify(cur)); } catch(e) {}
     applyDetail(h);
   }
   if (img.complete && img.naturalWidth > 0) tryExtract(img);

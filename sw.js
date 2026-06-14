@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v227';
+const CACHE = 'ukishima-v228';
 
 // App shell crítico: si algo de esto falla, el SW no se instala
 const CORE = [
@@ -72,7 +72,7 @@ const CORE = [
 ];
 
 // Iconos de materias: best-effort, no bloquean la instalación
-const IMAGES = Array.from({ length: 101 }, (_, i) => `./assets/images/d${i}.webp`);
+const IMAGES = Array.from({ length: 160 }, (_, i) => `./assets/images/d${i}.webp`);
 
 self.addEventListener('install', e => {
   e.waitUntil(

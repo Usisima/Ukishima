@@ -163,9 +163,9 @@
         chip.classList.add('loaded');
         try {
           var src = img.getAttribute('src');
-          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}');
+          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant26') || '{}');
           vc[src] = hex;
-          localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc));
+          localStorage.setItem('ukishima_vibrant26', JSON.stringify(vc));
         } catch(e) {}
       }
       if (img.complete && img.naturalWidth > 0) { apply(); }
