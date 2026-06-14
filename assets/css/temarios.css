@@ -295,16 +295,16 @@ body {
 .meta-pill {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card-ac, #9bbfb5) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-ac, #9bbfb5) 40%, transparent);
   padding: 2px 8px;
   border-radius: 99px;
-  color: var(--ink3);
+  color: var(--ink);
   letter-spacing: 0.04em;
 }
 
 .meta-pill b {
-  color: var(--ink2);
+  color: var(--card-ac, var(--ink2));
   font-weight: 500;
 }
 

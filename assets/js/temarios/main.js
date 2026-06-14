@@ -394,6 +394,64 @@ function stagger(root) {
   });
 }
 
+/* ── Color del icono (mismo histograma/caché que avance·estadísticas) ── */
+const _temVibCv = document.createElement('canvas');
+_temVibCv.width = _temVibCv.height = 20;
+const _temVibX = _temVibCv.getContext('2d', { willReadFrequently: true });
+function _temVibGet() {
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant26') || '{}'); }
+  catch { return {}; }
+}
+function _temHexC(v) { return ('0' + Math.round(v).toString(16)).slice(-2); }
+function _temHslHex(h, s, l) {
+  s /= 100; l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => { const k = (n + h / 30) % 12; return _temHexC((l - a * Math.max(-1, Math.min(k - 3, Math.min(9 - k, 1)))) * 255); };
+  return '#' + f(0) + f(8) + f(4);
+}
+function _temExtract(img) {
+  try {
+    _temVibX.clearRect(0, 0, 20, 20);
+    _temVibX.drawImage(img, 0, 0, 20, 20);
+    const px = _temVibX.getImageData(0, 0, 20, 20).data;
+    const BINS = 72, STEP = 5;
+    const bw = new Float32Array(BINS), bs = new Float32Array(BINS), bl = new Float32Array(BINS);
+    for (let i = 0; i < px.length; i += 4) {
+      const r = px[i] / 255, g = px[i + 1] / 255, b = px[i + 2] / 255;
+      const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, l = (mx + mn) / 2;
+      if (l < 0.20 || l > 0.90 || d === 0) continue;
+      const s = d / (1 - Math.abs(2 * l - 1));
+      if (s < 0.06) continue;
+      let h;
+      if (mx === r) h = ((g - b) / d % 6) * 60; else if (mx === g) h = ((b - r) / d + 2) * 60; else h = ((r - g) / d + 4) * 60;
+      if (h < 0) h += 360;
+      const bi = Math.round(h / STEP) % BINS;
+      bw[bi] += s; bs[bi] += s * s; bl[bi] += l * s;
+    }
+    let best = 0, bv = bw[0];
+    for (let i = 1; i < BINS; i++) if (bw[i] > bv) { bv = bw[i]; best = i; }
+    if (bv <= 0) return null;
+    return _temHslHex(best * STEP, bs[best] / bv * 100, bl[best] / bv * 100);
+  } catch (e) { return null; }
+}
+function _temColorizeCards(root) {
+  const vc = _temVibGet();
+  let dirty = false;
+  const save = () => { if (dirty) { try { localStorage.setItem('ukishima_vibrant26', JSON.stringify(vc)); } catch (e) {} dirty = false; } };
+  root.querySelectorAll('.card').forEach(card => {
+    const img = card.querySelector('.card-icon img');
+    const src = img && img.getAttribute('src');
+    if (!src) return;
+    if (vc[src]) { card.style.setProperty('--card-ac', vc[src]); return; }
+    const go = () => {
+      const hex = _temExtract(img);
+      if (hex) { card.style.setProperty('--card-ac', hex); vc[src] = hex; dirty = true; save(); }
+    };
+    if (img.complete && img.naturalWidth > 0) go();
+    else img.addEventListener('load', go, { once: true });
+  });
+}
+
 function renderView(root, view, query) {
   TEM_VIEW = view;
   const searchBar = document.getElementById('tem-search-bar');
@@ -415,6 +473,7 @@ function renderView(root, view, query) {
   document.documentElement.style.scrollBehavior = '';
   stagger(root);
   katexRoot(root);
+  _temColorizeCards(root);
   TemDisc.reset();
   requestAnimationFrame(() => TemDisc.setVisible(view === 'tronco' || view === 'optativas'));
 }

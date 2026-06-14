@@ -1062,9 +1062,10 @@ const R = {
     let cardsHtml = '';
     for (const sem of semKeys) {
       if (sem) {
+        const _creds = bySem[sem].reduce((acc, s) => acc + ((_findInData(s) || {}).creditos || 0), 0);
         cardsHtml += `
         <div class="av-sem-label">
-          <span>${(SEM_ORD[Number(sem)] || `${esc(sem)}°`) + ' Semestre'}</span>
+          <span>${(SEM_ORD[Number(sem)] || `${esc(sem)}°`) + ' Semestre'}${_creds ? ` <span class="av-sem-creds">· ${_creds} créditos</span>` : ''}</span>
           <button class="av-sem-add" onclick="A.openSubModal('${esc(sem)}')" aria-label="Agregar al semestre ${esc(sem)}">
             <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -1183,6 +1184,7 @@ const R = {
     /* Siempre preferir el ícono actual de data.js sobre el guardado en localStorage */
     const dataMatD = _findInData(sub);
     const iconD    = (dataMatD && dataMatD.icon) || sub.icon || 'assets/images/d0.webp';
+    const temarioId = dataMatD && dataMatD.id;
 
     const tareaRows = tareas.length
       ? tareas.map((t,i)=>`
@@ -1267,6 +1269,10 @@ const R = {
           </div>
           ${(sub.grupo||sub.salon)?_mkNotchBar(sub,barPct):`<div class="av-card-progress"><div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div></div>`}
         </div>
+        ${temarioId ? `<button class="av-temario-btn" onclick="location.href='temarios.html#mat/${esc(temarioId)}'">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Ver temario
+        </button>` : ''}
         ${criterios.length ? criterios.map(c => {
           const cItems   = c.items||[];
           const expanded = !!_folderExpanded[c.id];
