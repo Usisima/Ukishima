@@ -60,19 +60,7 @@ body {
   gap: 1rem;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px) saturate(150%);
-  border-bottom: 1px solid var(--border);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
-}
-
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 5%;
-  right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity: 0.3;
 }
 
 .header-left {
@@ -139,7 +127,7 @@ body {
 
 /* ==================== BOTTOM NAV ==================== */
 .bottom-nav {
-  position: static;
+  position: relative;
   flex-shrink: 0;
   width: 100%;
   z-index: 200;
