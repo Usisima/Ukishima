@@ -1687,9 +1687,9 @@ const SortModal = {
   close() {
     const m = document.getElementById('av-sort-modal');
     if (this._block) document.removeEventListener('touchmove', this._block, { passive: false });
-    Nav.home();
     m.classList.add('is-closing');
     setTimeout(() => { m.classList.remove('is-closing'); m.style.display = 'none'; }, 290);
+    R.home();
   },
   renderSeg() {
     const dir = getSortDir(), self = this;
