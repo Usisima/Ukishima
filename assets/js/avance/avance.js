@@ -1681,7 +1681,7 @@ const SortModal = {
     this.renderList();
     const m = document.getElementById('av-sort-modal');
     m.style.display = 'flex';
-    this._block = e => { if (!e.target.closest('.av-sort-sheet')) e.preventDefault(); };
+    this._block = e => { if (!e.target.closest('.av-sort-list')) e.preventDefault(); };
     document.addEventListener('touchmove', this._block, { passive: false });
   },
   close() {
