@@ -531,6 +531,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderView(root, (e.state || {}).view || 'tronco', '');
   });
 
+  // Deep-link #mat/<id> al cambiar el hash, incluido cuando se activa una
+  // página prerenderizada (su DOMContentLoaded ya corrió sin el hash).
+  window.addEventListener('hashchange', () => {
+    const h = location.hash || '';
+    if (!h.startsWith('#mat/')) return;
+    const id = decodeURIComponent(h.slice(5));
+    const view = id.startsWith('opt_') ? 'optativas' : 'tronco';
+    if (TEM_VIEW !== view) renderView(root, view);
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollToCard(id)));
+  });
+
   // ── Tab switching ────────────────────────────────────
   const temTabs = document.getElementById('tem-tabs');
   if (temTabs) {
