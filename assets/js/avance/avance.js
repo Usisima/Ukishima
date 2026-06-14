@@ -1712,9 +1712,13 @@ const SortModal = {
       const label = k ? ((SEM_ORD[Number(k)] || (k + '°')) + ' Semestre') : 'Sin semestre';
       html += `<div class="av-sort-head" data-sem="${esc(k)}">${esc(label)}</div>`;
       for (const s of bySem[k]) {
-        html += `<div class="av-sort-row" data-id="${esc(s.id)}">`
-          + `<span class="av-sort-grip" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/></svg></span>`
-          + `<span class="av-sort-name">${esc(s.name)}</span></div>`;
+        const _e = _findInData(s);
+        const _icon = (_e && _e.icon) || s.icon || 'assets/images/d0.webp';
+        const _col = getSubColor(s);
+        html += `<div class="av-sort-row" data-id="${esc(s.id)}" style="background:${_col.bg};border-color:${hexRgba(_col.ac, 0.45)}">`
+          + `<img class="av-sort-icon" src="${esc(_icon)}" alt="" onerror="this.src='assets/images/d0.webp'">`
+          + `<span class="av-sort-name">${esc(s.name)}</span>`
+          + `<span class="av-sort-grip" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/></svg></span></div>`;
       }
     }
     list.innerHTML = html;

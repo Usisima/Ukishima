@@ -1427,9 +1427,13 @@ body {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(155,191,181,0.1);
 }
+.av-sort-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border-radius: 5px; object-fit: cover; background: #0d1512;
+}
 .av-sort-grip {
   display: flex; flex-shrink: 0; padding: 2px;
-  color: rgba(232,245,242,0.4); cursor: grab; touch-action: none;
+  color: rgba(232,245,242,0.55); cursor: grab; touch-action: none;
 }
 .av-sort-name {
   flex: 1; min-width: 0; font-size: 14px; color: #e8f5f2;
