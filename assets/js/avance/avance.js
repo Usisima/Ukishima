@@ -758,12 +758,14 @@ const SolarSys = {
       this.raf = requestAnimationFrame(tick);
       if (ts - last < 1000/FPS - 1) return;
       last = ts;
+      /* La animación de dibujo de órbitas (intro) avanza SIEMPRE, también
+         mientras se arrastra/rota el disco, para que no se pause. */
+      if (this._introT < 2.6) {
+        this._introT = REDUCED_MOTION ? 2.6 : this._introT + 1/FPS;
+      }
       if (!this.dragging) {
         if (!REDUCED_MOTION) {
           this.t += 1/FPS;
-          this._introT += 1/FPS;
-        } else if (this._introT < 2.6) {
-          this._introT = 2.6; /* sin intro: órbitas estáticas, arrastre sigue activo */
         }
         /* Inertia (movimiento iniciado por el usuario, se conserva) */
         if (Math.abs(this.velRot) > 0.0001) {
