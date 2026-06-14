@@ -1415,7 +1415,7 @@ body {
 .av-sort-list {
   flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  display: flex; flex-direction: column; gap: 5px; padding: 2px 1px 4px;
+  display: flex; flex-direction: column; gap: 5px; padding: 2px 8px 4px 2px;
 }
 .av-sort-head {
   font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;

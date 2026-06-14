@@ -421,8 +421,10 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.book-fav-dot:hover,
 .book-fav-dot.faved { color: var(--gold); border-color: rgba(155, 191, 181, 0.45); }
+@media (hover: hover) {
+  .book-fav-dot:hover { color: var(--gold); border-color: rgba(155, 191, 181, 0.45); }
+}
 
 .book-card-title {
   font-family: 'Playfair Display', serif;
@@ -620,11 +622,17 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.hero-fav-btn:hover,
 .hero-fav-btn.faved {
   background: rgba(155, 191, 181, 0.22);
   border-color: rgba(155, 191, 181, 0.5);
   color: var(--gold);
+}
+@media (hover: hover) {
+  .hero-fav-btn:hover {
+    background: rgba(155, 191, 181, 0.22);
+    border-color: rgba(155, 191, 181, 0.5);
+    color: var(--gold);
+  }
 }
 
 /* PDF button overrides inside the dark hero */
@@ -1030,7 +1038,8 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.note-fav-btn:hover, .note-fav-btn.faved { color: var(--gold); }
+.note-fav-btn.faved { color: var(--gold); }
+@media (hover: hover) { .note-fav-btn:hover { color: var(--gold); } }
 
 /* ── FAVS VIEW ───────────────────────────────── */
 .favs-section { padding: 1rem 1.2rem; max-width: 680px; margin: 0 auto; }
