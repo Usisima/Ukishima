@@ -104,8 +104,7 @@
 
   function toHex(v) { return ('0' + Math.round(v).toString(16)).slice(-2); }
 
-  /* Matiz dominante por histograma, paleta acotada (12 matices, S/L fijas)
-     — idéntico a avance.js y libros.js */
+  /* Matiz dominante por histograma (bins 5°, S/L reales del píxel) */
   function hslToHex(h, s, l) {
     s/=100; l/=100;
     var a = s * Math.min(l, 1-l);
@@ -121,31 +120,30 @@
       offCtx.clearRect(0, 0, 20, 20);
       offCtx.drawImage(img, 0, 0, 20, 20);
       var px = offCtx.getImageData(0, 0, 20, 20).data;
-      var STEP = 30, S_PAL = 28, L_PAL = 40, BINS = 360/STEP;
-      /* Peso s²: los tonos vivos dominan sobre los apagados; dos pasadas
-         (s≥0.18, luego s≥0.05 para discos casi grises como d21) */
+      var STEP = 5, BINS = 72;
       function tally(minS) {
-        var binW = new Float32Array(BINS);
+        var binW = new Float32Array(BINS), binSw = new Float32Array(BINS), binLw = new Float32Array(BINS);
         for (var i = 0; i < px.length; i += 4) {
           var rn = px[i]/255, gn = px[i+1]/255, bn = px[i+2]/255;
           var mx = Math.max(rn,gn,bn), mn = Math.min(rn,gn,bn), d = mx - mn;
           var l  = (mx + mn) / 2;
-          if (l < 0.12 || l > 0.92) continue;
+          if (l < 0.20 || l > 0.90) continue;
           var s  = d === 0 ? 0 : d / (1 - Math.abs(2*l - 1));
           if (s < minS) continue;
           var h;
           if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
           if (h<0) h+=360;
-          binW[Math.round(h/STEP)%BINS] += s*s;
+          var b = Math.round(h/STEP) % BINS, w = s;
+          binW[b] += w; binSw[b] += s*w; binLw[b] += l*w;
         }
         var best=0, bw=binW[0];
-        for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
-        return bw > 0 ? best*STEP : -1;
+        for (var b2=1;b2<BINS;b2++) if (binW[b2]>bw){bw=binW[b2];best=b2;}
+        if (bw <= 0) return null;
+        return { h: best*STEP, s: binSw[best]/bw*100, l: binLw[best]/bw*100 };
       }
-      var hh = tally(0.18);
-      if (hh < 0) hh = tally(0.05);
-      return hh >= 0 ? hslToHex(hh, S_PAL, L_PAL)
-                     : hslToHex(165, 8, L_PAL); /* totalmente neutro */
+      var r = tally(0.06);
+      return r ? hslToHex(r.h, r.s, r.l)
+               : hslToHex(165, 8, 40); /* totalmente neutro */
     } catch(e) { return null; }
   }
 
@@ -165,9 +163,9 @@
         chip.classList.add('loaded');
         try {
           var src = img.getAttribute('src');
-          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant5') || '{}');
+          var vc  = JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}');
           vc[src] = hex;
-          localStorage.setItem('ukishima_vibrant5', JSON.stringify(vc));
+          localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc));
         } catch(e) {}
       }
       if (img.complete && img.naturalWidth > 0) { apply(); }

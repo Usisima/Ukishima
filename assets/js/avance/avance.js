@@ -70,8 +70,8 @@ const SEM_ORD = ['','Primer','Segundo','Tercer','Cuarto','Quinto','Sexto','Sépt
 /* ═══════════════════════════════════════════════════════
    SISTEMA DE COLOR — idéntico a estadisticas.html
    ═══════════════════════════════════════════════════════
-   extractVibrant: matiz dominante por histograma (el color
-   que más aparece), ajustado a paleta de 12 matices.
+   extractVibrant: matiz dominante por histograma (bins de 5°,
+   S/L reales de los píxeles ganadores, sin paleta restringida).
    Los resultados se cachean en ukishima_vibrant y se
    aplican a las cards DESPUÉS de que la imagen carga,
    igual que colorizeCards() en estadisticas.html.        */
@@ -88,19 +88,19 @@ function _vibrantCtx() {
 }
 
 function _extractVibrant(imgEl) {
-  return _extractVibrantL(imgEl, 0.25, 1) || _extractVibrantL(imgEl, 0, 1) ||
-         _hslToHexPal(165, 8, PAL_L); // disco totalmente neutro: gris salvia
+  return _extractVibrantL(imgEl, 0.20, 0.90) ||
+         _hslToHex(165, 8, 40); // disco totalmente neutro: gris salvia
 }
 
 function _vibrantCache() {
-  try { return JSON.parse(localStorage.getItem('ukishima_vibrant5') || '{}'); }
+  try { return JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}'); }
   catch { return {}; }
 }
 
 function _saveVibrant(src, hex) {
   try {
     var vc = _vibrantCache(); vc[src] = hex;
-    localStorage.setItem('ukishima_vibrant5', JSON.stringify(vc));
+    localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc));
   } catch(e) {}
 }
 
@@ -158,10 +158,7 @@ function _cacheKey(subId, icon) {
                              : 'ukishima_opt_v:'    + icon;
 }
 
-/* ── Paleta acotada: 12 matices (pasos de 30°), S/L fijas ── */
-var PAL_HUE_STEP = 30, PAL_S = 28, PAL_L = 40;
-
-function _hslToHexPal(h, s, l) {
+function _hslToHex(h, s, l) {
   s/=100; l/=100;
   var a = s * Math.min(l, 1-l);
   var f = function(n){
@@ -172,15 +169,11 @@ function _hslToHexPal(h, s, l) {
   return '#'+f(0)+f(8)+f(4);
 }
 
-/* Color dominante por histograma de matiz: cada píxel cromático vota
-   por su bin de matiz con peso s² — los tonos vivos dominan sobre los
-   apagados (plástico de la caja) aunque éstos sean más abundantes.
-   Si ningún píxel supera s≥0.18, segunda pasada con s≥0.05 para discos
-   casi grises con un tinte sutil (p.ej. d21). Gana el matiz con más
-   peso y se ajusta a la paleta (S/L fijas). Los grises no votan. */
+/* Color dominante por histograma de matiz: bins de 5° (72 bins), peso s².
+   Devuelve {h, s, l} con los valores reales de los píxeles ganadores, o null. */
 function _tallyHue(px, minL, maxL, minS) {
-  var BINS = 360 / PAL_HUE_STEP;
-  var binW = new Float32Array(BINS);
+  var STEP = 5, BINS = 72;
+  var binW = new Float32Array(BINS), binSw = new Float32Array(BINS), binLw = new Float32Array(BINS);
   for (var i=0;i<px.length;i+=4) {
     var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
     var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
@@ -191,21 +184,22 @@ function _tallyHue(px, minL, maxL, minS) {
     var h;
     if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
     if (h<0) h+=360;
-    binW[Math.round(h/PAL_HUE_STEP)%BINS] += s*s;
+    var b = Math.round(h/STEP) % BINS, w = s;
+    binW[b] += w; binSw[b] += s*w; binLw[b] += l*w;
   }
   var best=0, bw=binW[0];
-  for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
-  return bw > 0 ? best*PAL_HUE_STEP : -1;
+  for (var b2=1;b2<BINS;b2++) if (binW[b2]>bw){bw=binW[b2];best=b2;}
+  if (bw <= 0) return null;
+  return { h: best*STEP, s: binSw[best]/bw*100, l: binLw[best]/bw*100 };
 }
 function _extractVibrantL(imgEl, minL, maxL) {
   try {
     var c = _vibrantCtx();
     c.clearRect(0,0,20,20); c.drawImage(imgEl,0,0,20,20);
     var px = c.getImageData(0,0,20,20).data;
-    var h = _tallyHue(px, minL, maxL, 0.18);
-    if (h < 0) h = _tallyHue(px, minL, maxL, 0.05);
-    if (h < 0) return null; // sin píxeles cromáticos en el rango
-    return _hslToHexPal(h, PAL_S, PAL_L);
+    var r = _tallyHue(px, minL, maxL, 0.06);
+    if (!r) return null;
+    return _hslToHex(r.h, r.s, r.l);
   } catch(e){ return null; }
 }
 
@@ -259,15 +253,13 @@ function _colorizeAvCards() {
 
     function apply(imgEl) {
       /* Tronco: filtra blancos/negros; optativas: sin filtro */
-      var hex = isTronco
-        ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl))
-        : _extractVibrant(imgEl);
+      var hex = _extractVibrant(imgEl);
       if (!hex) return;
       applyHex(hex);
       try {
         var cur = _vibrantCache();
         cur[key] = hex;
-        localStorage.setItem('ukishima_vibrant5', JSON.stringify(cur));
+        localStorage.setItem('ukishima_vibrant25', JSON.stringify(cur));
       } catch(e) {}
     }
 
@@ -345,7 +337,7 @@ function _colorizeDetailHero(sub) {
   function tryExtract(imgEl) {
     var h = isTronco ? (_extractVibrantL(imgEl, 0.20, 0.75) || _extractVibrant(imgEl)) : _extractVibrant(imgEl);
     if (!h) return;
-    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant5', JSON.stringify(cur)); } catch(e) {}
+    try { var cur = _vibrantCache(); cur[key] = h; localStorage.setItem('ukishima_vibrant25', JSON.stringify(cur)); } catch(e) {}
     applyDetail(h);
   }
   if (img.complete && img.naturalWidth > 0) tryExtract(img);

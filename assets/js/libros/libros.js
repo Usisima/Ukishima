@@ -57,8 +57,7 @@ function esc(s) {
 
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
-/* ── extractVibrant — matiz dominante por histograma, paleta acotada
-   (12 matices en pasos de 30°, S/L fijas) — idéntico a avance.js ── */
+/* ── extractVibrant — matiz dominante por histograma (bins 5°, S/L reales) ── */
 var _libVibCv = null, _libVibCtx = null;
 function _libHslToHex(h, s, l) {
   s/=100; l/=100;
@@ -80,32 +79,30 @@ function _libExtractVibrant(imgEl) {
     _libVibCtx.clearRect(0,0,20,20);
     _libVibCtx.drawImage(imgEl,0,0,20,20);
     var px = _libVibCtx.getImageData(0,0,20,20).data;
-    var STEP = 30, S_PAL = 28, L_PAL = 40, BINS = 360/STEP;
-    /* Peso s²: los tonos vivos dominan sobre los apagados (plástico de
-       la caja) aunque sean menos. Dos pasadas: s≥0.18, luego s≥0.05
-       para discos casi grises (p.ej. d21); si nada vota, gris salvia. */
+    var STEP = 5, BINS = 72;
     function tally(minS) {
-      var binW = new Float32Array(BINS);
+      var binW = new Float32Array(BINS), binSw = new Float32Array(BINS), binLw = new Float32Array(BINS);
       for (var i=0;i<px.length;i+=4) {
         var rn=px[i]/255, gn=px[i+1]/255, bn=px[i+2]/255;
         var mx=Math.max(rn,gn,bn), mn=Math.min(rn,gn,bn), d=mx-mn;
         var l=(mx+mn)/2;
-        if (l<0.12 || l>0.92) continue;
+        if (l<0.20 || l>0.90) continue;
         var s=d===0?0:d/(1-Math.abs(2*l-1));
         if (s<minS) continue;
         var h;
         if (mx===rn) h=((gn-bn)/d%6)*60; else if (mx===gn) h=((bn-rn)/d+2)*60; else h=((rn-gn)/d+4)*60;
         if (h<0) h+=360;
-        binW[Math.round(h/STEP)%BINS] += s*s;
+        var b = Math.round(h/STEP) % BINS, w = s;
+        binW[b] += w; binSw[b] += s*w; binLw[b] += l*w;
       }
       var best=0, bw=binW[0];
-      for (var b=1;b<BINS;b++) if (binW[b]>bw){bw=binW[b];best=b;}
-      return bw > 0 ? best*STEP : -1;
+      for (var b2=1;b2<BINS;b2++) if (binW[b2]>bw){bw=binW[b2];best=b2;}
+      if (bw <= 0) return null;
+      return { h: best*STEP, s: binSw[best]/bw*100, l: binLw[best]/bw*100 };
     }
-    var h2 = tally(0.18);
-    if (h2 < 0) h2 = tally(0.05);
-    return h2 >= 0 ? _libHslToHex(h2, S_PAL, L_PAL)
-                   : _libHslToHex(165, 8, L_PAL); // totalmente neutro
+    var r = tally(0.06);
+    return r ? _libHslToHex(r.h, r.s, r.l)
+             : _libHslToHex(165, 8, 40); // totalmente neutro: gris salvia
   } catch(e){ return null; }
 }
 
@@ -113,11 +110,11 @@ function _libExtractVibrant(imgEl) {
    igual que colorizeCards() en estadisticas.html                    */
 function _colorizeLibCovers() {
   var vc;
-  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant5')||'{}'); } catch(e){ vc={}; }
+  try { vc = JSON.parse(localStorage.getItem('ukishima_vibrant25')||'{}'); } catch(e){ vc={}; }
   var pending = 0;
 
   function save() {
-    try { localStorage.setItem('ukishima_vibrant5', JSON.stringify(vc)); } catch(e){}
+    try { localStorage.setItem('ukishima_vibrant25', JSON.stringify(vc)); } catch(e){}
   }
 
   document.querySelectorAll('.book-cover-bg[data-icon], .hero-bg[data-icon]').forEach(function(coverEl) {
@@ -172,7 +169,7 @@ function palColor(subj) {
   var icon  = entry && entry.icon;
   if (icon) {
     try {
-      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant5') || '{}')[icon];
+      var hex = JSON.parse(localStorage.getItem('ukishima_vibrant25') || '{}')[icon];
       if (hex) {
         var h = _libHexToH(hex);
         return 'hsla(' + h + ',75%,10%,0.50)';
