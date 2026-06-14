@@ -623,6 +623,13 @@ const R = {
             <span></span><span></span><span></span><span></span><span></span>
           </div>
           <div class="hero-watermark" aria-hidden="true">${esc(subject)}</div>
+          <div class="book-search-row">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+            <input class="book-search-input" type="search" placeholder="Buscar en este libro…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-form-type="other" data-lpignore="true" data-1p-ignore value="${esc(S.bookQuery)}">
+            <button class="book-search-clear" style="display:${S.bookQuery ? 'flex' : 'none'}" aria-label="Limpiar">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
           <div class="hero-row">
             <div class="hero-cover">
               ${coverDiv(color, b.title, _detailIcon)}
@@ -637,14 +644,6 @@ const R = {
               ${isFavBook(b.id) ? '♥' : '♡'}
             </button>
           </div>
-        </div>
-
-        <div class="book-search-row">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
-          <input class="book-search-input" type="search" placeholder="Buscar en este libro…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-form-type="other" data-lpignore="true" data-1p-ignore value="${esc(S.bookQuery)}">
-          <button class="book-search-clear" style="display:${S.bookQuery ? 'flex' : 'none'}" aria-label="Limpiar">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
         </div>
 
         <div class="book-chapters-wrap">
