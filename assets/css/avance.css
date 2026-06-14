@@ -1215,6 +1215,95 @@ body {
   text-align: right;
 }
 
+/* ── Chevron + detalles de la tarea (asignación, entrega, descripción) ── */
+.av-item-chev {
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; padding: 0; margin: 0 -2px;
+  color: var(--ink3); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.18s;
+}
+.av-folder-item.is-open .av-item-chev { color: var(--ink2); }
+.av-item-chev svg { transition: transform 0.22s cubic-bezier(0.4,0,0.2,1); }
+.av-folder-item.is-open .av-item-chev svg { transform: rotate(90deg); }
+
+.av-item-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.26s cubic-bezier(0.4,0,0.2,1);
+}
+.av-folder-item.is-open .av-item-details { grid-template-rows: 1fr; }
+.av-item-details-inner { overflow: hidden; min-height: 0; }
+
+.av-item-det-grid {
+  display: flex;
+  gap: 10px;
+  padding: 0 14px 6px 42px;
+}
+.av-item-det {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+.av-item-det--desc { padding: 0 14px 12px 42px; }
+.av-item-det-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink3);
+}
+.av-item-det-date,
+.av-item-det-desc {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(155,191,181,0.18);
+  border-radius: 7px;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+}
+.av-item-det-date:focus,
+.av-item-det-desc:focus { border-color: rgba(155,191,181,0.5); }
+.av-item-det-desc { resize: none; line-height: 1.45; min-height: 30px; }
+.av-item-det-date::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+
+/* Resumen de fechas visible con el chevron cerrado (debajo del título) */
+.av-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.av-item-main .av-crit-item-name { flex: none; width: 100%; }
+.av-item-datesum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+.av-item-datesum-assign,
+.av-item-datesum-due {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.03em;
+}
+/* asignada: color de la materia (menos destacable que el título) */
+.av-item-datesum-assign { opacity: 0.9; }
+/* entrega: blanco-gris, pequeño */
+.av-item-datesum-due { color: rgba(232, 245, 242, 0.45); }
+/* con el panel abierto, el resumen se oculta (los campos editables lo sustituyen) */
+.av-folder-item.is-open .av-item-datesum { display: none; }
+
 .av-folder-body .av-empty-msg {
   padding: 14px 14px;
 }

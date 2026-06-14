@@ -21,5 +21,3 @@ nougat_colab.ipynb
 # -- Instaladores / herramientas locales (no son assets web) --------
 tools/
 *.exe
-estadisticas.html
-assets/css/estadisticas.css

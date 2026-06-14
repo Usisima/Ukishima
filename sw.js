@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v248';
+const CACHE = 'ukishima-v251';
 
 // App shell crítico: si algo de esto falla, el SW no se instala
 const CORE = [
@@ -11,11 +11,13 @@ const CORE = [
   './temarios.html',
   './libros.html',
   './calendario.html',
+  './estadisticas.html',
   './assets/css/dashboard.css',
   './assets/css/temarios.css',
   './assets/css/libros.css',
   './assets/css/calendario.css',
   './assets/css/avance.css',
+  './assets/css/estadisticas.css',
   './assets/js/avance/avance.js',
   './assets/js/shared/page-transitions.js',
   './assets/js/shared/stars-bg.js',

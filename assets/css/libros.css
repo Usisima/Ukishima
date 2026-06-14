@@ -493,6 +493,11 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* gap define la separación MÍNIMA entre la barra de búsqueda y la fila de
+     título/autor; space-between solo reparte el espacio sobrante. Así, con
+     títulos o autores largos (la fila crece y consume el hueco) nunca llegan
+     a tocarse ni solaparse. */
+  gap: 0.9rem;
   padding: 1.1rem 1.2rem 1.3rem;
   margin: -1.2rem -1.2rem 1.25rem;
   border-radius: 0 0 18px 18px;
@@ -692,6 +697,116 @@ body {
 .book-chapters-wrap {
   padding-bottom: 2rem;
 }
+
+/* ── USER NOTES — notas propias por libro ────── */
+.book-usernotes {
+  margin: 0 0 1.4rem;
+  padding: 0.95rem 1.05rem 1.05rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.usernotes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.usernotes-title {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink2);
+}
+.usernotes-title svg { color: var(--gold); flex-shrink: 0; }
+.usernotes-edit-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink3);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 0.2rem 0.72rem;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.usernotes-edit-btn:hover { color: var(--ink); border-color: rgba(155, 191, 181, 0.45); }
+.usernotes-empty {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ink3);
+}
+.usernotes-kbd {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.04em 0.34em;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ink2);
+}
+.usernotes-body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.62;
+  color: var(--ink);
+}
+.usernotes-body p { margin: 0 0 0.6rem; }
+.usernotes-body p:last-child { margin-bottom: 0; }
+.usernotes-textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  outline: none;
+}
+.usernotes-textarea:focus { border-color: rgba(155, 191, 181, 0.5); }
+.usernotes-textarea::placeholder { color: var(--ink3); }
+.usernotes-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.usernotes-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.usernotes-cancel {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--ink2);
+}
+.usernotes-cancel:hover { color: var(--ink); }
+.usernotes-save {
+  background: rgba(155, 191, 181, 0.2);
+  border-color: rgba(155, 191, 181, 0.5);
+  color: var(--gold);
+}
+.usernotes-save:hover { background: rgba(155, 191, 181, 0.3); }
 
 /* ── TRANSCRIPTION NOTES SECTION ─────────────── */
 .tex-notas-section {

@@ -45,6 +45,26 @@ function isHidden(id)         { return !!(_load().hidden||{})[id]; }
 function getSortDir()         { return _load().avSort === 'asc' ? 'asc' : 'desc'; }
 function saveSortDir(dir)     { const d=_load(); d.avSort = dir==='asc'?'asc':'desc'; _persist(d); }
 function uid()               { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function todayIso()          { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+/* Fecha de asignación a mostrar: la guardada o, para ítems antiguos sin ella,
+   la decodificada del timestamp del id (uid empieza con Date.now() en base36). */
+function itemAssignDate(item) {
+  if (item && item.assignDate) return item.assignDate;
+  const ts = parseInt(String((item && item.id) || '').slice(0, 8), 36);
+  if (ts > 1.5e12 && ts < 4e12) {
+    const d = new Date(ts);
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  return todayIso();
+}
+/* "2026-06-20" → "20 jun" (parseo directo del ISO, sin Date para evitar TZ). */
+const _MAV = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fmtDm(iso) {
+  if (!iso) return '';
+  const p = String(iso).split('-');
+  if (p.length < 3) return '';
+  return parseInt(p[2],10) + ' ' + (_MAV[parseInt(p[1],10)-1] || '');
+}
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
 const DEFAULTS = [
@@ -1295,14 +1315,24 @@ const R = {
           </div>
           <div class="av-folder-body">
             ${showItems.length ? showItems.map(item=>`
+              <div class="av-folder-item" data-iid="${item.id}">
               <div class="av-folder-row">
-                <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
-                  type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
-                  enterkeyhint="done"
-                  data-lpignore="true" data-1p-ignore data-form-type="other"
-                  onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                  onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
-                  onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
+                <button class="av-item-chev" onclick="this.closest('.av-folder-item').classList.toggle('is-open')" aria-label="Ver detalles">
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <div class="av-item-main">
+                  <input class="av-crit-item-name" value="${esc(item.text||'')}" placeholder="Nombre"
+                    type="search" autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
+                    enterkeyhint="done"
+                    data-lpignore="true" data-1p-ignore data-form-type="other"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                    onblur="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)"
+                    onchange="A.setCriterioItemName('${esc(subId)}','${c.id}','${item.id}',this.value)">
+                  <div class="av-item-datesum">
+                    <span class="av-item-datesum-assign" style="color:${ac}">${fmtDm(itemAssignDate(item))}</span>
+                    ${item.dueDate ? `<span class="av-item-datesum-due">entrega ${fmtDm(item.dueDate)}</span>` : ''}
+                  </div>
+                </div>
                 <label class="av-grade-wrap">
                   <input class="av-grade-inp" type="search" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"
                     onfocus="this._v=this.value;this.value=''"
@@ -1317,6 +1347,30 @@ const R = {
                 <button class="av-del" onclick="A.delCriterioItem('${esc(subId)}','${c.id}','${item.id}')">
                   <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
+              </div>
+              <div class="av-item-details"><div class="av-item-details-inner">
+                <div class="av-item-det-grid">
+                  <label class="av-item-det">
+                    <span class="av-item-det-lbl">Asignada</span>
+                    <input type="date" class="av-item-det-date" value="${itemAssignDate(item)}"
+                      onchange="A.setCriterioItemField('${esc(subId)}','${c.id}','${item.id}','assignDate',this.value)">
+                  </label>
+                  <label class="av-item-det">
+                    <span class="av-item-det-lbl">Entrega</span>
+                    <input type="date" class="av-item-det-date" value="${item.dueDate||''}"
+                      onchange="A.setCriterioItemField('${esc(subId)}','${c.id}','${item.id}','dueDate',this.value)">
+                  </label>
+                </div>
+                <label class="av-item-det av-item-det--desc">
+                  <span class="av-item-det-lbl">Descripción</span>
+                  <textarea class="av-item-det-desc" rows="1" placeholder="Detalles de la tarea…"
+                    autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false"
+                    data-lpignore="true" data-1p-ignore data-form-type="other"
+                    oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+                    onchange="A.setCriterioItemField('${esc(subId)}','${c.id}','${item.id}','desc',this.value)"
+                    onblur="A.setCriterioItemField('${esc(subId)}','${c.id}','${item.id}','desc',this.value)">${esc(item.desc||'')}</textarea>
+                </label>
+              </div></div>
               </div>`).join('')
             : `<div class="av-empty-msg">Sin calificaciones</div>`}
             <div class="av-crit-avg-row" data-cid="${c.id}"${!cAvg ? ' style="display:none"' : ''}><span>Promedio</span><strong style="color:${gradeColor(parseFloat(cAvg||0))}">${cAvg||'—'}</strong></div>
@@ -1838,7 +1892,7 @@ const A = {
     const folderEl=document.querySelector(`.av-folder[data-cid="${cid}"]`);
     const prevRows=folderEl?[...folderEl.querySelectorAll('.av-folder-row')]:[];
     const prevRects=prevRows.map(r=>r.getBoundingClientRect());
-    (c.items=c.items||[]).unshift({id:uid(),text:'',grade:null});
+    (c.items=c.items||[]).unshift({id:uid(),text:'',grade:null,assignDate:todayIso(),dueDate:null,desc:''});
     saveCriterios(id,cs);
     R.detail(id,true);
     requestAnimationFrame(()=>{
@@ -1925,6 +1979,32 @@ const A = {
     _refreshWeightedDisplay(id);
   },
   setCriterioItemName(id,cid,iid,v) { const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);if(!item)return;item.text=v;saveCriterios(id,cs); },
+  /* Detalles de la tarea/calificación: fecha asignación, fecha entrega, descripción.
+     No re-renderiza para no cerrar el panel ni perder el foco. */
+  setCriterioItemField(id,cid,iid,field,v) {
+    const cs=getCriterios(id),c=cs.find(x=>x.id===cid),item=(c?.items||[]).find(i=>i.id===iid);
+    if(!item)return;
+    if(field==='desc') item.desc=v;
+    else item[field]= v || null;
+    saveCriterios(id,cs);
+    /* Mantener el resumen (chevron cerrado) sincronizado sin re-render. */
+    if (field==='assignDate' || field==='dueDate') {
+      const wrap = document.querySelector('.av-folder-item[data-iid="'+iid+'"]');
+      const sum  = wrap && wrap.querySelector('.av-item-datesum');
+      if (sum) {
+        if (field==='assignDate') {
+          const a = sum.querySelector('.av-item-datesum-assign');
+          if (a) a.textContent = fmtDm(itemAssignDate(item));
+        } else {
+          let due = sum.querySelector('.av-item-datesum-due');
+          if (item.dueDate) {
+            if (!due) { due = document.createElement('span'); due.className='av-item-datesum-due'; sum.appendChild(due); }
+            due.textContent = 'entrega ' + fmtDm(item.dueDate);
+          } else if (due) { due.remove(); }
+        }
+      }
+    }
+  },
   setProyGrade(id,i,v) { const n=parseFloat(v),p=getProgress(id);(p.proyectos=p.proyectos||[])[i].grade=isNaN(n)?null:Math.max(0,Math.min(10,n));saveProgress(id,p);R._refreshHero(id); },
   delProy(id,i)        { const p=getProgress(id);(p.proyectos=p.proyectos||[]).splice(i,1);saveProgress(id,p);R.detail(id); },
   openFinalGrade(id) { Modal.open('calificacion', id); },
