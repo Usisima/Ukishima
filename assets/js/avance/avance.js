@@ -1683,8 +1683,9 @@ const SortModal = {
     this.renderList();
     const m = document.getElementById('av-sort-modal');
     m.style.display = 'flex';
+    const _sy = this._scrollTop || 0;
     const _list = document.getElementById('av-sort-list');
-    if (_list) _list.scrollTop = this._scrollTop || 0;
+    if (_list) { _list.scrollTop = _sy; requestAnimationFrame(() => { _list.scrollTop = _sy; }); }
     this._block = e => { if (!e.target.closest('.av-sort-list')) e.preventDefault(); };
     document.addEventListener('touchmove', this._block, { passive: false });
   },
@@ -1695,9 +1696,7 @@ const SortModal = {
     if (this._block) document.removeEventListener('touchmove', this._block, { passive: false });
     m.classList.add('is-closing');
     setTimeout(() => { m.classList.remove('is-closing'); m.style.display = 'none'; }, 290);
-    const _pageY = window.scrollY || window.pageYOffset || 0;
     R.home();
-    window.scrollTo(0, _pageY);
   },
   renderSeg() {
     const dir = getSortDir(), self = this;
