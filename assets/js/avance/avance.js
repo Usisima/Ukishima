@@ -1269,10 +1269,6 @@ const R = {
           </div>
           ${(sub.grupo||sub.salon)?_mkNotchBar(sub,barPct):`<div class="av-card-progress"><div class="av-card-bar" id="av-hero-bar" style="width:${barPct}%;background:${ac}"></div></div>`}
         </div>
-        ${temarioId ? `<button class="av-temario-btn" onclick="location.href='temarios.html#mat/${esc(temarioId)}'">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          Ver temario
-        </button>` : ''}
         ${criterios.length ? criterios.map(c => {
           const cItems   = c.items||[];
           const expanded = !!_folderExpanded[c.id];
