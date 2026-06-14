@@ -373,15 +373,39 @@ function scrollToCard(id) {
   if (!card) return;
   const hH = document.querySelector('.header')?.offsetHeight      || 0;
   const tH = document.querySelector('.tem-tabs-bar')?.offsetHeight || 0;
+  const body = card.querySelector('.card-body');
+  card.getAnimations().forEach(a => a.finish());
+  /* Abrir sin animación para medir la geometría final (la card abre con
+     transición de max-height; medir a media animación da mal la altura). */
+  if (body) body.style.transition = 'none';
+  card.classList.add('open');
+  /* Resetea el espaciador antes de medir para no contar el de una vez previa */
+  let sp = document.getElementById('tem-scroll-spacer');
+  if (sp) sp.style.height = '0px';
+  void card.offsetHeight; /* reflow */
   let absTop = 0, el = card;
   while (el) { absTop += el.offsetTop; el = el.offsetParent; }
-  card.getAnimations().forEach(a => a.finish());
-  card.classList.add('open', 'highlight-pulse');
+  const target = Math.max(0, absTop - hH - tH - 10);
+  /* Materias del final: si la página no llega tan abajo, añade un espaciador
+     para que la card pueda quedar hasta arriba de la zona visible. */
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  if (target > maxScroll) {
+    const rootEl = document.getElementById('root');
+    if (!sp && rootEl) {
+      sp = document.createElement('div');
+      sp.id = 'tem-scroll-spacer';
+      sp.setAttribute('aria-hidden', 'true');
+      rootEl.appendChild(sp);
+    }
+    if (sp) sp.style.height = (target - maxScroll + 8) + 'px';
+  }
+  if (body) requestAnimationFrame(() => { body.style.transition = ''; });
+  card.classList.add('highlight-pulse');
   setTimeout(() => {
     card.classList.remove('highlight-pulse');
     requestAnimationFrame(() => card.getAnimations().forEach(a => a.finish()));
   }, 1600);
-  window.scrollTo({ top: Math.max(0, absTop - hH - tH - 10), behavior: 'smooth' });
+  window.scrollTo({ top: target, behavior: 'smooth' });
 }
 
 function stagger(root) {
