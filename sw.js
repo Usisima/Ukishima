@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE = 'ukishima-v229';
+const CACHE = 'ukishima-v230';
 
 // App shell crítico: si algo de esto falla, el SW no se instala
 const CORE = [

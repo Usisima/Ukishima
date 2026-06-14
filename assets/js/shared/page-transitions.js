@@ -30,6 +30,26 @@ window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault()
   }
 })();
 
+/* Estadísticas es privada: el logo del header solo enlaza a estadisticas.html
+   en desarrollo (live server: localhost o IP de red local). En el deploy
+   (GitHub Pages) la página no se publica, así que el logo no navega. */
+(function () {
+  var h = location.hostname;
+  var isDev = h === 'localhost' || h === '127.0.0.1' || h === '' ||
+              /^(192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/.test(h);
+  if (isDev) return;
+  function gate() {
+    document.querySelectorAll('.header-logo').forEach(function (el) {
+      el.removeAttribute('onclick');
+      if (el.tagName === 'A') el.removeAttribute('href');
+      el.style.cursor = 'default';
+      el.removeAttribute('title');
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', gate, { once: true });
+  else gate();
+})();
+
 /* Con view transition activa, el crossfade nativo reemplaza al pageFadeIn.
    Si el body entra con opacity 0, los snapshots del VT se capturan
    transparentes (nav inferior incluido) y se ve un parpadeo al navegar. */
