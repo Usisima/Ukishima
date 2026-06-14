@@ -1,17 +1,14 @@
 /* page-transitions.js */
 
-/* Cross-document View Transitions (Chrome 126+): crossfade nativo entre páginas */
+/* Cross-document View Transitions DESACTIVADAS.
+   Con `@view-transition { navigation: auto }`, al navegar entre documentos el
+   navegador congelaba el snapshot de la página anterior (sin scroll y con las
+   animaciones pausadas) ~1 s mientras la página nueva —pesada: canvas + SVG +
+   datos— terminaba de renderizar para hacer el crossfade. Eso era el "freeze".
+   Volvemos al fade-in propio (pageFadeIn, 0.18 s) que no congela. */
 (function () {
   var s = document.createElement('style');
   s.textContent =
-    '@view-transition { navigation: auto; }' +
-    /* Fondo negro del overlay de transición: cualquier hueco/transparencia
-       en los snapshots muestra negro, nunca el contenido de la página vieja */
-    '::view-transition { background: #000; }' +
-    /* En navegadores con VT, el crossfade nativo sustituye al pageFadeIn.
-       Si el body entrara con opacity 0, los snapshots (nav incluido) se
-       capturarían transparentes y el menú se vería traslúcido al navegar. */
-    '@supports (view-transition-name: none) { body { animation-name: none !important; } }' +
     '@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }';
   document.head.appendChild(s);
 })();
