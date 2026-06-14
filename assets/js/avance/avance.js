@@ -42,6 +42,8 @@ function saveSolarPose(r,el)  { const d=_load();d.solar={rotation:r,el};_persist
 function getHidden()          { return _load().hidden||{}; }
 function toggleHidden(id)     { const d=_load();(d.hidden=d.hidden||{})[id]=!d.hidden[id];_persist(d); return !!d.hidden[id]; }
 function isHidden(id)         { return !!(_load().hidden||{})[id]; }
+function getSortDir()         { return _load().avSort === 'asc' ? 'asc' : 'desc'; }
+function saveSortDir(dir)     { const d=_load(); d.avSort = dir==='asc'?'asc':'desc'; _persist(d); }
 function uid()               { return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
@@ -1049,8 +1051,10 @@ const R = {
     /* Build cards grouped by semestre */
     const bySem = {};
     for (const sub of subs) { const k=sub.semestre||''; (bySem[k]=bySem[k]||[]).push(sub); }
+    const _dir = getSortDir();
     const semKeys = Object.keys(bySem).sort((a,b) => {
-      if(a===''&&b!=='') return -1; if(b===''&&a!=='') return 1; return Number(b)-Number(a);
+      if(a===''&&b!=='') return -1; if(b===''&&a!=='') return 1;
+      return _dir==='asc' ? Number(a)-Number(b) : Number(b)-Number(a);
     });
 
     let cardsHtml = '';
@@ -1126,6 +1130,11 @@ const R = {
 
       <!-- ═══ DIVIDER ═══ -->
       <div class="av-cards-divider">
+        <button class="av-sem-add av-sort-open" onclick="A.openSortModal()" aria-label="Ordenar materias">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="17" x2="9" y2="17"/>
+          </svg>
+        </button>
         <span class="av-cards-divider-line"></span>
         <span class="av-cards-divider-label">Materias</span>
         <span class="av-cards-divider-line"></span>
@@ -1664,7 +1673,119 @@ const ConfirmDel = {
   },
 };
 
+/* ── ORDENAR MATERIAS: dirección de semestres + reordenar/cambiar de
+   semestre arrastrando (pointer events, funciona en táctil) ── */
+const SortModal = {
+  open() {
+    this.renderSeg();
+    this.renderList();
+    const m = document.getElementById('av-sort-modal');
+    m.style.display = 'flex';
+    this._block = e => { if (!e.target.closest('.av-sort-sheet')) e.preventDefault(); };
+    document.addEventListener('touchmove', this._block, { passive: false });
+  },
+  close() {
+    const m = document.getElementById('av-sort-modal');
+    if (this._block) document.removeEventListener('touchmove', this._block, { passive: false });
+    Nav.home();
+    m.classList.add('is-closing');
+    setTimeout(() => { m.classList.remove('is-closing'); m.style.display = 'none'; }, 290);
+  },
+  renderSeg() {
+    const dir = getSortDir(), self = this;
+    document.querySelectorAll('#av-sort-seg .av-sort-seg-btn').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.dir === dir);
+      b.onclick = () => { saveSortDir(b.dataset.dir); self.renderSeg(); self.renderList(); };
+    });
+  },
+  renderList() {
+    const list = document.getElementById('av-sort-list');
+    const subs = getSubjects(), dir = getSortDir();
+    const bySem = {};
+    for (const s of subs) { const k = s.semestre || ''; (bySem[k] = bySem[k] || []).push(s); }
+    const keys = Object.keys(bySem).sort((a, b) => {
+      if (a === '' && b !== '') return -1; if (b === '' && a !== '') return 1;
+      return dir === 'asc' ? Number(a) - Number(b) : Number(b) - Number(a);
+    });
+    let html = '';
+    for (const k of keys) {
+      const label = k ? ((SEM_ORD[Number(k)] || (k + '°')) + ' Semestre') : 'Sin semestre';
+      html += `<div class="av-sort-head" data-sem="${esc(k)}">${esc(label)}</div>`;
+      for (const s of bySem[k]) {
+        html += `<div class="av-sort-row" data-id="${esc(s.id)}">`
+          + `<span class="av-sort-grip" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/></svg></span>`
+          + `<span class="av-sort-name">${esc(s.name)}</span></div>`;
+      }
+    }
+    list.innerHTML = html;
+    this.attachDrag(list);
+  },
+  attachDrag(list) {
+    const self = this;
+    let dragRow = null, ghost = null, offY = 0;
+    function onMove(e) {
+      if (!dragRow) return;
+      ghost.style.top = (e.clientY - offY) + 'px';
+      const y = e.clientY;
+      let target = null;
+      for (const c of list.children) {
+        if (c === dragRow) continue;
+        const r = c.getBoundingClientRect();
+        if (y < r.top + r.height / 2) { target = c; break; }
+      }
+      if (target) list.insertBefore(dragRow, target); else list.appendChild(dragRow);
+      const lr = list.getBoundingClientRect();
+      if (y < lr.top + 28) list.scrollTop -= 9;
+      else if (y > lr.bottom - 28) list.scrollTop += 9;
+    }
+    function onUp() {
+      document.removeEventListener('pointermove', onMove);
+      if (ghost) { ghost.remove(); ghost = null; }
+      if (dragRow) { dragRow.classList.remove('av-sort-placeholder'); dragRow = null; }
+      self.commit(list);
+    }
+    list.addEventListener('pointerdown', e => {
+      const grip = e.target.closest('.av-sort-grip');
+      if (!grip) return;
+      dragRow = grip.closest('.av-sort-row');
+      if (!dragRow) return;
+      e.preventDefault();
+      const r = dragRow.getBoundingClientRect();
+      offY = e.clientY - r.top;
+      ghost = dragRow.cloneNode(true);
+      ghost.className = 'av-sort-row av-sort-ghost';
+      ghost.style.width = r.width + 'px';
+      ghost.style.left = r.left + 'px';
+      ghost.style.top = r.top + 'px';
+      document.body.appendChild(ghost);
+      dragRow.classList.add('av-sort-placeholder');
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp, { once: true });
+    });
+  },
+  commit(list) {
+    const subs = getSubjects(), byId = {};
+    subs.forEach(s => byId[s.id] = s);
+    const order = [];
+    let curSem = '';
+    for (const c of list.children) {
+      if (c.classList.contains('av-sort-head')) { curSem = c.dataset.sem || ''; continue; }
+      if (!c.classList.contains('av-sort-row')) continue;
+      const s = byId[c.dataset.id];
+      if (s) { s.semestre = curSem; order.push(s); }
+    }
+    if (order.length !== subs.length) return;
+    saveSubjects(order);
+    [...list.querySelectorAll('.av-sort-head')].forEach(h => {
+      const n = h.nextElementSibling;
+      if (!n || n.classList.contains('av-sort-head')) h.remove();
+    });
+  },
+};
+
 const A = {
+  openSortModal:     ()=>SortModal.open(),
+  closeSortModal:    ()=>SortModal.close(),
   openSubModal:      (sem)=>SubModal.open(sem),
   editSub:           (id)=>{ const s=getSubjects().find(x=>x.id===id); if(s) SubModal.open(s.semestre,s); },
   toggleVis(id) {

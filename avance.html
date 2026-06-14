@@ -205,6 +205,23 @@
     </div>
   </div>
 
+  <!-- ══ ORDENAR MATERIAS ════════════════════ -->
+  <div class="av-modal" id="av-sort-modal" role="dialog" aria-modal="true" onclick="if(event.target===this)A.closeSortModal()">
+    <div class="av-modal-sheet av-sort-sheet">
+      <div class="av-modal-handle"></div>
+      <div class="av-modal-title">Ordenar materias</div>
+      <div class="av-sort-seg" id="av-sort-seg">
+        <button class="av-sort-seg-btn" data-dir="desc" type="button">Mayor → menor</button>
+        <button class="av-sort-seg-btn" data-dir="asc" type="button">Menor → mayor</button>
+      </div>
+      <p class="av-sort-hint">Arrastra <b>≡</b> para reordenar. Suelta una materia en otro semestre para cambiarla.</p>
+      <div class="av-sort-list" id="av-sort-list"></div>
+      <div class="av-modal-row">
+        <button class="av-modal-ok" id="av-sort-done" type="button" onclick="A.closeSortModal()">Listo</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── BOTTOM NAV ─────────────────────────── -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
