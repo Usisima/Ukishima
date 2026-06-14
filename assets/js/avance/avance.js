@@ -1683,16 +1683,13 @@ const SortModal = {
     this.renderList();
     const m = document.getElementById('av-sort-modal');
     m.style.display = 'flex';
-    const _sy = this._scrollTop || 0;
     const _list = document.getElementById('av-sort-list');
-    if (_list) { _list.scrollTop = _sy; requestAnimationFrame(() => { _list.scrollTop = _sy; }); }
+    if (_list) { _list.scrollTop = 0; requestAnimationFrame(() => { _list.scrollTop = 0; }); }
     this._block = e => { if (!e.target.closest('.av-sort-list')) e.preventDefault(); };
     document.addEventListener('touchmove', this._block, { passive: false });
   },
   close() {
     const m = document.getElementById('av-sort-modal');
-    const _list = document.getElementById('av-sort-list');
-    if (_list) this._scrollTop = _list.scrollTop;
     if (this._block) document.removeEventListener('touchmove', this._block, { passive: false });
     m.classList.add('is-closing');
     setTimeout(() => { m.classList.remove('is-closing'); m.style.display = 'none'; }, 290);
