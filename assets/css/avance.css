@@ -1392,6 +1392,7 @@ body {
 .av-sort-open svg { opacity: 0.9; }
 
 .av-sort-sheet { max-height: 86vh; display: flex; flex-direction: column; }
+.av-sort-sheet .av-modal-row { margin-top: 14px; }
 
 .av-sort-seg {
   display: flex; gap: 6px; margin: 6px 0 10px;
