@@ -400,12 +400,14 @@ body {
   to   { background: rgba(0, 0, 0, 0);   }
 }
 #av-sub-modal.is-closing,
-#av-modal.is-closing {
+#av-modal.is-closing,
+#av-sort-modal.is-closing {
   animation: backdropOut 0.3s ease forwards;
   pointer-events: none;
 }
 #av-sub-modal.is-closing .av-modal-sheet,
-#av-modal.is-closing .av-modal-sheet {
+#av-modal.is-closing .av-modal-sheet,
+#av-sort-modal.is-closing .av-modal-sheet {
   animation: sheetDown 0.3s cubic-bezier(0.4, 0, 0.8, 1) forwards;
 }
 .av-modal-handle {
