@@ -57,19 +57,35 @@ function esc(s) {
 
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
-/* ── USER NOTES (notas propias por libro) ─────────
-   Texto libre que el usuario escribe para un libro. Soporta KaTeX
-   ($…$, $$…$$). Se guarda en localStorage como { [bookId]: texto }.
-   Se incluye automáticamente en el respaldo de datos.            */
-const SK_USERNOTES = 'lib_user_notes_v1';
-function loadUserNotes()    { try { return JSON.parse(localStorage.getItem(SK_USERNOTES) || '{}') || {}; } catch { return {}; } }
-function saveUserNotes(o)    { try { localStorage.setItem(SK_USERNOTES, JSON.stringify(o)); } catch (e) {} }
-function getUserNote(bookId) { return loadUserNotes()[bookId] || ''; }
-function setUserNote(bookId, text) {
-  const o = loadUserNotes();
-  if (text && text.trim()) o[bookId] = text;
-  else delete o[bookId];
-  saveUserNotes(o);
+/* ── USER NOTES — render del .tex del libro (solo lectura, KaTeX) ──
+   El contenido de texto/.../{bookId}.tex se muestra como notas (texto +
+   KaTeX), quitando el preámbulo LaTeX. Ya no hay vista de capítulos.  */
+const _userNotesCache = {};
+function stripTexPreamble(raw) {
+  let s = String(raw || '');
+  const i = s.indexOf('\\begin{document}');
+  if (i !== -1) s = s.slice(i + '\\begin{document}'.length);
+  const j = s.indexOf('\\end{document}');
+  if (j !== -1) s = s.slice(0, j);
+  return s.split('\n')
+    .filter(line => {
+      const t = line.trim();
+      if (t.startsWith('%')) return false;
+      return !_SKIP_PFXS.some(p => t.startsWith(p));
+    })
+    .map(line => line.replace(/\\(?:chapter|section|subsection)\*?\{([^}]*)\}/g, '$1'))
+    .join('\n')
+    .trim();
+}
+async function fetchUserNotes(bookId) {
+  if (bookId in _userNotesCache) return _userNotesCache[bookId];
+  try {
+    const res = await fetch(texPath(bookId));
+    if (!res.ok) { _userNotesCache[bookId] = null; return null; }
+    const body = stripTexPreamble(await res.text());
+    _userNotesCache[bookId] = body || null;
+  } catch { _userNotesCache[bookId] = null; }
+  return _userNotesCache[bookId];
 }
 
 /* ── extractVibrant — matiz dominante por histograma (bins 5°, S/L reales) ── */
@@ -609,37 +625,14 @@ const R = {
     `;
   },
 
-  /* ── USER NOTES — sección de notas propias ───── */
-  _userNotesInner(bookId, editing) {
-    const raw  = getUserNote(bookId);
-    const icon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
-    if (editing) {
-      return `
-        <div class="usernotes-head">
-          <div class="usernotes-title">${icon} Mis notas</div>
-        </div>
-        <textarea class="usernotes-textarea" placeholder="Escribe tus notas…  Usa $…$ o $$…$$ para fórmulas (KaTeX)." oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'">${esc(raw)}</textarea>
-        <div class="usernotes-actions">
-          <button class="usernotes-btn usernotes-cancel" onclick="A.cancelUserNote('${esc(bookId)}')">Cancelar</button>
-          <button class="usernotes-btn usernotes-save" onclick="A.saveUserNote('${esc(bookId)}')">Guardar</button>
-        </div>`;
-    }
-    const hasNote = !!raw.trim();
-    return `
-      <div class="usernotes-head">
-        <div class="usernotes-title">${icon} Mis notas</div>
-        <button class="usernotes-edit-btn" onclick="A.editUserNote('${esc(bookId)}')">${hasNote ? 'Editar' : '+ Añadir'}</button>
-      </div>
-      ${hasNote
-        ? `<div class="usernotes-body note-tex">${renderTexBody(raw)}</div>`
-        : `<div class="usernotes-empty">Añade tus propias notas para este libro. Soporta texto y fórmulas con <span class="usernotes-kbd">$…$</span>.</div>`}`;
+  /* ── USER NOTES — render del contenido del .tex, sin título ──
+     Si el libro no tiene .tex con contenido, no se muestra nada.   */
+  _userNotesSection(notesTxt) {
+    if (!notesTxt) return '';
+    return `<section class="book-usernotes"><div class="usernotes-content">${renderTexBody(notesTxt)}</div></section>`;
   },
 
-  _userNotesSection(bookId) {
-    return `<section class="book-usernotes" id="usernotes-${esc(bookId)}">${R._userNotesInner(bookId, false)}</section>`;
-  },
-
-  /* ── BOOK DETAIL ────────────────────────────── */
+  /* ── BOOK DETAIL — solo notas (.tex), sin capítulos ── */
   async book(bookId) {
     const found = findBook(bookId);
     if (!found) { Nav.go('home'); return; }
@@ -651,11 +644,10 @@ const R = {
     const color        = _detailSubj ? palColor(_detailSubj) : 'hsla(0,0%,10%,0.7)';
     document.getElementById('header-title').textContent = b.title;
 
-    const groups = await fetchTexNotes(b.id);
+    const notesTxt = await fetchUserNotes(b.id);
     // User navigated away while we were fetching — abort
     if (S.view !== 'book' || S.bookId !== bookId) return;
 
-    const chaptersHtml = groups ? R._renderChapters(b.id, groups) : '';
     const main = document.getElementById('lib-main');
     main.innerHTML = `
       <div class="book-detail">
@@ -668,13 +660,6 @@ const R = {
             <span></span><span></span><span></span><span></span><span></span>
           </div>
           <div class="hero-watermark" aria-hidden="true">${esc(subject)}</div>
-          <div class="book-search-row">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
-            <input class="book-search-input" type="search" placeholder="Buscar en este libro…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-form-type="other" data-lpignore="true" data-1p-ignore value="${esc(S.bookQuery)}">
-            <button class="book-search-clear" style="display:${S.bookQuery ? 'flex' : 'none'}" aria-label="Limpiar">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-          </div>
           <div class="hero-row">
             <div class="hero-cover">
               ${coverDiv(color, b.title, _detailIcon)}
@@ -691,42 +676,19 @@ const R = {
           </div>
         </div>
 
-        ${R._userNotesSection(b.id)}
-
-        <div class="book-chapters-wrap">
-          ${chaptersHtml}
-        </div>
+        ${notesTxt
+          ? R._userNotesSection(notesTxt)
+          : `<div class="lib-empty"><div class="lib-empty-icon">✎</div><p>Este libro aún no tiene notas.</p></div>`}
 
       </div>
     `;
 
     renderKatex(main);
     _colorizeLibCovers();
-    if (S.bookQuery) filterBookNotes(S.bookQuery);
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // Note deep-link scroll (must run after async render)
-    const noteKey = S.noteKey;
-    if (noteKey) {
-      S.noteKey = null;
-      requestAnimationFrame(() => {
-        const el = document.querySelector(`.note-item[data-nkey="${CSS.escape(noteKey)}"]`);
-        if (!el) return;
-        const headerH = document.getElementById('lib-header')?.offsetHeight || 0;
-        const tabsH   = document.querySelector('.lib-tabs-bar')?.offsetHeight || 0;
-        const top = el.getBoundingClientRect().top + window.scrollY - headerH - tabsH - 16;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
-        el.classList.add('note-highlight');
-        setTimeout(() => el.classList.remove('note-highlight'), 1600);
-      });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
-
-    // Rebuild disc scrubber after content is in DOM
-    Disc.mode = 'book';
-    Disc.reset();
-    Disc.build();
-    Disc.setVisible(true);
+    // Sin capítulos: no hay disco de navegación
+    Disc.setVisible(false);
   },
 
   /* ── SEARCH ─────────────────────────────────── */
@@ -975,38 +937,6 @@ const A = {
     if (dem) dem.style.maxHeight = isOpen ? '0' : dem.scrollHeight + 'px';
   },
 
-  /* ── USER NOTES actions ──────────────────────── */
-  editUserNote(bookId) {
-    const sec = document.getElementById('usernotes-' + bookId);
-    if (!sec) return;
-    sec.classList.add('is-editing');
-    sec.innerHTML = R._userNotesInner(bookId, true);
-    const ta = sec.querySelector('.usernotes-textarea');
-    if (ta) {
-      ta.style.height = 'auto';
-      ta.style.height = ta.scrollHeight + 'px';
-      ta.focus();
-      ta.setSelectionRange(ta.value.length, ta.value.length);
-    }
-  },
-
-  cancelUserNote(bookId) {
-    const sec = document.getElementById('usernotes-' + bookId);
-    if (!sec) return;
-    sec.classList.remove('is-editing');
-    sec.innerHTML = R._userNotesInner(bookId, false);
-    renderKatex(sec);
-  },
-
-  saveUserNote(bookId) {
-    const sec = document.getElementById('usernotes-' + bookId);
-    if (!sec) return;
-    const ta = sec.querySelector('.usernotes-textarea');
-    setUserNote(bookId, ta ? ta.value : '');
-    sec.classList.remove('is-editing');
-    sec.innerHTML = R._userNotesInner(bookId, false);
-    renderKatex(sec);
-  },
 
   search: (() => {
     let timer = null;

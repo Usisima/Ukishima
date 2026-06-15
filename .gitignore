@@ -1,10 +1,6 @@
-# ── PDFs originales ──────────────────────────────────────────
-pdfs/entrada/*.pdf
-
-# ── Salida de OCR (texto extraído, archivos procesados) ──────
-pdfs/salida/*.txt
-pdfs/salida/*.mmd
-pdfs/salida/*.pdf
+# ── Libros PDF y secciones temporales (locales, grandes — no subir) ──
+pdfs/*.pdf
+pdfs/*/
 
 # ── Notas transcritas (contenido de libros, no subir) ────────
 # texto/* ignora todas las subcarpetas y archivos dentro de texto/
@@ -12,12 +8,12 @@ texto/*
 # Solo se permite el paquete de estilos (no es contenido de libro)
 !texto/ukishima-notas.sty
 
-# ── Scripts de transcripción (herramientas locales) ──────────
-ocr.py
-extraer-bloques.py
-crear-estructura.py
-nougat_colab.ipynb
-
 # -- Instaladores / herramientas locales (no son assets web) --------
 tools/
 *.exe
+
+# -- Notas de funcionalidades (local, no es asset web) --
+FUNCIONALIDADES.md
+
+# -- Salida del navegador MCP (Playwright) --
+.playwright-mcp/
