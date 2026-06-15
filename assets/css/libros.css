@@ -734,6 +734,17 @@ body {
 .usernotes-content ul,
 .usernotes-content ol { margin: 0 0 0.65rem 1.1rem; }
 .usernotes-content li { margin-bottom: 0.25rem; }
+/* Ecuaciones en bloque largas: scroll horizontal dentro de su caja en vez de
+   desbordar la página. */
+.usernotes-content .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 2px 0;
+}
+.usernotes-content .katex-display > .katex { white-space: nowrap; }
+/* Por si algún $…$ en línea es larguísimo, que no rompa el ancho */
+.usernotes-content .katex { max-width: 100%; }
 
 /* ── TRANSCRIPTION NOTES SECTION ─────────────── */
 .tex-notas-section {
