@@ -72,7 +72,9 @@ async function renderBookPdf(bookId) {
   }
   let pdf;
   try {
-    pdf = await pdfjsLib.getDocument(pdfPath(bookId)).promise;
+    // disableAutoFetch: solo trae los bytes de las páginas que se ven (con
+    // servidores que soportan range requests; la mayoría de hosts estáticos).
+    pdf = await pdfjsLib.getDocument({ url: pdfPath(bookId), disableAutoFetch: true, disableStream: false, rangeChunkSize: 131072 }).promise;
   } catch (e) {
     if (S.bookId === bookId)
       container.innerHTML = '<div class="lib-empty"><div class="lib-empty-icon">📄</div><p>Este libro aún no tiene PDF.</p></div>';
