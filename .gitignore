@@ -17,3 +17,8 @@ FUNCIONALIDADES.md
 
 # -- Salida del navegador MCP (Playwright) --
 .playwright-mcp/
+
+# -- Scripts/artefactos temporales de desarrollo --
+_*.js
+_*.html
+_*.txt

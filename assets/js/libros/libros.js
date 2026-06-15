@@ -57,35 +57,73 @@ function esc(s) {
 
 const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 
-/* ── USER NOTES — render del .tex del libro (solo lectura, KaTeX) ──
-   El contenido de texto/.../{bookId}.tex se muestra como notas (texto +
-   KaTeX), quitando el preámbulo LaTeX. Ya no hay vista de capítulos.  */
-const _userNotesCache = {};
-function stripTexPreamble(raw) {
-  let s = String(raw || '');
-  const i = s.indexOf('\\begin{document}');
-  if (i !== -1) s = s.slice(i + '\\begin{document}'.length);
-  const j = s.indexOf('\\end{document}');
-  if (j !== -1) s = s.slice(0, j);
-  return s.split('\n')
-    .filter(line => {
-      const t = line.trim();
-      if (t.startsWith('%')) return false;
-      return !_SKIP_PFXS.some(p => t.startsWith(p));
-    })
-    .map(line => line.replace(/\\(?:chapter|section|subsection)\*?\{([^}]*)\}/g, '$1'))
-    .join('\n')
-    .trim();
+/* ── PDF DEL LIBRO — páginas apiladas verticalmente, render perezoso ──
+   Muestra texto/.../{bookId}.pdf como una columna de páginas (canvas),
+   sin chrome de visor. Solo renderiza las páginas que entran en vista.  */
+function pdfPath(bookId) {
+  return texPath(bookId).replace(/\.tex$/, '.pdf');
 }
-async function fetchUserNotes(bookId) {
-  if (bookId in _userNotesCache) return _userNotesCache[bookId];
+async function renderBookPdf(bookId) {
+  const container = document.getElementById('book-pdf');
+  if (!container) return;
+  if (typeof pdfjsLib === 'undefined') {
+    container.innerHTML = '<div class="lib-empty"><p>No se pudo cargar el visor de PDF.</p></div>';
+    return;
+  }
+  let pdf;
   try {
-    const res = await fetch(texPath(bookId));
-    if (!res.ok) { _userNotesCache[bookId] = null; return null; }
-    const body = stripTexPreamble(await res.text());
-    _userNotesCache[bookId] = body || null;
-  } catch { _userNotesCache[bookId] = null; }
-  return _userNotesCache[bookId];
+    pdf = await pdfjsLib.getDocument(pdfPath(bookId)).promise;
+  } catch (e) {
+    if (S.bookId === bookId)
+      container.innerHTML = '<div class="lib-empty"><div class="lib-empty-icon">📄</div><p>Este libro aún no tiene PDF.</p></div>';
+    return;
+  }
+  if (S.view !== 'book' || S.bookId !== bookId) { try { pdf.destroy(); } catch (e) {} return; }
+
+  let aspect = 1.4; // alto/ancho estimado para los placeholders
+  try {
+    const vp = (await pdf.getPage(1)).getViewport({ scale: 1 });
+    aspect = vp.height / vp.width;
+  } catch (e) {}
+  if (S.bookId !== bookId) return;
+
+  const frag = document.createDocumentFragment();
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const d = document.createElement('div');
+    d.className = 'pdf-page';
+    d.dataset.page = String(i);
+    d.style.aspectRatio = '1 / ' + aspect.toFixed(3);
+    frag.appendChild(d);
+  }
+  container.innerHTML = '';
+  container.appendChild(frag);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      renderPdfPage(pdf, +en.target.dataset.page, en.target, bookId);
+    });
+  }, { rootMargin: '1200px 0px' });
+  container.querySelectorAll('.pdf-page').forEach(d => io.observe(d));
+}
+async function renderPdfPage(pdf, num, holder, bookId) {
+  if (S.bookId !== bookId || !holder.isConnected) return;
+  try {
+    const page = await pdf.getPage(num);
+    if (S.bookId !== bookId || !holder.isConnected) return;
+    const w = holder.clientWidth || (holder.parentElement && holder.parentElement.clientWidth) || 600;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const base = page.getViewport({ scale: 1 });
+    const vp = page.getViewport({ scale: (w / base.width) * dpr });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.floor(vp.width);
+    canvas.height = Math.floor(vp.height);
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    if (S.bookId !== bookId || !holder.isConnected) return;
+    holder.style.aspectRatio = '';
+    holder.replaceChildren(canvas);
+  } catch (e) {}
 }
 
 /* ── extractVibrant — matiz dominante por histograma (bins 5°, S/L reales) ── */
@@ -625,27 +663,16 @@ const R = {
     `;
   },
 
-  /* ── USER NOTES — render del contenido del .tex, sin título ──
-     Si el libro no tiene .tex con contenido, no se muestra nada.   */
-  _userNotesSection(notesTxt) {
-    if (!notesTxt) return '';
-    return `<section class="book-usernotes"><div class="usernotes-content">${renderTexBody(notesTxt)}</div></section>`;
-  },
-
-  /* ── BOOK DETAIL — solo notas (.tex), sin capítulos ── */
+  /* ── BOOK DETAIL — solo portada/datos del libro ── */
   async book(bookId) {
     const found = findBook(bookId);
     if (!found) { Nav.go('home'); return; }
     const { book: b, subject } = found;
     const _detailEntry = _libEntryFor(subject) || {};
     const _detailIcon  = _detailEntry.icon || '';
-    /* Buscar subj en LIBRARY para palColor */
     const _detailSubj  = _allLib().find(s => s.subject === subject);
     const color        = _detailSubj ? palColor(_detailSubj) : 'hsla(0,0%,10%,0.7)';
     document.getElementById('header-title').textContent = b.title;
-
-    const notesTxt = await fetchUserNotes(b.id);
-    // User navigated away while we were fetching — abort
     if (S.view !== 'book' || S.bookId !== bookId) return;
 
     const main = document.getElementById('lib-main');
@@ -676,19 +703,15 @@ const R = {
           </div>
         </div>
 
-        ${notesTxt
-          ? R._userNotesSection(notesTxt)
-          : `<div class="lib-empty"><div class="lib-empty-icon">✎</div><p>Este libro aún no tiene notas.</p></div>`}
+        <div class="book-pdf" id="book-pdf"><div class="pdf-status">Cargando…</div></div>
 
       </div>
     `;
 
-    renderKatex(main);
     _colorizeLibCovers();
     window.scrollTo({ top: 0, behavior: 'instant' });
-
-    // Sin capítulos: no hay disco de navegación
     Disc.setVisible(false);
+    renderBookPdf(b.id);
   },
 
   /* ── SEARCH ─────────────────────────────────── */

@@ -698,53 +698,31 @@ body {
   padding-bottom: 2rem;
 }
 
-/* ── USER NOTES — editor en línea, texto plano (estilo Notion/Obsidian) ── */
-.book-usernotes {
-  margin: 0 0 1.5rem;
-  padding: 0;
-}
-.usernotes-head {
+/* ── PDF DEL LIBRO — páginas apiladas verticalmente (sin viewer) ── */
+.book-pdf {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.42rem;
-  margin-bottom: 0.35rem;
+  gap: 12px;
+  padding: 0 0 2rem;
 }
-.usernotes-title {
-  display: flex;
-  align-items: center;
-  gap: 0.42rem;
+.pdf-page {
+  width: 100%;
+  max-width: 840px;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.45);
+}
+.pdf-page canvas { display: block; width: 100%; height: auto; }
+.pdf-status {
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--ink3);
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--ink2);
+  font-size: 0.85rem;
 }
-.usernotes-title svg { color: var(--gold); flex-shrink: 0; }
 
-/* Contenido de las notas (texto + KaTeX, solo lectura) desde el .tex */
-.usernotes-content {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.92rem;
-  line-height: 1.7;
-  color: var(--ink);
-  word-break: break-word;
-}
-.usernotes-content p { margin: 0 0 0.65rem; }
-.usernotes-content p:last-child { margin-bottom: 0; }
-.usernotes-content ul,
-.usernotes-content ol { margin: 0 0 0.65rem 1.1rem; }
-.usernotes-content li { margin-bottom: 0.25rem; }
-/* Ecuaciones en bloque largas: scroll horizontal dentro de su caja en vez de
-   desbordar la página. */
-.usernotes-content .katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  padding: 2px 0;
-}
-.usernotes-content .katex-display > .katex { white-space: nowrap; }
-/* Por si algún $…$ en línea es larguísimo, que no rompa el ancho */
-.usernotes-content .katex { max-width: 100%; }
 
 /* ── TRANSCRIPTION NOTES SECTION ─────────────── */
 .tex-notas-section {
