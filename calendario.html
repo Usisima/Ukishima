@@ -22,6 +22,7 @@
     {"prerender":[{"source":"list","urls":["index.html","temarios.html","libros.html","avance.html"]}]}
   </script>
   <script src="assets/js/shared/page-transitions.js"></script>
+  <script src="assets/js/shared/carrera.js"></script>
 </head>
 <body>
 
@@ -388,7 +389,7 @@
     /* ── load data from localStorage ── */
     function loadData() {
       try {
-        var raw = localStorage.getItem('ukishima_avance_v2');
+        var raw = localStorage.getItem(window.UK && UK.sk ? UK.sk('ukishima_avance_v2') : 'ukishima_avance_v2');
         if (!raw) return { subjects: [], progress: {} };
         var parsed = JSON.parse(raw);
         return {

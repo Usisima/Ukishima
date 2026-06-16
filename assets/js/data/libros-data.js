@@ -12,7 +12,7 @@
      eje  →  Ejemplo
      obs  →  Observación
    ────────────────────────────────────────────── */
-const LIBRARY = [
+const LIBRARY_MAT = [
   {
     subject: "Álgebra Superior I",
     matId: "algebra_superior_1",
@@ -531,7 +531,7 @@ const LIBRARY = [
    Misma estructura que LIBRARY: { subject, matId, color, books:[...] }
    Se agregan conforme llega la bibliografía de cada optativa.
    ══════════════════════════════════════════════════════════════════════ */
-const LIBRARY_OPT = [
+const LIBRARY_OPT_MAT = [
   // ── Bloque I ──────────────────────────────────────────────────────
   {
     subject: "Conjuntos Convexos",
@@ -885,6 +885,26 @@ const LIBRARY_OPT = [
 // Índice (dentro de LIBRARY_OPT) donde empieza cada Bloque.
 // Bloque III está vacío, así que solo se definen I y II.
 const LIBRARY_OPT_BLOQUE_STARTS = [0, 16]; // [BloqueI, BloqueII]
+
+// ── Bibliografía por carrera (pool común) ─────────────────────────────
+// La bibliografía vive en Matemáticas y se COMPARTE: cada carrera muestra los
+// libros de las materias/optativas que tiene en común con Matemáticas (mismo
+// nombre). Matemáticas las muestra todas.
+const _libCarrId = (window.UK && UK.carreraId) ? UK.carreraId() : 'matematicas';
+const _libCareerNames = (function () {
+  if (_libCarrId === 'matematicas') return null; // null = sin filtro
+  const set = Object.create(null);
+  if (typeof CURRICULUM !== 'undefined')
+    CURRICULUM.forEach(s => s.materias.forEach(m => { set[m.name] = 1; }));
+  if (typeof OPTATIVAS_ALL !== 'undefined')
+    OPTATIVAS_ALL.forEach(o => { set[o.name] = 1; });
+  return set;
+})();
+function _libFilter(list) {
+  return _libCareerNames ? list.filter(s => _libCareerNames[s.subject]) : list;
+}
+const LIBRARY     = _libFilter(LIBRARY_MAT);
+const LIBRARY_OPT = _libFilter(LIBRARY_OPT_MAT);
 
 /* ── Función auxiliar para buscar libro por id ── */
 function findBook(id) {

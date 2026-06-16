@@ -1,5 +1,6 @@
 // ==================== CONSTANTES DERIVADAS ====================
-const OPTATIVAS_OTRAS_SAFE = (typeof OPTATIVAS_OTRAS !== 'undefined' ? OPTATIVAS_OTRAS : []);
+// Optativas de la carrera activa, agrupadas en secciones (bloques/áreas/campos).
+const OPT_BLOQUES_SAFE = (typeof OPT_BLOQUES !== 'undefined' ? OPT_BLOQUES : []);
 
 // Escapado HTML para todo texto interpolado en innerHTML
 function esc(s) {
@@ -15,9 +16,7 @@ function _getNameToId() {
   if (_nameToIdCache) return _nameToIdCache;
   const map = {};
   CURRICULUM.forEach(s => s.materias.forEach(m => { map[m.name] = m.id; }));
-  [['BI', OPTATIVAS_BLOQUE_I], ['BII', OPTATIVAS_BLOQUE_II], ['BIII', OPTATIVAS_BLOQUE_III],
-   ['OTRAS', OPTATIVAS_OTRAS_SAFE]]
-    .forEach(([key, pool]) => pool.forEach((opt, i) => { map[opt.name] = `opt_${key}_${i}`; }));
+  OPT_BLOQUES_SAFE.forEach(b => (b.pool || []).forEach((opt, i) => { map[opt.name] = `opt_${b.key}_${i}`; }));
   _nameToIdCache = map;
   return map;
 }
@@ -71,8 +70,9 @@ function renderTemaItemTronco(tema, i) {
 function renderCardBodyTronco(mat) {
   const temaItems = (mat.temario || []).map((t, i) => renderTemaItemTronco(t, i)).join('');
   const bibButtons = (mat.bibBasicas || []).map((bib, i) => {
-    // Optativas usan el nombre como clave (el id posicional opt_BI_N no existe en libros-data)
-    const libKey = mat.id.startsWith('opt_') ? encodeURIComponent(mat.name) : mat.id;
+    // Siempre por nombre: así la bibliografía compartida resuelve en cualquier
+    // carrera (el id de la materia es propio de cada carrera; el nombre, común).
+    const libKey = encodeURIComponent(mat.name);
     const url = `libros.html#libro-mat/${libKey}/${i}`;
     const parts = bib.name.split('—').map(s => s.trim());
     const authorPart = parts[0] || bib.name;
@@ -133,22 +133,20 @@ function renderSemesterTronco(sem) {
 
 // ==================== OPTATIVAS VIEW ====================
 function renderOptativasView() {
-  const BLOQUES = [
-    { key: 'BI',    num: 'I',     pool: OPTATIVAS_BLOQUE_I,   semLabel: 'Semestre 2 · 3 · 4', creds: 40 },
-    { key: 'BII',   num: 'II',   pool: OPTATIVAS_BLOQUE_II,  semLabel: 'Semestre 5 · 6',      creds: 40 },
-    { key: 'BIII',  num: 'III',  pool: OPTATIVAS_BLOQUE_III, semLabel: 'Semestre 7 · 8',      creds: 80 },
-    { key: 'OTRAS', num: 'Otras', pool: OPTATIVAS_OTRAS_SAFE, semLabel: 'Sin bloque asignado', creds: null },
-  ];
-  return BLOQUES.map(b => {
-    const cards = b.pool.map((opt, i) => {
+  if (!OPT_BLOQUES_SAFE.length) {
+    return '<div class="search-empty">Aún no hay optativas para esta carrera.</div>';
+  }
+  return OPT_BLOQUES_SAFE.map(b => {
+    const cards = (b.pool || []).map((opt, i) => {
       const mat = { ...enrichOptativa(opt), id: `opt_${b.key}_${i}` };
       return renderCardTronco(mat);
     }).join('');
+    if (!cards) return '';
     return `<div class="opt-bloque-section">
       <div class="opt-bloque-head">
         <div class="opt-bloque-head-left">
-          <span class="opt-bloque-title">Bloque ${b.num}</span>
-          <span class="opt-bloque-sem-label">${b.semLabel}</span>
+          <span class="opt-bloque-title">${esc(b.label)}</span>
+          ${b.semLabel ? `<span class="opt-bloque-sem-label">${esc(b.semLabel)}</span>` : ''}
         </div>
         ${b.creds != null ? `<span class="opt-bloque-badge">${b.creds} créditos</span>` : ''}
       </div>
@@ -158,12 +156,7 @@ function renderOptativasView() {
 }
 
 // ==================== SEARCH RESULTS ====================
-const _SRCH_POOLS = [
-  { key: 'BI',    pool: OPTATIVAS_BLOQUE_I },
-  { key: 'BII',   pool: OPTATIVAS_BLOQUE_II },
-  { key: 'BIII',  pool: OPTATIVAS_BLOQUE_III },
-  { key: 'OTRAS', pool: OPTATIVAS_OTRAS_SAFE },
-];
+const _SRCH_POOLS = OPT_BLOQUES_SAFE.map(b => ({ key: b.key, pool: b.pool || [] }));
 
 function _allSearchMats() {
   if (_allMatsCache) return _allMatsCache;

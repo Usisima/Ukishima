@@ -8,7 +8,8 @@
 const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── STORAGE ─────────────────────────────────────────── */
-const SK = 'ukishima_avance_v2';
+// Clave por carrera: Matemáticas conserva la clave histórica.
+const SK = (window.UK && UK.sk) ? UK.sk('ukishima_avance_v2') : 'ukishima_avance_v2';
 let _dbCache = null; // write-through: un solo JSON.parse por sesión
 function _load()             { if(!_dbCache){ try{_dbCache=JSON.parse(localStorage.getItem(SK)||'null')||{subjects:[],progress:{}};}catch{_dbCache={subjects:[],progress:{}};} } return _dbCache; }
 function _persist(d)         { _dbCache=d; localStorage.setItem(SK,JSON.stringify(d)); }
@@ -67,7 +68,7 @@ function fmtDm(iso) {
 }
 
 /* ── MATERIAS OBLIGATORIAS (Matemáticas FC·UNAM) ─────── */
-const DEFAULTS = [
+const DEFAULTS_MAT = [
   {id:'algebra_superior_1',        name:'Álgebra Superior I',               semestre:'1', colorIdx:0,  hue:270, profesor:'', dias:[], hora:''},
   {id:'calculo_1',                 name:'Cálculo Diferencial e Integral I',  semestre:'1', colorIdx:1,  hue:305, profesor:'', dias:[], hora:''},
   {id:'geo_analitica_1',           name:'Geometría Analítica I',             semestre:'1', colorIdx:2,  hue:355, profesor:'', dias:[], hora:''},
@@ -85,6 +86,11 @@ const DEFAULTS = [
   {id:'variable_compleja_1',       name:'Variable Compleja I',               semestre:'5', colorIdx:2,  hue:50,  profesor:'', dias:[], hora:''},
   {id:'analisis_matematico_2',     name:'Análisis Matemático II',            semestre:'6', colorIdx:3,  hue:5,   profesor:'', dias:[], hora:''},
 ];
+
+// Obligatorias de la carrera activa (cada carrera registró las suyas).
+if (window.UK && UK.registerData) UK.registerData('matematicas', { DEFAULTS: DEFAULTS_MAT });
+const _AVDS = (window.UK && UK.dataset) ? UK.dataset() : null;
+const DEFAULTS = (_AVDS && _AVDS.DEFAULTS) ? _AVDS.DEFAULTS : DEFAULTS_MAT;
 
 /* ── SEMESTER ORDINALS ───────────────────────────────── */
 const SEM_ORD = ['','Primer','Segundo','Tercer','Cuarto','Quinto','Sexto','Séptimo','Octavo','Noveno','Décimo'];
@@ -369,23 +375,17 @@ function _colorizeDetailHero(sub) {
 /* ── DATA.JS HELPERS (sujetos del plan de estudios) ─── */
 function _allDataMats() {
   const mats = typeof CURRICULUM !== 'undefined' ? CURRICULUM.flatMap(s => s.materias) : [];
-  const pools = [
-    ['BI',   typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : []],
-    ['BII',  typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : []],
-    ['BIII', typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : []],
-  ];
-  return [...mats, ...pools.flatMap(([key, pool]) => pool.map((opt, i) => ({...opt, id:`opt_${key}_${i}`})))];
+  const bloques = typeof OPT_BLOQUES !== 'undefined' ? OPT_BLOQUES : [];
+  const opts = bloques.flatMap(b => (b.pool || []).map((opt, i) => ({ ...opt, id: `opt_${b.key}_${i}` })));
+  return [...mats, ...opts];
 }
 
 function _findInData(sub) {
   if (typeof CURRICULUM !== 'undefined')
     for (const s of CURRICULUM) for (const m of s.materias)
       if (m.id === sub.id || m.name === sub.name) return m;
-  for (const pool of [
-    typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : [],
-    typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : [],
-    typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : [],
-  ]) for (const m of pool) if (m.name === sub.name) return m;
+  const opts = typeof OPTATIVAS_ALL !== 'undefined' ? OPTATIVAS_ALL : [];
+  for (const m of opts) if (m.name === sub.name) return m;
   return null;
 }
 

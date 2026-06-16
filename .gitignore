@@ -18,7 +18,14 @@ FUNCIONALIDADES.md
 # -- Salida del navegador MCP (Playwright) --
 .playwright-mcp/
 
+# -- Planes oficiales en PDF (referencia local, no son assets web) --
+Actuaria Planes/
+
 # -- Scripts/artefactos temporales de desarrollo --
 _*.js
 _*.html
 _*.txt
+_*.json
+_*.png
+_*.webp
+_*.log

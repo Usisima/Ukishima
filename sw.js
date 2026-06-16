@@ -1,6 +1,16 @@
 'use strict';
 
-const CACHE = 'ukishima-v260';
+const CACHE = 'ukishima-v267';
+// Caché de PDFs descargados por el usuario para leer sin conexión.
+// NO se versiona ni se borra al actualizar el SW (no perder lo descargado).
+const OFFLINE = 'ukishima-libros-offline';
+// Host(s) externos de PDFs (cuando se configure jsDelivr/R2). Mismo origen
+// (texto/...) siempre se trata como PDF de libro.
+const PDF_HOSTS = ['cdn.jsdelivr.net'];
+function isPdfReq(url) {
+  if (url.origin === self.location.origin) return /\/texto\/.+\.pdf$/i.test(url.pathname);
+  return PDF_HOSTS.includes(url.hostname) && /\.pdf$/i.test(url.pathname);
+}
 
 // App shell crítico: si algo de esto falla, el SW no se instala
 const CORE = [
@@ -21,7 +31,10 @@ const CORE = [
   './assets/js/avance/avance.js',
   './assets/js/shared/page-transitions.js',
   './assets/js/shared/stars-bg.js',
+  './assets/js/shared/carrera.js',
   './assets/js/data/data.js',
+  './assets/js/data/data-fisica.js',
+  './assets/js/data/data-actuaria.js',
   './assets/js/data/notas-data.js',
   './assets/js/data/libros-data.js',
   './assets/js/temarios/state.js',
@@ -74,7 +87,8 @@ const CORE = [
 ];
 
 // Iconos de materias: best-effort, no bloquean la instalación
-const IMAGES = Array.from({ length: 160 }, (_, i) => `./assets/images/d${i}.webp`);
+// Pool contiguo d0..d131 (132 imágenes, ordenadas por hue).
+const IMAGES = Array.from({ length: 132 }, (_, i) => `./assets/images/d${i}.webp`);
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -91,7 +105,7 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+        keys.filter(k => k !== CACHE && k !== OFFLINE).map(k => caches.delete(k))
       ))
       .then(() => self.clients.claim())
   );
@@ -104,6 +118,20 @@ const KATEX_CDN = 'cdn.jsdelivr.net';
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
+
+  // ── PDFs de libros ──────────────────────────────────────────────
+  // Solo se sirven desde caché si el usuario los descargó (cache OFFLINE).
+  // En línea: passthrough a la red SIN cachear (ver online no ocupa espacio).
+  if (isPdfReq(url)) {
+    e.respondWith(
+      caches.open(OFFLINE)
+        .then(cache => cache.match(url.href, { ignoreVary: true }))
+        .then(hit => hit || fetch(e.request))
+        .catch(() => fetch(e.request))
+    );
+    return;
+  }
+
   // Cross-origin: cache KaTeX, skip everything else
   if (url.origin !== self.location.origin) {
     if (url.hostname !== KATEX_CDN) return;

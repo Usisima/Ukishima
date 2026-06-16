@@ -1,152 +1,152 @@
 ﻿// ==================== OPTATIVAS POR BLOQUE ====================
 // Bloque I — Semestres 2, 3 y 4 (40 créditos)
 const OPTATIVAS_BLOQUE_I = [
-  { name: "Álgebra Geométrica",                            clave: "0014", creditos: 10, icon: "assets/images/d17.webp", colorIdx: 8  },
-  { name: "Conjuntos Convexos",                            clave: "0088", creditos: 10, icon: "assets/images/d19.webp", colorIdx: 8  },
-  { name: "Conjuntos y Lógica",                            clave: "0271", creditos: 10, icon: "assets/images/d20.webp", colorIdx: 0  },
-  { name: "Diseño de Sistemas Digitales",                  clave: "0574", creditos: 10, icon: "assets/images/d21.webp", colorIdx: 5  },
-  { name: "Electromagnetismo I",                           clave: "0419", creditos: 12, icon: "assets/images/d22.webp", colorIdx: 7  },
-  { name: "Fenómenos Colectivos",                          clave: "0302", creditos: 12, icon: "assets/images/d1.webp", colorIdx: 6  },
-  { name: "Geometría Moderna II",                          clave: "0250", creditos: 10, icon: "assets/images/d24.webp", colorIdx: 7  },
-  { name: "Geometría Proyectiva",                          clave: "0251", creditos: 10, icon: "assets/images/d25.webp", colorIdx: 8  },
-  { name: "Gráficas y Juegos",                             clave: "0422", creditos: 10, icon: "assets/images/d26.webp", colorIdx: 10 },
-  { name: "Introducción a Ciencias de la Computación I",   clave: "0224", creditos: 10, icon: "assets/images/d27.webp", colorIdx: 8  },
-  { name: "Introducción a Ciencias de la Computación II",  clave: "0339", creditos: 10, icon: "assets/images/d28.webp", colorIdx: 2  },
-  { name: "Introducción a la Geometría Avanzada",          clave: "0272", creditos: 10, icon: "assets/images/d29.webp", colorIdx: 1  },
-  { name: "Matemáticas Discretas",                         clave: "0416", creditos: 10, icon: "assets/images/d5.webp", colorIdx: 1  },
-  { name: "Mecánica Vectorial",                            clave: "0228", creditos: 10, icon: "assets/images/d31.webp", colorIdx: 8  },
-  { name: "Probabilidad I",                                clave: "0625", creditos: 10, icon: "assets/images/d10.webp", colorIdx: 2  },
-  { name: "Teoría de los Números I",                       clave: "0764", creditos: 10, icon: "assets/images/d33.webp", colorIdx: 0  },
-  { name: "Teoría de los Números II",                      clave: "0777", creditos: 10, icon: "assets/images/d34.webp", colorIdx: 8  },
+  { name: "Álgebra Geométrica",                            clave: "0014", creditos: 10, icon: "assets/images/d82.webp", colorIdx: 8  },
+  { name: "Conjuntos Convexos",                            clave: "0088", creditos: 10, icon: "assets/images/d88.webp", colorIdx: 8  },
+  { name: "Conjuntos y Lógica",                            clave: "0271", creditos: 10, icon: "assets/images/d2.webp", colorIdx: 0  },
+  { name: "Diseño de Sistemas Digitales",                  clave: "0574", creditos: 10, icon: "assets/images/d60.webp", colorIdx: 5  },
+  { name: "Electromagnetismo I",                           clave: "0419", creditos: 12, icon: "assets/images/d101.webp", colorIdx: 7  },
+  { name: "Fenómenos Colectivos",                          clave: "0302", creditos: 12, icon: "assets/images/d84.webp", colorIdx: 6  },
+  { name: "Geometría Moderna II",                          clave: "0250", creditos: 10, icon: "assets/images/d66.webp", colorIdx: 7  },
+  { name: "Geometría Proyectiva",                          clave: "0251", creditos: 10, icon: "assets/images/d100.webp", colorIdx: 8  },
+  { name: "Gráficas y Juegos",                             clave: "0422", creditos: 10, icon: "assets/images/d40.webp", colorIdx: 10 },
+  { name: "Introducción a Ciencias de la Computación I",   clave: "0224", creditos: 10, icon: "assets/images/d15.webp", colorIdx: 8  },
+  { name: "Introducción a Ciencias de la Computación II",  clave: "0339", creditos: 10, icon: "assets/images/d16.webp", colorIdx: 2  },
+  { name: "Introducción a la Geometría Avanzada",          clave: "0272", creditos: 10, icon: "assets/images/d21.webp", colorIdx: 1  },
+  { name: "Matemáticas Discretas",                         clave: "0416", creditos: 10, icon: "assets/images/d6.webp", colorIdx: 1  },
+  { name: "Mecánica Vectorial",                            clave: "0228", creditos: 10, icon: "assets/images/d69.webp", colorIdx: 8  },
+  { name: "Probabilidad I",                                clave: "0625", creditos: 10, icon: "assets/images/d27.webp", colorIdx: 2  },
+  { name: "Teoría de los Números I",                       clave: "0764", creditos: 10, icon: "assets/images/d129.webp", colorIdx: 0  },
+  { name: "Teoría de los Números II",                      clave: "0777", creditos: 10, icon: "assets/images/d109.webp", colorIdx: 8  },
 ];
 
 // Bloque II — Semestres 5 y 6 (40 créditos)
 const OPTATIVAS_BLOQUE_II = [
-  { name: "Álgebra Moderna II",                            clave: "0002", creditos: 10, icon: "assets/images/d35.webp", colorIdx: 0  },
-  { name: "Análisis de Algoritmos I",                      clave: "0414", creditos: 10, icon: "assets/images/d36.webp", colorIdx: 9  },
-  { name: "Análisis Numérico",                             clave: "1710", creditos: 10, icon: "assets/images/d16.webp", colorIdx: 5  },
-  { name: "Arquitectura de Computadoras",                  clave: "0605", creditos: 10, icon: "assets/images/d3.webp", colorIdx: 4  },
-  { name: "Cálculo de las Variaciones",                    clave: "0083", creditos: 10, icon: "assets/images/d39.webp", colorIdx: 7  },
-  { name: "Economía I",                                    clave: "1609", creditos: 10, icon: "assets/images/d41.webp", colorIdx: 5  },
-  { name: "Ecuaciones Diferenciales II",                   clave: "0163", creditos: 10, icon: "assets/images/d6.webp", colorIdx: 0  },
-  { name: "Electromagnetismo II",                          clave: "0609", creditos: 10, icon: "assets/images/d59.webp", colorIdx: 0  },
-  { name: "Estadística I",                                 clave: "0398", creditos: 10, icon: "assets/images/d44.webp", colorIdx: 10 },
-  { name: "Estadística II",                                clave: "0399", creditos: 10, icon: "assets/images/d11.webp", colorIdx: 2  },
-  { name: "Geometría Diferencial I",                       clave: "0246", creditos: 10, icon: "assets/images/d12.webp", colorIdx: 1  },
-  { name: "Geometría Diferencial II",                      clave: "0247", creditos: 10, icon: "assets/images/d9.webp", colorIdx: 4  },
-  { name: "Historia de las Matemáticas I",                 clave: "0286", creditos: 10, icon: "assets/images/d13.webp", colorIdx: 10 },
-  { name: "Historia de las Matemáticas II",                clave: "0287", creditos: 10, icon: "assets/images/d49.webp", colorIdx: 8  },
-  { name: "Introducción a la Física Cuántica",             clave: "0582", creditos: 10, icon: "assets/images/d50.webp", colorIdx: 8  },
-  { name: "Introducción Matemática a la Mecánica Celeste", clave: "0356", creditos: 10, icon: "assets/images/d52.webp", colorIdx: 8  },
-  { name: "Investigación de Operaciones",                  clave: "1506", creditos: 10, icon: "assets/images/d53.webp", colorIdx: 8  },
-  { name: "Lenguajes de Programación y sus Paradigmas",    clave: "0607", creditos: 10, icon: "assets/images/d55.webp", colorIdx: 1  },
-  { name: "Lógica Matemática I",                           clave: "0445", creditos: 10, icon: "assets/images/d56.webp", colorIdx: 8  },
-  { name: "Matemáticas Avanzadas de la Física",            clave: "0610", creditos: 10, icon: "assets/images/d57.webp", colorIdx: 7  },
-  { name: "Mecánica Analítica",                            clave: "0611", creditos: 10, icon: "assets/images/d58.webp", colorIdx: 10 },
-  { name: "Muestreo",                                      clave: "0891", creditos: 10, icon: "assets/images/d14.webp", colorIdx: 2  },
-  { name: "Óptica",                                        clave: "0584", creditos: 10, icon: "assets/images/d60.webp", colorIdx: 2  },
-  { name: "Probabilidad II",                               clave: "0626", creditos: 10, icon: "assets/images/d61.webp", colorIdx: 8  },
-  { name: "Programación Lineal",                           clave: "0621", creditos: 10, icon: "assets/images/d62.webp" },
-  { name: "Seminario de Ciencia y Sociedad I",             clave: "0951", creditos: 10, icon: "assets/images/d63.webp" },
-  { name: "Series de Fourier y Teoría de Sturm Liouville", clave: "0721", creditos: 10, icon: "assets/images/d64.webp" },
-  { name: "Sistemas Dinámicos Discretos I",                clave: "0273", creditos: 10, icon: "assets/images/d65.webp" },
-  { name: "Sistemas Operativos",                           clave: "0713", creditos: 10, icon: "assets/images/d66.webp" },
-  { name: "Teoría de la Computación",                      clave: "0576", creditos: 10, icon: "assets/images/d68.webp" },
-  { name: "Teoría de la Medida I",                         clave: "0947", creditos: 10, icon: "assets/images/d69.webp" },
-  { name: "Teoría de las Gráficas I",                      clave: "0591", creditos: 10, icon: "assets/images/d67.webp" },
-  { name: "Teoría de los Conjuntos I",                     clave: "0760", creditos: 10, icon: "assets/images/d70.webp" },
-  { name: "Termodinámica",                                 clave: "0612", creditos: 10, icon: "assets/images/d71.webp" },
-  { name: "Topología I",                                   clave: "0765", creditos: 10, icon: "assets/images/d72.webp" },
+  { name: "Álgebra Moderna II",                            clave: "0002", creditos: 10, icon: "assets/images/d72.webp", colorIdx: 0  },
+  { name: "Análisis de Algoritmos I",                      clave: "0414", creditos: 10, icon: "assets/images/d122.webp", colorIdx: 9  },
+  { name: "Análisis Numérico",                             clave: "1710", creditos: 10, icon: "assets/images/d53.webp", colorIdx: 5  },
+  { name: "Arquitectura de Computadoras",                  clave: "0605", creditos: 10, icon: "assets/images/d87.webp", colorIdx: 4  },
+  { name: "Cálculo de las Variaciones",                    clave: "0083", creditos: 10, icon: "assets/images/d70.webp", colorIdx: 7  },
+  { name: "Economía I",                                    clave: "1609", creditos: 10, icon: "assets/images/d58.webp", colorIdx: 5  },
+  { name: "Ecuaciones Diferenciales II",                   clave: "0163", creditos: 10, icon: "assets/images/d127.webp", colorIdx: 0  },
+  { name: "Electromagnetismo II",                          clave: "0609", creditos: 10, icon: "assets/images/d29.webp", colorIdx: 0  },
+  { name: "Estadística I",                                 clave: "0398", creditos: 10, icon: "assets/images/d80.webp", colorIdx: 10 },
+  { name: "Estadística II",                                clave: "0399", creditos: 10, icon: "assets/images/d68.webp", colorIdx: 2  },
+  { name: "Geometría Diferencial I",                       clave: "0246", creditos: 10, icon: "assets/images/d110.webp", colorIdx: 1  },
+  { name: "Geometría Diferencial II",                      clave: "0247", creditos: 10, icon: "assets/images/d106.webp", colorIdx: 4  },
+  { name: "Historia de las Matemáticas I",                 clave: "0286", creditos: 10, icon: "assets/images/d99.webp", colorIdx: 10 },
+  { name: "Historia de las Matemáticas II",                clave: "0287", creditos: 10, icon: "assets/images/d105.webp", colorIdx: 8  },
+  { name: "Introducción a la Física Cuántica",             clave: "0582", creditos: 10, icon: "assets/images/d67.webp", colorIdx: 8  },
+  { name: "Introducción Matemática a la Mecánica Celeste", clave: "0356", creditos: 10, icon: "assets/images/d114.webp", colorIdx: 8  },
+  { name: "Investigación de Operaciones",                  clave: "1506", creditos: 10, icon: "assets/images/d117.webp", colorIdx: 8  },
+  { name: "Lenguajes de Programación y sus Paradigmas",    clave: "0607", creditos: 10, icon: "assets/images/d12.webp", colorIdx: 1  },
+  { name: "Lógica Matemática I",                           clave: "0445", creditos: 10, icon: "assets/images/d85.webp", colorIdx: 8  },
+  { name: "Matemáticas Avanzadas de la Física",            clave: "0610", creditos: 10, icon: "assets/images/d71.webp", colorIdx: 7  },
+  { name: "Mecánica Analítica",                            clave: "0611", creditos: 10, icon: "assets/images/d81.webp", colorIdx: 10 },
+  { name: "Muestreo",                                      clave: "0891", creditos: 10, icon: "assets/images/d121.webp", colorIdx: 2  },
+  { name: "Óptica",                                        clave: "0584", creditos: 10, icon: "assets/images/d26.webp", colorIdx: 2  },
+  { name: "Probabilidad II",                               clave: "0626", creditos: 10, icon: "assets/images/d74.webp", colorIdx: 8  },
+  { name: "Programación Lineal",                           clave: "0621", creditos: 10, icon: "assets/images/d95.webp" },
+  { name: "Seminario de Ciencia y Sociedad I",             clave: "0951", creditos: 10, icon: "assets/images/d73.webp" },
+  { name: "Series de Fourier y Teoría de Sturm Liouville", clave: "0721", creditos: 10, icon: "assets/images/d14.webp" },
+  { name: "Sistemas Dinámicos Discretos I",                clave: "0273", creditos: 10, icon: "assets/images/d57.webp" },
+  { name: "Sistemas Operativos",                           clave: "0713", creditos: 10, icon: "assets/images/d83.webp" },
+  { name: "Teoría de la Computación",                      clave: "0576", creditos: 10, icon: "assets/images/d65.webp" },
+  { name: "Teoría de la Medida I",                         clave: "0947", creditos: 10, icon: "assets/images/d38.webp" },
+  { name: "Teoría de las Gráficas I",                      clave: "0591", creditos: 10, icon: "assets/images/d86.webp" },
+  { name: "Teoría de los Conjuntos I",                     clave: "0760", creditos: 10, icon: "assets/images/d22.webp" },
+  { name: "Termodinámica",                                 clave: "0612", creditos: 10, icon: "assets/images/d51.webp" },
+  { name: "Topología I",                                   clave: "0765", creditos: 10, icon: "assets/images/d37.webp" },
 ];
 
 // Bloque III — Semestres 7 y 8 (80 créditos)
 const OPTATIVAS_BLOQUE_III = [
-  { name: "Álgebra Moderna III",                                     clave: "0003", creditos: 10, icon: "assets/images/d73.webp" },
-  { name: "Álgebra Moderna IV",                                      clave: "0004", creditos: 10, icon: "assets/images/d74.webp" },
-  { name: "Análisis de Fourier I",                                   clave: "0026", creditos: 10, icon: "assets/images/d75.webp" },
-  { name: "Análisis de Fourier II",                                  clave: "0027", creditos: 10, icon: "assets/images/d76.webp" },
-  { name: "Análisis de Regresión",                                   clave: "0078", creditos: 10, icon: "assets/images/d77.webp" },
-  { name: "Análisis Matemático III",                                 clave: "0011", creditos: 10, icon: "assets/images/d78.webp" },
-  { name: "Análisis Matemático IV",                                  clave: "0012", creditos: 10, icon: "assets/images/d79.webp" },
-  { name: "Biología Matemática I",                                   clave: "0275", creditos: 10, icon: "assets/images/d80.webp" },
-  { name: "Biología Matemática II",                                  clave: "0276", creditos: 10, icon: "assets/images/d81.webp" },
-  { name: "Complejidad Computacional",                               clave: "—",    creditos: 10, icon: "assets/images/d40.webp" },
-  { name: "Dinámica de Medios Deformables",                          clave: "0827", creditos: 12, icon: "assets/images/d83.webp" },
-  { name: "Econometría I",                                           clave: "—",    creditos: 10, icon: "assets/images/d84.webp" },
-  { name: "Econometría II",                                          clave: "—",    creditos: 10, icon: "assets/images/d85.webp" },
-  { name: "Economía II",                                             clave: "—",    creditos: 10, icon: "assets/images/d86.webp" },
-  { name: "Ecuaciones Diferenciales Parciales I",                    clave: "0165", creditos: 10, icon: "assets/images/d88.webp" },
-  { name: "Ecuaciones Diferenciales Parciales II",                   clave: "0183", creditos: 10, icon: "assets/images/d89.webp" },
-  { name: "Ecuaciones Integrales",                                   clave: "0585", creditos: 10, icon: "assets/images/d90.webp" },
-  { name: "Estadística Bayesiana",                                   clave: "0411", creditos: 10, icon: "assets/images/d91.webp" },
-  { name: "Estadística III",                                         clave: "—",    creditos: 10, icon: "assets/images/d92.webp" },
-  { name: "Física Computacional",                                    clave: "—",    creditos: 12, icon: "assets/images/d93.webp" },
-  { name: "Física Estadística",                                      clave: "—",    creditos: 12, icon: "assets/images/d94.webp" },
-  { name: "Geometría Algebraica I",                                  clave: "0242", creditos: 10, icon: "assets/images/d95.webp" },
-  { name: "Geometría Algebraica II",                                 clave: "0243", creditos: 10, icon: "assets/images/d96.webp" },
-  { name: "Geometría Diferencial III",                               clave: "0248", creditos: 10, icon: "assets/images/d97.webp" },
-  { name: "Geometría Riemanniana I",                                 clave: "0252", creditos: 10, icon: "assets/images/d98.webp" },
-  { name: "Geometría Riemanniana II",                                clave: "0253", creditos: 10, icon: "assets/images/d99.webp" },
-  { name: "Geometría Sumatoria",                                     clave: "0586", creditos: 10, icon: "assets/images/d100.webp" },
-  { name: "Ingeniería de Software",                                  clave: "0575", creditos: 10, icon: "assets/images/d101.webp" },
-  { name: "Inteligencia Artificial",                                 clave: "0352", creditos: 10, icon: "assets/images/d102.webp" },
-  { name: "Introducción a las Funciones Recursivas y Computabilidad",clave: "0351", creditos: 10, icon: "assets/images/d103.webp" },
-  { name: "Lógica Matemática II",                                    clave: "0446", creditos: 10, icon: "assets/images/d104.webp" },
-  { name: "Lógica Matemática III",                                   clave: "0447", creditos: 10, icon: "assets/images/d105.webp" },
-  { name: "Mecánica Cuántica",                                       clave: "—",    creditos: 12, icon: "assets/images/d106.webp" },
-  { name: "Procesos Estocásticos I",                                 clave: "0630", creditos: 10, icon: "assets/images/d107.webp" },
-  { name: "Procesos Estocásticos II",                                clave: "0631", creditos: 10, icon: "assets/images/d108.webp" },
-  { name: "Programación Dinámica",                                   clave: "0632", creditos: 10, icon: "assets/images/d109.webp" },
-  { name: "Programación Entera",                                     clave: "0633", creditos: 10, icon: "assets/images/d110.webp" },
-  { name: "Programación no Lineal",                                  clave: "0634", creditos: 10, icon: "assets/images/d111.webp" },
-  { name: "Redes de Computadoras",                                   clave: "0714", creditos: 10, icon: "assets/images/d112.webp" },
-  { name: "Relatividad",                                             clave: "0681", creditos: 10, icon: "assets/images/d113.webp" },
-  { name: "Seminario de Álgebra A",                                  clave: "0742", creditos: 10, icon: "assets/images/d114.webp" },
-  { name: "Seminario de Álgebra B",                                  clave: "0705", creditos: 10, icon: "assets/images/d115.webp" },
-  { name: "Seminario de Análisis Combinatorio",                      clave: "0975", creditos: 10, icon: "assets/images/d116.webp" },
-  { name: "Seminario de Análisis Matemático A",                      clave: "0743", creditos: 10, icon: "assets/images/d117.webp" },
-  { name: "Seminario de Análisis Matemático B",                      clave: "0706", creditos: 10, icon: "assets/images/d118.webp" },
-  { name: "Seminario de Ciencia y Sociedad II",                      clave: "—",    creditos: 10, icon: "assets/images/d119.webp" },
-  { name: "Seminario de Estadística A",                              clave: "0748", creditos: 10, icon: "assets/images/d120.webp" },
-  { name: "Seminario de Estadística B",                              clave: "0708", creditos: 10, icon: "assets/images/d121.webp" },
-  { name: "Seminario de Filosofía de las Matemáticas",               clave: "0750", creditos: 10, icon: "assets/images/d134.webp" },
-  { name: "Seminario de Geometría A",                                clave: "0745", creditos: 10, icon: "assets/images/d126.webp" },
-  { name: "Seminario de Geometría B",                                clave: "—",    creditos: 10, icon: "assets/images/d127.webp" },
-  { name: "Seminario de Historia y Filosofía de la Ciencia I",       clave: "0587", creditos: 10, icon: "assets/images/d122.webp" },
-  { name: "Seminario de Historia y Filosofía de la Ciencia II",      clave: "0588", creditos: 10, icon: "assets/images/d123.webp" },
-  { name: "Seminario de Historia y Filosofía de la Ciencia III",     clave: "0589", creditos: 10, icon: "assets/images/d124.webp" },
-  { name: "Seminario de Historia y Filosofía de la Ciencia IV",      clave: "0590", creditos: 10, icon: "assets/images/d125.webp" },
-  { name: "Seminario de Investigación de Operaciones",               clave: "0991", creditos: 10, icon: "assets/images/d128.webp" },
-  { name: "Seminario de Matemáticas Aplicadas I",                    clave: "0735", creditos: 10, icon: "assets/images/d135.webp" },
-  { name: "Seminario de Matemáticas Aplicadas II",                   clave: "0736", creditos: 10, icon: "assets/images/d136.webp" },
-  { name: "Seminario de Probabilidad A",                             clave: "0749", creditos: 10, icon: "assets/images/d129.webp" },
-  { name: "Seminario de Probabilidad B",                             clave: "0710", creditos: 10, icon: "assets/images/d130.webp" },
-  { name: "Seminario de Temas Selectos de Computación",              clave: "0810", creditos: 10, icon: "assets/images/d131.webp" },
-  { name: "Seminario de Topología A",                                clave: "0977", creditos: 10, icon: "assets/images/d132.webp" },
-  { name: "Seminario de Topología B",                                clave: "0712", creditos: 10, icon: "assets/images/d133.webp" },
-  { name: "Seminario Sobre Enseñanza de las Matemáticas I",          clave: "0751", creditos: 10, icon: "assets/images/d137.webp" },
-  { name: "Seminario Sobre Enseñanza de las Matemáticas II",         clave: "0754", creditos: 10, icon: "assets/images/d138.webp" },
-  { name: "Seminario Sobre Enseñanza de las Matemáticas III",        clave: "0984", creditos: 10, icon: "assets/images/d140.webp" },
-  { name: "Seminario Sobre Enseñanza de las Matemáticas IV",         clave: "0988", creditos: 10, icon: "assets/images/d139.webp" },
-  { name: "Simulación y Control",                                    clave: "0724", creditos: 10, icon: "assets/images/d141.webp" },
-  { name: "Sistemas Dinámicos Discretos II",                         clave: "0274", creditos: 10, icon: "assets/images/d142.webp" },
-  { name: "Temas Selectos de Análisis Numérico",                     clave: "1089", creditos: 10, icon: "assets/images/d143.webp" },
-  { name: "Teoría de Colas",                                         clave: "0944", creditos: 10, icon: "assets/images/d144.webp" },
-  { name: "Teoría de Decisiones",                                    clave: "0929", creditos: 10, icon: "assets/images/d149.webp" },
-  { name: "Teoría de Inventarios, Reemplazo y Mantenimiento",        clave: "0945", creditos: 10, icon: "assets/images/d145.webp" },
-  { name: "Teoría de Juegos I",                                      clave: "0946", creditos: 10, icon: "assets/images/d146.webp" },
-  { name: "Teoría de Juegos II",                                     clave: "0950", creditos: 10, icon: "assets/images/d147.webp" },
-  { name: "Teoría de la Medida II",                                  clave: "0948", creditos: 10, icon: "assets/images/d148.webp" },
-  { name: "Teoría de las Gráficas II",                               clave: "0277", creditos: 10, icon: "assets/images/d150.webp" },
-  { name: "Teoría de los Conjuntos II",                              clave: "0779", creditos: 10, icon: "assets/images/d151.webp" },
-  { name: "Teoría de los Conjuntos III",                             clave: "0941", creditos: 10, icon: "assets/images/d152.webp" },
-  { name: "Teoría de Redes",                                         clave: "0442", creditos: 10, icon: "assets/images/d153.webp" },
-  { name: "Topología Diferencial I",                                 clave: "0937", creditos: 10, icon: "assets/images/d154.webp" },
-  { name: "Topología Diferencial II",                                clave: "0939", creditos: 10, icon: "assets/images/d155.webp" },
-  { name: "Topología II",                                            clave: "0766", creditos: 10, icon: "assets/images/d156.webp" },
-  { name: "Topología III",                                           clave: "0767", creditos: 10, icon: "assets/images/d157.webp" },
-  { name: "Variable Compleja II",                                    clave: "0841", creditos: 10, icon: "assets/images/d158.webp" },
-  { name: "Variable Compleja III",                                   clave: "0842", creditos: 10, icon: "assets/images/d159.webp" },
+  { name: "Álgebra Moderna III",                                     clave: "0003", creditos: 10, icon: "assets/images/d36.webp" },
+  { name: "Álgebra Moderna IV",                                      clave: "0004", creditos: 10, icon: "assets/images/d55.webp" },
+  { name: "Análisis de Fourier I",                                   clave: "0026", creditos: 10, icon: "assets/images/d52.webp" },
+  { name: "Análisis de Fourier II",                                  clave: "0027", creditos: 10, icon: "assets/images/d94.webp" },
+  { name: "Análisis de Regresión",                                   clave: "0078", creditos: 10, icon: "assets/images/d63.webp" },
+  { name: "Análisis Matemático III",                                 clave: "0011", creditos: 10, icon: "assets/images/d56.webp" },
+  { name: "Análisis Matemático IV",                                  clave: "0012", creditos: 10, icon: "assets/images/d13.webp" },
+  { name: "Biología Matemática I",                                   clave: "0275", creditos: 10, icon: "assets/images/d10.webp" },
+  { name: "Biología Matemática II",                                  clave: "0276", creditos: 10, icon: "assets/images/d130.webp" },
+  { name: "Complejidad Computacional",                               clave: "—",    creditos: 10, icon: "assets/images/d89.webp" },
+  { name: "Dinámica de Medios Deformables",                          clave: "0827", creditos: 12, icon: "assets/images/d78.webp" },
+  { name: "Econometría I",                                           clave: "—",    creditos: 10, icon: "assets/images/d62.webp" },
+  { name: "Econometría II",                                          clave: "—",    creditos: 10, icon: "assets/images/d103.webp" },
+  { name: "Economía II",                                             clave: "—",    creditos: 10, icon: "assets/images/d90.webp" },
+  { name: "Ecuaciones Diferenciales Parciales I",                    clave: "0165", creditos: 10, icon: "assets/images/d112.webp" },
+  { name: "Ecuaciones Diferenciales Parciales II",                   clave: "0183", creditos: 10, icon: "assets/images/d46.webp" },
+  { name: "Ecuaciones Integrales",                                   clave: "0585", creditos: 10, icon: "assets/images/d45.webp" },
+  { name: "Estadística Bayesiana",                                   clave: "0411", creditos: 10, icon: "assets/images/d34.webp" },
+  { name: "Estadística III",                                         clave: "—",    creditos: 10, icon: "assets/images/d75.webp" },
+  { name: "Física Computacional",                                    clave: "—",    creditos: 12, icon: "assets/images/d111.webp" },
+  { name: "Física Estadística",                                      clave: "—",    creditos: 12, icon: "assets/images/d30.webp" },
+  { name: "Geometría Algebraica I",                                  clave: "0242", creditos: 10, icon: "assets/images/d61.webp" },
+  { name: "Geometría Algebraica II",                                 clave: "0243", creditos: 10, icon: "assets/images/d39.webp" },
+  { name: "Geometría Diferencial III",                               clave: "0248", creditos: 10, icon: "assets/images/d4.webp" },
+  { name: "Geometría Riemanniana I",                                 clave: "0252", creditos: 10, icon: "assets/images/d8.webp" },
+  { name: "Geometría Riemanniana II",                                clave: "0253", creditos: 10, icon: "assets/images/d47.webp" },
+  { name: "Geometría Sumatoria",                                     clave: "0586", creditos: 10, icon: "assets/images/d131.webp" },
+  { name: "Ingeniería de Software",                                  clave: "0575", creditos: 10, icon: "assets/images/d113.webp" },
+  { name: "Inteligencia Artificial",                                 clave: "0352", creditos: 10, icon: "assets/images/d128.webp" },
+  { name: "Introducción a las Funciones Recursivas y Computabilidad",clave: "0351", creditos: 10, icon: "assets/images/d17.webp" },
+  { name: "Lógica Matemática II",                                    clave: "0446", creditos: 10, icon: "assets/images/d5.webp" },
+  { name: "Lógica Matemática III",                                   clave: "0447", creditos: 10, icon: "assets/images/d42.webp" },
+  { name: "Mecánica Cuántica",                                       clave: "—",    creditos: 12, icon: "assets/images/d125.webp" },
+  { name: "Procesos Estocásticos I",                                 clave: "0630", creditos: 10, icon: "assets/images/d59.webp" },
+  { name: "Procesos Estocásticos II",                                clave: "0631", creditos: 10, icon: "assets/images/d41.webp" },
+  { name: "Programación Dinámica",                                   clave: "0632", creditos: 10, icon: "assets/images/d107.webp" },
+  { name: "Programación Entera",                                     clave: "0633", creditos: 10, icon: "assets/images/d98.webp" },
+  { name: "Programación no Lineal",                                  clave: "0634", creditos: 10, icon: "assets/images/d7.webp" },
+  { name: "Redes de Computadoras",                                   clave: "0714", creditos: 10, icon: "assets/images/d49.webp" },
+  { name: "Relatividad",                                             clave: "0681", creditos: 10, icon: "assets/images/d77.webp" },
+  { name: "Seminario de Álgebra A",                                  clave: "0742", creditos: 10, icon: "assets/images/d93.webp" },
+  { name: "Seminario de Álgebra B",                                  clave: "0705", creditos: 10, icon: "assets/images/d50.webp" },
+  { name: "Seminario de Análisis Combinatorio",                      clave: "0975", creditos: 10, icon: "assets/images/d96.webp" },
+  { name: "Seminario de Análisis Matemático A",                      clave: "0743", creditos: 10, icon: "assets/images/d35.webp" },
+  { name: "Seminario de Análisis Matemático B",                      clave: "0706", creditos: 10, icon: "assets/images/d19.webp" },
+  { name: "Seminario de Ciencia y Sociedad II",                      clave: "—",    creditos: 10, icon: "assets/images/d9.webp" },
+  { name: "Seminario de Estadística A",                              clave: "0748", creditos: 10, icon: "assets/images/d79.webp" },
+  { name: "Seminario de Estadística B",                              clave: "0708", creditos: 10, icon: "assets/images/d123.webp" },
+  { name: "Seminario de Filosofía de las Matemáticas",               clave: "0750", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario de Geometría A",                                clave: "0745", creditos: 10, icon: "assets/images/d20.webp" },
+  { name: "Seminario de Geometría B",                                clave: "—",    creditos: 10, icon: "assets/images/d120.webp" },
+  { name: "Seminario de Historia y Filosofía de la Ciencia I",       clave: "0587", creditos: 10, icon: "assets/images/d31.webp" },
+  { name: "Seminario de Historia y Filosofía de la Ciencia II",      clave: "0588", creditos: 10, icon: "assets/images/d24.webp" },
+  { name: "Seminario de Historia y Filosofía de la Ciencia III",     clave: "0589", creditos: 10, icon: "assets/images/d43.webp" },
+  { name: "Seminario de Historia y Filosofía de la Ciencia IV",      clave: "0590", creditos: 10, icon: "assets/images/d33.webp" },
+  { name: "Seminario de Investigación de Operaciones",               clave: "0991", creditos: 10, icon: "assets/images/d102.webp" },
+  { name: "Seminario de Matemáticas Aplicadas I",                    clave: "0735", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario de Matemáticas Aplicadas II",                   clave: "0736", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario de Probabilidad A",                             clave: "0749", creditos: 10, icon: "assets/images/d97.webp" },
+  { name: "Seminario de Probabilidad B",                             clave: "0710", creditos: 10, icon: "assets/images/d92.webp" },
+  { name: "Seminario de Temas Selectos de Computación",              clave: "0810", creditos: 10, icon: "assets/images/d76.webp" },
+  { name: "Seminario de Topología A",                                clave: "0977", creditos: 10, icon: "assets/images/d11.webp" },
+  { name: "Seminario de Topología B",                                clave: "0712", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario Sobre Enseñanza de las Matemáticas I",          clave: "0751", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario Sobre Enseñanza de las Matemáticas II",         clave: "0754", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario Sobre Enseñanza de las Matemáticas III",        clave: "0984", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Seminario Sobre Enseñanza de las Matemáticas IV",         clave: "0988", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Simulación y Control",                                    clave: "0724", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Sistemas Dinámicos Discretos II",                         clave: "0274", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Temas Selectos de Análisis Numérico",                     clave: "1089", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Colas",                                         clave: "0944", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Decisiones",                                    clave: "0929", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Inventarios, Reemplazo y Mantenimiento",        clave: "0945", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Juegos I",                                      clave: "0946", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Juegos II",                                     clave: "0950", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de la Medida II",                                  clave: "0948", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de las Gráficas II",                               clave: "0277", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de los Conjuntos II",                              clave: "0779", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de los Conjuntos III",                             clave: "0941", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Teoría de Redes",                                         clave: "0442", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Topología Diferencial I",                                 clave: "0937", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Topología Diferencial II",                                clave: "0939", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Topología II",                                            clave: "0766", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Topología III",                                           clave: "0767", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Variable Compleja II",                                    clave: "0841", creditos: 10, icon: "assets/images/d0.webp" },
+  { name: "Variable Compleja III",                                   clave: "0842", creditos: 10, icon: "assets/images/d0.webp" },
 ];
 
 // ==================== OTRAS OPTATIVAS (SIAE — sin bloque asignado) ====================
@@ -180,7 +180,7 @@ const OPTATIVAS_OTRAS = [
   { name: "Econometría",                                          clave: "—",    creditos: 10, icon: "assets/images/d0.webp" },
   { name: "Economía Matemática I",                                clave: "—",    creditos: 10, icon: "assets/images/d0.webp" },
   { name: "Economía Matemática II",                               clave: "—",    creditos: 10, icon: "assets/images/d0.webp" },
-  { name: "Ecuaciones Diferenciales III",                         clave: "—",    creditos: 10, icon: "assets/images/d87.webp" },
+  { name: "Ecuaciones Diferenciales III",                         clave: "—",    creditos: 10, icon: "assets/images/d25.webp" },
   { name: "El Grupo de Lorentz",                                  clave: "—",    creditos: 6,  icon: "assets/images/d0.webp" },
   { name: "Electrónica I",                                        clave: "—",    creditos: 9,  icon: "assets/images/d0.webp" },
   { name: "Electrónica II",                                       clave: "—",    creditos: 9,  icon: "assets/images/d0.webp" },
@@ -255,7 +255,7 @@ const OPTATIVAS_OTRAS = [
 ];
 
 // ==================== DATOS ENRIQUECIDOS DE OPTATIVAS ====================
-const OPT_DATA = {
+const OPT_DATA_MAT = {
   "Geometría Moderna II": {
     temario: [
       { num: "1", name: "Circunferencias coaxiales", horas: 15, subtemas: ["Potencia de un punto respecto a una circunferencia", "Eje radical de dos circunferencias", "Circunferencias ortogonales", "Familias coaxiales. Circunferencia de similitud", "Aplicación al cuadrilátero completo"] },
@@ -1007,9 +1007,9 @@ const OPT_DATA = {
 };
 
 // ==================== PLAN DE ESTUDIOS ====================
-const TOTAL_CREDITOS = 352;
+const TOTAL_CREDITOS_MAT = 352;
 
-const CURRICULUM = [
+const CURRICULUM_MAT = [
   {
     semestre: 1,
     titulo: "Primer Semestre",
@@ -1021,7 +1021,7 @@ const CURRICULUM = [
         clave: "0007",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d82.webp",
+        icon: "assets/images/d118.webp",
         temario: [
           { num: "1", name: "Conjuntos", horas: 12, subtemas: [
             "Noción intuitiva e igualdad de conjuntos. Subconjuntos. Conjunto vacío, Conjunto Universal.",
@@ -1086,7 +1086,7 @@ const CURRICULUM = [
         clave: "0091",
         creditos: 18,
         horas: 144,
-        icon: "assets/images/d48.webp",
+        icon: "assets/images/d119.webp",
         temario: [
           { num: "1", name: "Introducción", horas: 6, subtemas: [
             "Los problemas que fundamentan al cálculo.",
@@ -1153,7 +1153,7 @@ const CURRICULUM = [
         clave: "0244",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d42.webp",
+        icon: "assets/images/d126.webp",
         temario: [
           { num: "1", name: "Introducción", horas: 10, subtemas: [
             "Los conceptos geométricos elementales: distancia entre dos puntos, distancia de un punto a una recta, distancia de un punto a un plano; simetría respecto a un punto, respecto a una recta y respecto a un plano.",
@@ -1212,7 +1212,7 @@ const CURRICULUM = [
         clave: "0249",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d43.webp",
+        icon: "assets/images/d124.webp",
         temario: [
           { num: "1", name: "Fundamentos de geometría euclidiana", horas: 12, subtemas: ["Los axiomas de Euclides y Hilbert", "Incidencia, orden y separación", "Congruencia de segmentos y ángulos", "Postulado de las paralelas"] },
           { num: "2", name: "Triángulos y congruencias", horas: 14, subtemas: ["Criterios de congruencia de triángulos (LLL, LAL, ALA, etc.)", "Propiedades de triángulos isósceles", "Desigualdades en triángulos", "Construcciones con regla y compás"] },
@@ -1240,7 +1240,7 @@ const CURRICULUM = [
         clave: "0008",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d7.webp",
+        icon: "assets/images/d104.webp",
         temario: [
           { num: "1", name: "Números enteros", horas: 15, subtemas: [
             "El anillo de los números enteros.",
@@ -1296,7 +1296,7 @@ const CURRICULUM = [
         clave: "0092",
         creditos: 18,
         horas: 144,
-        icon: "assets/images/d8.webp",
+        icon: "assets/images/d91.webp",
         temario: [
           { num: "1", name: "Integral definida", horas: 28, subtemas: [
             "Ejemplos que conducen al concepto de integral definida (área bajo una curva, trabajo).",
@@ -1375,7 +1375,7 @@ const CURRICULUM = [
         clave: "0245",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d18.webp",
+        icon: "assets/images/d116.webp",
         temario: [
           { num: "1", name: "Superficies cuádricas", horas: 20, subtemas: [
             "Cilindros. Cilindros sobre cónicas.",
@@ -1428,7 +1428,7 @@ const CURRICULUM = [
         clave: "0005",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d37.webp",
+        icon: "assets/images/d54.webp",
         temario: [
           { num: "1", name: "Espacios vectoriales", horas: 15, subtemas: [
             "Campos.",
@@ -1502,7 +1502,7 @@ const CURRICULUM = [
         clave: "0093",
         creditos: 18,
         horas: 144,
-        icon: "assets/images/d23.webp",
+        icon: "assets/images/d64.webp",
         temario: [
           { num: "1", name: "Funciones de ℝ en ℝN", horas: 28, subtemas: [
             "Funciones de ℝ en ℝN como curvas en el espacio, límites y derivadas en términos de las componentes.",
@@ -1582,7 +1582,7 @@ const CURRICULUM = [
         clave: "0006",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d4.webp",
+        icon: "assets/images/d44.webp",
         temario: [
           { num: "1", name: "Formas bilineales y operadores", horas: 15, subtemas: [
             "Formas bilineales.",
@@ -1628,7 +1628,7 @@ const CURRICULUM = [
         clave: "0094",
         creditos: 18,
         horas: 144,
-        icon: "assets/images/d47.webp",
+        icon: "assets/images/d28.webp",
         temario: [
           { num: "1", name: "Integrales múltiples", horas: 32, subtemas: [
             "Área de un conjunto plano.",
@@ -1710,7 +1710,7 @@ const CURRICULUM = [
         clave: "0162",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d38.webp",
+        icon: "assets/images/d23.webp",
         temario: [
           { num: "1", name: "Introducción", horas: 4, subtemas: [
             "Repaso de nociones básicas y planteamiento de problemas generales.",
@@ -1796,7 +1796,7 @@ const CURRICULUM = [
         clave: "0001",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d46.webp",
+        icon: "assets/images/d3.webp",
         temario: [
           { num: "1", name: "Teoría elemental de grupos", horas: 25, subtemas: [
             "Grupos.",
@@ -1837,7 +1837,7 @@ const CURRICULUM = [
         clave: "0009",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d32.webp",
+        icon: "assets/images/d18.webp",
         temario: [
           { num: "1", name: "Espacios métricos", horas: 20, subtemas: ["Definición y ejemplos de espacios métricos", "Convergencia de sucesiones en espacios métricos", "Conjuntos abiertos, cerrados y sus propiedades", "Continuidad en espacios métricos", "Homeomorfismos", "Espacios completos. Teorema de Baire", "Teorema de punto fijo de Banach"] },
           { num: "2", name: "Convergencia uniforme", horas: 20, subtemas: ["Sucesiones de funciones: convergencia puntual y uniforme", "Series de funciones: convergencia puntual y uniforme", "Criterio de Weierstrass para series de funciones", "Continuidad del límite uniforme", "Derivación e integración de límites uniformes"] },
@@ -1862,7 +1862,7 @@ const CURRICULUM = [
         clave: "0840",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d45.webp",
+        icon: "assets/images/d32.webp",
         temario: [
           { num: "1", name: "Preliminares y analicidad", horas: 20, subtemas: ["Números complejos: álgebra y geometría", "Representación polar, fórmula de Euler, raíces", "Funciones de variable compleja: límite y continuidad", "Derivada compleja", "Ecuaciones de Cauchy-Riemann", "Funciones analíticas y armónicas", "Funciones elementales: exponencial, logaritmo, trigonométricas, potencias"] },
           { num: "2", name: "Integración", horas: 20, subtemas: ["Integral de línea compleja", "Teorema de Cauchy-Goursat", "Dominio simplemente conexo", "Fórmulas integrales de Cauchy", "Consecuencias: Liouville, teorema fundamental del álgebra, principio del módulo máximo"] },
@@ -1891,7 +1891,7 @@ const CURRICULUM = [
         clave: "0010",
         creditos: 10,
         horas: 80,
-        icon: "assets/images/d2.webp",
+        icon: "assets/images/d1.webp",
         temario: [
           { num: "1", name: "Medida de Lebesgue en \\(\\mathbb{R}^n\\)", horas: 20, subtemas: ["Medida exterior de Lebesgue en \\(\\mathbb{R}^n\\)", "Conjuntos medibles Lebesgue", "Propiedades de la medida: σ-aditividad, regularidad", "Conjuntos de medida cero"] },
           { num: "2", name: "Integral de Lebesgue", horas: 20, subtemas: ["Funciones medibles", "Integral de Lebesgue de funciones simples y no negativas", "Integral de Lebesgue de funciones integrables", "Teorema de Beppo Levi (convergencia monótona)", "Lema de Fatou", "Teorema de convergencia dominada de Lebesgue", "Relación con la integral de Riemann", "Teorema de Fubini-Tonelli", "Cambio de variable en la integral de Lebesgue"] },
@@ -1926,8 +1926,132 @@ const CURRICULUM = [
   }
 ];
 
+// ==================== REGISTRO MULTI-CARRERA ====================
+// Optativas de Matemáticas organizadas por bloque (vista de optativas).
+// Las claves 'BI'/'BII'/'BIII'/'OTRAS' deben conservarse: forman los ids
+// posicionales (opt_<key>_<i>) usados en búsqueda, deep-links y avance.
+const OPT_BLOQUES_MAT = [
+  { key: 'BI',    label: 'Bloque I',   semLabel: 'Semestre 2 · 3 · 4',  creds: 40,   pool: OPTATIVAS_BLOQUE_I },
+  { key: 'BII',   label: 'Bloque II',  semLabel: 'Semestre 5 · 6',      creds: 40,   pool: OPTATIVAS_BLOQUE_II },
+  { key: 'BIII',  label: 'Bloque III', semLabel: 'Semestre 7 · 8',      creds: 80,   pool: OPTATIVAS_BLOQUE_III },
+  { key: 'OTRAS', label: 'Otras',      semLabel: 'Sin bloque asignado', creds: null, pool: OPTATIVAS_OTRAS },
+];
+
+if (typeof window !== 'undefined' && window.UK && UK.registerData) {
+  UK.registerData('matematicas', {
+    TOTAL_CREDITOS: TOTAL_CREDITOS_MAT,
+    CURRICULUM:     CURRICULUM_MAT,
+    OPT_DATA:       OPT_DATA_MAT,
+    OPT_BLOQUES:    OPT_BLOQUES_MAT,
+  });
+}
+
+// ==================== ÍCONOS Y POOL COMÚN ENTRE CARRERAS ====================
+// - Obligatorias de las 3 carreras: recorren TODO el hue (d1..d131) según su
+//   número, en orden de plan → un degradado de color a lo largo de la carrera.
+// - Optativas: heredan el ícono de Matemáticas si comparten nombre; si no,
+//   reciben un ícono único (sin colisiones); sin libres → d0 (placeholder).
+// - Temario y bibliografía: Física/Actuaría los heredan de Matemáticas cuando
+//   el nombre coincide (los créditos quedan los de cada carrera).
+(function () {
+  if (typeof window === 'undefined' || !window.UK || !UK.data) return;
+  var POOL = ((window.UK && UK.ICON_COUNT) || 132) - 1; // d1..d131
+
+  var master = {};
+  CURRICULUM_MAT.forEach(function (s) { s.materias.forEach(function (m) { master[m.name] = m; }); });
+  OPT_BLOQUES_MAT.forEach(function (b) {
+    (b.pool || []).forEach(function (o) { master[o.name] = Object.assign({}, o, OPT_DATA_MAT[o.name] || {}); });
+  });
+
+  function obligatorias(ds) {
+    var a = [];
+    (ds.CURRICULUM || []).forEach(function (s) { (s.materias || []).forEach(function (m) { a.push(m); }); });
+    return a;
+  }
+  function optativas(ds) {
+    var a = [];
+    (ds.OPT_BLOQUES || []).forEach(function (b) { (b.pool || []).forEach(function (o) { a.push(o); }); });
+    return a;
+  }
+
+  var FIELDS = ['clave', 'temario', 'bibBasicas', 'bibComp', 'subsecuentes'];
+  function enrichFields(item) {            // temario/bibliografía/clave compartidos (no el ícono)
+    var src = master[item.name];
+    if (!src) return;
+    FIELDS.forEach(function (f) {
+      var cur = item[f], empty = cur == null || (Array.isArray(cur) && cur.length === 0);
+      if (empty && src[f] != null) item[f] = src[f];
+    });
+  }
+
+  // Obligatorias equiespaciadas a lo largo de todo el hue (d1..d131).
+  function spanHue(ds) {
+    if (!ds) return;
+    var mats = obligatorias(ds), N = mats.length;
+    mats.forEach(function (m, i) {
+      var pos = N <= 1 ? Math.round((POOL + 1) / 2) : 1 + Math.round(i * (POOL - 1) / (N - 1));
+      m.icon = 'assets/images/d' + pos + '.webp';
+    });
+  }
+
+  // Optativas: ícono de Mat si es común; si no, único evitando colisiones
+  // (con obligatorias y otras optativas); sin libres → d0.
+  function uniqueOptIcons(ds) {
+    if (!ds) return;
+    var used = Object.create(null);
+    obligatorias(ds).forEach(function (m) { used[m.icon] = 1; });
+    var opts = optativas(ds);
+    opts.forEach(function (o) {
+      var src = master[o.name];
+      if (src && src.icon) { o.icon = src.icon; used[o.icon] = 1; }
+    });
+    opts.forEach(function (o) {
+      var src = master[o.name];
+      if (src && src.icon) return;
+      var h = 5381, n = o.name;
+      for (var i = 0; i < n.length; i++) h = ((h << 5) + h + n.charCodeAt(i)) >>> 0;
+      var base = h % POOL, icon = null;
+      for (var t = 0; t < POOL; t++) {
+        var cand = 'assets/images/d' + ((base + t) % POOL + 1) + '.webp';
+        if (!used[cand]) { icon = cand; break; }
+      }
+      o.icon = icon || 'assets/images/d0.webp';
+      used[o.icon] = 1;
+    });
+  }
+
+  // Matemáticas: solo el degradado de obligatorias (sus optativas conservan su ícono).
+  spanHue(UK.data.matematicas);
+
+  // Física/Actuaría: heredan temario/bib; obligatorias por hue; optativas únicas.
+  ['fisica', 'actuaria'].forEach(function (id) {
+    var ds = UK.data[id];
+    if (!ds) return;
+    obligatorias(ds).forEach(enrichFields);
+    optativas(ds).forEach(enrichFields);
+    spanHue(ds);
+    uniqueOptIcons(ds);
+  });
+})();
+
+// ==================== RESOLUCIÓN DE LA CARRERA ACTIVA ====================
+// data.js se carga DESPUÉS de carrera.js + data-fisica.js + data-actuaria.js,
+// así que aquí ya están registradas las 3 carreras. Si UK no existe (página
+// sin carrera.js), todo cae a Matemáticas.
+const _DS = (typeof window !== 'undefined' && window.UK && UK.dataset) ? UK.dataset() : null;
+const CURRICULUM     = (_DS && _DS.CURRICULUM)               || CURRICULUM_MAT;
+const TOTAL_CREDITOS = (_DS && _DS.TOTAL_CREDITOS != null) ? _DS.TOTAL_CREDITOS : TOTAL_CREDITOS_MAT;
+const OPT_DATA       = (_DS && _DS.OPT_DATA)                 || OPT_DATA_MAT;
+const OPT_BLOQUES    = (_DS && _DS.OPT_BLOQUES)              || OPT_BLOQUES_MAT;
+// Lista plana de todas las optativas de la carrera activa (libros, avance, búsqueda).
+const OPTATIVAS_ALL  = OPT_BLOQUES.reduce((a, b) => a.concat(b.pool || []), []);
+
+// Íconos personalizados por el usuario (Estadísticas) — se aplican al final.
+if (typeof window !== 'undefined' && window.UK && UK.applyIconOverrides) UK.applyIconOverrides(_DS);
+
 // ==================== FUNCIONES AUXILIARES ====================
 function getOptativasPool(s) {
+  if (_DS && typeof _DS.getOptativasPool === 'function') return _DS.getOptativasPool(s);
   if (s <= 4) return OPTATIVAS_BLOQUE_I;
   if (s <= 6) return OPTATIVAS_BLOQUE_II;
   return OPTATIVAS_BLOQUE_III;

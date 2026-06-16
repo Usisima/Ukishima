@@ -1,8 +1,10 @@
 // ==================== CONFIGURACIÓN LOCAL STORAGE ====================
-const SK_TEMA = 'mat_tema_v1';
-const SK_BOOK = 'mat_book_v1';
-const SK_COLLAPSED = 'mat_collapsed_v1';
-const SK_OPTATIVAS = 'mat_optativas_v1';
+// Claves por carrera: Matemáticas conserva las claves históricas (UK.sk).
+const _sk = (window.UK && UK.sk) ? UK.sk : (k => k);
+const SK_TEMA = _sk('mat_tema_v1');
+const SK_BOOK = _sk('mat_book_v1');
+const SK_COLLAPSED = _sk('mat_collapsed_v1');
+const SK_OPTATIVAS = _sk('mat_optativas_v1');
 
 // ==================== FUNCIONES DE PERSISTENCIA ====================
 function loadDB(k) {

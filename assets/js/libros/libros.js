@@ -63,6 +63,65 @@ const _allLib = () => [...LIBRARY, ...(LIBRARY_OPT || [])];
 function pdfPath(bookId) {
   return texPath(bookId).replace(/\.tex$/, '.pdf');
 }
+
+// ── Origen de los PDFs ──────────────────────────────────────────────
+// '' = mismo origen (local: ./texto/{mat}/{id}.pdf). Para producción,
+// apuntar a un host con CORS (jsDelivr/R2), p.ej.:
+//   const PDF_BASE = 'https://cdn.jsdelivr.net/gh/Usisima/Ukishima-libros@main/';
+const PDF_BASE = '';
+const OFFLINE_CACHE = 'ukishima-libros-offline';
+function pdfUrl(bookId) {
+  return PDF_BASE ? (PDF_BASE + bookId + '.pdf') : pdfPath(bookId);
+}
+
+// ── Disponibilidad offline ──────────────────────────────────────────
+// Cachea el PDF bajo demanda (no descarga un archivo al dispositivo):
+// queda en Cache Storage para leerlo sin conexión.
+async function isBookOffline(bookId) {
+  try {
+    if (!('caches' in window)) return false;
+    const c = await caches.open(OFFLINE_CACHE);
+    return !!(await c.match(pdfUrl(bookId)));
+  } catch (e) { return false; }
+}
+async function cacheBookOffline(bookId, onProgress) {
+  const url = pdfUrl(bookId);
+  const res = await fetch(url);
+  if (!res.ok || !res.body) throw new Error('No se pudo descargar');
+  const total = +res.headers.get('Content-Length') || 0;
+  const reader = res.body.getReader();
+  const chunks = []; let loaded = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value); loaded += value.length;
+    if (onProgress) onProgress(total ? loaded / total : null);
+  }
+  const blob = new Blob(chunks, { type: 'application/pdf' });
+  const c = await caches.open(OFFLINE_CACHE);
+  await c.put(url, new Response(blob, { headers: { 'Content-Type': 'application/pdf', 'Content-Length': String(blob.size) } }));
+}
+async function removeBookOffline(bookId) {
+  try { const c = await caches.open(OFFLINE_CACHE); await c.delete(pdfUrl(bookId)); } catch (e) {}
+}
+function setOfflineBtn(btn, state, pct) {
+  if (!btn) return;
+  btn.dataset.state = state;
+  btn.disabled = state === 'busy';
+  const ico = btn.querySelector('.offline-btn-ico');
+  const label = btn.querySelector('.offline-btn-label');
+  if (state === 'saved')     { if (ico) ico.textContent = '✓'; if (label) label.textContent = 'Disponible sin conexión'; }
+  else if (state === 'busy') { if (ico) ico.textContent = '↓'; if (label) label.textContent = 'Descargando… ' + (pct != null ? Math.round(pct * 100) + '%' : ''); }
+  else                       { if (ico) ico.textContent = '⬇'; if (label) label.textContent = 'Leer sin conexión'; }
+  btn.style.setProperty('--offp', pct != null ? (pct * 100).toFixed(1) + '%' : (state === 'saved' ? '100%' : '0%'));
+}
+async function refreshOfflineBtn(bookId) {
+  const btn = document.getElementById('offline-btn');
+  if (!btn || S.bookId !== bookId) return;
+  const cached = await isBookOffline(bookId);
+  if (btn.isConnected && S.bookId === bookId) setOfflineBtn(btn, cached ? 'saved' : 'idle');
+}
+
 async function renderBookPdf(bookId) {
   const container = document.getElementById('book-pdf');
   if (!container) return;
@@ -70,17 +129,28 @@ async function renderBookPdf(bookId) {
     container.innerHTML = '<div class="lib-empty"><p>No se pudo cargar el visor de PDF.</p></div>';
     return;
   }
+  const cached = await isBookOffline(bookId);
+  if (S.bookId !== bookId) return;
+  if (!cached && !navigator.onLine) {
+    container.innerHTML = '<div class="lib-empty"><div class="lib-empty-icon">📡</div><p>Sin conexión.<br>Descarga este libro para leerlo sin internet.</p></div>';
+    return;
+  }
   let pdf;
   try {
-    // disableAutoFetch: solo trae los bytes de las páginas que se ven (con
-    // servidores que soportan range requests; la mayoría de hosts estáticos).
-    pdf = await pdfjsLib.getDocument({ url: pdfPath(bookId), disableAutoFetch: true, disableStream: false, rangeChunkSize: 131072 }).promise;
+    // disableAutoFetch: en línea trae solo las páginas visibles (range requests).
+    // Si el libro está descargado, el SW sirve el PDF completo desde caché.
+    pdf = await pdfjsLib.getDocument({ url: pdfUrl(bookId), disableAutoFetch: true, disableStream: false, rangeChunkSize: 131072 }).promise;
   } catch (e) {
     if (S.bookId === bookId)
       container.innerHTML = '<div class="lib-empty"><div class="lib-empty-icon">📄</div><p>Este libro aún no tiene PDF.</p></div>';
     return;
   }
   if (S.view !== 'book' || S.bookId !== bookId) { try { pdf.destroy(); } catch (e) {} return; }
+
+  // El PDF existe → mostrar la barra de acciones (descargar para offline)
+  const actions = document.getElementById('book-actions');
+  if (actions) actions.hidden = false;
+  refreshOfflineBtn(bookId);
 
   let aspect = 1.4; // alto/ancho estimado para los placeholders
   try {
@@ -215,14 +285,9 @@ function _libEntryFor(name) {
     for (var _i=0;_i<CURRICULUM.length;_i++)
       for (var _j=0;_j<CURRICULUM[_i].materias.length;_j++)
         if (CURRICULUM[_i].materias[_j].name === name) return CURRICULUM[_i].materias[_j];
-  var pools = [
-    typeof OPTATIVAS_BLOQUE_I   !== 'undefined' ? OPTATIVAS_BLOQUE_I   : [],
-    typeof OPTATIVAS_BLOQUE_II  !== 'undefined' ? OPTATIVAS_BLOQUE_II  : [],
-    typeof OPTATIVAS_BLOQUE_III !== 'undefined' ? OPTATIVAS_BLOQUE_III : [],
-  ];
-  for (var _p=0;_p<pools.length;_p++)
-    for (var _q=0;_q<pools[_p].length;_q++)
-      if (pools[_p][_q].name === name) return pools[_p][_q];
+  var opts = typeof OPTATIVAS_ALL !== 'undefined' ? OPTATIVAS_ALL : [];
+  for (var _q=0;_q<opts.length;_q++)
+    if (opts[_q].name === name) return opts[_q];
   return null;
 }
 
@@ -561,7 +626,8 @@ const R = {
     const main = document.getElementById('lib-main');
     const hasOpt = LIBRARY_OPT && LIBRARY_OPT.length > 0;
     if (!LIBRARY.length && !hasOpt) {
-      main.innerHTML = `<div class="lib-empty"><div class="lib-empty-icon">📚</div><p>No hay libros disponibles.</p></div>`;
+      const _cn = (window.UK && UK.carreraInfo) ? UK.carreraInfo().name : '';
+      main.innerHTML = `<div class="lib-empty"><div class="lib-empty-icon">📚</div><p>Aún no hay bibliografía${_cn ? ' para ' + esc(_cn) : ''}.</p></div>`;
       return;
     }
 
@@ -703,6 +769,13 @@ const R = {
               ${isFavBook(b.id) ? '♥' : '♡'}
             </button>
           </div>
+        </div>
+
+        <div class="book-actions" id="book-actions" hidden>
+          <button class="offline-btn" id="offline-btn" data-state="idle" onclick="A.toggleOffline('${esc(b.id)}',this)">
+            <span class="offline-btn-ico">⬇</span>
+            <span class="offline-btn-label">Leer sin conexión</span>
+          </button>
         </div>
 
         <div class="book-pdf" id="book-pdf"><div class="pdf-status">Cargando…</div></div>
@@ -940,6 +1013,22 @@ const A = {
         }, { once: true });
       });
     }));
+  },
+
+  async toggleOffline(id, btn) {
+    if (!btn || btn.dataset.state === 'busy') return;
+    if (btn.dataset.state === 'saved') {
+      await removeBookOffline(id);
+      if (S.bookId === id && btn.isConnected) setOfflineBtn(btn, 'idle');
+      return;
+    }
+    setOfflineBtn(btn, 'busy', 0);
+    try {
+      await cacheBookOffline(id, p => { if (btn.isConnected && S.bookId === id) setOfflineBtn(btn, 'busy', p); });
+      if (S.bookId === id && btn.isConnected) setOfflineBtn(btn, 'saved');
+    } catch (e) {
+      if (S.bookId === id && btn.isConnected) setOfflineBtn(btn, 'idle');
+    }
   },
 
   toggleFavNote(key, btn) {
@@ -1406,9 +1495,9 @@ const Nav = {
     const rawId = decodeURIComponent(parts[0]);
     const bkIdx = parseInt(parts[1] || '0');
     if (rawId) {
-      // Tronco común — buscar por matId en LIBRARY
+      // Tronco común — buscar por matId o por nombre de materia en LIBRARY
       for (const subj of LIBRARY) {
-        if (subj.matId === rawId && subj.books[bkIdx]) {
+        if ((subj.matId === rawId || subj.subject === rawId) && subj.books[bkIdx]) {
           S.view = 'book'; S.bookId = subj.books[bkIdx].id; break;
         }
       }
